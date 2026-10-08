@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" width="120" height="40">
+  <rect width="120" height="40" rx="6" fill="#001b69"/>
+  <circle cx="22" cy="20" r="10" fill="#0080ff"/>
+  <circle cx="20" cy="18" r="4" fill="#ffffff"/>
+  <text x="38" y="26" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#ffffff" letter-spacing="-0.5">IndiGo</text>
+  <text x="96" y="18" font-family="'Inter', sans-serif" font-size="9" font-weight="700" fill="#00b4d8">6E</text>
+</svg>

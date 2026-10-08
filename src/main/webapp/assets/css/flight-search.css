@@ -1,0 +1,716 @@
+/* ==============================================================================
+   SkyTech - Flight Search & Availability Module Stylesheet
+   Color Palette:
+   - Primary Blue: #1976D2
+   - Dark Navy: #0D1B3E
+   - Light Blue: #E3F2FD
+   - Page Background: #F5F9FF
+   - White: #FFFFFF
+   - Text: #1F2937
+   - Muted: #64748B
+   - Success: #16A34A
+   - Warning: #F59E0B
+   - Danger: #DC2626
+   ============================================================================== */
+
+:root {
+    --sky-primary: #1976D2;
+    --sky-primary-hover: #1565C0;
+    --sky-navy: #0D1B3E;
+    --sky-navy-light: #162955;
+    --sky-light-blue: #E3F2FD;
+    --sky-bg: #F5F9FF;
+    --sky-card-bg: #FFFFFF;
+    --sky-text: #1F2937;
+    --sky-muted: #64748B;
+    --sky-border: #E2E8F0;
+    --sky-success: #16A34A;
+    --sky-warning: #F59E0B;
+    --sky-danger: #DC2626;
+    --sky-radius-sm: 8px;
+    --sky-radius-md: 12px;
+    --sky-radius-lg: 16px;
+    --sky-shadow-sm: 0 2px 4px rgba(13, 27, 62, 0.04);
+    --sky-shadow-md: 0 4px 12px rgba(13, 27, 62, 0.08);
+    --sky-shadow-lg: 0 10px 25px rgba(13, 27, 62, 0.12);
+}
+
+body {
+    background-color: var(--sky-bg);
+    color: var(--sky-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+/* ==============================================================================
+   Search Hero & Card
+   ============================================================================== */
+.flight-hero {
+    background: linear-gradient(135deg, var(--sky-navy) 0%, #173874 100%);
+    color: #FFFFFF;
+    border-radius: var(--sky-radius-lg);
+    padding: 2.5rem 2rem 5rem 2rem;
+    position: relative;
+    box-shadow: var(--sky-shadow-md);
+    margin-bottom: -3.5rem;
+}
+
+.search-container-card {
+    background: var(--sky-card-bg);
+    border-radius: var(--sky-radius-lg);
+    box-shadow: var(--sky-shadow-lg);
+    border: 1px solid var(--sky-border);
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Trip Type Switcher (Pills) */
+.trip-type-btn {
+    border: 1px solid var(--sky-border);
+    background: #FFFFFF;
+    color: var(--sky-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.45rem 1.25rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.trip-type-btn:hover {
+    background: var(--sky-light-blue);
+    color: var(--sky-primary);
+    border-color: var(--sky-primary);
+}
+
+.trip-type-btn.active {
+    background: var(--sky-navy);
+    color: #FFFFFF;
+    border-color: var(--sky-navy);
+    box-shadow: 0 2px 6px rgba(13, 27, 62, 0.15);
+}
+
+/* Search Input Blocks */
+.search-field-box {
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-md);
+    padding: 0.65rem 0.9rem;
+    background: #FFFFFF;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+    position: relative;
+}
+
+.search-field-box:focus-within {
+    border-color: var(--sky-primary);
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
+
+.field-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sky-muted);
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.field-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-weight: 600;
+    color: var(--sky-text);
+    background: transparent;
+    font-size: 1rem;
+    padding: 0;
+}
+
+.field-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Swap Airport Button */
+.btn-swap-airports {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid var(--sky-border);
+    color: var(--sky-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: var(--sky-shadow-sm);
+    z-index: 5;
+    margin: auto -12px;
+}
+
+.btn-swap-airports:hover {
+    background: var(--sky-light-blue);
+    color: var(--sky-navy);
+    transform: rotate(180deg);
+}
+
+/* Passenger Popover / Dropdown */
+.passenger-dropdown-menu {
+    min-width: 280px;
+    padding: 1.25rem;
+    border-radius: var(--sky-radius-md);
+    box-shadow: var(--sky-shadow-lg);
+    border: 1px solid var(--sky-border);
+}
+
+.counter-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--sky-border);
+    background: #FFFFFF;
+    color: var(--sky-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.counter-btn:hover:not(:disabled) {
+    background: var(--sky-light-blue);
+    border-color: var(--sky-primary);
+    color: var(--sky-primary);
+}
+
+.counter-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Primary Search CTA */
+.btn-search-flights {
+    background: var(--sky-primary);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border-radius: var(--sky-radius-md);
+    padding: 0.85rem 1.5rem;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.25);
+}
+
+.btn-search-flights:hover {
+    background: var(--sky-primary-hover);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(25, 118, 210, 0.35);
+}
+
+/* ==============================================================================
+   Flight Results Page
+   ============================================================================== */
+.search-summary-bar {
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-md);
+    border: 1px solid var(--sky-border);
+    box-shadow: var(--sky-shadow-sm);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.75rem;
+}
+
+/* Filter Sidebar */
+.filter-card {
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-md);
+    border: 1px solid var(--sky-border);
+    box-shadow: var(--sky-shadow-sm);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-section {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.filter-subtitle {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sky-muted);
+    margin-bottom: 0.65rem;
+}
+
+/* Flight Result Card */
+.flight-card {
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-md);
+    border: 1px solid var(--sky-border);
+    box-shadow: var(--sky-shadow-sm);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+}
+
+.flight-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sky-shadow-md);
+    border-color: #BFDBFE;
+}
+
+.airline-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.airline-logo-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--sky-light-blue);
+    color: var(--sky-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.flight-time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+    line-height: 1.2;
+}
+
+.flight-city {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--sky-muted);
+}
+
+.flight-code {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+}
+
+/* Timeline Indicator */
+.flight-duration-container {
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.duration-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sky-muted);
+    margin-bottom: 0.2rem;
+}
+
+.flight-timeline-line {
+    position: relative;
+    height: 2px;
+    background: #CBD5E1;
+    margin: 0.5rem 0;
+}
+
+.flight-timeline-line::before,
+.flight-timeline-line::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--sky-primary);
+}
+
+.flight-timeline-line::before {
+    left: 0;
+}
+
+.flight-timeline-line::after {
+    right: 0;
+}
+
+.plane-mid-icon {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FFFFFF;
+    color: var(--sky-primary);
+    padding: 0 4px;
+    font-size: 0.85rem;
+}
+
+.stop-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sky-success);
+}
+
+/* Price Section */
+.price-tag {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--sky-navy);
+    line-height: 1;
+}
+
+.price-subtext {
+    font-size: 0.75rem;
+    color: var(--sky-muted);
+    margin-top: 0.25rem;
+}
+
+/* Seat Availability Badges */
+.badge-seats {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 20px;
+}
+
+/* Detail Button */
+.btn-view-details {
+    background: #FFFFFF;
+    border: 1.5px solid var(--sky-primary);
+    color: var(--sky-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--sky-radius-md);
+    transition: all 0.2s ease;
+}
+
+.btn-view-details:hover {
+    background: var(--sky-primary);
+    color: #FFFFFF;
+}
+
+/* ==============================================================================
+   Flight Details Page
+   ============================================================================== */
+.flight-details-card {
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-lg);
+    border: 1px solid var(--sky-border);
+    box-shadow: var(--sky-shadow-md);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.details-timeline-node {
+    display: flex;
+    gap: 1.25rem;
+    position: relative;
+}
+
+.details-timeline-node::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 36px;
+    bottom: -20px;
+    width: 2px;
+    background: #E2E8F0;
+}
+
+.details-timeline-node:last-child::before {
+    display: none;
+}
+
+.node-icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--sky-light-blue);
+    color: var(--sky-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.fare-breakdown-box {
+    background: #F8FAFC;
+    border-radius: var(--sky-radius-md);
+    padding: 1.5rem;
+    border: 1px solid var(--sky-border);
+}
+
+.fare-breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--sky-muted);
+}
+
+.fare-breakdown-row.total-row {
+    border-top: 1px dashed var(--sky-border);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+}
+
+/* Empty State */
+.empty-state-box {
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-lg);
+    border: 1px solid var(--sky-border);
+    box-shadow: var(--sky-shadow-sm);
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--sky-light-blue);
+    color: var(--sky-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .flight-hero {
+        padding: 2rem 1.5rem 4rem 1.5rem;
+        margin-bottom: -2.5rem;
+    }
+    
+    .btn-swap-airports {
+        margin: 0.5rem auto;
+        transform: rotate(90deg);
+    }
+    
+    .btn-swap-airports:hover {
+        transform: rotate(270deg);
+    }
+    
+    .flight-duration-container {
+        margin: 1rem 0;
+    }
+}
+
+/* ==============================================================================
+   Homepage & Deal Cards
+   ============================================================================== */
+.home-hero-section {
+    background: linear-gradient(135deg, #09132b 0%, #0d285c 50%, #15428a 100%);
+}
+
+.destination-deal-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: var(--sky-radius-md);
+}
+
+.destination-deal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sky-shadow-md) !important;
+}
+
+/* ==============================================================================
+   Airport Autocomplete Dropdown
+   ============================================================================== */
+.airport-autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-md);
+    border: 1px solid var(--sky-border);
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 1050;
+    margin-top: 4px;
+}
+
+.autocomplete-item {
+    transition: background 0.15s ease;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.autocomplete-item:hover {
+    background: var(--sky-light-blue);
+}
+
+/* ==============================================================================
+   Interactive Cabin Seat Map Styles
+   ============================================================================== */
+.cabin-fuselage-wrapper {
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 40px 40px 16px 16px;
+    padding: 1.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.cockpit-nose {
+    border-bottom: 2px dashed #CBD5E1;
+    padding-bottom: 1rem;
+}
+
+.seat-row-grid {
+    display: grid;
+    grid-template-columns: 28px 40px 40px 40px 50px 40px 40px 40px;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-number-badge, .row-num-placeholder {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--sky-muted);
+    text-align: center;
+}
+
+.seat-col-label {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--sky-navy);
+}
+
+.aisle-spacer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94A3B8;
+    font-weight: 600;
+}
+
+/* Seat Cell */
+.seat-cell {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px 8px 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Available */
+.seat-available {
+    background: #E8F5E9;
+    border: 1.5px solid #4CAF50;
+    color: #2E7D32;
+}
+
+.seat-available:hover {
+    background: #C8E6C9;
+    transform: scale(1.08);
+}
+
+/* Extra Legroom */
+.seat-extra-legroom {
+    background: #FFF9C4;
+    border-color: #FBC02D;
+    color: #F57F17;
+}
+
+/* Selected */
+.seat-selected {
+    background: #1976D2 !important;
+    border-color: #0D47A1 !important;
+    color: #FFFFFF !important;
+    transform: scale(1.1);
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.4);
+}
+
+/* Occupied */
+.seat-occupied {
+    background: #E0E0E0;
+    border: 1.5px solid #9E9E9E;
+    color: #757575;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Blocked */
+.seat-blocked {
+    background: #FFF3E0;
+    border: 1.5px solid #FFB74D;
+    color: #E65100;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Legend Samples */
+.legend-seat-sample {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.legend-available {
+    background: #E8F5E9;
+    border: 1px solid #4CAF50;
+}
+
+.legend-selected {
+    background: #1976D2;
+    border: 1px solid #0D47A1;
+}
+
+.legend-occupied {
+    background: #E0E0E0;
+    border: 1px solid #9E9E9E;
+}
+
+.legend-blocked {
+    background: #FFF3E0;
+    border: 1px solid #FFB74D;
+}
+
