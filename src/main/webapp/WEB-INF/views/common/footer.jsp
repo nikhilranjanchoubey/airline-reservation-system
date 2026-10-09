@@ -1,4 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<c:choose>
+    <c:when test="${activePage == 'login' || activePage == 'register'}">
+        <!-- Minimal sleek footer for cinematic auth pages -->
+        <footer class="py-2 text-center small text-secondary bg-transparent" style="position: relative; z-index: 10;">
+            <div class="container">
+                <span class="text-white-50" style="font-size: 0.78rem;">&copy; 2026 SkyTech Airlines &bull; Modern Airline Reservation System</span>
+            </div>
+        </footer>
+    </c:when>
+    <c:otherwise>
 <footer class="mt-auto" id="contactSection">
     <div class="container">
         <div class="row g-4 mb-4">
@@ -53,6 +65,8 @@
         </div>
     </div>
 </footer>
+    </c:otherwise>
+</c:choose>
 
 <!-- Bootstrap 5.3 Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

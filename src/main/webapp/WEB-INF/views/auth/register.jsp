@@ -4,142 +4,352 @@
 <c:set var="activePage" value="register" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
-<jsp:include page="/WEB-INF/views/common/navbar.jsp" />
 
-<main class="py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-xl-7">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <div class="icon-badge">
-                            <i class="bi bi-person-plus"></i>
+<div class="auth-page-body">
+    <div class="auth-cinematic-wrapper register-bg">
+        <div class="auth-cinematic-overlay"></div>
+
+        <!-- Minimalist Cinematic Top Navigation -->
+        <header class="auth-top-bar">
+            <a href="${pageContext.request.contextPath}/" class="auth-brand" aria-label="SkyTech Airlines Homepage">
+                <div class="auth-brand-icon">
+                    <i class="bi bi-airplane-fill" style="transform: rotate(-35deg); display: inline-block;"></i>
+                </div>
+                <div class="auth-brand-text">
+                    <span class="auth-brand-name">SkyTech</span>
+                    <span class="auth-brand-sub">AIRLINES</span>
+                </div>
+            </a>
+            <a href="${pageContext.request.contextPath}/" class="auth-back-link">
+                <i class="bi bi-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </header>
+
+        <!-- Main Split Screen Content -->
+        <main class="auth-main-container">
+            <div class="auth-split-grid register-grid">
+                
+                <!-- Left Visual & Storytelling Panel -->
+                <div class="auth-visual-pane">
+                    <h1 class="auth-hero-title">
+                        Begin Your<br>
+                        <span class="auth-highlight-text">Journey.</span>
+                    </h1>
+                    <p class="auth-hero-desc">
+                        Create your SkyTech account and make every trip simpler, faster and more comfortable.
+                    </p>
+
+                    <!-- 3 Benefit Indicators -->
+                    <div class="auth-benefits-list">
+                        <div class="auth-benefit-item">
+                            <div class="auth-benefit-icon">
+                                <i class="bi bi-person-check-fill"></i>
+                            </div>
+                            <div class="auth-benefit-text">
+                                <h4>Faster Booking</h4>
+                                <p>Book flights in seconds.</p>
+                            </div>
                         </div>
-                        <h2>Create Passenger Account</h2>
-                        <p>Join SkyTech Airlines for seamless flight booking, seat selection, and digital boarding passes</p>
+
+                        <div class="auth-benefit-item">
+                            <div class="auth-benefit-icon">
+                                <i class="bi bi-calendar2-week-fill"></i>
+                            </div>
+                            <div class="auth-benefit-text">
+                                <h4>Manage Your Trips</h4>
+                                <p>View and update your bookings.</p>
+                            </div>
+                        </div>
+
+                        <div class="auth-benefit-item">
+                            <div class="auth-benefit-icon">
+                                <i class="bi bi-ticket-perforated-fill"></i>
+                            </div>
+                            <div class="auth-benefit-text">
+                                <h4>Digital Travel Records</h4>
+                                <p>Access your boarding passes anytime.</p>
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Ambient Quote Card -->
+                    <div class="auth-quote-card">
+                        <div class="auth-quote-icon">“</div>
+                        <div class="auth-quote-text">A safer, smarter and more connected way to fly.</div>
+                        <div class="auth-quote-author">— SkyTech Airlines</div>
+                    </div>
+                </div>
+
+                <!-- Right Registration Card -->
+                <div class="auth-card-panel">
+                    <div class="auth-card-header">
+                        <h2 class="auth-card-title">Create Passenger Account</h2>
+                        <p class="auth-card-subtitle">Join SkyTech Airlines for seamless flight booking, seat selection, and digital boarding passes.</p>
+                    </div>
+
+                    <!-- Server Error Message -->
                     <c:if test="${not empty errorMessage}">
-                        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
-                            <i class="bi bi-exclamation-octagon-fill me-2 fs-5"></i>
+                        <div class="auth-alert auth-alert-danger" role="alert">
+                            <i class="bi bi-exclamation-octagon-fill fs-5"></i>
                             <div><c:out value="${errorMessage}" /></div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </c:if>
 
-                    <form action="${pageContext.request.contextPath}/register" method="post" class="needs-validation" novalidate>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="firstName" class="form-label">First Name *</label>
-                                <input type="text" class="form-control" id="firstName" name="firstName"
-                                       value="<c:out value='${regFirstName}' />"
-                                       placeholder="e.g. John" required pattern="[A-Za-z\s'-]{2,50}">
-                                <div class="invalid-feedback">Enter 2-50 alphabetic characters.</div>
+                    <!-- Registration Form -->
+                    <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm" novalidate>
+                        
+                        <!-- Row 1: First Name & Last Name -->
+                        <div class="auth-fields-row">
+                            <div class="auth-field-group">
+                                <label for="firstName" class="auth-field-label">First Name <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-person auth-field-icon"></i>
+                                    <input type="text" class="auth-input-control" id="firstName" name="firstName"
+                                           value="<c:out value='${regFirstName}' />"
+                                           placeholder="e.g. John" required autocomplete="given-name">
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="lastName" class="form-label">Last Name *</label>
-                                <input type="text" class="form-control" id="lastName" name="lastName"
-                                       value="<c:out value='${regLastName}' />"
-                                       placeholder="e.g. Doe" required pattern="[A-Za-z\s'-]{2,50}">
-                                <div class="invalid-feedback">Enter 2-50 alphabetic characters.</div>
+                            <div class="auth-field-group">
+                                <label for="lastName" class="auth-field-label">Last Name <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-person auth-field-icon"></i>
+                                    <input type="text" class="auth-input-control" id="lastName" name="lastName"
+                                           value="<c:out value='${regLastName}' />"
+                                           placeholder="e.g. Doe" required autocomplete="family-name">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">Email Address *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control" id="email" name="email"
+                        <!-- Row 2: Email & Phone -->
+                        <div class="auth-fields-row">
+                            <div class="auth-field-group">
+                                <label for="email" class="auth-field-label">Email Address <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-envelope auth-field-icon"></i>
+                                    <input type="email" class="auth-input-control" id="email" name="email"
                                            value="<c:out value='${regEmail}' />"
-                                           placeholder="john.doe@example.com" required>
-                                    <div class="invalid-feedback">Enter a valid email address.</div>
+                                           placeholder="john.doe@example.com" required autocomplete="email">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="phone" class="form-label">Phone Number *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-telephone"></i></span>
-                                    <input type="tel" class="form-control" id="phone" name="phone"
+                            <div class="auth-field-group">
+                                <label for="phone" class="auth-field-label">Phone Number <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-telephone auth-field-icon"></i>
+                                    <input type="tel" class="auth-input-control" id="phone" name="phone"
                                            value="<c:out value='${regPhone}' />"
-                                           placeholder="+1 555-0123" required pattern="\+?[0-9\s-]{7,20}">
-                                    <div class="invalid-feedback">Enter a valid phone number (7-15 digits).</div>
+                                           placeholder="+1555-0123" required autocomplete="tel">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="passportNumber" class="form-label">Passport Number <span class="text-muted fw-normal">(Optional)</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-passport"></i></span>
-                                    <input type="text" class="form-control" id="passportNumber" name="passportNumber"
+                        <!-- Row 3: Passport & Date of Birth -->
+                        <div class="auth-fields-row">
+                            <div class="auth-field-group">
+                                <label for="passportNumber" class="auth-field-label">Passport Number <span class="text-muted fw-normal">(Optional)</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-credit-card-2-front auth-field-icon"></i>
+                                    <input type="text" class="auth-input-control" id="passportNumber" name="passportNumber"
                                            value="<c:out value='${regPassport}' />"
-                                           placeholder="e.g. A12345678" pattern="[A-Za-z0-9]{6,20}">
-                                    <div class="invalid-feedback">6-20 alphanumeric characters if provided.</div>
+                                           placeholder="e.g. A12345678">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="dateOfBirth" class="form-label">Date of Birth <span class="text-muted fw-normal">(Optional)</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar"></i></span>
-                                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth"
+                            <div class="auth-field-group">
+                                <label for="dateOfBirth" class="auth-field-label">Date of Birth <span class="text-muted fw-normal">(Optional)</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-calendar auth-field-icon"></i>
+                                    <input type="date" class="auth-input-control" id="dateOfBirth" name="dateOfBirth"
                                            value="<c:out value='${regDob}' />">
-                                    <div class="invalid-feedback">Select a valid past date.</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="password" class="form-label">Password *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-key"></i></span>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                           placeholder="Min. 8 characters" required
-                                           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&amp;_#^~])[A-Za-z\d@$!%*?&amp;_#^~]{8,64}">
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn">
-                                        <i class="bi bi-eye"></i>
+                        <!-- Row 4: Password & Confirm Password -->
+                        <div class="auth-fields-row">
+                            <div class="auth-field-group">
+                                <label for="password" class="auth-field-label">Password <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-lock auth-field-icon"></i>
+                                    <input type="password" class="auth-input-control" id="password" name="password"
+                                           placeholder="Min. 8 characters" required autocomplete="new-password">
+                                    <button type="button" class="btn-toggle-eye" id="togglePasswordBtn" aria-label="Toggle password visibility">
+                                        <i class="bi bi-eye" id="togglePassIcon"></i>
                                     </button>
-                                    <div class="invalid-feedback">Requires upper, lower, number, special character (8+ chars).</div>
                                 </div>
-                                <div class="strength-meter-bar">
-                                    <div id="strengthMeter" class="strength-meter-fill"></div>
-                                </div>
-                                <small id="strengthText" class="text-muted" style="font-size: 0.75rem;">Password strength</small>
                             </div>
-                            <div class="col-md-6">
-                                <label for="confirmPassword" class="form-label">Confirm Password *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="bi bi-shield-check"></i></span>
-                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                                           placeholder="Re-enter password" required>
-                                    <div class="invalid-feedback">Passwords must match.</div>
+                            <div class="auth-field-group">
+                                <label for="confirmPassword" class="auth-field-label">Confirm Password <span class="required-mark">*</span></label>
+                                <div class="auth-input-wrapper">
+                                    <i class="bi bi-lock auth-field-icon"></i>
+                                    <input type="password" class="auth-input-control" id="confirmPassword" name="confirmPassword"
+                                           placeholder="Re-enter password" required autocomplete="new-password">
+                                    <button type="button" class="btn-toggle-eye" id="toggleConfirmBtn" aria-label="Toggle confirm password visibility">
+                                        <i class="bi bi-eye" id="toggleConfirmIcon"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="terms" required>
-                            <label class="form-check-label small text-muted" for="terms">
-                                I agree to SkyTech Airlines <a href="#" class="text-primary text-decoration-none">Terms of Carriage</a> and <a href="#" class="text-primary text-decoration-none">Privacy Policy</a>.
+                        <!-- Password Strength Meter & Interactive Criteria Checklist -->
+                        <div class="strength-meter-wrap">
+                            <div class="strength-bars">
+                                <div class="strength-bar" id="bar1"></div>
+                                <div class="strength-bar" id="bar2"></div>
+                                <div class="strength-bar" id="bar3"></div>
+                                <div class="strength-bar" id="bar4"></div>
+                            </div>
+                            <div class="strength-criteria-list">
+                                <div class="criteria-item" id="critLength">
+                                    <span class="criteria-dot"></span>
+                                    <span>At least 8 characters</span>
+                                </div>
+                                <div class="criteria-item" id="critNumber">
+                                    <span class="criteria-dot"></span>
+                                    <span>Include a number</span>
+                                </div>
+                                <div class="criteria-item" id="critUpper">
+                                    <span class="criteria-dot"></span>
+                                    <span>Include an uppercase letter</span>
+                                </div>
+                                <div class="criteria-item" id="critSpecial">
+                                    <span class="criteria-dot"></span>
+                                    <span>Include a special character (@$!%*?&amp;_#^~)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms of Carriage Consent Checkbox -->
+                        <div class="auth-terms-wrap">
+                            <input type="checkbox" id="termsConsent" name="termsConsent" required checked>
+                            <label for="termsConsent">
+                                I agree to SkyTech Airlines <a href="javascript:void(0)" onclick="viewTerms()" class="auth-switch-link">Terms of Carriage</a> and <a href="javascript:void(0)" onclick="viewPrivacy()" class="auth-switch-link">Privacy Policy</a>.
                             </label>
-                            <div class="invalid-feedback">You must agree before registering.</div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary-airline w-100 py-3 mb-3">
-                            <i class="bi bi-check2-circle me-1"></i> Register Passenger Account
+                        <!-- Primary Create Account Action -->
+                        <button type="submit" class="btn-auth-submit" id="btnRegisterSubmit">
+                            <i class="bi bi-person-plus-fill"></i>
+                            <span>Create Account</span>
                         </button>
 
-                        <div class="text-center text-muted small">
-                            Already registered with SkyTech? 
-                            <a href="${pageContext.request.contextPath}/login" class="fw-semibold text-decoration-none">Sign In Here</a>
+                        <!-- Switch to Sign In -->
+                        <div class="auth-switch-prompt" style="margin-top: 1.25rem;">
+                            Already have an account? 
+                            <a href="${pageContext.request.contextPath}/login" class="auth-switch-link">Sign In</a>
                         </div>
                     </form>
                 </div>
+
             </div>
-        </div>
+        </main>
     </div>
-</main>
+</div>
+
+<script>
+    // Password toggles
+    const passInput = document.getElementById('password');
+    const togglePassBtn = document.getElementById('togglePasswordBtn');
+    const togglePassIcon = document.getElementById('togglePassIcon');
+
+    if (togglePassBtn && passInput) {
+        togglePassBtn.addEventListener('click', function() {
+            const isPass = passInput.getAttribute('type') === 'password';
+            passInput.setAttribute('type', isPass ? 'text' : 'password');
+            togglePassIcon.className = isPass ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    }
+
+    const confInput = document.getElementById('confirmPassword');
+    const toggleConfBtn = document.getElementById('toggleConfirmBtn');
+    const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+
+    if (toggleConfBtn && confInput) {
+        toggleConfBtn.addEventListener('click', function() {
+            const isPass = confInput.getAttribute('type') === 'password';
+            confInput.setAttribute('type', isPass ? 'text' : 'password');
+            toggleConfirmIcon.className = isPass ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    }
+
+    // Real-time password criteria & strength meter
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+    const bar4 = document.getElementById('bar4');
+    const bars = [bar1, bar2, bar3, bar4];
+
+    const critLength = document.getElementById('critLength');
+    const critNumber = document.getElementById('critNumber');
+    const critUpper = document.getElementById('critUpper');
+    const critSpecial = document.getElementById('critSpecial');
+
+    if (passInput) {
+        passInput.addEventListener('input', function() {
+            const val = passInput.value;
+            const hasLen = val.length >= 8;
+            const hasNum = /\d/.test(val);
+            const hasUp = /[A-Z]/.test(val);
+            const hasSpec = /[@$!%*?&_#^~]/.test(val);
+
+            // Update criteria items
+            critLength.className = hasLen ? 'criteria-item valid' : 'criteria-item';
+            critNumber.className = hasNum ? 'criteria-item valid' : 'criteria-item';
+            critUpper.className = hasUp ? 'criteria-item valid' : 'criteria-item';
+            critSpecial.className = hasSpec ? 'criteria-item valid' : 'criteria-item';
+
+            const score = (hasLen ? 1 : 0) + (hasNum ? 1 : 0) + (hasUp ? 1 : 0) + (hasSpec ? 1 : 0);
+
+            // Colors
+            const colors = ['#EF4444', '#F59E0B', '#3B82F6', '#10B981'];
+            const activeColor = score > 0 ? colors[score - 1] : '#E2E8F0';
+
+            bars.forEach((bar, idx) => {
+                if (idx < score) {
+                    bar.style.backgroundColor = activeColor;
+                } else {
+                    bar.style.backgroundColor = '#E2E8F0';
+                }
+            });
+        });
+    }
+
+    // Client-side validation before submission
+    const regForm = document.getElementById('registerForm');
+    const btnRegister = document.getElementById('btnRegisterSubmit');
+
+    if (regForm && btnRegister) {
+        regForm.addEventListener('submit', function(e) {
+            const pwd = passInput.value;
+            const conf = confInput.value;
+
+            if (pwd !== conf) {
+                e.preventDefault();
+                alert("Passwords do not match. Please verify your passwords and re-try.");
+                confInput.focus();
+                return;
+            }
+
+            const terms = document.getElementById('termsConsent');
+            if (terms && !terms.checked) {
+                e.preventDefault();
+                alert("Please agree to the SkyTech Airlines Terms of Carriage to register.");
+                terms.focus();
+                return;
+            }
+
+            btnRegister.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating Account...';
+            btnRegister.style.opacity = '0.85';
+            btnRegister.style.pointerEvents = 'none';
+        });
+    }
+
+    function viewTerms() {
+        alert("SkyTech Airlines Terms of Carriage:\n\nPassengers are entitled to standard baggage allowance, transparent fares, and 24-hour advance check-in. Standard flight safety guidelines apply.");
+    }
+
+    function viewPrivacy() {
+        alert("SkyTech Airlines Privacy Policy:\n\nYour personal passenger details, contact numbers, and travel itineraries are securely stored and encrypted according to airline data privacy standards.");
+    }
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
