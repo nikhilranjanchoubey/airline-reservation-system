@@ -4,6 +4,9 @@ target/
 *.jar
 
 # Environment and sensitive database credentials
+.env
+.env.*
+!.env.example
 src/main/resources/db.properties
 src/main/resources/api.properties
 

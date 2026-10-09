@@ -18,7 +18,7 @@ public class ManageBookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("pageTitle", "Manage Your Booking - SkyTech Airlines");
+        request.setAttribute("pageTitle", "Manage Your Booking - SkyTech");
         request.getRequestDispatcher("/WEB-INF/views/flight/manage-booking.jsp").forward(request, response);
     }
 
@@ -31,7 +31,7 @@ public class ManageBookingController extends HttpServlet {
         request.setAttribute("searchedPnr", pnr);
         request.setAttribute("searchedLastName", lastName);
         request.setAttribute("infoMessage", "Booking retrieval is currently syncing with our central reservation records. Please verify your reference or contact SkyTech guest support.");
-        request.setAttribute("pageTitle", "Manage Your Booking - SkyTech Airlines");
+        request.setAttribute("pageTitle", "Manage Your Booking - SkyTech");
         request.getRequestDispatcher("/WEB-INF/views/flight/manage-booking.jsp").forward(request, response);
     }
 }

@@ -1,12 +1,15 @@
 package com.skytech.service;
 
 import com.skytech.dao.AirportDao;
+import com.skytech.dao.SearchHistoryDao;
 import com.skytech.integration.FlightProvider;
-import com.skytech.integration.amadeus.AmadeusFlightProvider;
+import com.skytech.integration.aerodatabox.AeroDataBoxFlightProvider;
 import com.skytech.model.Airport;
 import com.skytech.model.FlightSchedule;
+import com.skytech.model.FlightSearchRequest;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +18,38 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Service layer coordinating flight search business logic, validations, and provider routing.
+ * Service layer coordinating flight search business logic, validations, AeroDataBox live integration, and search history.
  */
 public class FlightSearchService {
 
+    public static final ZoneId APP_ZONE_ID = ZoneId.of("Asia/Kolkata");
     private static final Logger LOGGER = Logger.getLogger(FlightSearchService.class.getName());
 
     private final AirportDao airportDao;
     private final FlightProvider flightProvider;
+    private final SearchHistoryDao searchHistoryDao;
 
     public FlightSearchService() {
         this.airportDao = new AirportDao();
-        this.flightProvider = new AmadeusFlightProvider();
+        this.flightProvider = new AeroDataBoxFlightProvider();
+        this.searchHistoryDao = new SearchHistoryDao();
     }
 
     public FlightSearchService(AirportDao airportDao, FlightProvider flightProvider) {
         this.airportDao = airportDao;
         this.flightProvider = flightProvider;
+        this.searchHistoryDao = new SearchHistoryDao();
+    }
+
+    /**
+     * Safely logs flight search query into MySQL without blocking on database disruptions.
+     */
+    public void recordSearchHistory(FlightSearchRequest request, String provider) {
+        try {
+            searchHistoryDao.saveSearch(request, provider);
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Failed to record flight search history: " + e.getMessage());
+        }
     }
 
     /**
@@ -86,14 +104,15 @@ public class FlightSearchService {
             errors.add("Departure and arrival airports cannot be the same.");
         }
 
+        LocalDate today = LocalDate.now(APP_ZONE_ID);
         LocalDate departureDate = null;
         if (departureDateStr == null || departureDateStr.trim().isEmpty()) {
             errors.add("Departure date is required.");
         } else {
             try {
                 departureDate = LocalDate.parse(departureDateStr.trim());
-                if (departureDate.isBefore(LocalDate.now())) {
-                    errors.add("Departure date cannot be in the past.");
+                if (departureDate.isBefore(today)) {
+                    errors.add("Please select today or a future date.");
                 }
             } catch (DateTimeParseException e) {
                 errors.add("Invalid departure date format. Please use YYYY-MM-DD.");
@@ -106,8 +125,10 @@ public class FlightSearchService {
             } else {
                 try {
                     LocalDate returnDate = LocalDate.parse(returnDateStr.trim());
-                    if (departureDate != null && returnDate.isBefore(departureDate)) {
-                        errors.add("Return date cannot be before departure date.");
+                    if (returnDate.isBefore(today)) {
+                        errors.add("Please select today or a future date.");
+                    } else if (departureDate != null && returnDate.isBefore(departureDate)) {
+                        errors.add("Return date must be on or after the departure date.");
                     }
                 } catch (DateTimeParseException e) {
                     errors.add("Invalid return date format. Please use YYYY-MM-DD.");
@@ -146,7 +167,8 @@ public class FlightSearchService {
             errors.add("Multi-City itinerary cannot exceed 5 flight segments.");
         }
 
-        LocalDate previousDate = null;
+        LocalDate today = LocalDate.now(APP_ZONE_ID);
+        LocalDate previousDate = today;
 
         for (int i = 0; i < segments.size(); i++) {
             com.skytech.model.RouteSegment seg = segments.get(i);
@@ -166,10 +188,9 @@ public class FlightSearchService {
             if (seg.getDepartureDate() == null) {
                 errors.add("Flight " + segNum + ": Departure date is required.");
             } else {
-                if (seg.getDepartureDate().isBefore(LocalDate.now())) {
-                    errors.add("Flight " + segNum + ": Departure date cannot be in the past.");
-                }
-                if (previousDate != null && seg.getDepartureDate().isBefore(previousDate)) {
+                if (seg.getDepartureDate().isBefore(today)) {
+                    errors.add("Flight " + segNum + ": Please select today or a future date.");
+                } else if (i > 0 && seg.getDepartureDate().isBefore(previousDate)) {
                     errors.add("Flight " + segNum + " date cannot be before Flight " + i + " date.");
                 }
                 previousDate = seg.getDepartureDate();
@@ -201,29 +222,117 @@ public class FlightSearchService {
     }
 
     /**
-     * Dynamically calculates featured route deals from active flight inventory.
-     * Guaranteed single source of truth for homepage pricing.
+     * Retrieves specific flight schedule details preserving the selected flight date.
+     */
+    public FlightSchedule getFlightDetails(int scheduleId, LocalDate targetDate) throws Exception {
+        return flightProvider.getFlightDetails(scheduleId, targetDate);
+    }
+
+    /**
+     * Finds a flight schedule by flight number and date for flight tracking.
+     */
+    public FlightSchedule getFlightByFlightNumber(String flightNumber, LocalDate flightDate) {
+        if (flightNumber == null || flightNumber.trim().isEmpty()) {
+            return null;
+        }
+        LocalDate targetDate = (flightDate != null) ? flightDate : LocalDate.now(APP_ZONE_ID);
+        if (flightProvider instanceof AeroDataBoxFlightProvider) {
+            FlightSchedule liveFs = ((AeroDataBoxFlightProvider) flightProvider).getFlightByFlightNumber(flightNumber, targetDate);
+            if (liveFs != null) {
+                return liveFs;
+            }
+        }
+        com.skytech.dao.FlightScheduleDao dao = new com.skytech.dao.FlightScheduleDao();
+        List<FlightSchedule> all = dao.buildAllDemoSchedules(targetDate);
+        String cleanQuery = flightNumber.trim().replaceAll("\\s+", "").toUpperCase();
+        for (FlightSchedule fs : all) {
+            if (fs.getFlight() != null && fs.getFlight().getFlightNumber() != null) {
+                String cleanNum = fs.getFlight().getFlightNumber().replaceAll("\\s+", "").toUpperCase();
+                if (cleanNum.equalsIgnoreCase(cleanQuery)) {
+                    return fs;
+                }
+            }
+        }
+        return !all.isEmpty() ? all.get(0) : null;
+    }
+
+    /**
+     * Inner specification representing supported featured routes.
+     */
+    private static class FeaturedRouteConfig {
+        final String src;
+        final String dst;
+        final String srcCity;
+        final String dstCity;
+        final String defaultTag;
+        final String localImage;
+        final String altText;
+
+        FeaturedRouteConfig(String src, String dst, String srcCity, String dstCity,
+                            String defaultTag, String localImage, String altText) {
+            this.src = src;
+            this.dst = dst;
+            this.srcCity = srcCity;
+            this.dstCity = dstCity;
+            this.defaultTag = defaultTag;
+            this.localImage = localImage;
+            this.altText = altText;
+        }
+    }
+
+    private static final List<FeaturedRouteConfig> FEATURED_ROUTES = java.util.Arrays.asList(
+        new FeaturedRouteConfig("JAI", "DEL", "Jaipur", "Delhi", "Popular Route",
+                "assets/images/destinations/delhi.jpg", "India Gate landmark in Delhi"),
+        new FeaturedRouteConfig("DEL", "BOM", "Delhi", "Mumbai", "Business Route",
+                "assets/images/destinations/mumbai.jpg", "Gateway of India in Mumbai"),
+        new FeaturedRouteConfig("BOM", "BLR", "Mumbai", "Bengaluru", "Business Route",
+                "assets/images/destinations/bengaluru.jpg", "Vidhana Soudha in Bengaluru"),
+        new FeaturedRouteConfig("DEL", "GOI", "Delhi", "Goa", "Holiday Route",
+                "assets/images/destinations/goa.jpg", "Goa beach shoreline and coastal palms"),
+        new FeaturedRouteConfig("BLR", "HYD", "Bengaluru", "Hyderabad", "Popular Route",
+                "assets/images/destinations/hyderabad.jpg", "Historic Charminar in Hyderabad"),
+        new FeaturedRouteConfig("MAA", "BOM", "Chennai", "Mumbai", "Popular Route",
+                "assets/images/destinations/mumbai.jpg", "Marine Drive skyline in Mumbai")
+    );
+
+    /**
+     * Returns featured route deals for today with deterministic Daily Shuffle rotation.
      */
     public List<com.skytech.model.PopularRouteDeal> getPopularRouteDeals() {
+        return getPopularRouteDeals(LocalDate.now(APP_ZONE_ID));
+    }
+
+    /**
+     * Dynamically calculates featured route deals from active flight inventory.
+     * Uses current date as seed for deterministic Daily Shuffle rotation (consistent for 24h).
+     * Guaranteed single source of truth for homepage pricing.
+     */
+    public List<com.skytech.model.PopularRouteDeal> getPopularRouteDeals(LocalDate rotationDate) {
         List<com.skytech.model.PopularRouteDeal> deals = new ArrayList<>();
-        LocalDate searchDate = LocalDate.now().plusDays(2);
+        LocalDate baseDate = (rotationDate != null ? rotationDate : LocalDate.now(APP_ZONE_ID));
+        LocalDate searchDate = baseDate.plusDays(2);
 
-        String[][] routes = {
-            {"JAI", "DEL", "Jaipur", "Delhi", "High Frequency", "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80"},
-            {"DEL", "BOM", "Delhi", "Mumbai", "Top Business Corridor", "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=600&q=80"},
-            {"BOM", "BLR", "Mumbai", "Bengaluru", "Silicon Corridor", "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=600&q=80"},
-            {"DEL", "GOI", "Delhi", "Goa", "Holiday Getaway", "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80"},
-            {"BLR", "HYD", "Bengaluru", "Hyderabad", "Daily Shuttle", "https://images.unsplash.com/photo-1605335198270-4f5144ca84ce?auto=format&fit=crop&w=600&q=80"},
-            {"MAA", "BOM", "Chennai", "Mumbai", "Coastal Connector", "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=600&q=80"}
-        };
+        if (FEATURED_ROUTES.isEmpty()) {
+            return deals;
+        }
 
-        for (String[] r : routes) {
-            String src = r[0];
-            String dst = r[1];
-            String srcCity = r[2];
-            String dstCity = r[3];
-            String tag = r[4];
-            String img = r[5];
+        // Deterministic Daily Shuffle index based on calendar day (remains constant throughout the day)
+        long epochDay = baseDate.toEpochDay();
+        int dailyIndex = (int) (Math.abs(epochDay) % FEATURED_ROUTES.size());
+
+        // Build list: Daily Shuffle featured first, followed by the remaining routes
+        List<FeaturedRouteConfig> orderedRoutes = new ArrayList<>();
+        orderedRoutes.add(FEATURED_ROUTES.get(dailyIndex));
+        for (int i = 0; i < FEATURED_ROUTES.size(); i++) {
+            if (i != dailyIndex) {
+                orderedRoutes.add(FEATURED_ROUTES.get(i));
+            }
+        }
+
+        for (int idx = 0; idx < orderedRoutes.size(); idx++) {
+            FeaturedRouteConfig cfg = orderedRoutes.get(idx);
+            boolean isDaily = (idx == 0);
+            String tag = isDaily ? "Daily Shuffle" : cfg.defaultTag;
 
             java.math.BigDecimal lowestPrice = null;
             String duration = "1h 45m";
@@ -231,7 +340,7 @@ public class FlightSearchService {
             java.util.Set<String> airlineSet = new java.util.LinkedHashSet<>();
 
             try {
-                List<FlightSchedule> flights = searchFlights(src, dst, searchDate, 1, "Economy");
+                List<FlightSchedule> flights = searchFlights(cfg.src, cfg.dst, searchDate, 1, "Economy");
                 if (flights != null && !flights.isEmpty()) {
                     for (FlightSchedule fs : flights) {
                         java.math.BigDecimal p = fs.getPriceForClass("Economy");
@@ -248,13 +357,14 @@ public class FlightSearchService {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.log(Level.FINE, "Could not resolve dynamic pricing for " + src + " -> " + dst, e);
+                LOGGER.log(Level.FINE, "Could not resolve dynamic pricing for " + cfg.src + " -> " + cfg.dst, e);
             }
 
             String airlines = airlineSet.isEmpty() ? "IndiGo • Air India • Akasa Air" : String.join(" • ", airlineSet);
 
             deals.add(new com.skytech.model.PopularRouteDeal(
-                src, dst, srcCity, dstCity, airlines, lowestPrice, duration, stops, img, tag, searchDate
+                cfg.src, cfg.dst, cfg.srcCity, cfg.dstCity, airlines, lowestPrice, duration, stops,
+                cfg.localImage, cfg.altText, tag, isDaily, searchDate
             ));
         }
 

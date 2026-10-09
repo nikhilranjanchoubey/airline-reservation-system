@@ -18,7 +18,7 @@ public class TravelInfoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("pageTitle", "Travel Information & Guidelines - SkyTech Airlines");
+        request.setAttribute("pageTitle", "Travel Information & Guidelines - SkyTech");
         request.getRequestDispatcher("/WEB-INF/views/flight/travel-information.jsp").forward(request, response);
     }
 }

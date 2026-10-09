@@ -69,11 +69,24 @@ public class SeatSelectionController extends HttpServlet {
             }
         }
 
+        String departureDateParam = request.getParameter("departureDate");
+        java.time.LocalDate selectedDate = null;
+        if (departureDateParam != null && !departureDateParam.trim().isEmpty()) {
+            try {
+                selectedDate = java.time.LocalDate.parse(departureDateParam.trim());
+            } catch (Exception ignored) {}
+        }
+
         FlightSchedule schedule = null;
         try {
-            schedule = flightSearchService.getFlightDetails(scheduleId);
+            schedule = flightSearchService.getFlightDetails(scheduleId, selectedDate);
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Error retrieving schedule for seat selection: " + e.getMessage());
+        }
+
+        String flightNumberParam = request.getParameter("flightNumber");
+        if (schedule == null && flightNumberParam != null && !flightNumberParam.trim().isEmpty()) {
+            schedule = flightSearchService.getFlightByFlightNumber(flightNumberParam, selectedDate);
         }
 
         if (schedule == null) {
@@ -81,21 +94,30 @@ public class SeatSelectionController extends HttpServlet {
             return;
         }
 
-        List<Seat> seats = seatMapService.getSeatMapForSchedule(scheduleId);
+        if (selectedDate != null) {
+            schedule.setFlightDate(java.sql.Date.valueOf(selectedDate));
+        }
+
+        String airlineCode = (schedule.getFlight() != null && schedule.getFlight().getAirline() != null)
+                ? schedule.getFlight().getAirline().getAirlineCode() : "6E";
+
+        List<Seat> seats = seatMapService.getSeatMapForSchedule(scheduleId, airlineCode);
 
         java.math.BigDecimal perPassengerFare = schedule.getPriceForClass(travelClass);
-        java.math.BigDecimal baseFareTotal = perPassengerFare.multiply(java.math.BigDecimal.valueOf(passengers));
-        java.math.BigDecimal initialTaxes = baseFareTotal.multiply(java.math.BigDecimal.valueOf(0.12)).setScale(2, java.math.RoundingMode.HALF_UP);
-        java.math.BigDecimal initialGrandTotal = baseFareTotal.add(initialTaxes);
+        com.skytech.service.FareCalculationService.FareSummary initialFare =
+                com.skytech.service.FareCalculationService.calculateFare(perPassengerFare, passengers, null);
 
         request.setAttribute("schedule", schedule);
         request.setAttribute("seats", seats);
         request.setAttribute("passengers", passengers);
         request.setAttribute("travelClass", travelClass);
         request.setAttribute("perPassengerFare", perPassengerFare);
-        request.setAttribute("baseFareTotal", baseFareTotal);
-        request.setAttribute("initialTaxes", initialTaxes);
-        request.setAttribute("initialGrandTotal", initialGrandTotal);
+        request.setAttribute("baseFareTotal", initialFare.getBaseFareTotal());
+        request.setAttribute("initialTaxes", initialFare.getTaxesAndFees());
+        request.setAttribute("initialGrandTotal", initialFare.getGrandTotal());
+        request.setAttribute("fareSummary", initialFare);
+        request.setAttribute("airlineCode", airlineCode);
+        request.setAttribute("selectedDepartureDate", selectedDate != null ? selectedDate.toString() : (schedule.getFlightDate() != null ? schedule.getFlightDate().toLocalDate().toString() : ""));
         request.setAttribute("pageTitle", "Select Seats &bull; " + schedule.getFlight().getFlightNumber() + " - SkyTech");
 
         request.getRequestDispatcher("/WEB-INF/views/flight/seat-selection.jsp").forward(request, response);

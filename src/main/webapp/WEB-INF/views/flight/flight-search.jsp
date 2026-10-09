@@ -83,10 +83,13 @@
                             </label>
                             <input type="text" class="field-input fw-bold" id="fromAirportDisplay" 
                                    placeholder="City or Airport (e.g. DEL, Mumbai)" 
-                                   value="${not empty selectedSource ? selectedSource : 'JAI'}" 
+                                   value="${not empty sourceAirport ? sourceAirport.city.concat(' (').concat(sourceAirport.airportCode).concat(')') : (not empty selectedSource ? selectedSource : 'Jaipur (JAI)')}" 
                                    autocomplete="off" required onfocus="openAirportDropdown('from')" oninput="onAirportSearchInput('from')">
                             <small class="text-muted d-block text-truncate" id="fromSubtext">
-                                Jaipur &bull; Jaipur International Airport
+                                <c:choose>
+                                    <c:when test="${not empty sourceAirport}">${sourceAirport.city} &bull; ${sourceAirport.airportName}</c:when>
+                                    <c:otherwise>Jaipur &bull; Jaipur International Airport</c:otherwise>
+                                </c:choose>
                             </small>
                             <input type="hidden" name="source" id="sourceCodeInput" value="${not empty selectedSource ? selectedSource : 'JAI'}">
 
@@ -117,10 +120,13 @@
                             </label>
                             <input type="text" class="field-input fw-bold" id="toAirportDisplay" 
                                    placeholder="City or Airport (e.g. BOM, Delhi)" 
-                                   value="${not empty selectedDestination ? selectedDestination : 'DEL'}" 
+                                   value="${not empty destAirport ? destAirport.city.concat(' (').concat(destAirport.airportCode).concat(')') : (not empty selectedDestination ? selectedDestination : 'Delhi (DEL)')}" 
                                    autocomplete="off" required onfocus="openAirportDropdown('to')" oninput="onAirportSearchInput('to')">
                             <small class="text-muted d-block text-truncate" id="toSubtext">
-                                Delhi &bull; Indira Gandhi International Airport
+                                <c:choose>
+                                    <c:when test="${not empty destAirport}">${destAirport.city} &bull; ${destAirport.airportName}</c:when>
+                                    <c:otherwise>Delhi &bull; Indira Gandhi International Airport</c:otherwise>
+                                </c:choose>
                             </small>
                             <input type="hidden" name="destination" id="destCodeInput" value="${not empty selectedDestination ? selectedDestination : 'DEL'}">
 
@@ -138,29 +144,63 @@
 
                     <!-- Departure Date -->
                     <div class="col-lg-3 col-md-6" id="depCol">
-                        <div class="search-field-box">
-                            <label for="departureDateInput" class="field-label">
+                        <div class="search-field-box date-picker-box position-relative" id="depFieldBox"
+                             onclick="openSearchPageCalendar('departure')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSearchPageCalendar('departure');}"
+                             role="button" tabindex="0" aria-label="Departure Date Picker">
+                            <label class="field-label mb-1" style="pointer-events: none;">
                                 <i class="bi bi-calendar-event text-primary"></i> DEPARTURE
                             </label>
-                            <input type="date" class="form-control field-input" id="departureDateInput" name="departureDate"
-                                   min="${minDate}" value="${not empty selectedDepartureDate ? selectedDepartureDate : minDate}" required
-                                   onchange="onDepartureDateChange()">
-                            <small class="text-muted d-block" id="departureDayLabel">Select date</small>
+                            <div class="date-custom-display d-flex align-items-center justify-content-between" id="departureDateDisplay">
+                                <div class="d-flex align-items-baseline gap-2">
+                                    <span class="date-main-text" id="departureDatePrimary">
+                                        <c:choose>
+                                            <c:when test="${not empty formattedDepartureDate}">${formattedDepartureDate}</c:when>
+                                            <c:when test="${not empty selectedDepartureDate}">${selectedDepartureDate}</c:when>
+                                            <c:when test="${not empty todayFormatted}">${todayFormatted}</c:when>
+                                            <c:otherwise>Select Date</c:otherwise>
+                                        </c:choose>
+                                    </span>
+                                    <span class="date-sub-text" id="departureDaySubtext">
+                                        <c:choose>
+                                            <c:when test="${not empty departureDayOfWeek}">&bull; ${departureDayOfWeek}</c:when>
+                                            <c:when test="${not empty todayDayOfWeek}">&bull; ${todayDayOfWeek}</c:when>
+                                        </c:choose>
+                                    </span>
+                                </div>
+                                <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                            </div>
+                            <input type="hidden" id="departureDateInput" name="departureDate"
+                                   value="${not empty selectedDepartureDate ? selectedDepartureDate : (not empty todayDate ? todayDate : minDate)}">
                         </div>
                     </div>
 
                     <!-- Return Date (Hidden in One Way) -->
                     <div class="col-lg-2 col-md-6 ${tripType == 'round-trip' ? '' : 'd-none'}" id="returnDateContainer">
-                        <div class="search-field-box">
-                            <label for="returnDateInput" class="field-label">
+                        <div class="search-field-box date-picker-box position-relative" id="returnFieldBox"
+                             onclick="openSearchPageCalendar('return')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSearchPageCalendar('return');}"
+                             role="button" tabindex="0" aria-label="Return Date Picker">
+                            <label class="field-label mb-1" style="pointer-events: none;">
                                 <i class="bi bi-calendar2-check text-primary"></i> RETURN
                             </label>
-                            <input type="date" class="form-control field-input" id="returnDateInput" 
+                            <div class="date-custom-display d-flex align-items-center justify-content-between" id="returnDateDisplay">
+                                <div class="d-flex align-items-baseline gap-2">
+                                    <span class="date-main-text" id="returnDatePrimary">
+                                        <c:choose>
+                                            <c:when test="${not empty formattedReturnDate}">${formattedReturnDate}</c:when>
+                                            <c:when test="${not empty selectedReturnDate}">${selectedReturnDate}</c:when>
+                                            <c:otherwise>Select Return</c:otherwise>
+                                        </c:choose>
+                                    </span>
+                                    <span class="date-sub-text" id="returnDaySubtext">
+                                        <c:if test="${not empty returnDayOfWeek}">&bull; ${returnDayOfWeek}</c:if>
+                                    </span>
+                                </div>
+                                <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                            </div>
+                            <input type="hidden" id="returnDateInput" 
                                    ${tripType == 'round-trip' ? 'name="returnDate"' : ''}
-                                   min="${minDate}" value="${selectedReturnDate}" 
-                                   ${tripType == 'round-trip' ? '' : 'disabled'}
-                                   onchange="onReturnDateChange()">
-                            <small class="text-muted d-block" id="returnDayLabel">${tripType == 'round-trip' ? 'Select return' : 'Select return date'}</small>
+                                   value="${selectedReturnDate}" 
+                                   ${tripType == 'round-trip' ? '' : 'disabled'}>
                         </div>
                     </div>
                 </div>
@@ -256,22 +296,113 @@
 
                 <!-- Cabin Class Selector -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="search-field-box">
-                        <label for="travelClassSelect" class="field-label">
+                    <div class="search-field-box dropdown position-relative" id="cabinClassBoxContainer">
+                        <label id="travelClassDropdownLabel" class="field-label">
                             <i class="bi bi-award-fill text-primary"></i> CABIN CLASS
                         </label>
-                        <select class="form-select field-input fw-bold" id="travelClassSelect" name="travelClass">
-                            <option value="Economy" ${empty travelClass || travelClass == 'Economy' ? 'selected' : ''}>Economy</option>
-                            <option value="Premium Economy" ${travelClass == 'Premium Economy' ? 'selected' : ''}>Premium Economy</option>
-                            <option value="Business" ${travelClass == 'Business' ? 'selected' : ''}>Business</option>
-                            <option value="First Class" ${travelClass == 'First Class' ? 'selected' : ''}>First Class</option>
-                        </select>
+                        <button type="button" 
+                                class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center cabin-class-btn"
+                                id="travelClassDropdownBtn" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false" 
+                                aria-haspopup="listbox" 
+                                aria-labelledby="travelClassDropdownLabel travelClassDropdownBtn">
+                            <span class="d-flex flex-column text-truncate">
+                                <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark">${not empty travelClass ? travelClass : 'Economy'}</span>
+                                <small id="travelClassSubtext" class="text-muted text-truncate" style="font-size: 0.75rem;">
+                                    <c:choose>
+                                        <c:when test="${travelClass == 'Premium Economy'}">Extra legroom &amp; priority boarding</c:when>
+                                        <c:when test="${travelClass == 'Business'}">Spacious seating &amp; gourmet dining</c:when>
+                                        <c:when test="${travelClass == 'First Class'}">Luxury private suite &amp; personal care</c:when>
+                                        <c:otherwise>Standard seating &amp; best value fares</c:otherwise>
+                                    </c:choose>
+                                </small>
+                            </span>
+                            <i class="bi bi-chevron-down text-muted small ms-2 cabin-chevron"></i>
+                        </button>
+
+                        <ul class="dropdown-menu cabin-class-dropdown-menu shadow-lg p-2" 
+                            id="travelClassMenuList"
+                            aria-labelledby="travelClassDropdownBtn"
+                            role="listbox">
+                            <li role="option" aria-selected="${empty travelClass || travelClass == 'Economy' ? 'true' : 'false'}">
+                                <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${empty travelClass || travelClass == 'Economy' ? 'active' : ''}" 
+                                        data-value="Economy"
+                                        data-subtext="Standard seating &amp; best value fares"
+                                        onclick="selectCabinClass('Economy', 'Standard seating &amp; best value fares')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="cabin-icon-box text-primary">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold cabin-option-title">Economy</div>
+                                            <small class="text-muted d-block cabin-option-sub">Standard seating &amp; best value fares</small>
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${empty travelClass || travelClass == 'Economy' ? '' : 'd-none'}"></i>
+                                </button>
+                            </li>
+                            <li role="option" aria-selected="${travelClass == 'Premium Economy' ? 'true' : 'false'}">
+                                <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'Premium Economy' ? 'active' : ''}" 
+                                        data-value="Premium Economy"
+                                        data-subtext="Extra legroom &amp; priority boarding"
+                                        onclick="selectCabinClass('Premium Economy', 'Extra legroom &amp; priority boarding')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="cabin-icon-box text-primary">
+                                            <i class="bi bi-gem"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold cabin-option-title">Premium Economy</div>
+                                            <small class="text-muted d-block cabin-option-sub">Extra legroom &amp; priority boarding</small>
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'Premium Economy' ? '' : 'd-none'}"></i>
+                                </button>
+                            </li>
+                            <li role="option" aria-selected="${travelClass == 'Business' ? 'true' : 'false'}">
+                                <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'Business' ? 'active' : ''}" 
+                                        data-value="Business"
+                                        data-subtext="Spacious seating &amp; gourmet dining"
+                                        onclick="selectCabinClass('Business', 'Spacious seating &amp; gourmet dining')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="cabin-icon-box text-primary">
+                                            <i class="bi bi-briefcase-fill"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold cabin-option-title">Business</div>
+                                            <small class="text-muted d-block cabin-option-sub">Spacious seating &amp; gourmet dining</small>
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'Business' ? '' : 'd-none'}"></i>
+                                </button>
+                            </li>
+                            <li role="option" aria-selected="${travelClass == 'First Class' ? 'true' : 'false'}">
+                                <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'First Class' ? 'active' : ''}" 
+                                        data-value="First Class"
+                                        data-subtext="Luxury private suite &amp; personal care"
+                                        onclick="selectCabinClass('First Class', 'Luxury private suite &amp; personal care')">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="cabin-icon-box text-primary">
+                                            <i class="bi bi-stars"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold cabin-option-title">First Class</div>
+                                            <small class="text-muted d-block cabin-option-sub">Luxury private suite &amp; personal care</small>
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'First Class' ? '' : 'd-none'}"></i>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Hidden form field ensuring robust form submission & Modify Search preservation -->
+                        <input type="hidden" name="travelClass" id="travelClassInput" value="${not empty travelClass ? travelClass : 'Economy'}">
                     </div>
                 </div>
 
                 <!-- Search CTA Button -->
                 <div class="col-lg-4 col-md-12">
-                    <button type="submit" class="btn btn-search-flights w-100 py-3" id="btnSubmitSearch">
+                    <button type="submit" class="btn btn-search-flights w-100 py-3" id="btnSearchSubmit">
                         <span id="btnSearchText"><i class="bi bi-search me-1"></i> SEARCH FLIGHTS</span>
                         <span id="btnSearchSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                     </button>
@@ -313,6 +444,21 @@
         { code: 'GOI', city: 'Goa', name: 'Dabolim Airport', terminal: 'Terminal 1' }
     ];
 
+    function getClientTodayIso() {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
+    }
+
+    function parseIsoParts(isoStr) {
+        if (!isoStr || !isoStr.includes('-')) return null;
+        const parts = isoStr.split('-');
+        if (parts.length !== 3) return null;
+        return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    }
+
     let multiCitySegments = [
         { source: 'JAI', dest: 'DEL', date: '' },
         { source: 'DEL', dest: 'BOM', date: '' }
@@ -353,12 +499,17 @@
             if (depDate) {
                 returnInput.min = depDate;
                 if (!returnInput.value || returnInput.value < depDate) {
-                    const d = new Date(depDate);
-                    d.setDate(d.getDate() + 3);
-                    returnInput.value = d.toISOString().split('T')[0];
+                    const parsed = parseIsoParts(depDate);
+                    if (parsed) {
+                        parsed.setDate(parsed.getDate() + 3);
+                        const y = parsed.getFullYear();
+                        const m = String(parsed.getMonth() + 1).padStart(2, '0');
+                        const d = String(parsed.getDate()).padStart(2, '0');
+                        returnInput.value = y + '-' + m + '-' + d;
+                    }
                 }
             }
-            returnLabel.textContent = 'Select return';
+            onReturnDateChange();
         } else if (type === 'multi-city') {
             btnMultiCity.classList.add('active');
             stdContainer.classList.add('d-none');
@@ -370,7 +521,7 @@
             returnInput.required = false;
             renderMultiCitySegments();
         } else {
-            // One Way: completely hide return date field
+            // One Way: completely clear and hide return date field
             btnOneWay.classList.add('active');
             stdContainer.classList.remove('d-none');
             mcContainer.classList.add('d-none');
@@ -391,16 +542,19 @@
         if (!wrapper) return;
         wrapper.innerHTML = '';
 
-        const today = new Date();
-        const baseDate = new Date(today);
-        baseDate.setDate(baseDate.getDate() + 2);
+        const todayIso = getClientTodayIso();
+        const baseDate = parseIsoParts(todayIso) || new Date();
+        baseDate.setDate(baseDate.getDate() + 1);
 
         multiCitySegments.forEach((seg, idx) => {
             const num = idx + 1;
             if (!seg.date) {
                 const d = new Date(baseDate);
-                d.setDate(d.getDate() + (idx * 3));
-                seg.date = d.toISOString().split('T')[0];
+                d.setDate(d.getDate() + (idx * 2));
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                seg.date = y + '-' + m + '-' + dd;
             }
 
             const card = document.createElement('div');
@@ -425,7 +579,7 @@
                     '</div>' +
                     '<div class="col-md-4">' +
                         '<label class="field-label small text-muted">DATE</label>' +
-                        '<input type="date" class="form-control form-select-sm fw-bold" name="segDate_' + num + '" id="segDate_' + num + '" value="' + seg.date + '" min="' + today.toISOString().split('T')[0] + '" onchange="onMultiCityDateChange(' + idx + ', this.value)">' +
+                        '<input type="date" class="form-control form-select-sm fw-bold" name="segDate_' + num + '" id="segDate_' + num + '" value="' + seg.date + '" min="' + todayIso + '" onchange="onMultiCityDateChange(' + idx + ', this.value)">' +
                     '</div>' +
                 '</div>';
 
@@ -453,9 +607,14 @@
 
             let nextDate = '';
             if (last && last.date) {
-                const d = new Date(last.date);
-                d.setDate(d.getDate() + 3);
-                nextDate = d.toISOString().split('T')[0];
+                const parsed = parseIsoParts(last.date);
+                if (parsed) {
+                    parsed.setDate(parsed.getDate() + 2);
+                    const y = parsed.getFullYear();
+                    const m = String(parsed.getMonth() + 1).padStart(2, '0');
+                    const d = String(parsed.getDate()).padStart(2, '0');
+                    nextDate = y + '-' + m + '-' + d;
+                }
             }
 
             multiCitySegments.push({ source: nextSrc, dest: nextDst, date: nextDate });
@@ -473,12 +632,12 @@
     function onMultiCityDateChange(index, newDate) {
         multiCitySegments[index].date = newDate;
         for (let i = index + 1; i < multiCitySegments.length; i++) {
-            if (multiCitySegments[i].date && multiCitySegments[i].date < newDate) {
-                multiCitySegments[i].date = newDate;
-                const dateEl = document.getElementById('segDate_' + (i + 1));
-                if (dateEl) {
-                    dateEl.value = newDate;
-                    dateEl.min = newDate;
+            const nextEl = document.getElementById('segDate_' + (i + 1));
+            if (nextEl) {
+                nextEl.min = newDate;
+                if (nextEl.value && nextEl.value < newDate) {
+                    nextEl.value = newDate;
+                    multiCitySegments[i].date = newDate;
                 }
             }
         }
@@ -581,31 +740,77 @@
         if (dstApt) selectAirport('to', dstApt);
     }
 
-    function onDepartureDateChange() {
-        const dep = document.getElementById('departureDateInput').value;
-        const ret = document.getElementById('returnDateInput');
-        const retLabel = document.getElementById('returnDayLabel');
-        if (dep) {
-            ret.min = dep;
-            if (ret.value && ret.value < dep) {
-                ret.value = '';
-                if (retLabel) retLabel.textContent = 'Please select a valid return date';
-            }
-            const dateObj = new Date(dep + 'T00:00:00');
-            document.getElementById('departureDayLabel').textContent = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+    function updateDateLabel(dateStr, primaryId, subId) {
+        const primary = document.getElementById(primaryId);
+        const sub = document.getElementById(subId);
+        if (!primary) return;
+        if (!dateStr) {
+            primary.textContent = 'Select Date';
+            if (sub) sub.textContent = '';
+            return;
+        }
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            const y = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10) - 1;
+            const d = parseInt(parts[2], 10);
+            const dt = new Date(y, m, d);
+            const dayStr = String(d).padStart(2, '0');
+            const monthStr = dt.toLocaleDateString('en-US', { month: 'short' });
+            const weekday = dt.toLocaleDateString('en-US', { weekday: 'long' });
+            primary.textContent = dayStr + ' ' + monthStr + ' ' + y;
+            if (sub) sub.textContent = '\u2022 ' + weekday;
+            return;
         }
     }
+    const SERVER_TODAY_ISO = '${todayDate}' || getClientTodayIso();
 
-    function onReturnDateChange() {
-        const dep = document.getElementById('departureDateInput').value;
-        const ret = document.getElementById('returnDateInput');
-        const retLabel = document.getElementById('returnDayLabel');
-        if (ret && ret.value) {
-            if (dep && ret.value < dep) {
-                ret.value = '';
-                if (retLabel) retLabel.textContent = 'Return cannot be before departure';
+    function openSearchPageCalendar(type) {
+        if (!window.SkyTechCalendar) return;
+
+        const isReturn = (type === 'return');
+        const triggerBox = isReturn ? document.getElementById('returnFieldBox') : document.getElementById('depFieldBox');
+        const inputEl = isReturn ? document.getElementById('returnDateInput') : document.getElementById('departureDateInput');
+        const primaryDisplayEl = isReturn ? document.getElementById('returnDatePrimary') : document.getElementById('departureDatePrimary');
+        const subtextDisplayEl = isReturn ? document.getElementById('returnDaySubtext') : document.getElementById('departureDaySubtext');
+
+        const depVal = document.getElementById('departureDateInput').value;
+        const minIso = isReturn ? (depVal || SERVER_TODAY_ISO) : SERVER_TODAY_ISO;
+
+        SkyTechCalendar.open(triggerBox, {
+            inputEl: inputEl,
+            primaryDisplayEl: primaryDisplayEl,
+            subtextDisplayEl: subtextDisplayEl,
+            placeholderText: isReturn ? 'Select Return' : 'Select Date',
+            minDateIso: minIso,
+            onSelect: function(selectedDateStr) {
+                if (!isReturn) {
+                    const retInput = document.getElementById('returnDateInput');
+                    if (retInput && retInput.value && retInput.value < selectedDateStr) {
+                        retInput.value = '';
+                        const retPrimary = document.getElementById('returnDatePrimary');
+                        const retSub = document.getElementById('returnDaySubtext');
+                        if (retPrimary) retPrimary.textContent = 'Select Return';
+                        if (retSub) retSub.textContent = '';
+                        if (window.showToast) {
+                            window.showToast("Return date must be on or after the departure date.", "warning", "Return Date Reset");
+                        }
+                    }
+                }
+            },
+            onClear: function() {
+                if (!isReturn) {
+                    const retInput = document.getElementById('returnDateInput');
+                    if (retInput) {
+                        retInput.value = '';
+                        const retPrimary = document.getElementById('returnDatePrimary');
+                        const retSub = document.getElementById('returnDaySubtext');
+                        if (retPrimary) retPrimary.textContent = 'Select Return';
+                        if (retSub) retSub.textContent = '';
+                    }
+                }
             }
-        }
+        });
     }
 
     function updatePassenger(type, delta) {
@@ -646,23 +851,106 @@
         if (dropdownInstance) dropdownInstance.hide();
     }
 
-    // Form submission validation
+    function selectCabinClass(className, subtext) {
+        const input = document.getElementById('travelClassInput');
+        const display = document.getElementById('travelClassDisplayText');
+        const sub = document.getElementById('travelClassSubtext');
+        if (input) input.value = className;
+        if (display) display.textContent = className;
+        if (sub) sub.textContent = subtext || '';
+
+        const items = document.querySelectorAll('#travelClassMenuList .cabin-option-item');
+        items.forEach(item => {
+            const val = item.getAttribute('data-value');
+            const check = item.querySelector('.cabin-check-icon');
+            const li = item.closest('li');
+            if (val === className) {
+                item.classList.add('active');
+                if (check) check.classList.remove('d-none');
+                if (li) li.setAttribute('aria-selected', 'true');
+            } else {
+                item.classList.remove('active');
+                if (check) check.classList.add('d-none');
+                if (li) li.setAttribute('aria-selected', 'false');
+            }
+        });
+
+        const btn = document.getElementById('travelClassDropdownBtn');
+        if (btn && window.bootstrap && bootstrap.Dropdown) {
+            const instance = bootstrap.Dropdown.getInstance(btn) || new bootstrap.Dropdown(btn);
+            if (instance) instance.hide();
+            btn.focus();
+        }
+    }
+
+    // Keyboard navigation support for cabin class options
+    document.addEventListener('keydown', function(e) {
+        const menu = document.getElementById('travelClassMenuList');
+        if (!menu || !menu.classList.contains('show')) return;
+
+        const options = Array.from(menu.querySelectorAll('.cabin-option-item'));
+        const currentIndex = options.indexOf(document.activeElement);
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIndex = (currentIndex + 1) % options.length;
+            options[nextIndex].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIndex = (currentIndex - 1 + options.length) % options.length;
+            options[prevIndex].focus();
+        } else if (e.key === 'Escape') {
+            const btn = document.getElementById('travelClassDropdownBtn');
+            if (btn && window.bootstrap && bootstrap.Dropdown) {
+                const instance = bootstrap.Dropdown.getInstance(btn);
+                if (instance) instance.hide();
+                btn.focus();
+            }
+        }
+    });
+
+    // Form submission validation (Strict Order of Verification)
     document.getElementById('flightSearchForm').addEventListener('submit', function (e) {
         const alertBox = document.getElementById('clientValidationAlert');
         const alertText = document.getElementById('clientValidationText');
-        alertBox.classList.add('d-none');
+        if (alertBox) alertBox.classList.add('d-none');
 
         const src = document.getElementById('sourceCodeInput').value;
         const dst = document.getElementById('destCodeInput').value;
         const dep = document.getElementById('departureDateInput').value;
         const tripType = document.getElementById('tripTypeInput').value;
         const ret = document.getElementById('returnDateInput').value;
+        const todayIso = SERVER_TODAY_ISO;
+
+        function showError(msg) {
+            if (alertText && alertBox) {
+                alertText.textContent = msg;
+                alertBox.classList.remove('d-none');
+                alertBox.classList.add('d-flex');
+            }
+            if (window.showToast) {
+                window.showToast(msg, "warning", "Validation Notice");
+            }
+            // Restore normal submit button state - DO NOT leave stuck in loading
+            const submitBtn = document.getElementById('btnSearchSubmit');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('disabled');
+            }
+            const submitText = document.getElementById('btnSearchText');
+            if (submitText) {
+                submitText.innerHTML = '<i class="bi bi-search me-2"></i> SEARCH FLIGHTS';
+            }
+            if (alertBox) {
+                window.scrollTo({ top: alertBox.offsetTop - 80, behavior: 'smooth' });
+            }
+            e.preventDefault();
+            return false;
+        }
 
         if (tripType === 'multi-city') {
             if (multiCitySegments.length < 2) {
-                showError('Multi-City travel requires at least 2 flight segments.');
-                e.preventDefault();
-                return;
+                return showError('Multi-City travel requires at least 2 flight segments.');
             }
             for (let i = 0; i < multiCitySegments.length; i++) {
                 const segNum = i + 1;
@@ -675,95 +963,136 @@
                 const dateVal = dateEl ? dateEl.value : '';
 
                 if (!srcVal || !dstVal) {
-                    showError('Flight ' + segNum + ': Departure and Arrival airports are required.');
-                    e.preventDefault();
-                    return;
+                    return showError('Flight ' + segNum + ': Departure and Arrival airports are required.');
                 }
                 if (srcVal.toUpperCase() === dstVal.toUpperCase()) {
-                    showError('Flight ' + segNum + ': Departure and Arrival airports cannot be the same.');
-                    e.preventDefault();
-                    return;
+                    return showError('Flight ' + segNum + ': Departure and Arrival airports cannot be the same.');
                 }
                 if (!dateVal) {
-                    showError('Flight ' + segNum + ': Flight date is required.');
-                    e.preventDefault();
-                    return;
+                    return showError('Flight ' + segNum + ': Flight date is required.');
                 }
-                const today = new Date().toISOString().split('T')[0];
-                if (dateVal < today) {
-                    showError('Flight ' + segNum + ': Departure date cannot be in the past.');
-                    e.preventDefault();
-                    return;
+                if (dateVal < todayIso) {
+                    return showError('Flight ' + segNum + ': Please select today or a future date.');
                 }
                 if (i > 0) {
                     const prevDateEl = document.getElementById('segDate_' + i);
                     if (prevDateEl && dateVal < prevDateEl.value) {
-                        showError('Flight ' + segNum + ' date cannot be before Flight ' + i + ' date.');
-                        e.preventDefault();
-                        return;
+                        return showError('Flight ' + segNum + ' date must be on or after Flight ' + i + ' date.');
                     }
                 }
             }
         } else {
             if (!src) {
-                showError('Please select a departure airport.');
-                e.preventDefault();
-                return;
+                return showError('Please select a departure airport.');
             }
 
             if (!dst) {
-                showError('Please select an arrival airport.');
-                e.preventDefault();
-                return;
+                return showError('Please select an arrival airport.');
             }
 
             if (src.toUpperCase() === dst.toUpperCase()) {
-                showError('Departure and arrival airports cannot be the same.');
-                e.preventDefault();
-                return;
+                return showError('Departure and arrival airports cannot be the same.');
             }
 
             if (!dep) {
-                showError('Please select a departure date.');
-                e.preventDefault();
-                return;
+                return showError('Please select a departure date.');
             }
 
-            const today = new Date().toISOString().split('T')[0];
-            if (dep < today) {
-                showError('Departure date cannot be in the past.');
-                e.preventDefault();
-                return;
+            if (dep < todayIso) {
+                return showError('Please select today or a future date.');
             }
 
             if (tripType === 'round-trip') {
                 if (!ret) {
-                    showError('Please select a return date for round trip.');
-                    e.preventDefault();
-                    return;
+                    return showError('Please select a return date for round trip.');
                 }
                 if (ret < dep) {
-                    showError('Return date cannot be before departure date.');
-                    e.preventDefault();
-                    return;
+                    return showError('Return date must be on or after the departure date.');
                 }
             }
         }
 
-        // Show loading spinner
-        document.getElementById('btnSearchText').textContent = 'Searching Flights...';
-        document.getElementById('btnSearchSpinner').classList.remove('d-none');
-
-        function showError(msg) {
-            alertText.textContent = msg;
-            alertBox.classList.remove('d-none');
-            alertBox.classList.add('d-flex');
-            window.scrollTo({ top: alertBox.offsetTop - 80, behavior: 'smooth' });
+        // ALL VALIDATIONS PASSED -> ONLY NOW start loading state
+        const submitBtn = document.getElementById('btnSearchSubmit');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('disabled');
+        }
+        const btnText = document.getElementById('btnSearchText');
+        if (btnText) {
+            btnText.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Searching Flights...';
         }
     });
 
-    // Run date sync on page load
-    onDepartureDateChange();
+    // Restore search button state on bfcache/pageshow
+    window.addEventListener('pageshow', function() {
+        const submitBtn = document.getElementById('btnSearchSubmit');
+        const btnText = document.getElementById('btnSearchText');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('disabled');
+        }
+        if (btnText) {
+            btnText.innerHTML = '<i class="bi bi-search me-2"></i> Search Flights';
+        }
+    });
+
+    // Run dynamic date & prefill initialization on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.SkyTechCalendar) {
+            SkyTechCalendar.init({ todayIso: SERVER_TODAY_ISO });
+        }
+        const depInput = document.getElementById('departureDateInput');
+        if (depInput && !depInput.value) {
+            depInput.value = SERVER_TODAY_ISO;
+        }
+
+        // If tripType is round-trip, ensure return container is displayed and active
+        const currentTripType = document.getElementById('tripTypeInput')?.value;
+        if (currentTripType === 'round-trip') {
+            const retContainer = document.getElementById('returnDateContainer');
+            if (retContainer) retContainer.classList.remove('d-none');
+            const retInput = document.getElementById('returnDateInput');
+            if (retInput) {
+                retInput.disabled = false;
+                retInput.setAttribute('name', 'returnDate');
+            }
+        }
+
+        // Sync airport names & subtexts from AIRPORTS_DATA if codes exist
+        const srcCode = document.getElementById('sourceCodeInput')?.value;
+        if (srcCode) {
+            const apt = AIRPORTS_DATA.find(a => a.code === srcCode);
+            if (apt) {
+                const disp = document.getElementById('fromAirportDisplay');
+                const sub = document.getElementById('fromSubtext');
+                if (disp && (!disp.value || disp.value === srcCode)) disp.value = apt.city + ' (' + apt.code + ')';
+                if (sub) sub.textContent = apt.city + ' \u2022 ' + apt.name;
+            }
+        }
+        const dstCode = document.getElementById('destCodeInput')?.value;
+        if (dstCode) {
+            const apt = AIRPORTS_DATA.find(a => a.code === dstCode);
+            if (apt) {
+                const disp = document.getElementById('toAirportDisplay');
+                const sub = document.getElementById('toSubtext');
+                if (disp && (!disp.value || disp.value === dstCode)) disp.value = apt.city + ' (' + apt.code + ')';
+                if (sub) sub.textContent = apt.city + ' \u2022 ' + apt.name;
+            }
+        }
+
+        // Sync passenger summary text
+        const aVal = parseInt(document.getElementById('adultsInput')?.value || '1', 10);
+        const cVal = parseInt(document.getElementById('childrenInput')?.value || '0', 10);
+        const iVal = parseInt(document.getElementById('infantsInput')?.value || '0', 10);
+        const pSummary = document.getElementById('passengerSummaryText');
+        if (pSummary) {
+            let summary = aVal + (aVal === 1 ? ' Adult' : ' Adults');
+            if (cVal > 0) summary += ', ' + cVal + (cVal === 1 ? ' Child' : ' Children');
+            if (iVal > 0) summary += ', ' + iVal + (iVal === 1 ? ' Infant' : ' Infants');
+            pSummary.textContent = summary;
+        }
+    });
 </script>
 
 <jsp:include page="../common/footer.jsp" />

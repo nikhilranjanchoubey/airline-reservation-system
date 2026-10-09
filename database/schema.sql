@@ -289,6 +289,24 @@ FROM (SELECT schedule_id FROM flight_schedules LIMIT 10) s
 CROSS JOIN (SELECT seat_id, seat_number FROM aircraft_seats WHERE aircraft_id = (SELECT aircraft_id FROM aircraft WHERE model_name = 'Airbus A320neo') LIMIT 60) s_seat
 ON DUPLICATE KEY UPDATE status=VALUES(status);
 
+-- 2.8 Flight Search History Table (Module 2 Search Logs)
+CREATE TABLE IF NOT EXISTS flight_searches (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NULL,
+    origin_code CHAR(3) NOT NULL,
+    destination_code CHAR(3) NOT NULL,
+    departure_date DATE NOT NULL,
+    return_date DATE NULL,
+    adults INT DEFAULT 1,
+    children INT DEFAULT 0,
+    infants INT DEFAULT 0,
+    cabin_class VARCHAR(30) DEFAULT 'ECONOMY',
+    provider VARCHAR(50) NULL,
+    searched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_searches_user (user_id),
+    INDEX idx_searches_date (searched_at)
+) ENGINE=InnoDB;
+
 
 -- ==============================================================================
 -- MODULE 3: Booking & Passenger Management

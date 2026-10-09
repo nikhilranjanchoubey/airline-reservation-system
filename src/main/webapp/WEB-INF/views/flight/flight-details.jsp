@@ -5,7 +5,7 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/navbar.jsp" />
 
-<main class="container my-4">
+<div class="details-container my-4">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
@@ -30,12 +30,13 @@
     </c:if>
 
     <c:if test="${not empty schedule}">
-        <div class="row g-4">
+        <div class="main-details-layout">
             <!-- Left Main Details Column -->
-            <div class="col-lg-8">
-                <div class="flight-details-card">
+            <main class="flight-details-main details-main-content">
+                <div class="flight-details-card mb-4">
                     <!-- Airline & Flight Header -->
-                    <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-4 gap-2">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-4 gap-3">
+                        <div class="d-flex align-items-center gap-3">
                             <c:set var="aCode" value="${schedule.flight.airline.airlineCode}" />
                             <div class="airline-logo-box" style="width: 52px; height: 52px; min-width: 52px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #e2e8f0; padding: 4px;">
                                 <c:choose>
@@ -57,6 +58,9 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                <i class="bi bi-check-circle me-1"></i>${schedule.status}
+                            </span>
                             <span class="badge ${schedule.seatsBadgeClass} badge-seats">
                                 <i class="bi bi-person-check me-1"></i> ${schedule.seatsAvailabilityText}
                             </span>
@@ -88,6 +92,7 @@
                                         </div>
                                         <div class="text-lg-end mt-2 mt-lg-0">
                                             <span class="badge bg-light text-dark border">${schedule.formattedFlightDate}</span>
+                                            <small class="text-muted d-block">${schedule.flightDayOfWeek}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +123,8 @@
                                             </div>
                                         </div>
                                         <div class="text-lg-end mt-2 mt-lg-0">
-                                            <span class="badge bg-light text-dark border">${schedule.formattedFlightDate}</span>
+                                            <span class="badge bg-light text-dark border">${schedule.formattedArrivalDate}</span>
+                                            <small class="text-muted d-block">${schedule.arrivalDayOfWeek}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +136,7 @@
                     <div class="border-top pt-4">
                         <h6 class="fw-bold text-dark text-uppercase small tracking-wide mb-3">Baggage Allowance &amp; In-Flight</h6>
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
                                     <i class="bi bi-briefcase text-primary fs-3"></i>
                                     <div>
@@ -139,12 +145,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
                                     <i class="bi bi-luggage text-primary fs-3"></i>
                                     <div>
                                         <div class="fw-bold small text-dark">Check-in Baggage</div>
                                         <div class="text-muted small">15 kg (1 piece) included in fare</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                                    <i class="bi bi-geo-alt text-primary fs-3"></i>
+                                    <div>
+                                        <div class="fw-bold small text-dark">Arrival Carousel</div>
+                                        <div class="text-muted small">${not empty schedule.baggageBelt ? ('Belt ' += schedule.baggageBelt) : 'Announced at terminal'}</div>
                                     </div>
                                 </div>
                             </div>
@@ -158,12 +173,15 @@
                         <i class="bi bi-arrow-left me-1"></i> Back to Results
                     </button>
                 </div>
-            </div>
+            </main>
 
             <!-- Right Fare Summary & Booking Handoff Column -->
-            <div class="col-lg-4">
-                <div class="flight-details-card sticky-top" style="top: 90px;">
-                    <h5 class="fw-bold text-dark mb-3">Fare Breakdown</h5>
+            <aside class="details-sticky-sidebar">
+                <div class="flight-details-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="fw-bold text-dark mb-0">Fare Breakdown</h5>
+                        <span class="badge bg-secondary-subtle text-secondary border small">Estimated fare</span>
+                    </div>
                     
                     <div class="fare-breakdown-box mb-4">
                         <div class="fare-breakdown-row">
@@ -181,7 +199,7 @@
                     </div>
 
                     <!-- Seat Map & Booking Actions -->
-                    <a href="${pageContext.request.contextPath}/seat-selection?id=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengers}"
+                    <a href="${pageContext.request.contextPath}/seat-selection?id=${schedule.scheduleId}&flightNumber=${schedule.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}"
                        class="btn btn-primary w-100 py-2 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2">
                         <i class="bi bi-grid-3x3"></i> SELECT SEAT
                     </a>
@@ -191,8 +209,24 @@
                             data-bs-toggle="modal" data-bs-target="#bookingHandoffModal">
                         Continue to Passenger Details <i class="bi bi-arrow-right"></i>
                     </button>
+
+                    <!-- Trust & Information Notes -->
+                    <div class="mt-4 pt-3 border-top small text-muted">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-shield-check text-success"></i>
+                            <span>Cancellation & refund subject to airline fare rules</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-lightning-charge text-warning"></i>
+                            <span>Instant e-ticket issuance upon booking</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-headset text-primary"></i>
+                            <span>24/7 Dedicated passenger assistance</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </aside>
         </div>
 
         <!-- Reservation Confirmation Modal -->
@@ -211,9 +245,11 @@
                         </div>
                         <h5 class="fw-bold mb-2">Ready to Book</h5>
                         <p class="text-muted small mb-3">
-                            You have selected <strong>${schedule.flight.airline.airlineName} ${schedule.flight.flightNumber}</strong> 
-                            (${schedule.flight.sourceAirport.airportCode} &rarr; ${schedule.flight.destinationAirport.airportCode}) 
-                            for ${passengers} passenger(s).
+                            Flight: <strong>${schedule.flight.airline.airlineName} ${schedule.flight.flightNumber}</strong><br>
+                            Route: <strong>${schedule.flight.sourceAirport.airportCode} &rarr; ${schedule.flight.destinationAirport.airportCode}</strong><br>
+                            Departure: <strong>${schedule.formattedFlightDate} (${schedule.flightDayOfWeek}) &bull; ${schedule.flight.formattedDepartureTime}</strong><br>
+                            Arrival: <strong>${schedule.formattedArrivalDate} (${schedule.arrivalDayOfWeek}) &bull; ${schedule.flight.formattedArrivalTime}</strong><br>
+                            Travellers: <strong>${passengers} &bull; ${travelClass}</strong>
                         </p>
                         <div class="p-3 bg-light rounded-3 text-start small text-muted">
                             <i class="bi bi-info-circle text-primary me-1"></i>
@@ -227,6 +263,6 @@
             </div>
         </div>
     </c:if>
-</main>
+</div>
 
 <jsp:include page="../common/footer.jsp" />

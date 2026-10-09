@@ -1,106 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<!-- Professional Airline Footer -->
-<footer class="skytech-footer mt-auto bg-skytech text-light pt-5 pb-4 border-top border-secondary-subtle">
+<!-- =========================================================================
+     SKYTECH — COMPACT AIRLINE RESERVATION FOOTER
+     Clean, professional, responsive, and airline-focused information architecture
+     ========================================================================= -->
+<footer class="skytech-footer mt-auto text-light border-top border-white border-opacity-10 py-4" role="contentinfo" aria-label="SkyTech Corporate and Travel Information">
     <div class="container">
-        <!-- Top Footer Brand & Value Proposition -->
-        <div class="row g-4 pb-4 mb-4 border-bottom border-secondary border-opacity-25 align-items-center">
-            <div class="col-lg-6">
+        <!-- Main Footer Navigation Grid -->
+        <div class="row g-4 pb-3">
+            <!-- Brand & Tagline Area -->
+            <div class="col-lg-4 col-md-12">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <i class="bi bi-airplane-engines-fill text-skytech-accent fs-3"></i>
-                    <span class="fs-4 fw-bold tracking-wide">SKYTECH AIRLINES</span>
+                    <i class="bi bi-airplane-engines-fill text-skytech-accent fs-4"></i>
+                    <span class="fs-4 fw-bold tracking-wide text-white">SKYTECH</span>
                 </div>
-                <p class="text-white-75 mb-0" style="max-width: 520px;">
-                    Travel smarter. Fly better. Search and compare flights with SkyTech.
+                <p class="fw-semibold text-skytech-accent mb-1 small">
+                    Travel smarter. Fly better.
+                </p>
+                <p class="text-white-50 small mb-0" style="max-width: 320px; line-height: 1.5;">
+                    Search, compare and manage your flights with SkyTech.
                 </p>
             </div>
-            <div class="col-lg-6 text-lg-end">
-                <div class="d-inline-flex flex-column align-items-lg-end gap-2">
-                    <span class="small text-white-50 text-uppercase tracking-wider">Connect With Us</span>
-                    <div class="d-flex gap-2">
-                        <span class="social-icon-btn text-white-50" title="Instagram (Official)"><i class="bi bi-instagram"></i></span>
-                        <span class="social-icon-btn text-white-50" title="Facebook (Official)"><i class="bi bi-facebook"></i></span>
-                        <span class="social-icon-btn text-white-50" title="LinkedIn (Official)"><i class="bi bi-linkedin"></i></span>
-                        <span class="social-icon-btn text-white-50" title="X (Official)"><i class="bi bi-twitter-x"></i></span>
+
+            <!-- 3 Compact Navigation Columns -->
+            <div class="col-lg-8 col-md-12">
+                <nav class="row g-3" aria-label="Footer Navigation">
+                    <!-- Column 1: BOOK & MANAGE -->
+                    <div class="col-sm-4 col-12 footer-column">
+                        <h6 class="footer-heading mb-2">BOOK &amp; MANAGE</h6>
+                        <ul class="list-unstyled footer-links mb-0 small">
+                            <li><a href="${pageContext.request.contextPath}/search-flights">Search Flights</a></li>
+                            <li><a href="${pageContext.request.contextPath}/manage-booking">Manage Booking</a></li>
+                            <li><a href="${pageContext.request.contextPath}/flight-status">Flight Status</a></li>
+                            <li><a href="${pageContext.request.contextPath}/search-flights">Flight Schedule</a></li>
+                        </ul>
                     </div>
+
+                    <!-- Column 2: TRAVEL -->
+                    <div class="col-sm-4 col-12 footer-column">
+                        <h6 class="footer-heading mb-2">TRAVEL</h6>
+                        <ul class="list-unstyled footer-links mb-0 small">
+                            <li><a href="${pageContext.request.contextPath}/travel-information">Travel Information</a></li>
+                            <li><a href="${pageContext.request.contextPath}/travel-information#baggage">Baggage Information</a></li>
+                            <li><a href="${pageContext.request.contextPath}/travel-information#documents">Travel Documents</a></li>
+                            <li><a href="${pageContext.request.contextPath}/travel-information#airports">Airport Information</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: SUPPORT -->
+                    <div class="col-sm-4 col-12 footer-column">
+                        <h6 class="footer-heading mb-2">SUPPORT</h6>
+                        <ul class="list-unstyled footer-links mb-0 small">
+                            <li><a href="${pageContext.request.contextPath}/travel-information#faqs">Help Centre</a></li>
+                            <li><a href="${pageContext.request.contextPath}/travel-information#faqs">FAQs</a></li>
+                            <li><a href="${pageContext.request.contextPath}/travel-information#help">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Subtle Divider -->
+        <hr class="border-white border-opacity-10 my-3">
+
+        <!-- Legal Links Row -->
+        <div class="row align-items-center g-2 text-center text-md-start">
+            <div class="col-md-7">
+                <div class="d-flex flex-wrap justify-content-center justify-content-md-start align-items-center gap-2 gap-md-3 small footer-legal-links text-white-50">
+                    <a href="${pageContext.request.contextPath}/travel-information#terms">Terms &amp; Conditions</a>
+                    <span class="text-white-25">&bull;</span>
+                    <a href="${pageContext.request.contextPath}/travel-information#privacy">Privacy Policy</a>
+                    <span class="text-white-25">&bull;</span>
+                    <a href="${pageContext.request.contextPath}/travel-information#cookies">Cookie Policy</a>
+                    <span class="text-white-25">&bull;</span>
+                    <a href="${pageContext.request.contextPath}/travel-information#accessibility">Accessibility</a>
+                    <span class="text-white-25">&bull;</span>
+                    <a href="${pageContext.request.contextPath}/travel-information#passenger-rights">Passenger Rights</a>
                 </div>
             </div>
-        </div>
-
-        <!-- 4 Airline Footer Columns -->
-        <div class="row g-4 footer-links-section pb-4">
-            <!-- Col 1: BOOK & TRAVEL -->
-            <div class="col-lg-3 col-md-6 footer-column">
-                <h6 class="footer-heading d-flex justify-content-between align-items-center" onclick="toggleFooterCol(this)">
-                    <span>BOOK &amp; TRAVEL</span>
-                    <i class="bi bi-chevron-down d-lg-none transition-transform"></i>
-                </h6>
-                <ul class="list-unstyled footer-links mb-0">
-                    <li><a href="${pageContext.request.contextPath}/search-flights">Search Flights</a></li>
-                    <li><a href="${pageContext.request.contextPath}/search-flights">Flight Schedule</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#popularRoutesSection">Popular Destinations</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#travelExperienceSection">Travel Offers</a></li>
-                    <li><a href="${pageContext.request.contextPath}/search-flights">Seat Selection</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 2: MANAGE YOUR TRIP -->
-            <div class="col-lg-3 col-md-6 footer-column">
-                <h6 class="footer-heading d-flex justify-content-between align-items-center" onclick="toggleFooterCol(this)">
-                    <span>MANAGE YOUR TRIP</span>
-                    <i class="bi bi-chevron-down d-lg-none transition-transform"></i>
-                </h6>
-                <ul class="list-unstyled footer-links mb-0">
-                    <li><a href="${pageContext.request.contextPath}/manage-booking">Manage Booking</a></li>
-                    <li><a href="${pageContext.request.contextPath}/flight-status">Flight Status</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information#checkin">Check-in</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information#baggage">Baggage</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information">Travel Information</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 3: ABOUT SKYTECH -->
-            <div class="col-lg-3 col-md-6 footer-column">
-                <h6 class="footer-heading d-flex justify-content-between align-items-center" onclick="toggleFooterCol(this)">
-                    <span>ABOUT SKYTECH</span>
-                    <i class="bi bi-chevron-down d-lg-none transition-transform"></i>
-                </h6>
-                <ul class="list-unstyled footer-links mb-0">
-                    <li><a href="${pageContext.request.contextPath}/home#whySkyTechSection">About SkyTech</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#travelExperienceSection">Travel Experience</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#whySkyTechSection">Careers</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#helpSection">Contact Us</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 4: HELP & SUPPORT -->
-            <div class="col-lg-3 col-md-6 footer-column">
-                <h6 class="footer-heading d-flex justify-content-between align-items-center" onclick="toggleFooterCol(this)">
-                    <span>HELP &amp; SUPPORT</span>
-                    <i class="bi bi-chevron-down d-lg-none transition-transform"></i>
-                </h6>
-                <ul class="list-unstyled footer-links mb-0">
-                    <li><a href="${pageContext.request.contextPath}/home#helpSection">Help Centre</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#helpSection">FAQs</a></li>
-                    <li><a href="${pageContext.request.contextPath}/home#helpSection">Contact Us</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information#guidelines">Terms &amp; Conditions</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information#guidelines">Privacy Policy</a></li>
-                    <li><a href="${pageContext.request.contextPath}/travel-information#guidelines">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Bottom Bar: Clean Airline Copyright -->
-        <div class="row pt-4 border-top border-secondary border-opacity-25 align-items-center">
-            <div class="col-md-8 text-center text-md-start mb-2 mb-md-0">
+            <div class="col-md-5 text-center text-md-end">
                 <p class="small text-white-50 mb-0">
-                    &copy; 2026 SkyTech Airlines. All rights reserved.
+                    &copy; <%= java.time.Year.now().getValue() %> SkyTech. All rights reserved.
                 </p>
-            </div>
-            <div class="col-md-4 text-center text-md-end">
-                <a href="${pageContext.request.contextPath}/project" class="text-white-50 text-decoration-none small hover-underline" title="Academic Evaluation Documentation">
-                    <i class="bi bi-file-earmark-code me-1"></i> Project Documentation
-                </a>
             </div>
         </div>
     </div>
@@ -116,7 +97,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<!-- Global Interactions (Sticky Navbar, Back to Top, Scroll Animations, Footer Mobile Accordions) -->
+<!-- SkyTech Reusable Toast Container & Library -->
+<div class="skytech-toast-container" id="skytech-toast-container" aria-live="polite" aria-atomic="true"></div>
+<script src="${pageContext.request.contextPath}/assets/js/skytech-toast.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/skytech-calendar.js"></script>
+
+<!-- Global Interactions (Sticky Navbar, Back to Top, Scroll Animations) -->
 <script>
     // Sticky Navbar & Back to Top Controller
     window.addEventListener('scroll', function() {
@@ -143,16 +129,6 @@
 
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Mobile Footer Accordion Toggle
-    function toggleFooterCol(headerElem) {
-        if (window.innerWidth < 992) {
-            const col = headerElem.closest('.footer-column');
-            if (col) {
-                col.classList.toggle('active');
-            }
-        }
     }
 
     // Scroll-triggered animations with IntersectionObserver

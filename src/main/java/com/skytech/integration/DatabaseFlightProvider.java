@@ -33,6 +33,11 @@ public class DatabaseFlightProvider implements FlightProvider {
     }
 
     @Override
+    public FlightSchedule getFlightDetails(int scheduleId, LocalDate targetDate) throws Exception {
+        return flightScheduleDao.getScheduleById(scheduleId, targetDate);
+    }
+
+    @Override
     public String getProviderName() {
         return "Local Database Inventory";
     }

@@ -41,7 +41,7 @@
                             ${schedule.flight.sourceAirport.city} (${schedule.flight.sourceAirport.airportCode})
                             &rarr;
                             ${schedule.flight.destinationAirport.city} (${schedule.flight.destinationAirport.airportCode})
-                            &bull; ${schedule.formattedFlightDate} &bull; ${passengers} Passenger(s)
+                            &bull; ${schedule.formattedFlightDate} (${schedule.flightDayOfWeek}) &bull; ${passengers} Passenger(s)
                         </div>
                     </div>
                 </div>
@@ -117,10 +117,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -132,10 +133,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -147,10 +149,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -165,10 +168,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -180,10 +184,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -195,10 +200,11 @@
                                         <div class="seat-cell ${s.cssClass}"
                                              data-seat="${s.seatNumber}"
                                              data-type="${s.seatType}"
+                                             data-label="${s.categoryLabel}"
                                              data-fee="${s.premiumFee}"
                                              data-status="${s.status}"
                                              onclick="toggleSeatSelection(this)"
-                                             title="Seat ${s.seatNumber}: ${s.seatType} (${s.status})">
+                                             title="Seat ${s.seatNumber}: ${s.categoryLabel} &bull; ${s.premiumFee > 0 ? ('+&#8377;' += s.premiumFee) : 'Complimentary'} (${s.status})">
                                             ${s.extraLegroom ? '⭐' : s.columnLetter}
                                         </div>
                                     </c:if>
@@ -241,8 +247,13 @@
                         <strong id="summarySeatList" class="text-dark">-</strong>
                     </div>
                     <div class="fare-breakdown-row">
-                        <span>Seat Preference Fee</span>
+                        <span>Seat Fee</span>
                         <strong id="summarySeatFee" class="text-dark">&#8377;0</strong>
+                    </div>
+                    <div class="text-end mb-2">
+                        <span class="badge bg-light text-muted border" style="font-size: 0.7rem; font-weight: 500;">
+                            Demonstration seat fee &bull; Ancillary live pricing not provided by API
+                        </span>
                     </div>
                     <div class="fare-breakdown-row">
                         <span>Airport Taxes &amp; GST (12%)</span>
@@ -261,7 +272,7 @@
                 </button>
 
                 <div class="mt-2 text-center">
-                    <a href="${pageContext.request.contextPath}/flight-details?id=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengers}"
+                    <a href="${pageContext.request.contextPath}/flight-details?id=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}"
                        class="btn btn-link btn-sm text-decoration-none text-muted">
                         &larr; Return to Flight Details
                     </a>
@@ -287,7 +298,11 @@
                     <h5 class="fw-bold mb-2">Seat Assignment Ready!</h5>
                     <p class="text-muted small mb-3">
                         Flight: <strong>${schedule.flight.airline.airlineName} ${schedule.flight.flightNumber}</strong><br>
-                        Seats: <strong id="modalSeatsAssigned" class="text-primary">-</strong>
+                        Route: <strong>${schedule.flight.sourceAirport.airportCode} &rarr; ${schedule.flight.destinationAirport.airportCode}</strong><br>
+                        Departure: <strong>${schedule.formattedFlightDate} (${schedule.flightDayOfWeek}) &bull; ${schedule.flight.formattedDepartureTime}</strong><br>
+                        Arrival: <strong>${schedule.formattedArrivalDate} (${schedule.arrivalDayOfWeek}) &bull; ${schedule.flight.formattedArrivalTime}</strong><br>
+                        Seats: <strong id="modalSeatsAssigned" class="text-primary">-</strong><br>
+                        Cabin: <strong>${travelClass}</strong>
                     </p>
                     <div class="p-3 bg-light rounded-3 text-start small text-muted">
                         <i class="bi bi-info-circle text-primary me-1"></i>
@@ -316,6 +331,7 @@
         const seatNum = el.getAttribute('data-seat');
         const fee = parseFloat(el.getAttribute('data-fee')) || 0;
         const type = el.getAttribute('data-type');
+        const label = el.getAttribute('data-label') || type || 'Standard';
 
         const index = selectedSeats.findIndex(s => s.number === seatNum);
 
@@ -323,15 +339,28 @@
             // Deselect
             selectedSeats.splice(index, 1);
             el.classList.remove('seat-selected');
+            if (typeof window.showToast === 'function') {
+                window.showToast('Seat ' + seatNum + ' removed.', 'info');
+            }
         } else {
-            // Check if already reached max passengers
+            // Check if already reached max passengers - NEVER use alert()
             if (selectedSeats.length >= MAX_PASSENGERS) {
-                alert('You have already selected ' + MAX_PASSENGERS + ' seat(s) for ' + MAX_PASSENGERS + ' passenger(s). Deselect a seat first to choose a different one.');
+                if (typeof window.showToast === 'function') {
+                    if (MAX_PASSENGERS === 1) {
+                        window.showToast('1 seat already selected. Deselect it before choosing another seat.', 'warning');
+                    } else {
+                        window.showToast('You have already selected the maximum number of seats (' + MAX_PASSENGERS + '). Deselect a seat first.', 'warning');
+                    }
+                }
                 return;
             }
             // Select
-            selectedSeats.push({ number: seatNum, fee: fee, type: type });
+            selectedSeats.push({ number: seatNum, fee: fee, type: type, label: label });
             el.classList.add('seat-selected');
+            if (typeof window.showToast === 'function') {
+                const feeText = fee > 0 ? ' (+\u20B9' + fee.toLocaleString('en-IN') + ')' : ' (Complimentary)';
+                window.showToast('Seat ' + seatNum + ' (' + label + ')' + feeText + ' selected.', 'success');
+            }
         }
 
         updateSeatSummary();
@@ -360,27 +389,27 @@
 
         chipsContainer.innerHTML = '';
         let totalFee = 0;
-        let seatNames = [];
+        let seatDetails = [];
 
         selectedSeats.forEach(s => {
             totalFee += s.fee;
-            seatNames.push(s.number);
+            seatDetails.push(s.number + (s.fee > 0 ? ' (+\u20B9' + s.fee.toLocaleString('en-IN') + ')' : ''));
 
             const chip = document.createElement('span');
             chip.className = 'badge bg-primary px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1';
-            chip.innerHTML = '<i class="bi bi-grid me-1"></i> Seat ' + s.number + 
-                (s.fee > 0 ? ' (+\u20B9' + s.fee + ')' : '') +
-                ' <span style="cursor:pointer; margin-left: 4px;" onclick="removeSeatByNumber(\'' + s.number + '\')">&times;</span>';
+            chip.innerHTML = '<i class="bi bi-grid me-1"></i> Seat ' + s.number + ' &bull; ' + s.label + 
+                (s.fee > 0 ? ' (+\u20B9' + s.fee.toLocaleString('en-IN') + ')' : ' (Free)') +
+                ' <span style="cursor:pointer; margin-left: 6px; font-size: 1.1rem; line-height: 1;" onclick="removeSeatByNumber(\'' + s.number + '\')" title="Remove seat">&times;</span>';
             chipsContainer.appendChild(chip);
         });
 
-        summarySeats.textContent = seatNames.join(', ');
+        summarySeats.textContent = selectedSeats.map(s => s.number).join(', ');
         summaryFee.textContent = '\u20B9' + totalFee.toLocaleString('en-IN');
         const totalWithSeats = baseFare + totalFee;
         const taxes = Math.round(totalWithSeats * 0.12);
         if (summaryTaxes) summaryTaxes.textContent = '\u20B9' + taxes.toLocaleString('en-IN');
         summaryTotal.textContent = '\u20B9' + (totalWithSeats + taxes).toLocaleString('en-IN');
-        modalSeats.textContent = seatNames.join(', ');
+        modalSeats.textContent = selectedSeats.map(s => s.number + ' (' + s.label + ')').join(', ');
     }
 
     function removeSeatByNumber(seatNum) {

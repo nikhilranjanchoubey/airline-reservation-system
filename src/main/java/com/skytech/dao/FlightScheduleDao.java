@@ -92,6 +92,10 @@ public class FlightScheduleDao {
      * @throws SQLException on database error
      */
     public FlightSchedule getScheduleById(int scheduleId) throws SQLException {
+        return getScheduleById(scheduleId, null);
+    }
+
+    public FlightSchedule getScheduleById(int scheduleId, LocalDate targetDate) throws SQLException {
         String sql = "SELECT " +
                 "  s.schedule_id, s.flight_id, s.flight_date, s.base_price, s.economy_price, " +
                 "  s.premium_economy_price, s.business_price, s.first_class_price, " +
@@ -116,14 +120,18 @@ public class FlightScheduleDao {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return mapResultSetToSchedule(rs);
+                    FlightSchedule fs = mapResultSetToSchedule(rs);
+                    if (targetDate != null) {
+                        fs.setFlightDate(Date.valueOf(targetDate));
+                    }
+                    return fs;
                 }
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Database query not reachable or failed for scheduleId [" + scheduleId + "]. Falling back: " + e.getMessage());
         }
 
-        return getFallbackDemoScheduleById(scheduleId);
+        return getFallbackDemoScheduleById(scheduleId, targetDate);
     }
 
     private FlightSchedule mapResultSetToSchedule(ResultSet rs) throws SQLException {
@@ -201,19 +209,21 @@ public class FlightScheduleDao {
         return filtered;
     }
 
-    private FlightSchedule getFallbackDemoScheduleById(int scheduleId) {
-        List<FlightSchedule> allDemo = buildAllDemoSchedules(LocalDate.now().plusDays(3));
+    private FlightSchedule getFallbackDemoScheduleById(int scheduleId, LocalDate targetDate) {
+        LocalDate effectiveDate = (targetDate != null) ? targetDate : LocalDate.now(java.time.ZoneId.of("Asia/Kolkata"));
+        List<FlightSchedule> allDemo = buildAllDemoSchedules(effectiveDate);
         for (FlightSchedule fs : allDemo) {
             if (fs.getScheduleId() == scheduleId) {
                 return fs;
             }
         }
-        return !allDemo.isEmpty() ? allDemo.get(0) : null;
+        return null;
     }
 
-    private List<FlightSchedule> buildAllDemoSchedules(LocalDate date) {
+    public List<FlightSchedule> buildAllDemoSchedules(LocalDate date) {
         List<FlightSchedule> list = new ArrayList<>();
-        java.sql.Date fDate = (date != null) ? java.sql.Date.valueOf(date) : java.sql.Date.valueOf(LocalDate.now().plusDays(2));
+        LocalDate effectiveDate = (date != null) ? date : LocalDate.now(java.time.ZoneId.of("Asia/Kolkata"));
+        java.sql.Date fDate = java.sql.Date.valueOf(effectiveDate);
 
         // Airports
         Airport jai = new Airport(1, "JAI", "Jaipur International Airport", "Jaipur", "India", "Terminal 2");

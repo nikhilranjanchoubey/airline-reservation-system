@@ -17,6 +17,8 @@ public class AirlineLogoUtil {
             case "UK":
             case "SG":
                 return contextPath + "/assets/images/airlines/" + code + ".svg";
+            case "IX":
+                return contextPath + "/assets/images/airlines/AI.svg";
             default:
                 return null;
         }

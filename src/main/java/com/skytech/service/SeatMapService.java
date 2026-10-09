@@ -26,4 +26,11 @@ public class SeatMapService {
     public List<Seat> getSeatMapForSchedule(int scheduleId) {
         return seatDao.getSeatsForSchedule(scheduleId);
     }
+
+    /**
+     * Retrieves cabin seats priced according to carrier ancillary rules.
+     */
+    public List<Seat> getSeatMapForSchedule(int scheduleId, String airlineCode) {
+        return seatDao.getSeatsForSchedule(scheduleId, airlineCode);
+    }
 }

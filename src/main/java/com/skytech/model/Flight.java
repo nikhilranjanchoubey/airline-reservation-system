@@ -167,4 +167,41 @@ public class Flight implements Serializable {
             return stops + " stops";
         }
     }
+
+    private String departureTerminal;
+    private String arrivalTerminal;
+    private String baggageBelt;
+    private String status;
+
+    public String getDepartureTerminal() {
+        return departureTerminal != null ? departureTerminal : (sourceAirport != null ? sourceAirport.getTerminal() : "Terminal 1");
+    }
+
+    public void setDepartureTerminal(String departureTerminal) {
+        this.departureTerminal = departureTerminal;
+    }
+
+    public String getArrivalTerminal() {
+        return arrivalTerminal != null ? arrivalTerminal : (destinationAirport != null ? destinationAirport.getTerminal() : "Terminal 1");
+    }
+
+    public void setArrivalTerminal(String arrivalTerminal) {
+        this.arrivalTerminal = arrivalTerminal;
+    }
+
+    public String getBaggageBelt() {
+        return baggageBelt;
+    }
+
+    public void setBaggageBelt(String baggageBelt) {
+        this.baggageBelt = baggageBelt;
+    }
+
+    public String getStatus() {
+        return status != null ? status : "Scheduled";
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

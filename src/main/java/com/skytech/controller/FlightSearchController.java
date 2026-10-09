@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +27,7 @@ import java.util.logging.Logger;
 public class FlightSearchController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static final ZoneId APP_ZONE_ID = ZoneId.of("Asia/Kolkata");
     private static final Logger LOGGER = Logger.getLogger(FlightSearchController.class.getName());
 
     private FlightSearchService flightSearchService;
@@ -48,16 +53,70 @@ public class FlightSearchController extends HttpServlet {
         String tripType = request.getParameter("tripType");
         String segSource1 = request.getParameter("segSource_1");
 
-        // If no search query parameters were submitted, show the clean search form page
-        if (source == null && destination == null && departureDateStr == null && segSource1 == null) {
-            request.setAttribute("pageTitle", "Search Flights - SkyTech");
-            request.setAttribute("tripType", "one-way");
-            request.setAttribute("adults", 1);
-            request.setAttribute("children", 0);
-            request.setAttribute("infants", 0);
-            request.setAttribute("passengers", 1);
-            request.setAttribute("travelClass", "Economy");
-            request.setAttribute("minDate", LocalDate.now().toString());
+        String modifyParam = request.getParameter("modify");
+        String editParam = request.getParameter("edit");
+        String actionParam = request.getParameter("action");
+        boolean isModify = "true".equalsIgnoreCase(modifyParam)
+                        || "true".equalsIgnoreCase(editParam)
+                        || "modify".equalsIgnoreCase(actionParam);
+
+        // If user requested to modify the search OR no search query parameters were submitted, show the search form
+        if (isModify || (source == null && destination == null && departureDateStr == null && segSource1 == null)) {
+            LocalDate today = LocalDate.now(APP_ZONE_ID);
+            request.setAttribute("pageTitle", isModify ? "Modify Flight Search - SkyTech" : "Search Flights - SkyTech");
+
+            String effectiveTripType = (tripType != null && !tripType.trim().isEmpty()) ? tripType.trim() : "one-way";
+            request.setAttribute("tripType", effectiveTripType);
+
+            request.setAttribute("selectedSource", source != null ? source.trim() : null);
+            request.setAttribute("selectedDestination", destination != null ? destination.trim() : null);
+
+            Airport sourceAirport = (source != null && !source.trim().isEmpty()) ? flightSearchService.getAirportByCode(source.trim()) : null;
+            Airport destAirport = (destination != null && !destination.trim().isEmpty()) ? flightSearchService.getAirportByCode(destination.trim()) : null;
+            request.setAttribute("sourceAirport", sourceAirport);
+            request.setAttribute("destAirport", destAirport);
+
+            request.setAttribute("selectedDepartureDate", departureDateStr != null ? departureDateStr.trim() : null);
+            String returnDateStr = request.getParameter("returnDate");
+            request.setAttribute("selectedReturnDate", returnDateStr != null ? returnDateStr.trim() : null);
+
+            if (departureDateStr != null && !departureDateStr.trim().isEmpty()) {
+                try {
+                    LocalDate dep = LocalDate.parse(departureDateStr.trim());
+                    request.setAttribute("formattedDepartureDate", dep.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH)));
+                    request.setAttribute("departureDayOfWeek", dep.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+                } catch (Exception ignored) {}
+            }
+
+            if (returnDateStr != null && !returnDateStr.trim().isEmpty()) {
+                try {
+                    LocalDate ret = LocalDate.parse(returnDateStr.trim());
+                    request.setAttribute("formattedReturnDate", ret.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH)));
+                    request.setAttribute("returnDayOfWeek", ret.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+                } catch (Exception ignored) {}
+            }
+
+            int adults = parseInteger(request.getParameter("adults"), 1);
+            int children = parseInteger(request.getParameter("children"), 0);
+            int infants = parseInteger(request.getParameter("infants"), 0);
+            int passengers = Math.max(1, adults + children + infants);
+
+            request.setAttribute("adults", adults);
+            request.setAttribute("children", children);
+            request.setAttribute("infants", infants);
+            request.setAttribute("passengers", passengers);
+
+            String travelClass = request.getParameter("travelClass");
+            if (travelClass == null || travelClass.trim().isEmpty()) {
+                travelClass = "Economy";
+            }
+            request.setAttribute("travelClass", travelClass);
+
+            request.setAttribute("minDate", today.toString());
+            request.setAttribute("todayDate", today.toString());
+            request.setAttribute("today", today.toString());
+            request.setAttribute("todayFormatted", today.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH)));
+            request.setAttribute("todayDayOfWeek", today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
             request.getRequestDispatcher("/WEB-INF/views/flight/flight-search.jsp").forward(request, response);
             return;
         }
@@ -76,6 +135,7 @@ public class FlightSearchController extends HttpServlet {
     private void processFlightSearch(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        LocalDate today = LocalDate.now(APP_ZONE_ID);
         String source = request.getParameter("source");
         String destination = request.getParameter("destination");
         String departureDateStr = request.getParameter("departureDate");
@@ -147,7 +207,11 @@ public class FlightSearchController extends HttpServlet {
         request.setAttribute("infants", infants);
         request.setAttribute("passengers", passengers);
         request.setAttribute("travelClass", travelClass);
-        request.setAttribute("minDate", LocalDate.now().toString());
+        request.setAttribute("minDate", today.toString());
+        request.setAttribute("todayDate", today.toString());
+        request.setAttribute("today", today.toString());
+        request.setAttribute("todayFormatted", today.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH)));
+        request.setAttribute("todayDayOfWeek", today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
         request.setAttribute("multiSegments", multiSegments);
 
         // Server-side validation
@@ -168,24 +232,115 @@ public class FlightSearchController extends HttpServlet {
 
         // Execute search using active provider (Amadeus or Local Database)
         LocalDate departureDate = LocalDate.parse(departureDateStr.trim());
+        String formattedDepartureDate = departureDate.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH));
+        String departureDayOfWeek = departureDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        request.setAttribute("formattedDepartureDate", formattedDepartureDate);
+        request.setAttribute("departureDayOfWeek", departureDayOfWeek);
+
+        if (returnDateStr != null && !returnDateStr.trim().isEmpty()) {
+            try {
+                LocalDate returnDate = LocalDate.parse(returnDateStr.trim());
+                request.setAttribute("formattedReturnDate", returnDate.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH)));
+                request.setAttribute("returnDayOfWeek", returnDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+            } catch (Exception ignored) {}
+        }
+
         List<FlightSchedule> flights = null;
+        String apiError = null;
         String dbError = null;
+
+        com.skytech.model.FlightSearchRequest searchReq = new com.skytech.model.FlightSearchRequest();
+        searchReq.setOrigin(source);
+        searchReq.setDestination(destination);
+        searchReq.setDepartureDate(departureDate);
+        if (returnDateStr != null && !returnDateStr.trim().isEmpty()) {
+            try {
+                searchReq.setReturnDate(LocalDate.parse(returnDateStr.trim()));
+            } catch (Exception ignored) {}
+        }
+        searchReq.setAdults(adults);
+        searchReq.setChildren(children);
+        searchReq.setInfants(infants);
+        searchReq.setCabinClass(travelClass);
+        searchReq.setTripType(tripType);
+
+        Object sessionUserId = request.getSession().getAttribute("userId");
+        if (sessionUserId instanceof Long) {
+            searchReq.setUserId((Long) sessionUserId);
+        } else if (sessionUserId instanceof Integer) {
+            searchReq.setUserId(((Integer) sessionUserId).longValue());
+        }
 
         try {
             flights = flightSearchService.searchFlights(source, destination, departureDate, passengers, travelClass);
+        } catch (com.skytech.api.ApiException ae) {
+            LOGGER.log(Level.WARNING, "Flight provider API error: " + ae.getMessage());
+            int code = ae.getStatusCode();
+            if (code == 429) {
+                apiError = "Flight search request limit reached. Please try again shortly.";
+            } else if (code == 401 || code == 403) {
+                apiError = "Flight service authentication failed. Please try again later.";
+            } else {
+                apiError = "We couldn't retrieve flights for this route right now. Please try again.";
+            }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Flight search error querying flight provider", e);
-            dbError = "Unable to connect to the database. Please verify MySQL is running and local credentials in src/main/resources/db.properties are configured.";
+            apiError = "We couldn't retrieve flights for this route right now. Please try again.";
+        }
+
+        if (flights != null) {
+            apiError = null; // Clean search result succeeded (either with results or 0 matching flights)
+        }
+
+        // Asynchronously/fail-soft record search query in MySQL
+        try {
+            flightSearchService.recordSearchHistory(searchReq, flightSearchService.getActiveProvider().getProviderName());
+        } catch (Exception e) {
+            LOGGER.log(Level.FINE, "Search history recording skipped on DB error", e);
         }
 
         Airport sourceAirport = flightSearchService.getAirportByCode(source);
         Airport destinationAirport = flightSearchService.getAirportByCode(destination);
+
+        // Compute available airlines and actual price range from result set
+        java.util.Map<String, String> availableAirlines = new java.util.LinkedHashMap<>();
+        double minPrice = Double.MAX_VALUE;
+        double maxPrice = 0.0;
+        if (flights != null) {
+            for (com.skytech.model.FlightSchedule fs : flights) {
+                if (fs.getFlight() != null && fs.getFlight().getAirline() != null) {
+                    availableAirlines.put(fs.getFlight().getAirline().getAirlineCode(), fs.getFlight().getAirline().getAirlineName());
+                }
+                java.math.BigDecimal pBd = fs.getPriceForClass(travelClass);
+                if (pBd != null) {
+                    double p = pBd.doubleValue();
+                    if (p > 0) {
+                        if (p < minPrice) minPrice = p;
+                        if (p > maxPrice) maxPrice = p;
+                    }
+                }
+            }
+        }
+        if (maxPrice == 0.0) {
+            minPrice = 2000;
+            maxPrice = 15000;
+        }
+
+        int minFilter = (int) (Math.floor(minPrice / 100.0) * 100);
+        int maxFilter = (int) (Math.ceil(maxPrice / 100.0) * 100);
+        if (maxFilter <= minFilter) {
+            maxFilter = minFilter + 500;
+        }
 
         request.setAttribute("pageTitle", "Flight Results - SkyTech");
         request.setAttribute("flights", flights);
         request.setAttribute("flightCount", flights != null ? flights.size() : 0);
         request.setAttribute("sourceAirport", sourceAirport);
         request.setAttribute("destinationAirport", destinationAirport);
+        request.setAttribute("availableAirlines", availableAirlines);
+        request.setAttribute("minFilterPrice", minFilter);
+        request.setAttribute("maxFilterPrice", maxFilter);
+        request.setAttribute("apiError", apiError);
         request.setAttribute("dbError", dbError);
         request.setAttribute("isLiveProvider", flightSearchService.getActiveProvider().isLive());
         request.setAttribute("providerName", flightSearchService.getActiveProvider().getProviderName());

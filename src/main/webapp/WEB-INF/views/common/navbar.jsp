@@ -10,14 +10,11 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-skytech sticky-top" id="skyTechMainNavbar">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="${pageContext.request.contextPath}/home" aria-label="SkyTech Airlines Homepage">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="${pageContext.request.contextPath}/home" aria-label="SkyTech Homepage">
             <span class="brand-icon-wrapper">
                 <i class="bi bi-airplane-engines-fill text-skytech-accent fs-4"></i>
             </span>
-            <div class="d-flex flex-column lh-1">
-                <span class="fw-bold tracking-wide fs-4 text-white">SKYTECH</span>
-                <span class="small text-white-50 tracking-wider" style="font-size: 0.65rem; letter-spacing: 0.18em;">AIRLINES</span>
-            </div>
+            <span class="fw-bold tracking-wide fs-4 text-white">SKYTECH</span>
         </a>
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#skyTechNavbar"

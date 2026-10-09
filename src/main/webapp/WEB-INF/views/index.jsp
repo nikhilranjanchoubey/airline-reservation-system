@@ -12,7 +12,7 @@
         <div class="container py-3">
             <div class="text-center mb-4">
                 <span class="badge bg-light text-primary fw-bold text-uppercase px-3 py-2 mb-2 rounded-pill tracking-wide shadow-sm">
-                    <i class="bi bi-airplane-engines me-1"></i> SkyTech Airlines &bull; Premier Booking Engine
+                    <i class="bi bi-airplane-engines me-1"></i> SkyTech &bull; Premier Booking Engine
                 </span>
                 <h1 class="display-4 fw-bold mb-2">Travel smarter with SkyTech</h1>
                 <p class="lead text-white-75 mb-0">Search. Compare. Fly.</p>
@@ -127,28 +127,47 @@
 
                             <!-- DEPARTURE DATE -->
                             <div class="col-lg-3 col-md-6" id="depCol">
-                                <div class="search-field-box">
-                                    <label for="departureDateInput" class="field-label">
+                                <div class="search-field-box date-picker-box position-relative" id="depFieldBox"
+                                     onclick="openHomepageCalendar('departure')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHomepageCalendar('departure');}"
+                                     role="button" tabindex="0" aria-label="Departure Date Picker">
+                                    <label class="field-label mb-1" style="pointer-events: none;">
                                         <i class="bi bi-calendar-event text-primary"></i> DEPARTURE
                                     </label>
-                                    <input type="date" class="form-control field-input" id="departureDateInput" name="departureDate"
-                                           min="<%= java.time.LocalDate.now() %>"
-                                           value="<%= java.time.LocalDate.now().plusDays(2) %>" required
-                                           onchange="onDepartureDateChange()">
-                                    <small class="text-muted d-block" id="departureDayLabel">Select date</small>
+                                    <div class="date-custom-display d-flex align-items-center justify-content-between" id="departureDateDisplay">
+                                        <div class="d-flex align-items-baseline gap-2">
+                                            <span class="date-main-text" id="departureDatePrimary">
+                                                <c:choose>
+                                                    <c:when test="${not empty todayFormatted}">${todayFormatted}</c:when>
+                                                    <c:otherwise>Select Date</c:otherwise>
+                                                </c:choose>
+                                            </span>
+                                            <span class="date-sub-text" id="departureDaySubtext">
+                                                <c:if test="${not empty todayDayOfWeek}">&bull; ${todayDayOfWeek}</c:if>
+                                            </span>
+                                        </div>
+                                        <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                    </div>
+                                    <input type="hidden" id="departureDateInput" name="departureDate"
+                                           value="${not empty todayDate ? todayDate : minDate}">
                                 </div>
                             </div>
 
                             <!-- RETURN DATE (Hidden by default in One Way) -->
                             <div class="col-lg-2 col-md-6 d-none" id="returnDateContainer">
-                                <div class="search-field-box" id="returnFieldBox">
-                                    <label for="returnDateInput" class="field-label">
+                                <div class="search-field-box date-picker-box position-relative" id="returnFieldBox"
+                                     onclick="openHomepageCalendar('return')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHomepageCalendar('return');}"
+                                     role="button" tabindex="0" aria-label="Return Date Picker">
+                                    <label class="field-label mb-1" style="pointer-events: none;">
                                         <i class="bi bi-calendar2-check text-primary" id="returnIcon"></i> RETURN
                                     </label>
-                                    <input type="date" class="form-control field-input" id="returnDateInput"
-                                           min="<%= java.time.LocalDate.now().plusDays(2) %>"
-                                           value="" disabled>
-                                    <small class="text-muted d-block" id="returnDayLabel">Select return date</small>
+                                    <div class="date-custom-display d-flex align-items-center justify-content-between" id="returnDateDisplay">
+                                        <div class="d-flex align-items-baseline gap-2">
+                                            <span class="date-main-text" id="returnDatePrimary">Select Return</span>
+                                            <span class="date-sub-text" id="returnDaySubtext"></span>
+                                        </div>
+                                        <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                    </div>
+                                    <input type="hidden" id="returnDateInput" name="returnDate" value="" disabled>
                                 </div>
                             </div>
                         </div>
@@ -245,16 +264,100 @@
 
                         <!-- Cabin Class Selector -->
                         <div class="col-lg-4 col-md-6">
-                            <div class="search-field-box">
-                                <label for="travelClassSelect" class="field-label">
+                            <div class="search-field-box dropdown position-relative" id="homeCabinClassBoxContainer">
+                                <label id="homeTravelClassDropdownLabel" class="field-label">
                                     <i class="bi bi-award-fill text-primary"></i> CABIN CLASS
                                 </label>
-                                <select class="form-select field-input fw-bold" id="travelClassSelect" name="travelClass">
-                                    <option value="Economy" selected>Economy &mdash; Standard comfort</option>
-                                    <option value="Premium Economy">Premium Economy &mdash; Extra legroom &amp; perks</option>
-                                    <option value="Business">Business &mdash; Spacious seating &amp; priority</option>
-                                    <option value="First Class">First Class &mdash; Luxury suite &amp; dining</option>
-                                </select>
+                                <button type="button" 
+                                        class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center cabin-class-btn"
+                                        id="travelClassDropdownBtn" 
+                                        data-bs-toggle="dropdown" 
+                                        aria-expanded="false" 
+                                        aria-haspopup="listbox" 
+                                        aria-labelledby="homeTravelClassDropdownLabel travelClassDropdownBtn">
+                                    <span class="d-flex flex-column text-truncate">
+                                        <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark">Economy</span>
+                                        <small id="travelClassSubtext" class="text-muted text-truncate" style="font-size: 0.75rem;">Standard seating &amp; best value fares</small>
+                                    </span>
+                                    <i class="bi bi-chevron-down text-muted small ms-2 cabin-chevron"></i>
+                                </button>
+
+                                <ul class="dropdown-menu cabin-class-dropdown-menu shadow-lg p-2" 
+                                    id="travelClassMenuList"
+                                    aria-labelledby="travelClassDropdownBtn"
+                                    role="listbox">
+                                    <li role="option" aria-selected="true">
+                                        <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between active" 
+                                                data-value="Economy"
+                                                data-subtext="Standard seating &amp; best value fares"
+                                                onclick="selectCabinClass('Economy', 'Standard seating &amp; best value fares')">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="cabin-icon-box text-primary">
+                                                    <i class="bi bi-person-fill"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold cabin-option-title">Economy</div>
+                                                    <small class="text-muted d-block cabin-option-sub">Standard seating &amp; best value fares</small>
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon"></i>
+                                        </button>
+                                    </li>
+                                    <li role="option" aria-selected="false">
+                                        <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
+                                                data-value="Premium Economy"
+                                                data-subtext="Extra legroom &amp; priority boarding"
+                                                onclick="selectCabinClass('Premium Economy', 'Extra legroom &amp; priority boarding')">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="cabin-icon-box text-primary">
+                                                    <i class="bi bi-gem"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold cabin-option-title">Premium Economy</div>
+                                                    <small class="text-muted d-block cabin-option-sub">Extra legroom &amp; priority boarding</small>
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
+                                        </button>
+                                    </li>
+                                    <li role="option" aria-selected="false">
+                                        <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
+                                                data-value="Business"
+                                                data-subtext="Spacious seating &amp; gourmet dining"
+                                                onclick="selectCabinClass('Business', 'Spacious seating &amp; gourmet dining')">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="cabin-icon-box text-primary">
+                                                    <i class="bi bi-briefcase-fill"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold cabin-option-title">Business</div>
+                                                    <small class="text-muted d-block cabin-option-sub">Spacious seating &amp; gourmet dining</small>
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
+                                        </button>
+                                    </li>
+                                    <li role="option" aria-selected="false">
+                                        <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
+                                                data-value="First Class"
+                                                data-subtext="Luxury private suite &amp; personal care"
+                                                onclick="selectCabinClass('First Class', 'Luxury private suite &amp; personal care')">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="cabin-icon-box text-primary">
+                                                    <i class="bi bi-stars"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold cabin-option-title">First Class</div>
+                                                    <small class="text-muted d-block cabin-option-sub">Luxury private suite &amp; personal care</small>
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <!-- Hidden form input ensuring correct parameter submission -->
+                                <input type="hidden" name="travelClass" id="travelClassInput" value="Economy">
                             </div>
                         </div>
 
@@ -279,10 +382,10 @@
             <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
                 <div>
                     <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 mb-2 rounded-pill">
-                        Trending Deals
+                        Featured Routes
                     </span>
                     <h2 class="fw-bold mb-1">Popular Destinations</h2>
-                    <p class="text-muted small mb-0">Explore India's favourite routes with verified flight availability</p>
+                    <p class="text-muted small mb-0">Explore popular routes and discover your next destination.</p>
                 </div>
                 <a href="${pageContext.request.contextPath}/search-flights" class="btn btn-outline-primary btn-sm rounded-pill px-3">
                     View All Schedules &rarr;
@@ -295,10 +398,17 @@
                         <c:forEach items="${popularDeals}" var="deal">
                             <div class="destination-deal-card" onclick="window.location.href='${pageContext.request.contextPath}/search-flights?tripType=one-way&source=${deal.sourceCode}&destination=${deal.destinationCode}&departureDate=${deal.searchDate}&adults=1&travelClass=Economy'">
                                 <div class="destination-img-wrapper">
-                                    <img src="${deal.imageUrl}" 
-                                         alt="${deal.sourceCity} to ${deal.destinationCity}" class="destination-img" loading="lazy"
-                                         onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/destination-fallback.svg';">
-                                    <span class="destination-badge-tag"><i class="bi bi-airplane-fill text-info me-1"></i>${deal.tag}</span>
+                                    <img src="${pageContext.request.contextPath}/${deal.imageUrl}" 
+                                         alt="${deal.imageAlt}" class="destination-img" loading="lazy"
+                                         onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/destinations/default.jpg';">
+                                    <c:choose>
+                                        <c:when test="${deal.dailyShuffle}">
+                                            <span class="destination-badge-tag badge-daily-shuffle"><i class="bi bi-shuffle me-1"></i>Daily Shuffle</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="destination-badge-tag"><i class="bi bi-airplane-fill text-skytech-accent me-1"></i>${deal.tag}</span>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="p-4 d-flex flex-column flex-grow-1">
                                     <span class="text-uppercase small fw-bold text-muted mb-1" style="font-size: 0.75rem; letter-spacing: 0.05em;">${deal.sourceCode} &bull; ${deal.destinationCode}</span>
@@ -308,13 +418,14 @@
                                     <div class="mt-auto border-top pt-3">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div>
-                                                <span class="text-muted d-block" style="font-size: 0.75rem;">From</span>
                                                 <c:choose>
                                                     <c:when test="${not empty deal.formattedPrice}">
+                                                        <span class="text-muted d-block" style="font-size: 0.75rem;">From</span>
                                                         <span class="fs-4 fw-bold text-primary">&#8377;${deal.formattedPrice}</span>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="small text-muted fw-semibold">No flights currently available</span>
+                                                        <span class="text-muted d-block" style="font-size: 0.75rem;">Fares</span>
+                                                        <span class="small text-muted fw-semibold">Check availability</span>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
@@ -572,40 +683,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         7. NEWSLETTER / APP CTA BANNER
-         ========================================================================= -->
-    <section class="py-5 fade-in-on-scroll" id="newsletterSection">
-        <div class="container py-2">
-            <div class="newsletter-banner text-center text-md-start">
-                <div class="row align-items-center g-4">
-                    <div class="col-lg-7">
-                        <span class="badge bg-white-subtle text-light border border-light-subtle px-3 py-1 rounded-pill mb-2 small text-uppercase tracking-wider">
-                            SkyTech Updates
-                        </span>
-                        <h2 class="display-6 fw-bold mb-2">Ready for Takeoff?</h2>
-                        <p class="lead text-white-75 mb-0" style="font-size: 1.1rem;">
-                            Get seasonal fare discount alerts, new route additions, and transparent aviation updates directly to your inbox.
-                        </p>
-                    </div>
-                    <div class="col-lg-5">
-                        <form id="newsletterForm" onsubmit="return handleNewsletterSubmit(event)">
-                            <div class="input-group input-group-lg shadow-sm">
-                                <input type="email" class="form-control rounded-start-pill ps-4 border-0" id="newsletterEmailInput"
-                                       placeholder="Enter your email address" required aria-label="Email address for SkyTech newsletter">
-                                <button class="btn btn-skytech-accent rounded-end-pill px-4" type="submit">
-                                    Subscribe
-                                </button>
-                            </div>
-                            <div id="newsletterSuccessMsg" class="d-none text-info mt-2 small">
-                                <i class="bi bi-check-circle-fill me-1"></i> You're subscribed to SkyTech updates! Thank you for joining.
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
 
 
@@ -713,15 +791,18 @@
             if (depCol) depCol.className = 'col-lg-3 col-md-6';
             if (retContainer) retContainer.className = 'col-lg-2 col-md-6';
 
-            const depDate = document.getElementById('departureDateInput').value;
+            const depDate = document.getElementById('departureDateInput').value || getClientTodayIso();
             if (depDate) {
                 retInput.min = depDate;
                 if (!retInput.value || retInput.value < depDate) {
-                    const d = new Date(depDate);
+                    const d = parseIsoParts(depDate) || new Date();
                     d.setDate(d.getDate() + 3);
-                    retInput.value = d.toISOString().split('T')[0];
+                    const ry = d.getFullYear();
+                    const rm = String(d.getMonth() + 1).padStart(2, '0');
+                    const rd = String(d.getDate()).padStart(2, '0');
+                    retInput.value = `${ry}-${rm}-${rd}`;
                 }
-                formatDayLabel(retInput.value, 'returnDayLabel');
+                updateDateLabel(retInput.value, 'returnDatePrimary', 'returnDaySubtext');
             }
         } else if (type === 'multi-city') {
             btnMultiCity.classList.add('active');
@@ -747,6 +828,7 @@
             retInput.removeAttribute('name');
             retInput.value = '';
             retInput.required = false;
+            if (retLabel) retLabel.textContent = 'Select return date';
 
             // Expand column widths when Return Date is hidden
             if (fromCol) fromCol.className = 'col-lg-4 col-md-5';
@@ -755,50 +837,82 @@
         }
     }
 
-    // 2. Date Handlers & Label Synchronization
-    function onDepartureDateChange() {
-        const depInput = document.getElementById('departureDateInput');
-        const retInput = document.getElementById('returnDateInput');
-        const retLabel = document.getElementById('returnDayLabel');
-        const dep = depInput.value;
+    // 2. Dynamic IST Date Handlers & SkyTech Calendar Popover
+    const SERVER_TODAY_ISO = '${todayDate}' || getClientTodayIso();
 
-        if (dep) {
-            formatDayLabel(dep, 'departureDayLabel');
-            retInput.min = dep;
-            if (retInput.value && retInput.value < dep) {
-                retInput.value = '';
-                if (retLabel) {
-                    retLabel.textContent = 'Please select a valid return date';
+    function getClientTodayIso() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function parseIsoParts(dateStr) {
+        if (!dateStr) return null;
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return null;
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10);
+        const d = parseInt(parts[2], 10);
+        return new Date(y, m - 1, d);
+    }
+
+    function openHomepageCalendar(type) {
+        if (!window.SkyTechCalendar) return;
+
+        const isReturn = (type === 'return');
+        const triggerBox = isReturn ? document.getElementById('returnFieldBox') : document.getElementById('depFieldBox');
+        const inputEl = isReturn ? document.getElementById('returnDateInput') : document.getElementById('departureDateInput');
+        const primaryDisplayEl = isReturn ? document.getElementById('returnDatePrimary') : document.getElementById('departureDatePrimary');
+        const subtextDisplayEl = isReturn ? document.getElementById('returnDaySubtext') : document.getElementById('departureDaySubtext');
+
+        const depVal = document.getElementById('departureDateInput').value;
+        const minIso = isReturn ? (depVal || SERVER_TODAY_ISO) : SERVER_TODAY_ISO;
+
+        SkyTechCalendar.open(triggerBox, {
+            inputEl: inputEl,
+            primaryDisplayEl: primaryDisplayEl,
+            subtextDisplayEl: subtextDisplayEl,
+            placeholderText: isReturn ? 'Select Return' : 'Select Date',
+            minDateIso: minIso,
+            onSelect: function(selectedDateStr) {
+                if (!isReturn) {
+                    // Update return date constraints if return date is enabled
+                    const retInput = document.getElementById('returnDateInput');
+                    if (retInput && retInput.value && retInput.value < selectedDateStr) {
+                        retInput.value = '';
+                        const retPrimary = document.getElementById('returnDatePrimary');
+                        const retSub = document.getElementById('returnDaySubtext');
+                        if (retPrimary) retPrimary.textContent = 'Select Return';
+                        if (retSub) retSub.textContent = '';
+                        if (window.showToast) {
+                            window.showToast("Return date must be on or after the departure date.", "warning", "Return Date Reset");
+                        }
+                    }
                 }
-            } else if (retInput.value && !retInput.disabled) {
-                formatDayLabel(retInput.value, 'returnDayLabel');
+            },
+            onClear: function() {
+                if (!isReturn) {
+                    const retInput = document.getElementById('returnDateInput');
+                    if (retInput) {
+                        retInput.value = '';
+                        const retPrimary = document.getElementById('returnDatePrimary');
+                        const retSub = document.getElementById('returnDaySubtext');
+                        if (retPrimary) retPrimary.textContent = 'Select Return';
+                        if (retSub) retSub.textContent = '';
+                    }
+                }
             }
-        }
+        });
     }
 
-    function onReturnDateChange() {
-        const retInput = document.getElementById('returnDateInput');
-        const depInput = document.getElementById('departureDateInput');
-        const retLabel = document.getElementById('returnDayLabel');
-        if (retInput.value) {
-            if (depInput.value && retInput.value < depInput.value) {
-                retInput.value = '';
-                if (retLabel) retLabel.textContent = 'Return cannot be before departure';
-                return;
-            }
-            formatDayLabel(retInput.value, 'returnDayLabel');
-        }
-    }
-
-    function formatDayLabel(dateStr, labelId) {
-        if (!dateStr) return;
-        const target = document.getElementById(labelId);
-        if (!target) return;
-        try {
-            const dateObj = new Date(dateStr + 'T00:00:00');
-            target.textContent = dateObj.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short' });
-        } catch (e) {
-            target.textContent = dateStr;
+    function showHomeInlineError(msg) {
+        const alertBox = document.getElementById('homeValidationAlert');
+        const alertText = document.getElementById('homeValidationText');
+        if (alertBox && alertText) {
+            alertText.textContent = msg;
+            alertBox.classList.remove('d-none');
         }
     }
 
@@ -911,17 +1025,24 @@
         const wrapper = document.getElementById('multiCitySegmentsWrapper');
         wrapper.innerHTML = '';
 
-        const today = new Date();
-        const baseDate = new Date(today);
-        baseDate.setDate(baseDate.getDate() + 2);
+        const todayIso = getClientTodayIso();
+        let runningDate = todayIso;
 
         multiCitySegments.forEach((seg, idx) => {
             const num = idx + 1;
-            if (!seg.date) {
-                const d = new Date(baseDate);
-                d.setDate(d.getDate() + (idx * 3));
-                seg.date = d.toISOString().split('T')[0];
+            if (!seg.date || seg.date < runningDate) {
+                if (idx === 0) {
+                    seg.date = todayIso;
+                } else {
+                    const d = parseIsoParts(runningDate) || new Date();
+                    d.setDate(d.getDate() + 2);
+                    const ry = d.getFullYear();
+                    const rm = String(d.getMonth() + 1).padStart(2, '0');
+                    const rd = String(d.getDate()).padStart(2, '0');
+                    seg.date = `${ry}-${rm}-${rd}`;
+                }
             }
+            runningDate = seg.date;
 
             const card = document.createElement('div');
             card.className = 'multi-city-segment-card';
@@ -945,7 +1066,7 @@
                     '</div>' +
                     '<div class="col-md-4">' +
                         '<label class="field-label small text-muted">DATE</label>' +
-                        '<input type="date" class="form-control form-select-sm fw-bold" name="segDate_' + num + '" id="segDate_' + num + '" value="' + seg.date + '" min="' + today.toISOString().split('T')[0] + '" onchange="onMultiCityDateChange(' + idx + ', this.value)">' +
+                        '<input type="date" class="form-control form-select-sm fw-bold" name="segDate_' + num + '" id="segDate_' + num + '" value="' + seg.date + '" min="' + (idx === 0 ? todayIso : multiCitySegments[idx - 1].date) + '" onchange="onMultiCityDateChange(' + idx + ', this.value)">' +
                     '</div>' +
                 '</div>';
 
@@ -973,9 +1094,14 @@
 
             let nextDate = '';
             if (last && last.date) {
-                const d = new Date(last.date);
-                d.setDate(d.getDate() + 3);
-                nextDate = d.toISOString().split('T')[0];
+                const d = parseIsoParts(last.date) || new Date();
+                d.setDate(d.getDate() + 2);
+                const ry = d.getFullYear();
+                const rm = String(d.getMonth() + 1).padStart(2, '0');
+                const rd = String(d.getDate()).padStart(2, '0');
+                nextDate = `${ry}-${rm}-${rd}`;
+            } else {
+                nextDate = getClientTodayIso();
             }
 
             multiCitySegments.push({ source: nextSrc, dest: nextDst, date: nextDate });
@@ -991,16 +1117,29 @@
     }
 
     function onMultiCityDateChange(index, newDate) {
+        const todayIso = getClientTodayIso();
+        if (newDate < todayIso) {
+            showHomeInlineError('Please select today or a future date.');
+            newDate = todayIso;
+            const curEl = document.getElementById('segDate_' + (index + 1));
+            if (curEl) curEl.value = newDate;
+        }
         multiCitySegments[index].date = newDate;
-        // Adjust subsequent segment min dates if they occur earlier
+        // Adjust subsequent segment min dates and values if they occur earlier
+        let runningDate = newDate;
         for (let i = index + 1; i < multiCitySegments.length; i++) {
-            if (multiCitySegments[i].date && multiCitySegments[i].date < newDate) {
-                multiCitySegments[i].date = newDate;
-                const dateEl = document.getElementById('segDate_' + (i + 1));
+            const dateEl = document.getElementById('segDate_' + (i + 1));
+            if (dateEl) {
+                dateEl.min = runningDate;
+            }
+            if (multiCitySegments[i].date && multiCitySegments[i].date < runningDate) {
+                multiCitySegments[i].date = runningDate;
                 if (dateEl) {
-                    dateEl.value = newDate;
-                    dateEl.min = newDate;
+                    dateEl.value = runningDate;
                 }
+            }
+            if (multiCitySegments[i].date) {
+                runningDate = multiCitySegments[i].date;
             }
         }
     }
@@ -1041,6 +1180,38 @@
         if (dropdownInstance) dropdownInstance.hide();
     }
 
+    function selectCabinClass(className, subtext) {
+        const input = document.getElementById('travelClassInput');
+        const display = document.getElementById('travelClassDisplayText');
+        const sub = document.getElementById('travelClassSubtext');
+        if (input) input.value = className;
+        if (display) display.textContent = className;
+        if (sub) sub.textContent = subtext || '';
+
+        const items = document.querySelectorAll('#travelClassMenuList .cabin-option-item');
+        items.forEach(item => {
+            const val = item.getAttribute('data-value');
+            const check = item.querySelector('.cabin-check-icon');
+            const li = item.closest('li');
+            if (val === className) {
+                item.classList.add('active');
+                if (check) check.classList.remove('d-none');
+                if (li) li.setAttribute('aria-selected', 'true');
+            } else {
+                item.classList.remove('active');
+                if (check) check.classList.add('d-none');
+                if (li) li.setAttribute('aria-selected', 'false');
+            }
+        });
+
+        const btn = document.getElementById('travelClassDropdownBtn');
+        if (btn && window.bootstrap && bootstrap.Dropdown) {
+            const instance = bootstrap.Dropdown.getInstance(btn) || new bootstrap.Dropdown(btn);
+            if (instance) instance.hide();
+            btn.focus();
+        }
+    }
+
     // 7. Deal Card & Inspiration Quick Selection
     function selectDealRoute(src, dst, srcCity, dstCity) {
         setTripType('one-way');
@@ -1073,18 +1244,35 @@
         modal.show();
     }
 
-    // 8. Form Submission & Client-Side Validation
+    // 8. Form Submission & Client-Side Validation (Strict Order of Verification)
     function validateHomeSearchForm(event) {
         const alertBox = document.getElementById('homeValidationAlert');
         const alertText = document.getElementById('homeValidationText');
-        alertBox.classList.add('d-none');
+        if (alertBox) alertBox.classList.add('d-none');
 
         const tripType = document.getElementById('tripTypeInput').value;
 
         function showError(msg) {
-            alertText.textContent = msg;
-            alertBox.classList.remove('d-none');
-            window.scrollTo({ top: alertBox.offsetTop - 80, behavior: 'smooth' });
+            if (alertText && alertBox) {
+                alertText.textContent = msg;
+                alertBox.classList.remove('d-none');
+            }
+            if (window.showToast) {
+                window.showToast(msg, "warning", "Search Notice");
+            }
+            // Restore normal submit button state - DO NOT leave stuck in loading
+            const submitBtn = document.getElementById('btnSearchSubmit');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('disabled');
+            }
+            const submitText = document.getElementById('btnSearchText');
+            if (submitText) {
+                submitText.innerHTML = '<i class="bi bi-search me-2"></i> SEARCH FLIGHTS';
+            }
+            if (alertBox) {
+                window.scrollTo({ top: alertBox.offsetTop - 80, behavior: 'smooth' });
+            }
             return false;
         }
 
@@ -1092,8 +1280,8 @@
             if (multiCitySegments.length < 2) {
                 return showError('Multi-City travel requires at least 2 flight segments.');
             }
+            const todayIso = SERVER_TODAY_ISO;
             for (let i = 0; i < multiCitySegments.length; i++) {
-                const seg = multiCitySegments[i];
                 const segNum = i + 1;
                 const srcVal = document.getElementById('segSrc_' + segNum).value;
                 const dstVal = document.getElementById('segDst_' + segNum).value;
@@ -1108,10 +1296,13 @@
                 if (!dateVal) {
                     return showError('Flight ' + segNum + ': Flight date is required.');
                 }
+                if (dateVal < todayIso) {
+                    return showError('Flight ' + segNum + ': Please select today or a future date.');
+                }
                 if (i > 0) {
                     const prevDate = document.getElementById('segDate_' + i).value;
                     if (dateVal < prevDate) {
-                        return showError('Flight ' + segNum + ' date cannot be before Flight ' + i + ' date.');
+                        return showError('Flight ' + segNum + ' date must be on or after Flight ' + i + ' date.');
                     }
                 }
             }
@@ -1126,44 +1317,56 @@
             if (src.toUpperCase() === dst.toUpperCase()) {
                 return showError('Departure and arrival airports cannot be the same.');
             }
-            if (!dep) return showError('Please select a departure date.');
+            if (!dep) {
+                return showError('Please select a departure date.');
+            }
 
-            const today = new Date().toISOString().split('T')[0];
-            if (dep < today) {
-                return showError('Departure date cannot be in the past.');
+            const todayIso = SERVER_TODAY_ISO;
+            if (dep < todayIso) {
+                return showError('Please select today or a future date.');
             }
 
             if (tripType === 'round-trip') {
-                if (!ret) return showError('Please select a return date.');
-                if (ret < dep) return showError('Return date cannot be before departure date.');
+                if (!ret) return showError('Please select a return date for round trip.');
+                if (ret < dep) return showError('Return date must be on or after the departure date.');
             }
         }
 
-        // Show loading state
-        document.getElementById('btnSearchText').innerHTML = '<i class="bi bi-airplane-engines me-1"></i> Searching Flights...';
-        document.getElementById('btnSearchSpinner').classList.remove('d-none');
+        // ALL VALIDATIONS PASSED -> ONLY NOW start loading state
+        const submitBtn = document.getElementById('btnSearchSubmit');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('disabled');
+        }
+        const btnText = document.getElementById('btnSearchText');
+        if (btnText) {
+            btnText.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Searching Flights...';
+        }
         return true;
     }
 
-    // 9. Newsletter Subscription Handler
-    function handleNewsletterSubmit(e) {
-        e.preventDefault();
-        const emailInput = document.getElementById('newsletterEmailInput');
-        const email = emailInput.value.trim();
-
-        if (email && email.includes('@') && email.includes('.')) {
-            document.getElementById('newsletterSuccessMsg').classList.remove('d-none');
-            emailInput.value = '';
-            setTimeout(() => {
-                document.getElementById('newsletterSuccessMsg').classList.add('d-none');
-            }, 6000);
+    // Restore search button state on bfcache/pageshow
+    window.addEventListener('pageshow', function() {
+        const submitBtn = document.getElementById('btnSearchSubmit');
+        const btnText = document.getElementById('btnSearchText');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('disabled');
         }
-        return false;
-    }
+        if (btnText) {
+            btnText.innerHTML = '<i class="bi bi-search me-2"></i> Search Flights';
+        }
+    });
 
-    // Initialize labels on load
+    // Initialize labels on load without auto-searching
     document.addEventListener('DOMContentLoaded', function() {
-        onDepartureDateChange();
+        if (window.SkyTechCalendar) {
+            SkyTechCalendar.init({ todayIso: SERVER_TODAY_ISO });
+        }
+        const depInput = document.getElementById('departureDateInput');
+        if (depInput && !depInput.value) {
+            depInput.value = SERVER_TODAY_ISO;
+        }
     });
 </script>
 

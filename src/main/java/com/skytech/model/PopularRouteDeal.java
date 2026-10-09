@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Model representing a featured popular route deal with dynamically resolved pricing.
+ * Model representing a featured popular route deal or Daily Shuffle recommendation
+ * with dynamically resolved pricing from central inventory.
  */
 public class PopularRouteDeal implements Serializable {
 
@@ -20,7 +21,9 @@ public class PopularRouteDeal implements Serializable {
     private String durationFormatted;
     private String stopsDescription;
     private String imageUrl;
+    private String imageAlt;
     private String tag;
+    private boolean dailyShuffle;
     private LocalDate searchDate;
 
     public PopularRouteDeal() {
@@ -29,7 +32,7 @@ public class PopularRouteDeal implements Serializable {
     public PopularRouteDeal(String sourceCode, String destinationCode, String sourceCity,
                             String destinationCity, String airlineSummary, BigDecimal lowestPrice,
                             String durationFormatted, String stopsDescription, String imageUrl,
-                            String tag, LocalDate searchDate) {
+                            String imageAlt, String tag, boolean dailyShuffle, LocalDate searchDate) {
         this.sourceCode = sourceCode;
         this.destinationCode = destinationCode;
         this.sourceCity = sourceCity;
@@ -39,7 +42,9 @@ public class PopularRouteDeal implements Serializable {
         this.durationFormatted = durationFormatted;
         this.stopsDescription = stopsDescription;
         this.imageUrl = imageUrl;
+        this.imageAlt = imageAlt;
         this.tag = tag;
+        this.dailyShuffle = dailyShuffle;
         this.searchDate = searchDate;
     }
 
@@ -115,12 +120,28 @@ public class PopularRouteDeal implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    public String getImageAlt() {
+        return (imageAlt != null && !imageAlt.isEmpty()) ? imageAlt : (destinationCity + " Landmark");
+    }
+
+    public void setImageAlt(String imageAlt) {
+        this.imageAlt = imageAlt;
+    }
+
     public String getTag() {
         return tag;
     }
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public boolean isDailyShuffle() {
+        return dailyShuffle;
+    }
+
+    public void setDailyShuffle(boolean dailyShuffle) {
+        this.dailyShuffle = dailyShuffle;
     }
 
     public LocalDate getSearchDate() {

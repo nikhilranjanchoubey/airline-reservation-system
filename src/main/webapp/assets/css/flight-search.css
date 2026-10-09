@@ -167,6 +167,116 @@ body {
     border: 1px solid var(--sky-border);
 }
 
+/* ==============================================================================
+   Custom Cabin Class Dropdown Component
+   ============================================================================== */
+.cabin-class-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: none !important;
+    text-align: left;
+}
+
+.cabin-class-btn:focus-visible {
+    outline: none !important;
+}
+
+.cabin-chevron {
+    transition: transform 0.2s ease;
+}
+
+.cabin-class-btn[aria-expanded="true"] .cabin-chevron {
+    transform: rotate(180deg);
+}
+
+.cabin-class-dropdown-menu {
+    min-width: 320px;
+    background: #FFFFFF;
+    border: 1px solid rgba(25, 118, 210, 0.2);
+    border-radius: var(--sky-radius-md, 12px);
+    box-shadow: 0 12px 30px rgba(13, 27, 62, 0.15);
+    z-index: 1055 !important;
+    padding: 0.5rem;
+    margin-top: 0.5rem !important;
+    animation: cabinDropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cabinDropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cabin-option-item {
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+    color: var(--sky-text, #1F2937);
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+}
+
+.cabin-option-item:hover,
+.cabin-option-item:focus {
+    background-color: #f0f7ff;
+    color: var(--sky-primary, #1976D2);
+    border-color: rgba(25, 118, 210, 0.15);
+    outline: none;
+}
+
+.cabin-option-item.active,
+li[aria-selected="true"] .cabin-option-item {
+    background-color: #e8f3fc !important;
+    color: var(--sky-navy, #0D1B3E) !important;
+    border-color: rgba(25, 118, 210, 0.3);
+}
+
+.cabin-icon-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.cabin-option-item:hover .cabin-icon-box,
+.cabin-option-item.active .cabin-icon-box {
+    background: #dbeafe;
+    color: #1976d2;
+}
+
+.cabin-option-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.cabin-option-sub {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.2;
+}
+
+.cabin-check-icon {
+    font-size: 1.1rem;
+}
+
 .counter-btn {
     width: 32px;
     height: 32px;
@@ -420,75 +530,7 @@ body {
     color: #FFFFFF;
 }
 
-/* ==============================================================================
-   Flight Details Page
-   ============================================================================== */
-.flight-details-card {
-    background: #FFFFFF;
-    border-radius: var(--sky-radius-lg);
-    border: 1px solid var(--sky-border);
-    box-shadow: var(--sky-shadow-md);
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
 
-.details-timeline-node {
-    display: flex;
-    gap: 1.25rem;
-    position: relative;
-}
-
-.details-timeline-node::before {
-    content: '';
-    position: absolute;
-    left: 19px;
-    top: 36px;
-    bottom: -20px;
-    width: 2px;
-    background: #E2E8F0;
-}
-
-.details-timeline-node:last-child::before {
-    display: none;
-}
-
-.node-icon-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--sky-light-blue);
-    color: var(--sky-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.15rem;
-    flex-shrink: 0;
-    z-index: 2;
-}
-
-.fare-breakdown-box {
-    background: #F8FAFC;
-    border-radius: var(--sky-radius-md);
-    padding: 1.5rem;
-    border: 1px solid var(--sky-border);
-}
-
-.fare-breakdown-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-    color: var(--sky-muted);
-}
-
-.fare-breakdown-row.total-row {
-    border-top: 1px dashed var(--sky-border);
-    padding-top: 0.75rem;
-    margin-top: 0.75rem;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--sky-navy);
-}
 
 /* Empty State */
 .empty-state-box {
@@ -713,4 +755,530 @@ body {
     background: #FFF3E0;
     border: 1px solid #FFB74D;
 }
+
+/* ==============================================================================
+   SkyTech Toast Notification System (Issue 7)
+   ============================================================================== */
+.skytech-toast-container,
+#skytech-toast-container,
+#skyTechToastContainer {
+    position: fixed !important;
+    top: 90px !important;
+    right: 24px !important;
+    z-index: 99999 !important;
+    width: 360px !important;
+    max-width: calc(100vw - 32px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    pointer-events: none !important;
+}
+
+.skytech-toast {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: var(--sky-radius-md);
+    box-shadow: 0 10px 30px rgba(13, 27, 62, 0.16);
+    border: 1px solid var(--sky-border);
+    border-left: 5px solid var(--sky-primary);
+    padding: 12px 16px 14px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateX(40px) scale(0.96);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.skytech-toast.show {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+.skytech-toast.hide {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+}
+
+.skytech-toast-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.skytech-toast-content {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.skytech-toast-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.skytech-toast-message {
+    font-size: 0.82rem;
+    color: var(--sky-muted);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.skytech-toast-close {
+    background: none;
+    border: none;
+    color: #94A3B8;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    transition: color 0.15s ease;
+    margin-top: -3px;
+}
+
+.skytech-toast-close:hover {
+    color: var(--sky-navy);
+}
+
+.skytech-toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #F1F5F9;
+}
+
+.skytech-toast-progress-bar {
+    height: 100%;
+    width: 100%;
+    transform-origin: left;
+    animation: toast-timer linear forwards;
+}
+
+@keyframes toast-timer {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+@media (max-width: 767.98px) {
+    .skytech-toast-container,
+    #skytech-toast-container,
+    #skyTechToastContainer {
+        top: 80px !important;
+        right: 16px !important;
+        left: 16px !important;
+        width: auto !important;
+        max-width: none !important;
+    }
+}
+
+/* ==============================================================================
+   Results Layout & Sticky Filter Sidebar (Issue 1 & 10)
+   ============================================================================== */
+.results-page-container,
+.results-container {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.results-layout {
+    display: grid !important;
+    grid-template-columns: 280px minmax(0, 1fr) !important;
+    gap: 24px !important;
+    align-items: start !important;
+    width: 100% !important;
+}
+
+.filter-sidebar {
+    width: 280px !important;
+    position: sticky !important;
+    top: 90px !important;
+    height: fit-content !important;
+    align-self: start !important;
+    z-index: 20;
+}
+
+/* Ensure desktop view never collapses or expands to 100% width */
+@media (min-width: 992px) {
+    .filter-sidebar.collapse,
+    .filter-sidebar {
+        display: block !important;
+        visibility: visible !important;
+        width: 280px !important;
+        max-width: 280px !important;
+        height: fit-content !important;
+    }
+}
+
+.flight-results-column,
+.results-main-col {
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+@media (max-width: 991.98px) {
+    .results-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+    .filter-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        position: static !important;
+        top: auto !important;
+    }
+    .filter-sidebar.collapse:not(.show) {
+        display: none !important;
+    }
+    .filter-sidebar.collapse.show {
+        display: block !important;
+    }
+}
+
+/* ==============================================================================
+   Flight Details Balanced Two-Column Layout (Issue 2 & 11)
+   ============================================================================== */
+.details-container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.flight-details-card {
+    background: var(--sky-card-bg);
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--sky-shadow-sm);
+}
+
+.main-details-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 360px !important;
+    gap: 28px !important;
+    align-items: start !important;
+    width: 100% !important;
+}
+
+.flight-details-main,
+.details-main-content {
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+.details-sticky-sidebar {
+    width: 360px !important;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 90px !important;
+    align-self: start !important;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    z-index: 10;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .main-details-layout {
+        grid-template-columns: minmax(0, 1fr) 320px !important;
+        gap: 20px !important;
+    }
+    .details-sticky-sidebar {
+        width: 320px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .main-details-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    .details-sticky-sidebar {
+        width: 100% !important;
+        position: static !important;
+        top: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+
+.details-timeline-node {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+}
+
+.node-icon-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--sky-light-blue);
+    color: var(--sky-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.fare-breakdown-box {
+    background: #F8FAFC;
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-sm);
+    padding: 1rem 1.25rem;
+}
+
+.fare-breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.88rem;
+    color: var(--sky-muted);
+}
+
+.fare-breakdown-row.total-row {
+    border-top: 1px dashed #CBD5E1;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+}
+
+/* ==============================================================================
+   Single Display Dynamic Date Picker (Issue 3, 4, 5, 6)
+   ============================================================================== */
+.date-picker-box {
+    position: relative !important;
+    cursor: pointer;
+    user-select: none;
+    overflow: hidden;
+}
+
+.native-date-picker-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+    filter: alpha(opacity=0) !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: transparent !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+}
+
+.native-date-picker-overlay::-webkit-datetime-edit,
+.native-date-picker-overlay::-webkit-datetime-edit-fields-wrapper,
+.native-date-picker-overlay::-webkit-datetime-edit-text,
+.native-date-picker-overlay::-webkit-datetime-edit-month-field,
+.native-date-picker-overlay::-webkit-datetime-edit-day-field,
+.native-date-picker-overlay::-webkit-datetime-edit-year-field,
+.native-date-picker-overlay::-webkit-inner-spin-button {
+    color: transparent !important;
+    background: transparent !important;
+    display: none !important;
+}
+
+.native-date-picker-overlay::-webkit-calendar-picker-indicator {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    cursor: pointer !important;
+}
+
+.date-custom-display {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.date-main-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+    line-height: 1.2;
+}
+
+.date-sub-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--sky-muted);
+}
+
+/* ==============================================================================
+   SkyTech Custom Airline Date Calendar Popover
+   ============================================================================== */
+.skytech-calendar-popover {
+    position: absolute;
+    z-index: 1050;
+    width: 320px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    box-shadow: 0 14px 40px rgba(13, 27, 62, 0.18);
+    padding: 16px;
+    user-select: none;
+    animation: skytechCalFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes skytechCalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.skytech-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.skytech-calendar-title {
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--sky-navy);
+}
+
+.skytech-cal-nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: var(--sky-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.skytech-cal-nav-btn:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+}
+
+.skytech-cal-nav-btn:disabled,
+.skytech-cal-nav-btn.disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    border-color: #E2E8F0 !important;
+    background: #F8FAFC !important;
+    color: #94A3B8 !important;
+}
+
+.skytech-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #64748B;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skytech-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--sky-navy);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.calendar-day.is-selectable:hover {
+    background: #E8F0FE;
+    color: var(--sky-primary);
+    font-weight: 700;
+}
+
+.calendar-day.is-today {
+    border: 1.5px solid var(--sky-primary) !important;
+    color: var(--sky-primary);
+    font-weight: 700;
+}
+
+.calendar-day.is-selected {
+    background: var(--sky-primary) !important;
+    color: #FFFFFF !important;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.35);
+}
+
+.calendar-day.is-past,
+.calendar-day.is-padding {
+    color: #CBD5E1 !important;
+    background: transparent !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    opacity: 0.45 !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+}
+
+.skytech-calendar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #F1F5F9;
+}
+
 

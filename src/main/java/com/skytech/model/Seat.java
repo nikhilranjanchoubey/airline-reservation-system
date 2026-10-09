@@ -19,13 +19,21 @@ public class Seat implements Serializable {
     private BigDecimal premiumFee;
     private String status;   // AVAILABLE, OCCUPIED, BLOCKED, SELECTED
 
+    private String categoryLabel; // e.g. Extra Legroom, Front Row, Preferred, Standard
+
     public Seat() {
         this.premiumFee = BigDecimal.ZERO;
         this.status = "AVAILABLE";
+        this.categoryLabel = "Standard";
     }
 
     public Seat(int seatId, String seatNumber, int rowNumber, String columnLetter,
                 String seatType, BigDecimal premiumFee, String status) {
+        this(seatId, seatNumber, rowNumber, columnLetter, seatType, premiumFee, status, "Standard");
+    }
+
+    public Seat(int seatId, String seatNumber, int rowNumber, String columnLetter,
+                String seatType, BigDecimal premiumFee, String status, String categoryLabel) {
         this.seatId = seatId;
         this.seatNumber = seatNumber;
         this.rowNumber = rowNumber;
@@ -33,6 +41,7 @@ public class Seat implements Serializable {
         this.seatType = seatType;
         this.premiumFee = premiumFee != null ? premiumFee : BigDecimal.ZERO;
         this.status = status != null ? status : "AVAILABLE";
+        this.categoryLabel = categoryLabel != null ? categoryLabel : "Standard";
     }
 
     public int getSeatId() {
@@ -97,6 +106,14 @@ public class Seat implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCategoryLabel() {
+        return categoryLabel;
+    }
+
+    public void setCategoryLabel(String categoryLabel) {
+        this.categoryLabel = categoryLabel;
     }
 
     public boolean isAvailable() {

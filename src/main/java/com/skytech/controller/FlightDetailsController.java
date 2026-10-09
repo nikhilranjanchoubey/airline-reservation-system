@@ -67,31 +67,48 @@ public class FlightDetailsController extends HttpServlet {
             }
         }
 
+        String departureDateParam = request.getParameter("departureDate");
+        java.time.LocalDate selectedDate = null;
+        if (departureDateParam != null && !departureDateParam.trim().isEmpty()) {
+            try {
+                selectedDate = java.time.LocalDate.parse(departureDateParam.trim());
+            } catch (Exception ignored) {}
+        }
+
         FlightSchedule schedule = null;
         String dbError = null;
 
         try {
-            schedule = flightSearchService.getFlightDetails(scheduleId);
+            schedule = flightSearchService.getFlightDetails(scheduleId, selectedDate);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to retrieve flight details for ID: " + scheduleId, e);
             dbError = "Unable to connect to the database to retrieve flight details.";
         }
 
+        String flightNumberParam = request.getParameter("flightNumber");
+        if (schedule == null && flightNumberParam != null && !flightNumberParam.trim().isEmpty()) {
+            schedule = flightSearchService.getFlightByFlightNumber(flightNumberParam, selectedDate);
+        }
+
         if (schedule == null && dbError == null) {
             request.setAttribute("errorMessage", "The requested flight schedule could not be found.");
         } else if (schedule != null) {
+            if (selectedDate != null) {
+                schedule.setFlightDate(java.sql.Date.valueOf(selectedDate));
+            }
             BigDecimal perPassengerFare = schedule.getPriceForClass(travelClass);
-            BigDecimal baseTotal = perPassengerFare.multiply(BigDecimal.valueOf(passengers));
-            BigDecimal taxesAndFees = baseTotal.multiply(BigDecimal.valueOf(0.12)).setScale(2, RoundingMode.HALF_UP);
-            BigDecimal grandTotal = baseTotal.add(taxesAndFees);
+            com.skytech.service.FareCalculationService.FareSummary fareSummary =
+                    com.skytech.service.FareCalculationService.calculateFare(perPassengerFare, passengers, null);
 
             request.setAttribute("schedule", schedule);
             request.setAttribute("travelClass", travelClass);
             request.setAttribute("passengers", passengers);
             request.setAttribute("perPassengerFare", perPassengerFare);
-            request.setAttribute("baseTotal", baseTotal);
-            request.setAttribute("taxesAndFees", taxesAndFees);
-            request.setAttribute("grandTotal", grandTotal);
+            request.setAttribute("baseTotal", fareSummary.getBaseFareTotal());
+            request.setAttribute("taxesAndFees", fareSummary.getTaxesAndFees());
+            request.setAttribute("grandTotal", fareSummary.getGrandTotal());
+            request.setAttribute("fareSummary", fareSummary);
+            request.setAttribute("selectedDepartureDate", selectedDate != null ? selectedDate.toString() : (schedule.getFlightDate() != null ? schedule.getFlightDate().toLocalDate().toString() : ""));
         }
 
         request.setAttribute("dbError", dbError);

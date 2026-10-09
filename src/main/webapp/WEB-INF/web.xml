@@ -111,6 +111,7 @@
         <url-pattern>/travel-information</url-pattern>
     </servlet-mapping>
 
+
     <!-- Project Architecture Documentation (Academic / Evaluator) -->
     <servlet>
         <servlet-name>ProjectController</servlet-name>

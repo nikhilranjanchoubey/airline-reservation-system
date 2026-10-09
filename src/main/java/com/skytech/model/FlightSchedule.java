@@ -147,10 +147,44 @@ public class FlightSchedule implements Serializable {
         }
     }
 
+    public LocalDate getDepartureLocalDate() {
+        return flightDate != null ? flightDate.toLocalDate() : null;
+    }
+
     public String getFormattedFlightDate() {
         if (flightDate == null) return "";
         LocalDate ld = flightDate.toLocalDate();
-        return ld.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+        return ld.format(DateTimeFormatter.ofPattern("dd MMM uuuu", java.util.Locale.ENGLISH));
+    }
+
+    public String getFlightDayOfWeek() {
+        if (flightDate == null) return "";
+        return flightDate.toLocalDate().getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH);
+    }
+
+    public LocalDate getArrivalDate() {
+        if (flightDate == null) return null;
+        LocalDate depDate = flightDate.toLocalDate();
+        if (flight != null && flight.getDepartureTime() != null && flight.getArrivalTime() != null) {
+            java.time.LocalTime depTime = flight.getDepartureTime().toLocalTime();
+            java.time.LocalTime arrTime = flight.getArrivalTime().toLocalTime();
+            if (arrTime.isBefore(depTime)) {
+                return depDate.plusDays(1);
+            }
+        }
+        return depDate;
+    }
+
+    public String getFormattedArrivalDate() {
+        LocalDate arr = getArrivalDate();
+        if (arr == null) return "";
+        return arr.format(DateTimeFormatter.ofPattern("dd MMM uuuu", java.util.Locale.ENGLISH));
+    }
+
+    public String getArrivalDayOfWeek() {
+        LocalDate arr = getArrivalDate();
+        if (arr == null) return "";
+        return arr.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH);
     }
 
     public String getSeatsBadgeClass() {
@@ -164,6 +198,9 @@ public class FlightSchedule implements Serializable {
     }
 
     public String getSeatsAvailabilityText() {
+        if (live) {
+            return "Estimated availability";
+        }
         if (availableSeats > 10) {
             return availableSeats + " seats available";
         } else if (availableSeats > 1) {
@@ -173,5 +210,88 @@ public class FlightSchedule implements Serializable {
         } else {
             return "Sold out";
         }
+    }
+
+    private String departureTerminal;
+    private String arrivalTerminal;
+    private String baggageBelt;
+    private String revisedDepartureTime;
+    private String revisedArrivalTime;
+    private boolean live = false;
+    private boolean estimatedFare = true;
+    private String fareNote = "Estimated fare for demonstration";
+
+    public String getDepartureTerminal() {
+        if (departureTerminal != null && !departureTerminal.trim().isEmpty()) return departureTerminal;
+        if (flight != null && flight.getDepartureTerminal() != null && !flight.getDepartureTerminal().trim().isEmpty()) {
+            return flight.getDepartureTerminal();
+        }
+        return "Not available";
+    }
+
+    public void setDepartureTerminal(String departureTerminal) {
+        this.departureTerminal = departureTerminal;
+    }
+
+    public String getArrivalTerminal() {
+        if (arrivalTerminal != null && !arrivalTerminal.trim().isEmpty()) return arrivalTerminal;
+        if (flight != null && flight.getArrivalTerminal() != null && !flight.getArrivalTerminal().trim().isEmpty()) {
+            return flight.getArrivalTerminal();
+        }
+        return "Not available";
+    }
+
+    public void setArrivalTerminal(String arrivalTerminal) {
+        this.arrivalTerminal = arrivalTerminal;
+    }
+
+    public String getBaggageBelt() {
+        if (baggageBelt != null) return baggageBelt;
+        if (flight != null) return flight.getBaggageBelt();
+        return null;
+    }
+
+    public void setBaggageBelt(String baggageBelt) {
+        this.baggageBelt = baggageBelt;
+    }
+
+    public String getRevisedDepartureTime() {
+        return revisedDepartureTime;
+    }
+
+    public void setRevisedDepartureTime(String revisedDepartureTime) {
+        this.revisedDepartureTime = revisedDepartureTime;
+    }
+
+    public String getRevisedArrivalTime() {
+        return revisedArrivalTime;
+    }
+
+    public void setRevisedArrivalTime(String revisedArrivalTime) {
+        this.revisedArrivalTime = revisedArrivalTime;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public boolean isEstimatedFare() {
+        return estimatedFare;
+    }
+
+    public void setEstimatedFare(boolean estimatedFare) {
+        this.estimatedFare = estimatedFare;
+    }
+
+    public String getFareNote() {
+        return fareNote;
+    }
+
+    public void setFareNote(String fareNote) {
+        this.fareNote = fareNote;
     }
 }

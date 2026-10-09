@@ -60,7 +60,7 @@ public final class DBConnectionUtil {
         }
 
         // Register JDBC driver
-        String driver = PROPERTIES.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
+        String driver = AppConfig.getDbDriver();
         try {
             Class.forName(driver);
             driverLoaded = true;
@@ -81,10 +81,9 @@ public final class DBConnectionUtil {
             loadConfiguration();
         }
 
-        String url = PROPERTIES.getProperty("db.url",
-                "jdbc:mysql://localhost:3306/skytech_db?useSSL=false&serverTimezone=UTC");
-        String user = PROPERTIES.getProperty("db.user", "root");
-        String password = PROPERTIES.getProperty("db.password", "");
+        String url = AppConfig.getDbUrl();
+        String user = AppConfig.getDbUsername();
+        String password = AppConfig.getDbPassword();
 
         return DriverManager.getConnection(url, user, password);
     }

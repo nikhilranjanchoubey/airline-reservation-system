@@ -22,6 +22,17 @@ public interface FlightProvider {
     FlightSchedule getFlightDetails(int scheduleId) throws Exception;
 
     /**
+     * Retrieves flight schedule details preserving the selected flight date.
+     */
+    default FlightSchedule getFlightDetails(int scheduleId, LocalDate targetDate) throws Exception {
+        FlightSchedule fs = getFlightDetails(scheduleId);
+        if (fs != null && targetDate != null) {
+            fs.setFlightDate(java.sql.Date.valueOf(targetDate));
+        }
+        return fs;
+    }
+
+    /**
      * Provider display name (e.g., "Amadeus Live API" or "Database Inventory").
      */
     String getProviderName();

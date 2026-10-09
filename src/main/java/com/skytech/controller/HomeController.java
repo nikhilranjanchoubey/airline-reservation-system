@@ -26,6 +26,13 @@ public class HomeController extends HttpServlet {
         request.setAttribute("pageTitle", "Welcome to SkyTech");
         request.setAttribute("systemStatus", "Operational");
 
+        java.time.LocalDate today = java.time.LocalDate.now(java.time.ZoneId.of("Asia/Kolkata"));
+        request.setAttribute("todayDate", today.toString());
+        request.setAttribute("minDate", today.toString());
+        request.setAttribute("today", today.toString());
+        request.setAttribute("todayFormatted", today.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM uuuu", java.util.Locale.ENGLISH)));
+        request.setAttribute("todayDayOfWeek", today.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH));
+
         // Foundation check: check if database is reachable (non-blocking)
         boolean dbConnected = false;
         String dbMessage;

@@ -19,7 +19,7 @@ body {
     font-family: var(--skytech-font-sans);
     color: var(--skytech-text);
     background-color: var(--skytech-light-bg);
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* ==========================================================================
@@ -173,85 +173,60 @@ body {
 }
 
 /* ==========================================================================
-   Professional Footer Styling & Mobile Accordion
+   Professional Footer Styling (Compact & Clean)
    ========================================================================== */
+/* Sticky Navbar Offset for In-Page Anchor Links */
+#baggage, #checkin, #documents, #airports, #guidelines, #passenger-rights,
+#help, #careers, #faqs, #terms, #privacy, #cookies, #accessibility,
+#popularRoutesSection, #whySkyTechSection, #travelExperienceSection,
+#inspirationSection, #helpSection {
+    scroll-margin-top: 95px;
+}
+
 .skytech-footer {
-    background: linear-gradient(180deg, #0b172a 0%, #060d19 100%) !important;
-    font-size: 0.92rem;
+    background: #071426 !important;
+    font-size: 0.875rem;
+    color: #cbd5e1;
 }
 
 .footer-heading {
-    font-size: 0.825rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: #94a3b8;
     text-transform: uppercase;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-links li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.45rem;
 }
 
 .footer-links a {
     color: #cbd5e1;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: color 0.15s ease, transform 0.15s ease;
     display: inline-block;
+    font-size: 0.85rem;
 }
 
 .footer-links a:hover {
     color: #38bdf8;
-    transform: translateX(4px);
+    transform: translateX(2px);
 }
 
-.social-icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+.footer-legal-links a {
+    color: #94a3b8;
     text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8125rem;
+    transition: color 0.15s ease;
 }
 
-.social-icon-btn:hover {
-    background-color: var(--skytech-accent);
-    color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
-}
-
-/* Footer Mobile Accordion */
-@media (max-width: 991.98px) {
-    .footer-column .footer-heading {
-        cursor: pointer;
-        padding-top: 0.5rem;
-        user-select: none;
-    }
-
-    .footer-column .footer-heading i {
-        transition: transform 0.25s ease;
-    }
-
-    .footer-column .footer-links {
-        display: none;
-        padding-top: 0.5rem;
-    }
-
-    .footer-column.active .footer-links {
-        display: block;
-    }
-
-    .footer-column.active .footer-heading i {
-        transform: rotate(180deg);
-    }
+.footer-legal-links a:hover {
+    color: #38bdf8;
+    text-decoration: underline;
 }
 
 /* ==============================================================================
@@ -259,13 +234,13 @@ body {
    ============================================================================== */
 .destinations-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
 }
 
 @media (max-width: 991.98px) {
     .destinations-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
     }
 }
@@ -298,14 +273,15 @@ body {
 .destination-img-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    background-color: #0b172a;
+    background-color: #071426;
 }
 
 .destination-img {
     width: 100%;
     height: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -320,13 +296,21 @@ body {
     top: 12px;
     left: 12px;
     backdrop-filter: blur(8px);
-    background: rgba(11, 23, 42, 0.82);
+    background: rgba(7, 20, 38, 0.85);
     color: #FFFFFF;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 0.3rem 0.65rem;
     border-radius: 20px;
     z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.destination-badge-tag.badge-daily-shuffle {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    letter-spacing: 0.02em;
 }
 
 /* ==============================================================================
