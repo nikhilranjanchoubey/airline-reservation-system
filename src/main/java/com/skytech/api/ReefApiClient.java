@@ -484,13 +484,11 @@ public class ReefApiClient {
         String formattedFlightNo = formatFlightNumber(flightNo, carrierCode);
         flight.setFlightNumber(formattedFlightNo);
 
-        // Airline
         Airline airline = new Airline();
         airline.setAirlineCode(carrierCode);
         airline.setAirlineName(resolveAirlineName(carrierCode, carrierName));
         flight.setAirline(airline);
 
-        // Airports
         Airport srcAirport = airportDao.getAirportByCode(fromCode);
         if (srcAirport == null) {
             srcAirport = new Airport(fromCode, fromCode, fromCode + " Airport", "India", "T1");

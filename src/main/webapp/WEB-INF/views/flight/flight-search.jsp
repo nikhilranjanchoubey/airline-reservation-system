@@ -409,7 +409,7 @@
                             </li>
                         </ul>
 
-                        <!-- Hidden form field ensuring robust form submission & Modify Search preservation -->
+                        <!-- Hidden travel class input -->
                         <input type="hidden" name="travelClass" id="travelClassInput" value="${not empty travelClass ? travelClass : 'Economy'}">
                     </div>
                 </div>
@@ -962,7 +962,7 @@
         }
     });
 
-    // Form submission validation (Strict Order of Verification)
+    // Form submission validation
     document.getElementById('flightSearchForm').addEventListener('submit', function (e) {
         const alertBox = document.getElementById('clientValidationAlert');
         const alertText = document.getElementById('clientValidationText');
@@ -984,7 +984,7 @@
             if (window.showToast) {
                 window.showToast(msg, "warning", "Validation Notice");
             }
-            // Restore normal submit button state - DO NOT leave stuck in loading
+            // Restore submit button state
             const submitBtn = document.getElementById('btnSearchSubmit');
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -1065,7 +1065,7 @@
             }
         }
 
-        // ALL VALIDATIONS PASSED -> ONLY NOW start loading state
+        // Form valid - start loading state
         const submitBtn = document.getElementById('btnSearchSubmit');
         if (submitBtn) {
             submitBtn.disabled = true;

@@ -112,7 +112,7 @@
 
     <!-- Main Results Section -->
     <c:choose>
-        <%-- 1. API ERROR STATE (Differentiate from 'no flights found' per specification) --%>
+        <%-- API error state --%>
         <c:when test="${not empty apiError}">
             <div class="empty-state-box my-4">
                 <div class="empty-state-icon text-danger">
@@ -164,7 +164,7 @@
             </div>
         </c:when>
 
-        <%-- 2. NO FLIGHTS FOUND EMPTY STATE (Only when no API error occurred) --%>
+        <%-- Empty state --%>
         <c:when test="${empty flights}">
             <div class="empty-state-box my-4">
                 <div class="empty-state-icon">
@@ -192,7 +192,7 @@
             </div>
         </c:when>
 
-        <%-- FLIGHT RESULTS FOUND --%>
+        <%-- Flight results --%>
         <c:otherwise>
             <!-- Mobile Filters Toggle Button -->
             <div class="d-lg-none mb-3">
@@ -530,12 +530,10 @@
     }
 
     function resetAllFilters() {
-        // 1. Restore all checkbox controls to default state (all checked)
         document.querySelectorAll('.filter-checkbox, .airline-filter, .time-filter').forEach(cb => {
             cb.checked = true;
         });
 
-        // 2. Reset price range slider to default maximum
         const slider = document.getElementById('priceRangeSlider');
         if (slider) {
             const defMax = slider.getAttribute('data-default-max') || slider.max || '15000';
@@ -546,20 +544,17 @@
             }
         }
 
-        // 3. Clear active filter indicator badge
         const filterBadge = document.getElementById('activeFilterBadge');
         if (filterBadge) {
             filterBadge.classList.add('d-none');
         }
 
-        // 4. Reset sort selector to recommended
         const sortSelect = document.getElementById('sortSelector');
         if (sortSelect) {
             sortSelect.value = 'recommended';
             sortFlightCards('recommended');
         }
 
-        // 5. Re-evaluate filters and update visible flights immediately
         applyFilters();
     }
 

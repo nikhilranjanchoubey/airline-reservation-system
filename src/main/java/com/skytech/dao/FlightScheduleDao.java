@@ -135,14 +135,12 @@ public class FlightScheduleDao {
     }
 
     private FlightSchedule mapResultSetToSchedule(ResultSet rs) throws SQLException {
-        // Airline
         Airline airline = new Airline();
         airline.setAirlineId(rs.getInt("airline_id"));
         airline.setAirlineCode(rs.getString("airline_code"));
         airline.setAirlineName(rs.getString("airline_name"));
         airline.setLogoIcon(rs.getString("logo_icon"));
 
-        // Source Airport
         Airport source = new Airport();
         source.setAirportId(rs.getInt("src_id"));
         source.setAirportCode(rs.getString("src_code"));
@@ -151,7 +149,6 @@ public class FlightScheduleDao {
         source.setCountry(rs.getString("src_country"));
         source.setTerminal(rs.getString("src_terminal"));
 
-        // Destination Airport
         Airport destination = new Airport();
         destination.setAirportId(rs.getInt("dst_id"));
         destination.setAirportCode(rs.getString("dst_code"));
@@ -160,7 +157,6 @@ public class FlightScheduleDao {
         destination.setCountry(rs.getString("dst_country"));
         destination.setTerminal(rs.getString("dst_terminal"));
 
-        // Flight
         Flight flight = new Flight();
         flight.setFlightId(rs.getInt("flight_id"));
         flight.setFlightNumber(rs.getString("flight_number"));
@@ -173,7 +169,6 @@ public class FlightScheduleDao {
         flight.setStops(rs.getInt("stops"));
         flight.setAircraftModel(rs.getString("aircraft_model"));
 
-        // Schedule
         FlightSchedule schedule = new FlightSchedule();
         schedule.setScheduleId(rs.getInt("schedule_id"));
         schedule.setFlightId(rs.getInt("flight_id"));

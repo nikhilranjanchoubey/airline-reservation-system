@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<!-- =========================================================================
-     SKYTECH — COMPACT AIRLINE RESERVATION FOOTER
-     Clean, professional, responsive, and airline-focused information architecture
-     ========================================================================= -->
+<!-- Footer -->
 <footer class="skytech-footer mt-auto text-light border-top border-white border-opacity-10 py-4" role="contentinfo" aria-label="SkyTech Corporate and Travel Information">
     <div class="container">
         <!-- Main Footer Navigation Grid -->

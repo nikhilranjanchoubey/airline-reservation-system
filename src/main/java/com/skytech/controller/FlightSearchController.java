@@ -60,7 +60,7 @@ public class FlightSearchController extends HttpServlet {
                         || "true".equalsIgnoreCase(editParam)
                         || "modify".equalsIgnoreCase(actionParam);
 
-        // If user requested to modify the search OR no search query parameters were submitted, show the search form
+        // Show search form if modifying search or no parameters provided
         if (isModify || (source == null && destination == null && departureDateStr == null && segSource1 == null)) {
             LocalDate today = LocalDate.now(APP_ZONE_ID);
             request.setAttribute("pageTitle", isModify ? "Modify Flight Search - SkyTech" : "Search Flights - SkyTech");
@@ -230,7 +230,7 @@ public class FlightSearchController extends HttpServlet {
             return;
         }
 
-        // Execute search using active provider (Amadeus or Local Database)
+        // Parse search parameters and execute search
         LocalDate departureDate = LocalDate.parse(departureDateStr.trim());
         String formattedDepartureDate = departureDate.format(DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH));
         String departureDayOfWeek = departureDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
@@ -297,11 +297,11 @@ public class FlightSearchController extends HttpServlet {
         }
 
         if (flights != null) {
-            apiError = null; // Clean search result succeeded (either with results or 0 matching flights)
+            apiError = null;
             apiErrorCategory = null;
         }
 
-        // Asynchronously/fail-soft record search query in MySQL
+        // Record search query asynchronously
         try {
             flightSearchService.recordSearchHistory(searchReq, flightSearchService.getActiveProvider().getProviderName());
         } catch (Exception e) {

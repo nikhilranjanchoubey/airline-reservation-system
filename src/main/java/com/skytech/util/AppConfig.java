@@ -166,9 +166,7 @@ public final class AppConfig {
         return get(key, null);
     }
 
-    // ==========================================
-    // REEFAPI ACCESSORS
-    // ==========================================
+    // ReefAPI accessors
 
     /**
      * Obtains the configured ReefAPI Key (from REEF_API_KEY or reef.api.key).
@@ -197,9 +195,7 @@ public final class AppConfig {
         return get("REEF_API_URL", "https://api.reefapi.com");
     }
 
-    // ==========================================
-    // LEGACY RAPIDAPI / AERODATABOX ACCESSORS (DEPRECATED)
-    // ==========================================
+    // Legacy accessors (deprecated)
 
     @Deprecated
     public static String getRapidApiKey() {
@@ -217,9 +213,7 @@ public final class AppConfig {
         return get("RAPIDAPI_HOST", "aerodatabox.p.rapidapi.com");
     }
 
-    // ==========================================
-    // DATABASE / MYSQL ACCESSORS
-    // ==========================================
+    // Database accessors
 
     public static String getDbUrl() {
         return get("DB_URL", get("db.url",

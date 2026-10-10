@@ -1,6 +1,4 @@
-/* ==========================================================================
-   SkyTech - Custom Airline Styles & Interactions
-   ========================================================================== */
+/* SkyTech - Custom Airline Styles & Interactions */
 
 :root {
     --primary: #1976D2;
@@ -42,9 +40,7 @@ body {
     overflow-x: clip;
 }
 
-/* ==========================================================================
-   Navbar & Sticky Header
-   ========================================================================== */
+/* Navbar & Sticky Header */
 .bg-skytech {
     background-color: #071426 !important;
 }
@@ -131,9 +127,7 @@ body {
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
-/* ==========================================================================
-   Scroll-Triggered Reveal Animations
-   ========================================================================== */
+/* Scroll-Triggered Reveal Animations */
 .fade-in-on-scroll {
     opacity: 0;
     transform: translateY(32px);
@@ -161,9 +155,7 @@ body {
     }
 }
 
-/* ==========================================================================
-   Floating Back To Top Button
-   ========================================================================== */
+/* Floating Back To Top Button */
 .back-to-top-btn {
     position: fixed;
     bottom: 2rem;
@@ -198,9 +190,7 @@ body {
     box-shadow: 0 10px 24px rgba(2, 132, 199, 0.5);
 }
 
-/* ==========================================================================
-   Professional Footer Styling (Compact & Clean)
-   ========================================================================== */
+/* Footer Styling */
 /* Sticky Navbar Offset for In-Page Anchor Links */
 #baggage, #checkin, #documents, #airports, #guidelines, #passenger-rights,
 #help, #careers, #faqs, #terms, #privacy, #cookies, #accessibility,
@@ -255,9 +245,7 @@ body {
     text-decoration: underline;
 }
 
-/* ==============================================================================
-   Homepage Enhanced UI & Destination Cards (Production Responsive Grid)
-   ============================================================================== */
+/* Destination Cards & Grid */
 .destinations-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -339,9 +327,7 @@ body {
     letter-spacing: 0.02em;
 }
 
-/* ==============================================================================
-   Journey Simplified Timeline (Travel Experience)
-   ============================================================================== */
+/* Journey Timeline */
 .journey-timeline-wrapper {
     position: relative;
 }
@@ -398,9 +384,7 @@ body {
     transform: scale(1.1);
 }
 
-/* ==============================================================================
-   Travel Inspiration Cards
-   ============================================================================== */
+/* Travel Inspiration Cards */
 .inspiration-card {
     position: relative;
     height: 380px;
@@ -448,9 +432,7 @@ body {
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
 }
 
-/* ==============================================================================
-   SkyTech Shared Feature & Action Cards Design System
-   ============================================================================== */
+/* Shared Feature & Action Cards */
 .skytech-cards-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -547,9 +529,7 @@ body {
     flex-grow: 1;
 }
 
-/* ==============================================================================
-   Newsletter CTA Card
-   ============================================================================== */
+/* Newsletter CTA Card */
 .newsletter-banner {
     background: linear-gradient(135deg, #0b172a 0%, #0369a1 100%);
     border-radius: 20px;
@@ -571,9 +551,7 @@ body {
     border-radius: 50%;
 }
 
-/* ==============================================================================
-   Multi-City Dynamic Segment Styling
-   ============================================================================== */
+/* Multi-City Dynamic Segment Styling */
 .multi-city-segment-card {
     background: #f8fafc;
     border: 1px dashed #cbd5e1;
@@ -616,9 +594,7 @@ body {
     background: rgba(239, 68, 68, 0.1);
 }
 
-/* ==========================================================================
-   Flight Results & Travel Information Component Utilities
-   ========================================================================== */
+/* Flight Results & Travel Information Component Utilities */
 .border-start-md {
     border-left: none;
 }

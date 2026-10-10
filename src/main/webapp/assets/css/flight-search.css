@@ -1,17 +1,4 @@
-/* ==============================================================================
-   SkyTech - Flight Search & Availability Module Stylesheet
-   Color Palette:
-   - Primary Blue: #1976D2
-   - Dark Navy: #0D1B3E
-   - Light Blue: #E3F2FD
-   - Page Background: #F5F9FF
-   - White: #FFFFFF
-   - Text: #1F2937
-   - Muted: #64748B
-   - Success: #16A34A
-   - Warning: #F59E0B
-   - Danger: #DC2626
-   ============================================================================== */
+/* SkyTech - Flight Search & Availability Module Stylesheet */
 
 :root {
     --sky-primary: #1976D2;
@@ -52,9 +39,7 @@ body {
     line-height: 1.5;
 }
 
-/* ==============================================================================
-   Search Hero & Card
-   ============================================================================== */
+/* Search Hero & Card */
 .flight-hero {
     background: linear-gradient(135deg, var(--sky-navy) 0%, #173874 100%);
     color: #FFFFFF;
@@ -100,9 +85,7 @@ body {
     box-shadow: 0 2px 6px rgba(13, 27, 62, 0.15);
 }
 
-/* ==============================================================================
-   Balanced Booking Form Grid (Row 1 & Row 2)
-   ============================================================================== */
+/* Booking Form Grid */
 .booking-form-grid-row-1 {
     display: grid;
     grid-template-columns: 1.15fr 40px 1.15fr 0.9fr;
@@ -339,9 +322,7 @@ body {
     padding: 16px;
 }
 
-/* ==============================================================================
-   Custom Cabin Class Dropdown Component
-   ============================================================================== */
+/* Custom Cabin Class Dropdown */
 .cabin-class-btn {
     border: none !important;
     background: transparent !important;
@@ -533,9 +514,7 @@ li[aria-selected="true"] .cabin-option-item {
     box-shadow: none !important;
 }
 
-/* ==============================================================================
-   Flight Results Page
-   ============================================================================== */
+/* Flight Results Page */
 .search-summary-bar {
     background: #FFFFFF;
     border-radius: var(--sky-radius-md);
@@ -586,9 +565,7 @@ li[aria-selected="true"] .cabin-option-item {
     margin-bottom: 0.65rem;
 }
 
-/* ==========================================================================
-   Flight Result Card (5-Column Desktop Grid Layout)
-   ========================================================================== */
+/* Flight Result Card */
 .flight-card {
     background: #FFFFFF;
     border-radius: var(--sky-radius-md, 12px);
@@ -664,7 +641,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .airline-name {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     font-weight: 600;
     color: var(--sky-navy, #0F172A);
     line-height: 1.25;
@@ -672,14 +649,14 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .flight-number {
-    font-size: 0.85rem; /* ~13.5px */
+    font-size: 0.85rem;
     font-weight: 600;
     color: #475569;
     line-height: 1.2;
 }
 
 .aircraft-details {
-    font-size: 0.775rem; /* ~12.5px */
+    font-size: 0.775rem;
     color: #64748B;
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
@@ -705,7 +682,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .flight-time {
-    font-size: 1.55rem; /* ~25px */
+    font-size: 1.55rem;
     font-weight: 700;
     color: var(--sky-navy, #0F172A);
     line-height: 1.15;
@@ -713,7 +690,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .airport-code {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     font-weight: 700;
     color: #1E293B;
     line-height: 1.2;
@@ -721,7 +698,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .airport-city {
-    font-size: 0.85rem; /* ~13.5px */
+    font-size: 0.85rem;
     font-weight: 500;
     color: #64748B;
     line-height: 1.25;
@@ -729,7 +706,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .terminal-info {
-    font-size: 0.775rem; /* ~12.5px */
+    font-size: 0.775rem;
     font-weight: 500;
     color: #64748B;
     line-height: 1.2;
@@ -858,7 +835,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .flight-price {
-    font-size: 1.65rem; /* ~26.5px */
+    font-size: 1.65rem;
     font-weight: 800;
     color: var(--sky-navy, #0F172A);
     line-height: 1.1;
@@ -866,7 +843,7 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 .price-subtext {
-    font-size: 0.775rem; /* ~12.5px */
+    font-size: 0.775rem;
     color: #64748B;
     margin-top: 3px;
     line-height: 1.2;
@@ -921,9 +898,7 @@ li[aria-selected="true"] .cabin-option-item {
     color: var(--sky-primary, #0284C7);
 }
 
-/* ==========================================================================
-   Responsive Breakpoints
-   ========================================================================== */
+/* Responsive Breakpoints */
 
 /* Tablet (768px to 991px) */
 @media (max-width: 991.98px) and (min-width: 576px) {
@@ -1101,9 +1076,7 @@ li[aria-selected="true"] .cabin-option-item {
     }
 }
 
-/* ==============================================================================
-   Homepage & Deal Cards
-   ============================================================================== */
+/* Homepage & Deal Cards */
 .home-hero-section {
     position: relative;
     background-color: #071426; /* Deep Midnight Navy Fallback */
@@ -1233,9 +1206,7 @@ li[aria-selected="true"] .cabin-option-item {
     box-shadow: var(--sky-shadow-md) !important;
 }
 
-/* ==============================================================================
-   Airport Autocomplete Dropdown
-   ============================================================================== */
+/* Airport Autocomplete Dropdown */
 .airport-autocomplete-list {
     position: absolute;
     top: 100%;
@@ -1259,9 +1230,7 @@ li[aria-selected="true"] .cabin-option-item {
     background: var(--sky-light-blue);
 }
 
-/* ==============================================================================
-   Interactive Cabin Seat Map Styles
-   ============================================================================== */
+/* Cabin Seat Map Styles */
 .cabin-fuselage-wrapper {
     background: #F8FAFC;
     border: 2px solid #E2E8F0;
@@ -1396,9 +1365,7 @@ li[aria-selected="true"] .cabin-option-item {
     border: 1px solid #FFB74D;
 }
 
-/* ==============================================================================
-   SkyTech Toast Notification System (Issue 7)
-   ============================================================================== */
+/* Toast Notification System */
 .skytech-toast-container,
 #skytech-toast-container,
 #skyTechToastContainer {
@@ -1518,9 +1485,7 @@ li[aria-selected="true"] .cabin-option-item {
     }
 }
 
-/* ==============================================================================
-   Results Layout & Sticky Filter Sidebar (Issue 1 & 10)
-   ============================================================================== */
+/* Results Layout & Sticky Filter Sidebar */
 .results-page-container,
 .results-container {
     max-width: 1440px;
@@ -1585,9 +1550,7 @@ li[aria-selected="true"] .cabin-option-item {
     }
 }
 
-/* ==============================================================================
-   Flight Details Balanced Two-Column Layout (Issue 2 & 11)
-   ============================================================================== */
+/* Flight Details Two-Column Layout */
 .details-container {
     max-width: 1280px;
     margin-left: auto;
@@ -1699,9 +1662,7 @@ li[aria-selected="true"] .cabin-option-item {
     color: var(--sky-navy);
 }
 
-/* ==============================================================================
-   Single Display Dynamic Date Picker (Issue 3, 4, 5, 6)
-   ============================================================================== */
+/* Single Display Dynamic Date Picker */
 .date-picker-box {
     position: relative !important;
     cursor: pointer;
@@ -1778,9 +1739,7 @@ li[aria-selected="true"] .cabin-option-item {
     color: var(--sky-muted);
 }
 
-/* ==============================================================================
-   SkyTech Custom Airline Date Calendar Popover
-   ============================================================================== */
+/* Custom Airline Date Calendar Popover */
 .skytech-calendar-popover {
     position: absolute;
     z-index: 1050;

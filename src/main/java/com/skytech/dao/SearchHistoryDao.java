@@ -40,42 +40,26 @@ public class SearchHistoryDao {
         try (Connection conn = DBConnectionUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(SQL_INSERT_SEARCH)) {
 
-            // 1. user_id (nullable)
             if (request.getUserId() != null) {
                 ps.setLong(1, request.getUserId());
             } else {
                 ps.setNull(1, Types.BIGINT);
             }
 
-            // 2. origin_code
             ps.setString(2, request.getOrigin().trim().toUpperCase());
-
-            // 3. destination_code
             ps.setString(3, request.getDestination().trim().toUpperCase());
-
-            // 4. departure_date
             ps.setDate(4, Date.valueOf(request.getDepartureDate()));
 
-            // 5. return_date (nullable)
             if (request.getReturnDate() != null) {
                 ps.setDate(5, Date.valueOf(request.getReturnDate()));
             } else {
                 ps.setNull(5, Types.DATE);
             }
 
-            // 6. adults
             ps.setInt(6, request.getAdults());
-
-            // 7. children
             ps.setInt(7, request.getChildren());
-
-            // 8. infants
             ps.setInt(8, request.getInfants());
-
-            // 9. cabin_class
             ps.setString(9, request.getCabinClass() != null ? request.getCabinClass().trim().toUpperCase() : "ECONOMY");
-
-            // 10. provider
             ps.setString(10, provider != null ? provider : "ReefAPI");
 
             int rows = ps.executeUpdate();

@@ -5,9 +5,7 @@
 <jsp:include page="common/navbar.jsp" />
 
 <main>
-    <!-- =========================================================================
-         1. HERO SECTION & INTEGRATED AIRLINE SEARCH ENGINE
-         ========================================================================= -->
+    <!-- 1. Hero & Flight Search Engine -->
     <section class="home-hero-section py-5 text-white" id="heroSearchSection">
         <!-- High-Resolution Real Aviation Photography Background -->
         <div class="home-hero-bg" aria-hidden="true">
@@ -77,7 +75,7 @@
                         </div>
                     </div>
 
-                    <!-- ================= STANDARD ONE-WAY & ROUND-TRIP CONTAINER ================= -->
+                    <!-- Standard One-Way & Round-Trip Container -->
                     <div id="standardRouteContainer">
                         <div class="booking-form-grid-row-1" id="standardRouteRow">
                             <!-- FROM (Origin) -->
@@ -185,7 +183,7 @@
                         </div>
                     </div>
 
-                    <!-- ================= MULTI-CITY BUILDER CONTAINER ================= -->
+                    <!-- Multi-City Builder Container -->
                     <div id="multiCityContainer" class="d-none">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="small text-muted fw-bold text-uppercase">
@@ -392,9 +390,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         2. POPULAR DESTINATIONS / FLIGHT DEALS SECTION
-         ========================================================================= -->
+    <!-- 2. Popular Destinations & Deals -->
     <section class="py-5 bg-white fade-in-on-scroll" id="popularRoutesSection" style="position: relative; z-index: 1;">
         <div class="container py-2">
             <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
@@ -472,9 +468,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         3. WHY FLY WITH SKYTECH (FEATURE VALUE PROPOSITION)
-         ========================================================================= -->
+    <!-- 3. Why Fly with SkyTech -->
     <section class="py-5 fade-in-on-scroll" style="background-color: var(--skytech-light-bg, #F5F8FC);" id="whySkyTechSection">
         <div class="container py-2">
             <div class="text-center mb-5">
@@ -521,9 +515,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         4. TRAVEL EXPERIENCE SECTION ("YOUR JOURNEY, SIMPLIFIED")
-         ========================================================================= -->
+    <!-- 4. Travel Experience -->
     <section class="py-5 bg-white fade-in-on-scroll" id="travelExperienceSection">
         <div class="container py-2">
             <div class="text-center mb-5">
@@ -574,9 +566,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         5. TRAVEL INSPIRATION SECTION ("GET INSPIRED")
-         ========================================================================= -->
+    <!-- 5. Travel Inspiration -->
     <section class="py-5 fade-in-on-scroll" style="background-color: var(--skytech-light-bg);" id="inspirationSection">
         <div class="container py-2">
             <div class="text-center mb-5">
@@ -636,9 +626,7 @@
         </div>
     </section>
 
-    <!-- =========================================================================
-         6. TRAVEL HELP / QUICK ACTION SECTION
-         ========================================================================= -->
+    <!-- 6. Travel Help & Quick Actions -->
     <section class="py-5 bg-white fade-in-on-scroll" id="helpSection">
         <div class="container py-2">
             <div class="text-center mb-5">
@@ -689,9 +677,7 @@
 
 
 
-    <!-- =========================================================================
-         9. TRAVEL GUIDELINES MODAL
-         ========================================================================= -->
+    <!-- Travel Guidelines Modal -->
     <div class="modal fade" id="guidelinesModal" tabindex="-1" aria-labelledby="guidelinesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg border-0 rounded-4">
@@ -729,9 +715,7 @@
     </div>
 </main>
 
-<!-- =========================================================================
-     JAVASCRIPT LOGIC (AIRPORTS, DATES, MULTI-CITY, POPULAR DEALS, VALIDATION)
-     ========================================================================= -->
+<!-- Page Scripts -->
 <script>
     // Verified Airport Master Dataset
     const AIRPORTS_DATA = [

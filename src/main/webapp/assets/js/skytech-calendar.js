@@ -1,17 +1,6 @@
 /**
  * SkyTech Custom Airline Date Calendar Popover
- * 
- * Features:
- * - Dynamic IST date anchor (Asia/Kolkata)
- * - Visually disabled past dates (greyed out, unclickable, cursor: not-allowed)
- * - Click on past dates does NOTHING (no error toast, no selection)
- * - Today highlighted with airline blue styling and fully selectable
- * - Future dates hoverable and selectable
- * - Previous month button disabled when viewing the current minimum month
- * - Forward/backward month navigation with dynamic boundary checks
- * - "Today" and "Clear" quick action buttons
- * - Accessible keyboard navigation and outside click / ESC dismissal
- * - Native hidden input synchronization (yyyy-MM-dd)
+ * Handles date picking with min-date enforcement, month navigation, and input synchronization.
  */
 (function(window) {
     'use strict';
@@ -30,7 +19,6 @@
         'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     ];
 
-    // Helper: pad integer to 2 digits
     function pad(n) {
         return n < 10 ? '0' + n : String(n);
     }
@@ -179,7 +167,7 @@
         const minYear = minParsed.year;
         const minMonth = minParsed.month;
 
-        // Issue 5: Disable previous month button when viewing current/min month
+        // Disable previous month button when viewing current/min month
         const isMinMonth = (viewYear < minYear) || (viewYear === minYear && viewMonth <= minMonth);
         if (isMinMonth) {
             prevBtn.disabled = true;
@@ -230,12 +218,10 @@
             const isSelected = (dateStr === selectedIso);
 
             if (isPast) {
-                // Issue 1 & 2: Visually muted/greyed out, cursor: not-allowed, unclickable
                 btn.className = 'calendar-day is-past';
                 btn.disabled = true;
                 btn.setAttribute('aria-disabled', 'true');
                 btn.setAttribute('tabindex', '-1');
-                // Explicitly ignore click events (Issue 2)
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -266,7 +252,6 @@
         // Double check minimum date limit
         const minDateIso = currentOptions.minDateIso || serverTodayIso;
         if (dateStr < minDateIso) {
-            // Strictly reject past dates without action
             return;
         }
 

@@ -308,9 +308,7 @@ public class FlightSchedule implements Serializable {
         this.fareNote = fareNote;
     }
 
-    // ==========================================
-    // REEFAPI EXTENDED ITINERARY FIELDS
-    // ==========================================
+    // ReefAPI itinerary fields
 
     private String bookingUrl;
     private String currency = "INR";

@@ -248,7 +248,7 @@ public class FlightSearchService {
         }
         LocalDate targetDate = (departureDate != null) ? departureDate : LocalDate.now(APP_ZONE_ID);
 
-        // 1. Check ReefAPI live feed cache
+        // Check ReefAPI cache
         if (flightProvider instanceof ReefApiFlightProvider) {
             FlightSchedule liveFs = ((ReefApiFlightProvider) flightProvider).getFlightByRouteAndNumber(flightNumber, source, destination, targetDate);
             if (liveFs != null) {
@@ -256,7 +256,7 @@ public class FlightSearchService {
             }
         }
 
-        // 2. Check general flight number lookup
+        // Lookup by flight number
         FlightSchedule byNum = getFlightByFlightNumber(flightNumber, targetDate);
         if (byNum != null) {
             if (source == null || byNum.getFlight() == null || byNum.getFlight().getSourceAirport() == null
@@ -355,11 +355,11 @@ public class FlightSearchService {
             return deals;
         }
 
-        // Deterministic Daily Shuffle index based on calendar day (remains constant throughout the day)
+        // Daily rotation index
         long epochDay = baseDate.toEpochDay();
         int dailyIndex = (int) (Math.abs(epochDay) % FEATURED_ROUTES.size());
 
-        // Build list: Daily Shuffle featured first, followed by the remaining routes
+        // Order routes starting with featured deal
         List<FeaturedRouteConfig> orderedRoutes = new ArrayList<>();
         orderedRoutes.add(FEATURED_ROUTES.get(dailyIndex));
         for (int i = 0; i < FEATURED_ROUTES.size(); i++) {
@@ -381,7 +381,7 @@ public class FlightSearchService {
             java.util.Set<String> airlineSet = new java.util.LinkedHashSet<>();
 
             try {
-                // Query local catalog so homepage does not burn external RapidAPI rate limits
+                // Query local catalog to conserve API quota
                 List<FlightSchedule> flights = localCatalogProvider.searchFlights(cfg.src, cfg.dst, searchDate, 1, "Economy");
                 if (flights != null && !flights.isEmpty()) {
                     for (FlightSchedule fs : flights) {
