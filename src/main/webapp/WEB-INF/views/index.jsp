@@ -9,10 +9,22 @@
          1. HERO SECTION & INTEGRATED AIRLINE SEARCH ENGINE
          ========================================================================= -->
     <section class="home-hero-section py-5 text-white" id="heroSearchSection">
-        <div class="container py-3">
+        <!-- High-Resolution Real Aviation Photography Background -->
+        <div class="home-hero-bg" aria-hidden="true">
+            <img src="${pageContext.request.contextPath}/assets/images/hero-aviation.jpg"
+                 alt=""
+                 class="home-hero-bg-img"
+                 loading="eager" />
+            <div class="home-hero-overlay"></div>
+        </div>
+
+        <div class="container py-3 hero-content-container">
             <div class="text-center mb-4">
-                <span class="badge bg-light text-primary fw-bold text-uppercase px-3 py-2 mb-2 rounded-pill tracking-wide shadow-sm">
-                    <i class="bi bi-airplane-engines me-1"></i> SkyTech &bull; Premier Booking Engine
+                <span class="hero-premium-badge">
+                    <i class="bi bi-airplane-engines me-1 badge-icon"></i>
+                    <span>SKYTECH</span>
+                    <span class="badge-divider">|</span>
+                    <span>PREMIUM AIR TRAVEL</span>
                 </span>
                 <h1 class="display-4 fw-bold mb-2">Travel smarter with SkyTech</h1>
                 <p class="lead text-white-75 mb-0">Search. Compare. Fly.</p>
@@ -67,18 +79,18 @@
 
                     <!-- ================= STANDARD ONE-WAY & ROUND-TRIP CONTAINER ================= -->
                     <div id="standardRouteContainer">
-                        <div class="row g-3 align-items-center" id="standardRouteRow">
+                        <div class="booking-form-grid-row-1" id="standardRouteRow">
                             <!-- FROM (Origin) -->
-                            <div class="col-lg-4 col-md-5" id="fromCol">
+                            <div id="fromCol">
                                 <div class="search-field-box position-relative" id="fromBoxContainer">
-                                    <label class="field-label">
+                                    <label class="field-label" for="fromAirportDisplay">
                                         <i class="bi bi-geo-alt-fill text-primary"></i> FROM
                                     </label>
                                     <input type="text" class="field-input fw-bold" id="fromAirportDisplay"
                                            placeholder="City or Airport (e.g. JAI, Delhi)"
                                            value="Jaipur (JAI)"
                                            autocomplete="off" required onfocus="openAirportDropdown('from')" oninput="onAirportSearchInput('from')">
-                                    <small class="text-muted d-block text-truncate" id="fromSubtext">
+                                    <small class="field-subtext text-muted text-truncate d-block" id="fromSubtext">
                                         Jaipur &bull; Jaipur International Airport
                                     </small>
                                     <input type="hidden" name="source" id="sourceCodeInput" value="JAI">
@@ -94,23 +106,23 @@
                             </div>
 
                             <!-- Circular Swap Button -->
-                            <div class="col-lg-auto col-md-2 text-center d-flex justify-content-center" id="swapCol">
-                                <button type="button" class="btn-swap-airports" id="btnSwapAirports" title="Swap origin and destination" onclick="swapAirports()">
+                            <div class="swap-grid-col text-center d-flex justify-content-center" id="swapCol">
+                                <button type="button" class="btn-swap-airports" id="btnSwapAirports" title="Swap origin and destination" onclick="swapAirports()" aria-label="Swap origin and destination airports">
                                     <i class="bi bi-arrow-left-right"></i>
                                 </button>
                             </div>
 
                             <!-- TO (Destination) -->
-                            <div class="col-lg-4 col-md-5" id="toCol">
+                            <div id="toCol">
                                 <div class="search-field-box position-relative" id="toBoxContainer">
-                                    <label class="field-label">
+                                    <label class="field-label" for="toAirportDisplay">
                                         <i class="bi bi-geo-fill text-danger"></i> TO
                                     </label>
                                     <input type="text" class="field-input fw-bold" id="toAirportDisplay"
                                            placeholder="City or Airport (e.g. DEL, Mumbai)"
                                            value="Delhi (DEL)"
                                            autocomplete="off" required onfocus="openAirportDropdown('to')" oninput="onAirportSearchInput('to')">
-                                    <small class="text-muted d-block text-truncate" id="toSubtext">
+                                    <small class="field-subtext text-muted text-truncate d-block" id="toSubtext">
                                         Delhi &bull; Indira Gandhi International Airport
                                     </small>
                                     <input type="hidden" name="destination" id="destCodeInput" value="DEL">
@@ -126,26 +138,26 @@
                             </div>
 
                             <!-- DEPARTURE DATE -->
-                            <div class="col-lg-3 col-md-6" id="depCol">
+                            <div class="dep-grid-col" id="depCol">
                                 <div class="search-field-box date-picker-box position-relative" id="depFieldBox"
                                      onclick="openHomepageCalendar('departure')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHomepageCalendar('departure');}"
                                      role="button" tabindex="0" aria-label="Departure Date Picker">
-                                    <label class="field-label mb-1" style="pointer-events: none;">
+                                    <label class="field-label" style="pointer-events: none;">
                                         <i class="bi bi-calendar-event text-primary"></i> DEPARTURE
                                     </label>
-                                    <div class="date-custom-display d-flex align-items-center justify-content-between" id="departureDateDisplay">
-                                        <div class="d-flex align-items-baseline gap-2">
-                                            <span class="date-main-text" id="departureDatePrimary">
+                                    <div class="d-flex align-items-center justify-content-between" id="departureDateDisplay" style="pointer-events: none;">
+                                        <div class="text-truncate">
+                                            <span class="field-input-text fw-bold text-dark d-block text-truncate" id="departureDatePrimary">
                                                 <c:choose>
                                                     <c:when test="${not empty todayFormatted}">${todayFormatted}</c:when>
                                                     <c:otherwise>Select Date</c:otherwise>
                                                 </c:choose>
                                             </span>
-                                            <span class="date-sub-text" id="departureDaySubtext">
+                                            <small class="field-subtext text-muted text-truncate d-block" id="departureDaySubtext">
                                                 <c:if test="${not empty todayDayOfWeek}">&bull; ${todayDayOfWeek}</c:if>
-                                            </span>
+                                            </small>
                                         </div>
-                                        <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                        <i class="bi bi-calendar3 text-primary fs-5 ms-2 flex-shrink-0" aria-hidden="true"></i>
                                     </div>
                                     <input type="hidden" id="departureDateInput" name="departureDate"
                                            value="${not empty todayDate ? todayDate : minDate}">
@@ -153,19 +165,19 @@
                             </div>
 
                             <!-- RETURN DATE (Hidden by default in One Way) -->
-                            <div class="col-lg-2 col-md-6 d-none" id="returnDateContainer">
+                            <div class="return-grid-col d-none" id="returnDateContainer">
                                 <div class="search-field-box date-picker-box position-relative" id="returnFieldBox"
                                      onclick="openHomepageCalendar('return')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHomepageCalendar('return');}"
                                      role="button" tabindex="0" aria-label="Return Date Picker">
-                                    <label class="field-label mb-1" style="pointer-events: none;">
+                                    <label class="field-label" style="pointer-events: none;">
                                         <i class="bi bi-calendar2-check text-primary" id="returnIcon"></i> RETURN
                                     </label>
-                                    <div class="date-custom-display d-flex align-items-center justify-content-between" id="returnDateDisplay">
-                                        <div class="d-flex align-items-baseline gap-2">
-                                            <span class="date-main-text" id="returnDatePrimary">Select Return</span>
-                                            <span class="date-sub-text" id="returnDaySubtext"></span>
+                                    <div class="d-flex align-items-center justify-content-between" id="returnDateDisplay" style="pointer-events: none;">
+                                        <div class="text-truncate">
+                                            <span class="field-input-text fw-bold text-dark d-block text-truncate" id="returnDatePrimary">Select Return</span>
+                                            <small class="field-subtext text-muted text-truncate d-block" id="returnDaySubtext"></small>
                                         </div>
-                                        <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                        <i class="bi bi-calendar3 text-primary fs-5 ms-2 flex-shrink-0" aria-hidden="true"></i>
                                     </div>
                                     <input type="hidden" id="returnDateInput" name="returnDate" value="" disabled>
                                 </div>
@@ -197,20 +209,23 @@
                     </div>
 
                     <!-- Row 2: Passengers, Cabin & Search CTA -->
-                    <div class="row g-3 mt-2 align-items-center">
+                    <div class="booking-form-grid-row-2">
                         <!-- Passengers Selector Dropdown -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="search-field-box dropdown">
-                                <label class="field-label">
+                        <div id="passengerCol">
+                            <div class="search-field-box dropdown position-relative" id="passengerBoxContainer">
+                                <label class="field-label" id="passengerDropdownLabel">
                                     <i class="bi bi-people-fill text-primary"></i> TRAVELLERS
                                 </label>
-                                <button type="button" class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center"
-                                        id="passengerDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    <span id="passengerSummaryText">1 Adult</span>
-                                    <i class="bi bi-chevron-down text-muted small"></i>
+                                <button type="button" class="field-select-trigger btn p-0 text-start w-100 d-flex justify-content-between align-items-center"
+                                        id="passengerDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-display="static" aria-expanded="false" aria-labelledby="passengerDropdownLabel passengerDropdownBtn">
+                                    <div class="text-truncate">
+                                        <span id="passengerSummaryText" class="field-input-text fw-bold text-dark d-block text-truncate">1 Traveller</span>
+                                        <small id="passengerSubtext" class="field-subtext text-muted text-truncate d-block">1 Adult</small>
+                                    </div>
+                                    <i class="bi bi-chevron-down text-muted small ms-2 field-chevron flex-shrink-0"></i>
                                 </button>
 
-                                <div class="dropdown-menu passenger-dropdown-menu shadow-lg p-3" aria-labelledby="passengerDropdownBtn" style="min-width: 280px;">
+                                <div class="dropdown-menu passenger-dropdown-menu shadow-lg p-3" aria-labelledby="passengerDropdownBtn">
                                     <!-- Adults -->
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <div>
@@ -218,9 +233,9 @@
                                             <small class="text-muted">12+ years</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('adults', -1)">&minus;</button>
+                                            <button type="button" class="counter-btn" id="adultMinusBtn" onclick="updatePassenger('adults', -1)" disabled aria-label="Decrease adult passengers">&minus;</button>
                                             <span id="adultCountDisplay" class="fw-bold px-2">1</span>
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('adults', 1)">&#43;</button>
+                                            <button type="button" class="counter-btn" id="adultPlusBtn" onclick="updatePassenger('adults', 1)" aria-label="Increase adult passengers">&#43;</button>
                                         </div>
                                     </div>
 
@@ -231,9 +246,9 @@
                                             <small class="text-muted">2&ndash;11 years</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('children', -1)">&minus;</button>
+                                            <button type="button" class="counter-btn" id="childMinusBtn" onclick="updatePassenger('children', -1)" disabled aria-label="Decrease child passengers">&minus;</button>
                                             <span id="childCountDisplay" class="fw-bold px-2">0</span>
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('children', 1)">&#43;</button>
+                                            <button type="button" class="counter-btn" id="childPlusBtn" onclick="updatePassenger('children', 1)" aria-label="Increase child passengers">&#43;</button>
                                         </div>
                                     </div>
 
@@ -244,9 +259,9 @@
                                             <small class="text-muted">Under 2 years (on lap)</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-2">
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('infants', -1)">&minus;</button>
+                                            <button type="button" class="counter-btn" id="infantMinusBtn" onclick="updatePassenger('infants', -1)" disabled aria-label="Decrease infant passengers">&minus;</button>
                                             <span id="infantCountDisplay" class="fw-bold px-2">0</span>
-                                            <button type="button" class="counter-btn" onclick="updatePassenger('infants', 1)">&#43;</button>
+                                            <button type="button" class="counter-btn" id="infantPlusBtn" onclick="updatePassenger('infants', 1)" aria-label="Increase infant passengers">&#43;</button>
                                         </div>
                                     </div>
 
@@ -263,23 +278,24 @@
                         </div>
 
                         <!-- Cabin Class Selector -->
-                        <div class="col-lg-4 col-md-6">
+                        <div id="cabinCol">
                             <div class="search-field-box dropdown position-relative" id="homeCabinClassBoxContainer">
                                 <label id="homeTravelClassDropdownLabel" class="field-label">
                                     <i class="bi bi-award-fill text-primary"></i> CABIN CLASS
                                 </label>
                                 <button type="button" 
-                                        class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center cabin-class-btn"
+                                        class="field-select-trigger btn p-0 text-start w-100 d-flex justify-content-between align-items-center cabin-class-btn"
                                         id="travelClassDropdownBtn" 
                                         data-bs-toggle="dropdown" 
+                                        data-bs-display="static"
                                         aria-expanded="false" 
                                         aria-haspopup="listbox" 
                                         aria-labelledby="homeTravelClassDropdownLabel travelClassDropdownBtn">
-                                    <span class="d-flex flex-column text-truncate">
-                                        <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark">Economy</span>
-                                        <small id="travelClassSubtext" class="text-muted text-truncate" style="font-size: 0.75rem;">Standard seating &amp; best value fares</small>
-                                    </span>
-                                    <i class="bi bi-chevron-down text-muted small ms-2 cabin-chevron"></i>
+                                    <div class="text-truncate">
+                                        <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark d-block text-truncate">Economy</span>
+                                        <small id="travelClassSubtext" class="field-subtext text-muted text-truncate d-block">Standard seating &amp; value fares</small>
+                                    </div>
+                                    <i class="bi bi-chevron-down text-muted small ms-2 field-chevron flex-shrink-0"></i>
                                 </button>
 
                                 <ul class="dropdown-menu cabin-class-dropdown-menu shadow-lg p-2" 
@@ -289,15 +305,15 @@
                                     <li role="option" aria-selected="true">
                                         <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between active" 
                                                 data-value="Economy"
-                                                data-subtext="Standard seating &amp; best value fares"
-                                                onclick="selectCabinClass('Economy', 'Standard seating &amp; best value fares')">
+                                                data-subtext="Standard seating &amp; value fares"
+                                                onclick="selectCabinClass('Economy', 'Standard seating &amp; value fares')">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="cabin-icon-box text-primary">
                                                     <i class="bi bi-person-fill"></i>
                                                 </div>
                                                 <div>
                                                     <div class="fw-bold cabin-option-title">Economy</div>
-                                                    <small class="text-muted d-block cabin-option-sub">Standard seating &amp; best value fares</small>
+                                                    <small class="text-muted d-block cabin-option-sub">Standard seating and value fares</small>
                                                 </div>
                                             </div>
                                             <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon"></i>
@@ -306,15 +322,15 @@
                                     <li role="option" aria-selected="false">
                                         <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
                                                 data-value="Premium Economy"
-                                                data-subtext="Extra legroom &amp; priority boarding"
-                                                onclick="selectCabinClass('Premium Economy', 'Extra legroom &amp; priority boarding')">
+                                                data-subtext="Extra space &amp; added comfort"
+                                                onclick="selectCabinClass('Premium Economy', 'Extra space &amp; added comfort')">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="cabin-icon-box text-primary">
                                                     <i class="bi bi-gem"></i>
                                                 </div>
                                                 <div>
                                                     <div class="fw-bold cabin-option-title">Premium Economy</div>
-                                                    <small class="text-muted d-block cabin-option-sub">Extra legroom &amp; priority boarding</small>
+                                                    <small class="text-muted d-block cabin-option-sub">Extra space and added comfort</small>
                                                 </div>
                                             </div>
                                             <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
@@ -323,15 +339,15 @@
                                     <li role="option" aria-selected="false">
                                         <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
                                                 data-value="Business"
-                                                data-subtext="Spacious seating &amp; gourmet dining"
-                                                onclick="selectCabinClass('Business', 'Spacious seating &amp; gourmet dining')">
+                                                data-subtext="More space &amp; premium services"
+                                                onclick="selectCabinClass('Business', 'More space &amp; premium services')">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="cabin-icon-box text-primary">
                                                     <i class="bi bi-briefcase-fill"></i>
                                                 </div>
                                                 <div>
                                                     <div class="fw-bold cabin-option-title">Business</div>
-                                                    <small class="text-muted d-block cabin-option-sub">Spacious seating &amp; gourmet dining</small>
+                                                    <small class="text-muted d-block cabin-option-sub">More space and premium services</small>
                                                 </div>
                                             </div>
                                             <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
@@ -340,15 +356,15 @@
                                     <li role="option" aria-selected="false">
                                         <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between" 
                                                 data-value="First Class"
-                                                data-subtext="Luxury private suite &amp; personal care"
-                                                onclick="selectCabinClass('First Class', 'Luxury private suite &amp; personal care')">
+                                                data-subtext="Premium cabin experience"
+                                                onclick="selectCabinClass('First Class', 'Premium cabin experience')">
                                             <div class="d-flex align-items-center gap-2">
                                                 <div class="cabin-icon-box text-primary">
                                                     <i class="bi bi-stars"></i>
                                                 </div>
                                                 <div>
                                                     <div class="fw-bold cabin-option-title">First Class</div>
-                                                    <small class="text-muted d-block cabin-option-sub">Luxury private suite &amp; personal care</small>
+                                                    <small class="text-muted d-block cabin-option-sub">Premium cabin experience</small>
                                                 </div>
                                             </div>
                                             <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon d-none"></i>
@@ -362,9 +378,11 @@
                         </div>
 
                         <!-- Search Flights CTA Button -->
-                        <div class="col-lg-4 col-md-12">
-                            <button type="submit" class="btn btn-search-flights w-100 py-3 shadow-sm" id="btnSearchSubmit">
-                                <span id="btnSearchText"><i class="bi bi-search me-1"></i> SEARCH FLIGHTS</span>
+                        <div class="search-cta-grid-col" id="searchCtaCol">
+                            <button type="submit" class="btn btn-search-flights shadow-sm" id="btnSearchSubmit">
+                                <span id="btnSearchText" class="d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-search"></i> SEARCH FLIGHTS
+                                </span>
                                 <span id="btnSearchSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
                             </button>
                         </div>
@@ -377,7 +395,7 @@
     <!-- =========================================================================
          2. POPULAR DESTINATIONS / FLIGHT DEALS SECTION
          ========================================================================= -->
-    <section class="py-5 bg-white fade-in-on-scroll" id="popularRoutesSection">
+    <section class="py-5 bg-white fade-in-on-scroll" id="popularRoutesSection" style="position: relative; z-index: 1;">
         <div class="container py-2">
             <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
                 <div>
@@ -457,55 +475,47 @@
     <!-- =========================================================================
          3. WHY FLY WITH SKYTECH (FEATURE VALUE PROPOSITION)
          ========================================================================= -->
-    <section class="py-5 fade-in-on-scroll" style="background-color: var(--skytech-light-bg);" id="whySkyTechSection">
+    <section class="py-5 fade-in-on-scroll" style="background-color: var(--skytech-light-bg, #F5F8FC);" id="whySkyTechSection">
         <div class="container py-2">
             <div class="text-center mb-5">
-                <span class="badge bg-primary text-white fw-bold text-uppercase px-3 py-1 mb-2 rounded-pill">
+                <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 mb-2 rounded-pill">
                     Aviation Excellence
                 </span>
-                <h2 class="fw-bold">Why Fly with SkyTech</h2>
-                <p class="text-muted">An airline reservation engine designed for speed, transparent fares, and intuitive seating</p>
+                <h2 class="fw-bold mb-2">Why Fly with SkyTech</h2>
+                <p class="text-muted mb-0 mx-auto" style="max-width: 620px;">An airline reservation engine designed for speed, transparent fares, and intuitive seating</p>
             </div>
 
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="p-4 bg-white rounded-4 shadow-sm h-100 text-center journey-step-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-primary-subtle text-primary mb-3 fs-3">
-                            <i class="bi bi-speedometer2"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Fast Flight Search</h5>
-                        <p class="text-muted small mb-0">High-speed schedule querying comparing multi-carrier inventory and best route timings across India.</p>
+            <div class="skytech-cards-grid">
+                <div class="skytech-feature-card">
+                    <div class="skytech-card-icon" style="background: #E0F2FE; color: #0284C7;">
+                        <i class="bi bi-speedometer2"></i>
                     </div>
+                    <h5 class="skytech-card-heading">Fast Flight Search</h5>
+                    <p class="skytech-card-desc">High-speed schedule querying comparing multi-carrier inventory and flight route timings.</p>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="p-4 bg-white rounded-4 shadow-sm h-100 text-center journey-step-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-success-subtle text-success mb-3 fs-3">
-                            <i class="bi bi-tag-fill"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Transparent Fares</h5>
-                        <p class="text-muted small mb-0">Clear itemized breakdown of base fares, GST, and airport fees with zero hidden charges before booking.</p>
+                <div class="skytech-feature-card">
+                    <div class="skytech-card-icon" style="background: #DCFCE7; color: #16A34A;">
+                        <i class="bi bi-tag-fill"></i>
                     </div>
+                    <h5 class="skytech-card-heading">Transparent Fares</h5>
+                    <p class="skytech-card-desc">Clear itemized breakdown of base fares, GST, and airport fees with zero hidden charges before booking.</p>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="p-4 bg-white rounded-4 shadow-sm h-100 text-center journey-step-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-info-subtle text-info-emphasis mb-3 fs-3">
-                            <i class="bi bi-grid-3x3"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Smart Seat Selection</h5>
-                        <p class="text-muted small mb-0">Interactive 20-row aircraft cabin map with real-time availability, extra legroom, and window seat selection.</p>
+                <div class="skytech-feature-card">
+                    <div class="skytech-card-icon" style="background: #E0F2FE; color: #0284C7;">
+                        <i class="bi bi-grid-3x3"></i>
                     </div>
+                    <h5 class="skytech-card-heading">Smart Seat Selection</h5>
+                    <p class="skytech-card-desc">Interactive aircraft cabin map with real-time seat availability, extra legroom, and window choices.</p>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="p-4 bg-white rounded-4 shadow-sm h-100 text-center journey-step-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-warning-subtle text-warning-emphasis mb-3 fs-3">
-                            <i class="bi bi-signpost-split-fill"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Flexible Travel</h5>
-                        <p class="text-muted small mb-0">Seamless support for One Way, Round Trip, and dynamic Multi-City multi-segment flight planning.</p>
+                <div class="skytech-feature-card">
+                    <div class="skytech-card-icon" style="background: #FEF3C7; color: #D97706;">
+                        <i class="bi bi-signpost-split-fill"></i>
                     </div>
+                    <h5 class="skytech-card-heading">Flexible Travel</h5>
+                    <p class="skytech-card-desc">Seamless support for One Way, Round Trip, and dynamic Multi-City multi-segment flight planning.</p>
                 </div>
             </div>
         </div>
@@ -635,50 +645,42 @@
                 <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 mb-2 rounded-pill">
                     Passenger Care
                 </span>
-                <h2 class="fw-bold">How Can We Help?</h2>
-                <p class="text-muted">Quick access to essential flight planning and travel support services</p>
+                <h2 class="fw-bold mb-2">How Can We Help?</h2>
+                <p class="text-muted mb-0 mx-auto" style="max-width: 620px;">Quick access to essential flight planning and travel support services</p>
             </div>
 
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <a href="${pageContext.request.contextPath}/search-flights" class="help-action-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-primary-subtle text-primary mb-3 fs-4">
-                            <i class="bi bi-search"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Flight Search</h5>
-                        <p class="text-muted small mb-0">Search available domestic flights across IndiGo, Air India, and Akasa Air.</p>
-                    </a>
-                </div>
+            <div class="skytech-cards-grid">
+                <a href="${pageContext.request.contextPath}/search-flights" class="help-action-card">
+                    <div class="skytech-card-icon" style="background: #E0F2FE; color: #0284C7;">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h5 class="skytech-card-heading">Flight Search</h5>
+                    <p class="skytech-card-desc">Search schedules and live fares across domestic routes and leading airlines.</p>
+                </a>
 
-                <div class="col-md-6 col-lg-3">
-                    <a href="${pageContext.request.contextPath}/manage-booking" class="help-action-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-secondary-subtle text-secondary fs-4 mb-3">
-                            <i class="bi bi-journal-bookmark"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Manage Booking</h5>
-                        <p class="text-muted small mb-0">View reservations, retrieve passenger itineraries, or request flight upgrades.</p>
-                    </a>
-                </div>
+                <a href="${pageContext.request.contextPath}/manage-booking" class="help-action-card">
+                    <div class="skytech-card-icon" style="background: #F1F5F9; color: #475569;">
+                        <i class="bi bi-journal-bookmark"></i>
+                    </div>
+                    <h5 class="skytech-card-heading">Manage Booking</h5>
+                    <p class="skytech-card-desc">Retrieve confirmed itineraries, view passenger details, or review flight reservations.</p>
+                </a>
 
-                <div class="col-md-6 col-lg-3">
-                    <a href="${pageContext.request.contextPath}/flight-status" class="help-action-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-warning-subtle text-warning-emphasis fs-4 mb-3">
-                            <i class="bi bi-clock-history"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Flight Status</h5>
-                        <p class="text-muted small mb-0">Check real-time departure and arrival schedules for any active flight number.</p>
-                    </a>
-                </div>
+                <a href="${pageContext.request.contextPath}/flight-status" class="help-action-card">
+                    <div class="skytech-card-icon" style="background: #FEF3C7; color: #D97706;">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h5 class="skytech-card-heading">Flight Status</h5>
+                    <p class="skytech-card-desc">Check real-time departure, arrival, and terminal schedules for active flight numbers.</p>
+                </a>
 
-                <div class="col-md-6 col-lg-3">
-                    <a href="${pageContext.request.contextPath}/travel-information" class="help-action-card">
-                        <div class="d-inline-flex p-3 rounded-circle bg-info-subtle text-info-emphasis mb-3 fs-4">
-                            <i class="bi bi-briefcase"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Travel Guidelines</h5>
-                        <p class="text-muted small mb-0">Review cabin baggage allowances (7kg), check-in limits (15kg), and photo ID rules.</p>
-                    </a>
-                </div>
+                <a href="${pageContext.request.contextPath}/travel-information" class="help-action-card">
+                    <div class="skytech-card-icon" style="background: #E0F2FE; color: #0284C7;">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+                    <h5 class="skytech-card-heading">Travel Guidelines</h5>
+                    <p class="skytech-card-desc">Review cabin baggage rules, check-in limits, and mandatory airport identification policies.</p>
+                </a>
             </div>
         </div>
     </section>
@@ -760,6 +762,7 @@
         const btnMultiCity = document.getElementById('btnMultiCity');
 
         const stdContainer = document.getElementById('standardRouteContainer');
+        const stdRow = document.getElementById('standardRouteRow');
         const mcContainer = document.getElementById('multiCityContainer');
 
         const retContainer = document.getElementById('returnDateContainer');
@@ -767,16 +770,13 @@
         const retLabel = document.getElementById('returnDayLabel');
         const retIcon = document.getElementById('returnIcon');
 
-        const fromCol = document.getElementById('fromCol');
-        const toCol = document.getElementById('toCol');
-        const depCol = document.getElementById('depCol');
-
         [btnOneWay, btnRoundTrip, btnMultiCity].forEach(b => { if (b) b.classList.remove('active'); });
 
         if (type === 'round-trip') {
             btnRoundTrip.classList.add('active');
             stdContainer.classList.remove('d-none');
             mcContainer.classList.add('d-none');
+            if (stdRow) stdRow.classList.add('is-round-trip');
 
             // Show Return Date container
             retContainer.classList.remove('d-none');
@@ -784,12 +784,6 @@
             retInput.setAttribute('name', 'returnDate');
             retInput.required = true;
             if (retIcon) retIcon.classList.replace('text-muted', 'text-primary');
-
-            // Responsive column widths for 4 items
-            if (fromCol) fromCol.className = 'col-lg-3 col-md-5';
-            if (toCol) toCol.className = 'col-lg-3 col-md-5';
-            if (depCol) depCol.className = 'col-lg-3 col-md-6';
-            if (retContainer) retContainer.className = 'col-lg-2 col-md-6';
 
             const depDate = document.getElementById('departureDateInput').value || getClientTodayIso();
             if (depDate) {
@@ -808,6 +802,7 @@
             btnMultiCity.classList.add('active');
             stdContainer.classList.add('d-none');
             mcContainer.classList.remove('d-none');
+            if (stdRow) stdRow.classList.remove('is-round-trip');
 
             // Hide and disable Return Date
             retContainer.classList.add('d-none');
@@ -822,6 +817,7 @@
             btnOneWay.classList.add('active');
             stdContainer.classList.remove('d-none');
             mcContainer.classList.add('d-none');
+            if (stdRow) stdRow.classList.remove('is-round-trip');
 
             retContainer.classList.add('d-none');
             retInput.disabled = true;
@@ -829,11 +825,6 @@
             retInput.value = '';
             retInput.required = false;
             if (retLabel) retLabel.textContent = 'Select return date';
-
-            // Expand column widths when Return Date is hidden
-            if (fromCol) fromCol.className = 'col-lg-4 col-md-5';
-            if (toCol) toCol.className = 'col-lg-4 col-md-5';
-            if (depCol) depCol.className = 'col-lg-3 col-md-6';
         }
     }
 
@@ -1154,24 +1145,65 @@
         let c = parseInt(childInput.value) || 0;
         let i = parseInt(infantInput.value) || 0;
 
-        if (type === 'adults') a = Math.max(1, Math.min(9, a + delta));
-        if (type === 'children') c = Math.max(0, Math.min(8, c + delta));
-        if (type === 'infants') {
-            i = Math.max(0, Math.min(a, i + delta)); // Infants cannot exceed adults
+        if (type === 'adults') {
+            const nextA = a + delta;
+            if (nextA >= 1 && (nextA + c) <= 9) {
+                a = nextA;
+                if (i > a) i = a; // Infants cannot exceed accompanying adults
+            }
+        } else if (type === 'children') {
+            const nextC = c + delta;
+            if (nextC >= 0 && (a + nextC) <= 9) {
+                c = nextC;
+            }
+        } else if (type === 'infants') {
+            const nextI = i + delta;
+            if (nextI >= 0 && nextI <= a) {
+                i = nextI;
+            }
         }
 
         adultInput.value = a;
         childInput.value = c;
         infantInput.value = i;
 
-        document.getElementById('adultCountDisplay').textContent = a;
-        document.getElementById('childCountDisplay').textContent = c;
-        document.getElementById('infantCountDisplay').textContent = i;
+        const adultDisplay = document.getElementById('adultCountDisplay');
+        const childDisplay = document.getElementById('childCountDisplay');
+        const infantDisplay = document.getElementById('infantCountDisplay');
+        if (adultDisplay) adultDisplay.textContent = a;
+        if (childDisplay) childDisplay.textContent = c;
+        if (infantDisplay) infantDisplay.textContent = i;
 
-        let summary = a + (a === 1 ? ' Adult' : ' Adults');
-        if (c > 0) summary += ', ' + c + (c === 1 ? ' Child' : ' Children');
-        if (i > 0) summary += ', ' + i + (i === 1 ? ' Infant' : ' Infants');
-        document.getElementById('passengerSummaryText').textContent = summary;
+        // Button disabled state
+        const adultMinus = document.getElementById('adultMinusBtn');
+        const childMinus = document.getElementById('childMinusBtn');
+        const infantMinus = document.getElementById('infantMinusBtn');
+        const adultPlus = document.getElementById('adultPlusBtn');
+        const childPlus = document.getElementById('childPlusBtn');
+        const infantPlus = document.getElementById('infantPlusBtn');
+
+        if (adultMinus) adultMinus.disabled = (a <= 1);
+        if (childMinus) childMinus.disabled = (c <= 0);
+        if (infantMinus) infantMinus.disabled = (i <= 0);
+
+        const totalSeated = a + c;
+        if (adultPlus) adultPlus.disabled = (totalSeated >= 9);
+        if (childPlus) childPlus.disabled = (totalSeated >= 9);
+        if (infantPlus) infantPlus.disabled = (i >= a);
+
+        const total = a + c + i;
+        const summaryText = document.getElementById('passengerSummaryText');
+        const subtext = document.getElementById('passengerSubtext');
+
+        if (summaryText) {
+            summaryText.textContent = total + (total === 1 ? ' Traveller' : ' Travellers');
+        }
+        if (subtext) {
+            let parts = [a + (a === 1 ? ' Adult' : ' Adults')];
+            if (c > 0) parts.push(c + (c === 1 ? ' Child' : ' Children'));
+            if (i > 0) parts.push(i + (i === 1 ? ' Infant' : ' Infants'));
+            subtext.textContent = parts.join(', ');
+        }
     }
 
     function closePassengerDropdown() {
@@ -1186,7 +1218,15 @@
         const sub = document.getElementById('travelClassSubtext');
         if (input) input.value = className;
         if (display) display.textContent = className;
-        if (sub) sub.textContent = subtext || '';
+        
+        let displaySub = subtext;
+        if (!displaySub) {
+            if (className === 'Premium Economy') displaySub = 'Extra space & added comfort';
+            else if (className === 'Business') displaySub = 'More space & premium services';
+            else if (className === 'First Class') displaySub = 'Premium cabin experience';
+            else displaySub = 'Standard seating & value fares';
+        }
+        if (sub) sub.textContent = displaySub;
 
         const items = document.querySelectorAll('#travelClassMenuList .cabin-option-item');
         items.forEach(item => {
@@ -1210,6 +1250,72 @@
             if (instance) instance.hide();
             btn.focus();
         }
+    }
+
+    function initCabinClassDropdown() {
+        const box = document.getElementById('homeCabinClassBoxContainer');
+        const btn = document.getElementById('travelClassDropdownBtn');
+        const menu = document.getElementById('travelClassMenuList');
+        if (!box || !btn || !menu) return;
+
+        // Dynamic positioning detection on open to prevent bottom or right clipping
+        btn.addEventListener('show.bs.dropdown', function () {
+            const rect = box.getBoundingClientRect();
+            const menuHeight = 255;
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+
+            // If space below is restricted, position upwards (dropup)
+            if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
+                box.classList.add('dropup');
+            } else {
+                box.classList.remove('dropup');
+            }
+
+            // Prevent right-edge overflow on smaller desktop/tablet viewports
+            const spaceRight = window.innerWidth - rect.left;
+            if (spaceRight < 330 && window.innerWidth >= 576) {
+                menu.style.left = 'auto';
+                menu.style.right = '0';
+            } else {
+                menu.style.left = '';
+                menu.style.right = '';
+            }
+        });
+
+        // Accessible keyboard navigation
+        const options = Array.from(menu.querySelectorAll('.cabin-option-item'));
+        btn.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown' || e.key === 'Down') {
+                e.preventDefault();
+                const instance = bootstrap.Dropdown.getInstance(btn) || new bootstrap.Dropdown(btn);
+                instance.show();
+                const activeOption = menu.querySelector('.cabin-option-item.active') || options[0];
+                if (activeOption) setTimeout(() => activeOption.focus(), 10);
+            }
+        });
+
+        options.forEach((opt, idx) => {
+            opt.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || e.key === 'Down') {
+                    e.preventDefault();
+                    const next = options[(idx + 1) % options.length];
+                    if (next) next.focus();
+                } else if (e.key === 'ArrowUp' || e.key === 'Up') {
+                    e.preventDefault();
+                    const prev = options[(idx - 1 + options.length) % options.length];
+                    if (prev) prev.focus();
+                } else if (e.key === 'Escape' || e.key === 'Esc') {
+                    e.preventDefault();
+                    const instance = bootstrap.Dropdown.getInstance(btn);
+                    if (instance) instance.hide();
+                    btn.focus();
+                } else if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    opt.click();
+                }
+            });
+        });
     }
 
     // 7. Deal Card & Inspiration Quick Selection
@@ -1363,6 +1469,7 @@
         if (window.SkyTechCalendar) {
             SkyTechCalendar.init({ todayIso: SERVER_TODAY_ISO });
         }
+        initCabinClassDropdown();
         const depInput = document.getElementById('departureDateInput');
         if (depInput && !depInput.value) {
             depInput.value = SERVER_TODAY_ISO;

@@ -193,13 +193,13 @@ public class FlightSchedule implements Serializable {
         } else if (availableSeats > 3) {
             return "bg-warning-subtle text-warning-emphasis border border-warning-subtle";
         } else {
-            return "bg-danger-subtle text-danger border border-danger-subtle";
+            return "bg-secondary-subtle text-secondary border border-secondary-subtle";
         }
     }
 
     public String getSeatsAvailabilityText() {
-        if (live) {
-            return "Estimated availability";
+        if (simulatedSeats || availableSeats <= 0) {
+            return "Seat availability unverified";
         }
         if (availableSeats > 10) {
             return availableSeats + " seats available";
@@ -208,7 +208,7 @@ public class FlightSchedule implements Serializable {
         } else if (availableSeats == 1) {
             return "Only 1 seat left!";
         } else {
-            return "Sold out";
+            return "Check with airline";
         }
     }
 
@@ -218,15 +218,26 @@ public class FlightSchedule implements Serializable {
     private String revisedDepartureTime;
     private String revisedArrivalTime;
     private boolean live = false;
-    private boolean estimatedFare = true;
-    private String fareNote = "Estimated fare for demonstration";
+    private boolean estimatedFare = false;
+    private boolean simulatedSeats = false;
+    private String fareNote = null;
+
+    public boolean isSimulatedSeats() {
+        return simulatedSeats;
+    }
+
+    public void setSimulatedSeats(boolean simulatedSeats) {
+        this.simulatedSeats = simulatedSeats;
+    }
 
     public String getDepartureTerminal() {
-        if (departureTerminal != null && !departureTerminal.trim().isEmpty()) return departureTerminal;
-        if (flight != null && flight.getDepartureTerminal() != null && !flight.getDepartureTerminal().trim().isEmpty()) {
-            return flight.getDepartureTerminal();
+        String val = null;
+        if (departureTerminal != null && !departureTerminal.trim().isEmpty()) {
+            val = departureTerminal;
+        } else if (flight != null) {
+            val = flight.getDepartureTerminal();
         }
-        return "Not available";
+        return Flight.formatTerminal(val);
     }
 
     public void setDepartureTerminal(String departureTerminal) {
@@ -234,11 +245,13 @@ public class FlightSchedule implements Serializable {
     }
 
     public String getArrivalTerminal() {
-        if (arrivalTerminal != null && !arrivalTerminal.trim().isEmpty()) return arrivalTerminal;
-        if (flight != null && flight.getArrivalTerminal() != null && !flight.getArrivalTerminal().trim().isEmpty()) {
-            return flight.getArrivalTerminal();
+        String val = null;
+        if (arrivalTerminal != null && !arrivalTerminal.trim().isEmpty()) {
+            val = arrivalTerminal;
+        } else if (flight != null) {
+            val = flight.getArrivalTerminal();
         }
-        return "Not available";
+        return Flight.formatTerminal(val);
     }
 
     public void setArrivalTerminal(String arrivalTerminal) {
@@ -293,5 +306,77 @@ public class FlightSchedule implements Serializable {
 
     public void setFareNote(String fareNote) {
         this.fareNote = fareNote;
+    }
+
+    // ==========================================
+    // REEFAPI EXTENDED ITINERARY FIELDS
+    // ==========================================
+
+    private String bookingUrl;
+    private String currency = "INR";
+    private String itineraryId;
+    private String tripType = "oneway";
+    private java.util.List<FlightSegment> segments = new java.util.ArrayList<>();
+    private FlightSchedule returnSchedule;
+    private java.util.List<FlightSegment> returnSegments = new java.util.ArrayList<>();
+
+    public String getBookingUrl() {
+        return bookingUrl;
+    }
+
+    public void setBookingUrl(String bookingUrl) {
+        this.bookingUrl = bookingUrl;
+    }
+
+    public String getCurrency() {
+        return currency != null ? currency : "INR";
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getItineraryId() {
+        return itineraryId;
+    }
+
+    public void setItineraryId(String itineraryId) {
+        this.itineraryId = itineraryId;
+    }
+
+    public String getTripType() {
+        return tripType;
+    }
+
+    public void setTripType(String tripType) {
+        this.tripType = tripType;
+    }
+
+    public java.util.List<FlightSegment> getSegments() {
+        return segments != null ? segments : java.util.Collections.emptyList();
+    }
+
+    public void setSegments(java.util.List<FlightSegment> segments) {
+        this.segments = segments != null ? segments : new java.util.ArrayList<>();
+    }
+
+    public FlightSchedule getReturnSchedule() {
+        return returnSchedule;
+    }
+
+    public void setReturnSchedule(FlightSchedule returnSchedule) {
+        this.returnSchedule = returnSchedule;
+    }
+
+    public java.util.List<FlightSegment> getReturnSegments() {
+        return returnSegments != null ? returnSegments : java.util.Collections.emptyList();
+    }
+
+    public void setReturnSegments(java.util.List<FlightSegment> returnSegments) {
+        this.returnSegments = returnSegments != null ? returnSegments : new java.util.ArrayList<>();
+    }
+
+    public boolean isRoundTrip() {
+        return returnSchedule != null || "return".equalsIgnoreCase(tripType);
     }
 }

@@ -9,9 +9,8 @@ import java.util.Map;
 /**
  * Configurable, airline-specific ancillary seat pricing system.
  *
- * NOTE: AeroDataBox FIDS does not provide ancillary seat fees.
- * Seat fees in SkyTech are estimated models derived from published domestic
- * carrier structures (IndiGo, Air India, Akasa Air, Air India Express).
+ * NOTE: ReefAPI search results provide total carrier fares; ancillary seat fees
+ * in SkyTech are estimated models derived from published domestic carrier structures.
  */
 public class SeatPricingConfig {
 

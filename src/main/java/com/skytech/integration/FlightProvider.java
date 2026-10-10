@@ -17,6 +17,15 @@ public interface FlightProvider {
                                        int passengers, String travelClass) throws Exception;
 
     /**
+     * Searches available flights supporting round-trip and detailed passenger breakdown.
+     */
+    default List<FlightSchedule> searchFlights(String origin, String destination, LocalDate departureDate,
+                                               LocalDate returnDate, int adults, int children, int infants,
+                                               String travelClass, String tripType) throws Exception {
+        return searchFlights(origin, destination, departureDate, Math.max(1, adults + children + infants), travelClass);
+    }
+
+    /**
      * Retrieves specific flight schedule details.
      */
     FlightSchedule getFlightDetails(int scheduleId) throws Exception;

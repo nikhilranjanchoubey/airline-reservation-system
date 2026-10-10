@@ -18,9 +18,23 @@
 
         <!-- Availability Status -->
         <div>
-            <span class="badge bg-light text-muted border px-3 py-1 rounded-pill small">
-                <i class="bi bi-check2-circle text-success me-1"></i> Flights Available
-            </span>
+            <c:choose>
+                <c:when test="${not empty apiError}">
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill small">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Service Notice
+                    </span>
+                </c:when>
+                <c:when test="${empty flights}">
+                    <span class="badge bg-light text-muted border px-3 py-1 rounded-pill small">
+                        <i class="bi bi-info-circle me-1"></i> 0 Flights
+                    </span>
+                </c:when>
+                <c:otherwise>
+                    <span class="badge bg-light text-muted border px-3 py-1 rounded-pill small">
+                        <i class="bi bi-check2-circle text-success me-1"></i> ${flightCount} Flights Available
+                    </span>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 
@@ -96,31 +110,61 @@
         </div>
     </c:if>
 
-    <!-- Flight Search Error or Availability Notice -->
-    <c:if test="${not empty apiError}">
-        <div class="alert alert-danger border-danger-subtle shadow-sm mb-4 rounded-3 d-flex align-items-center gap-2" role="alert">
-            <i class="bi bi-exclamation-octagon-fill text-danger fs-5"></i>
-            <div>
-                <h6 class="alert-heading fw-bold mb-0">${apiError}</h6>
-            </div>
-        </div>
-    </c:if>
-
-    <c:if test="${not empty dbError && empty apiError}">
-        <div class="alert alert-warning border-warning-subtle shadow-sm mb-4 rounded-3" role="alert">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-info-circle-fill text-warning fs-5"></i>
-                <div>
-                    <h6 class="alert-heading fw-bold mb-0">Flight search notice</h6>
-                    <p class="small mb-0 text-muted">${dbError}</p>
-                </div>
-            </div>
-        </div>
-    </c:if>
-
     <!-- Main Results Section -->
     <c:choose>
-        <%-- NO FLIGHTS FOUND EMPTY STATE --%>
+        <%-- 1. API ERROR STATE (Differentiate from 'no flights found' per specification) --%>
+        <c:when test="${not empty apiError}">
+            <div class="empty-state-box my-4">
+                <div class="empty-state-icon text-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2">Flight Service Notice</h3>
+                <p class="text-muted mx-auto mb-3" style="max-width: 550px;">
+                    ${apiError}
+                </p>
+                <c:if test="${not empty apiStatusCode}">
+                    <div class="mb-3">
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">
+                            Service Status: HTTP ${apiStatusCode} &bull; ${apiErrorCategory}
+                        </span>
+                    </div>
+                </c:if>
+                <div class="card border-0 bg-light mx-auto mb-4 text-start p-3" style="max-width: 480px;">
+                    <div class="fw-semibold text-dark mb-2"><i class="bi bi-info-circle text-primary me-1"></i> Diagnostic Information:</div>
+                    <ul class="text-muted small mb-0 ps-3">
+                        <li>Route queried: <strong>${selectedSource} &rarr; ${selectedDestination}</strong></li>
+                        <li>Date queried: <strong>${not empty formattedDepartureDate ? formattedDepartureDate : selectedDepartureDate}</strong></li>
+                        <c:choose>
+                            <c:when test="${apiErrorCategory eq 'CREDIT_EXHAUSTED' || apiErrorCategory eq 'QUOTA_EXCEEDED' || apiErrorCategory eq 'RATE_LIMIT'}">
+                                <li>The ReefAPI flight search request limit or credit balance has been reached on the configured account.</li>
+                                <li>Please check your ReefAPI subscription credits at reefapi.com.</li>
+                            </c:when>
+                            <c:when test="${apiErrorCategory eq 'AUTHENTICATION' || apiErrorCategory eq 'AUTHORIZATION'}">
+                                <li>The server could not authenticate with ReefAPI. Please verify REEF_API_KEY in server configuration.</li>
+                            </c:when>
+                            <c:when test="${apiErrorCategory eq 'INVALID_INPUT'}">
+                                <li>ReefAPI rejected search parameters. Please verify airport codes and future departure dates.</li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>The upstream ReefAPI flight feed is temporarily unreachable.</li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-primary px-4 rounded-pill" onclick="window.location.reload()">
+                        <i class="bi bi-arrow-clockwise me-1"></i> Retry Search
+                    </button>
+                    <a href="${pageContext.request.contextPath}/search-flights?modify=true&tripType=${tripType}&source=${selectedSource}&destination=${selectedDestination}&departureDate=${selectedDepartureDate}&returnDate=${selectedReturnDate}&adults=${adults}&children=${children}&infants=${infants}&travelClass=${travelClass}"
+                       id="btnSearchDiffRoute"
+                       class="btn btn-outline-secondary px-4 rounded-pill">
+                        <i class="bi bi-pencil-square me-1"></i> Modify Search
+                    </a>
+                </div>
+            </div>
+        </c:when>
+
+        <%-- 2. NO FLIGHTS FOUND EMPTY STATE (Only when no API error occurred) --%>
         <c:when test="${empty flights}">
             <div class="empty-state-box my-4">
                 <div class="empty-state-icon">
@@ -220,30 +264,7 @@
                                         </c:forEach>
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="6E" id="airline6E" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airline6E">IndiGo</label>
-                                        </div>
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="AI" id="airlineAI" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airlineAI">Air India</label>
-                                        </div>
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="IX" id="airlineIX" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airlineIX">Air India Express</label>
-                                        </div>
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="9I" id="airline9I" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airline9I">Alliance Air</label>
-                                        </div>
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="UK" id="airlineUK" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airlineUK">Vistara</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input airline-filter" type="checkbox" value="QP" id="airlineQP" checked onchange="applyFilters()">
-                                            <label class="form-check-label small" for="airlineQP">Akasa Air</label>
-                                        </div>
+                                        <div class="small text-muted fst-italic">No airline filters for this search</div>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -271,8 +292,11 @@
                     <!-- Results Header & Sorting Bar -->
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
                         <div>
-                            <span class="fw-bold fs-5 text-dark" id="visibleFlightCount">${flightCount}</span>
-                            <span class="text-muted"> flights available</span>
+                            <div>
+                                <span class="fw-bold fs-5 text-dark" id="visibleFlightCount">${flightCount}</span>
+                                <span class="text-muted"> flights available</span>
+                            </div>
+                            <small class="text-muted" style="font-size: 0.8rem;"><i class="bi bi-info-circle me-1"></i>Final price may change when booking.</small>
                         </div>
 
                         <div class="d-flex align-items-center gap-2">
@@ -299,124 +323,94 @@
                                  data-departure="${item.flight.formattedDepartureTime}"
                                  data-duration="${item.flight.durationMinutes}">
 
-                                <div class="row align-items-center gy-3">
-                                    <!-- Airline Section -->
-                                    <div class="col-md-3 col-12">
-                                        <div class="airline-badge d-flex align-items-center gap-3">
-                                            <c:set var="aCode" value="${item.flight.airline.airlineCode}" />
-                                            <div class="airline-logo-box" style="width: 46px; height: 46px; min-width: 46px; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #e2e8f0; padding: 4px;">
-                                                <c:choose>
-                                                    <c:when test="${aCode eq '6E' || aCode eq 'AI' || aCode eq 'QP' || aCode eq 'UK' || aCode eq 'IX'}">
-                                                        <img src="${pageContext.request.contextPath}/assets/images/airlines/${aCode eq 'IX' ? 'AI' : aCode}.svg" alt="${item.flight.airline.airlineName}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span class="fw-bold text-primary small">${aCode}</span>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                <!-- 1. Airline Column -->
+                                <div class="flight-col-airline">
+                                    <c:set var="aCode" value="${item.flight.airline.airlineCode}" />
+                                    <div class="airline-logo-box">
+                                        <c:choose>
+                                            <c:when test="${aCode eq '6E' || aCode eq 'AI' || aCode eq 'QP' || aCode eq 'UK' || aCode eq 'IX'}">
+                                                <img src="${pageContext.request.contextPath}/assets/images/airlines/${aCode eq 'IX' ? 'AI' : aCode}.svg" alt="${item.flight.airline.airlineName}" class="airline-logo-img">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="airline-code-fallback">${aCode}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                    <div class="airline-meta">
+                                        <div class="airline-name">${item.flight.airline.airlineName}</div>
+                                        <div class="flight-number">${item.flight.flightNumber}</div>
+                                        <c:if test="${not empty item.flight.aircraftModel && item.flight.aircraftModel ne 'AeroDataBox' && item.flight.aircraftModel ne 'Unknown'}">
+                                            <div class="aircraft-details" title="${item.flight.aircraftModel}">
+                                                <i class="bi bi-airplane me-1"></i>${item.flight.aircraftModel}
                                             </div>
-                                            <div>
-                                                <div class="fw-bold text-dark">${item.flight.airline.airlineName}</div>
-                                                <div class="small text-muted d-flex align-items-center gap-1">
-                                                    <strong>${item.flight.flightNumber}</strong>
-                                                </div>
-                                                <div class="mt-1 d-flex flex-wrap gap-1 align-items-center">
-                                                    <span class="badge bg-light text-muted border" style="font-size: 0.68rem;">
-                                                        <i class="bi bi-airplane me-1"></i>${item.flight.aircraftModel}
-                                                    </span>
-                                                    <c:choose>
-                                                        <c:when test="${item.status eq 'EXPECTED' || item.status eq 'SCHEDULED'}">
-                                                            <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.68rem;">
-                                                                <i class="bi bi-clock me-1"></i>${item.status}
-                                                            </span>
-                                                        </c:when>
-                                                        <c:when test="${item.status eq 'DEPARTED' || item.status eq 'ENROUTE'}">
-                                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.68rem;">
-                                                                <i class="bi bi-airplane-engines me-1"></i>${item.status}
-                                                            </span>
-                                                        </c:when>
-                                                        <c:when test="${item.status eq 'LANDED'}">
-                                                            <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 0.68rem;">
-                                                                <i class="bi bi-check-circle me-1"></i>${item.status}
-                                                            </span>
-                                                        </c:when>
-                                                        <c:when test="${item.status eq 'CANCELED' || item.status eq 'CANCELLED'}">
-                                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle" style="font-size: 0.68rem;">
-                                                                <i class="bi bi-x-circle me-1"></i>${item.status}
-                                                            </span>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <span class="badge bg-light text-muted border" style="font-size: 0.68rem;">
-                                                                ${item.status}
-                                                            </span>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </div>
-                                            </div>
+                                        </c:if>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Departure Column -->
+                                <div class="flight-col-departure">
+                                    <div class="flight-time">${item.flight.formattedDepartureTime}</div>
+                                    <div class="airport-code">${item.flight.sourceAirport.airportCode}</div>
+                                    <div class="airport-city">${item.flight.sourceAirport.city}</div>
+                                    <c:if test="${not empty item.departureTerminal}">
+                                        <div class="terminal-info">${item.departureTerminal}</div>
+                                    </c:if>
+                                </div>
+
+                                <!-- 3. Journey Indicator Column -->
+                                <div class="flight-col-journey flight-journey">
+                                    <span class="journey-duration">${item.flight.formattedDuration}</span>
+                                    <div class="journey-route" aria-hidden="true">
+                                        <span class="journey-endpoint-dot"></span>
+                                        <span class="journey-route-line"></span>
+                                        <span class="journey-aircraft-icon"><i class="bi bi-airplane-fill"></i></span>
+                                        <span class="journey-route-line"></span>
+                                        <span class="journey-endpoint-dot"></span>
+                                    </div>
+                                    <span class="journey-stops ${item.flight.stops > 0 ? 'stops-connecting' : 'stops-direct'}">
+                                        ${item.flight.stopsDescription}
+                                    </span>
+                                </div>
+
+                                <!-- 4. Arrival Column -->
+                                <div class="flight-col-arrival">
+                                    <div class="flight-time">${item.flight.formattedArrivalTime}</div>
+                                    <div class="airport-code">${item.flight.destinationAirport.airportCode}</div>
+                                    <div class="airport-city">${item.flight.destinationAirport.city}</div>
+                                    <c:if test="${not empty item.arrivalTerminal}">
+                                        <div class="terminal-info">${item.arrivalTerminal}</div>
+                                    </c:if>
+                                    <c:if test="${not empty item.baggageBelt}">
+                                        <div class="baggage-info"><i class="bi bi-luggage me-1"></i>Belt ${item.baggageBelt}</div>
+                                    </c:if>
+                                </div>
+
+                                <!-- 5. Price & Actions Column -->
+                                <div class="flight-col-pricing">
+                                    <div class="pricing-text-block">
+                                        <c:set var="numPax" value="${empty passengers || passengers le 0 ? 1 : passengers}" />
+                                        <c:set var="totalPrice" value="${fare * numPax}" />
+                                        <div class="flight-price">&#8377;<fmt:formatNumber value="${totalPrice}" type="number" maxFractionDigits="0" /></div>
+                                        <div class="price-subtext">
+                                            <c:choose>
+                                                <c:when test="${numPax > 1}">
+                                                    &#8377;<fmt:formatNumber value="${fare}" type="number" maxFractionDigits="0" /> per adult &bull; ${travelClass}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    per adult &bull; ${travelClass}
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
-
-                                    <!-- Flight Route & Timeline -->
-                                    <div class="col-md-5 col-12">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <!-- Departure Info -->
-                                            <div class="text-start">
-                                                <div class="flight-time">${item.flight.formattedDepartureTime}</div>
-                                                <div class="flight-code">${item.flight.sourceAirport.airportCode}</div>
-                                                <div class="flight-city">${item.flight.sourceAirport.city}</div>
-                                                <small class="text-muted d-block" style="font-size: 0.75rem;">${item.departureTerminal}</small>
-                                            </div>
-
-                                            <!-- Duration Timeline -->
-                                            <div class="flight-duration-container flex-grow-1 px-3">
-                                                <div class="duration-text">${item.flight.formattedDuration}</div>
-                                                <div class="flight-timeline-line">
-                                                    <i class="bi bi-airplane-fill plane-mid-icon"></i>
-                                                </div>
-                                                <div class="stop-type ${item.flight.stops > 0 ? 'text-secondary' : 'text-success'}">
-                                                    ${item.flight.stopsDescription}
-                                                </div>
-                                            </div>
-
-                                            <!-- Arrival Info -->
-                                            <div class="text-end">
-                                                <div class="flight-time">${item.flight.formattedArrivalTime}</div>
-                                                <div class="flight-code">${item.flight.destinationAirport.airportCode}</div>
-                                                <div class="flight-city">${item.flight.destinationAirport.city}</div>
-                                                <small class="text-muted d-block" style="font-size: 0.75rem;">${item.arrivalTerminal}</small>
-                                                <c:if test="${not empty item.baggageBelt}">
-                                                    <small class="text-primary d-block" style="font-size: 0.72rem;"><i class="bi bi-luggage"></i> Belt ${item.baggageBelt}</small>
-                                                </c:if>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Fare and Booking Actions -->
-                                    <div class="col-md-4 col-12 border-start-md">
-                                        <div class="d-flex flex-md-column flex-row justify-content-between align-items-md-end align-items-center gap-2">
-                                            <div class="text-md-end">
-                                                <div class="d-flex align-items-center justify-content-md-end justify-content-start gap-1 mb-1">
-                                                    <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 0.68rem;" title="Fare is estimated for demonstration.">Estimated fare</span>
-                                                </div>
-                                                <div class="price-tag">&#8377;<fmt:formatNumber value="${fare}" type="number" maxFractionDigits="0" /></div>
-                                                <div class="price-subtext">per passenger &bull; ${travelClass}</div>
-                                            </div>
-
-                                            <div class="text-md-end mt-md-2 d-flex flex-column align-items-md-end gap-2">
-                                                <span class="badge ${item.seatsBadgeClass} badge-seats">
-                                                    <i class="bi bi-person-check me-1"></i> ${item.seatsAvailabilityText}
-                                                </span>
-                                                <div class="d-flex gap-2">
-                                                    <a href="${pageContext.request.contextPath}/flight-details?id=${item.scheduleId}&flightNumber=${item.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}"
-                                                       class="btn btn-view-details" onclick="onViewFlightClick(this, event)">
-                                                        VIEW FLIGHT
-                                                    </a>
-                                                    <a href="${pageContext.request.contextPath}/seat-selection?id=${item.scheduleId}&flightNumber=${item.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}"
-                                                       class="btn btn-outline-primary btn-sm px-2 d-flex align-items-center" title="Select Seats">
-                                                        <i class="bi bi-grid-3x3"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="flight-action-buttons">
+                                        <a href="${pageContext.request.contextPath}/flight-details?id=${item.scheduleId}&flightNumber=${item.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}&source=${selectedSource}&destination=${selectedDestination}&tripType=${tripType}&returnDate=${selectedReturnDate}&adults=${adults}&children=${children}&infants=${infants}"
+                                           class="btn btn-view-details" onclick="onViewFlightClick(this, event)">
+                                            VIEW FLIGHT
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/seat-selection?id=${item.scheduleId}&flightNumber=${item.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}&source=${selectedSource}&destination=${selectedDestination}&tripType=${tripType}&returnDate=${selectedReturnDate}&adults=${adults}&children=${children}&infants=${infants}"
+                                           class="btn btn-seat-select" title="Select Seats" aria-label="Select Seats">
+                                            <i class="bi bi-grid-3x3"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -493,7 +487,7 @@
             }
 
             if (matchesStops && matchesAirline && matchesPrice && matchesTime) {
-                card.style.display = 'block';
+                card.style.display = '';
                 visibleCount++;
             } else {
                 card.style.display = 'none';

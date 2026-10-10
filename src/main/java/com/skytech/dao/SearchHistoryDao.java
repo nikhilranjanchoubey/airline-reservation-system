@@ -76,7 +76,7 @@ public class SearchHistoryDao {
             ps.setString(9, request.getCabinClass() != null ? request.getCabinClass().trim().toUpperCase() : "ECONOMY");
 
             // 10. provider
-            ps.setString(10, provider != null ? provider : "AeroDataBox");
+            ps.setString(10, provider != null ? provider : "ReefAPI");
 
             int rows = ps.executeUpdate();
             return rows > 0;

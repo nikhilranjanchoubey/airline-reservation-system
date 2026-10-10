@@ -271,25 +271,34 @@ public class FlightSearchController extends HttpServlet {
             searchReq.setUserId(((Integer) sessionUserId).longValue());
         }
 
+        String apiErrorCategory = null;
+        int apiStatusCode = 0;
+
+        LocalDate parsedReturnDate = null;
+        if (returnDateStr != null && !returnDateStr.trim().isEmpty() && "round-trip".equalsIgnoreCase(tripType)) {
+            try {
+                parsedReturnDate = LocalDate.parse(returnDateStr.trim());
+            } catch (Exception ignored) {}
+        }
+
         try {
-            flights = flightSearchService.searchFlights(source, destination, departureDate, passengers, travelClass);
+            flights = flightSearchService.searchFlights(source, destination, departureDate, parsedReturnDate,
+                    adults, children, infants, travelClass, tripType);
         } catch (com.skytech.api.ApiException ae) {
-            LOGGER.log(Level.WARNING, "Flight provider API error: " + ae.getMessage());
-            int code = ae.getStatusCode();
-            if (code == 429) {
-                apiError = "Flight search request limit reached. Please try again shortly.";
-            } else if (code == 401 || code == 403) {
-                apiError = "Flight service authentication failed. Please try again later.";
-            } else {
-                apiError = "We couldn't retrieve flights for this route right now. Please try again.";
-            }
+            LOGGER.log(Level.WARNING, String.format("[SEARCH CONTROLLER] Flight provider API error (Status: %d, Category: %s): %s",
+                    ae.getStatusCode(), ae.getCategory(), ae.getMessage()));
+            apiError = ae.getUserFriendlyMessage();
+            apiErrorCategory = ae.getCategory().name();
+            apiStatusCode = ae.getStatusCode();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Flight search error querying flight provider", e);
+            LOGGER.log(Level.SEVERE, "[SEARCH CONTROLLER] General error querying flight provider", e);
             apiError = "We couldn't retrieve flights for this route right now. Please try again.";
+            apiErrorCategory = "GENERAL";
         }
 
         if (flights != null) {
             apiError = null; // Clean search result succeeded (either with results or 0 matching flights)
+            apiErrorCategory = null;
         }
 
         // Asynchronously/fail-soft record search query in MySQL
@@ -341,6 +350,8 @@ public class FlightSearchController extends HttpServlet {
         request.setAttribute("minFilterPrice", minFilter);
         request.setAttribute("maxFilterPrice", maxFilter);
         request.setAttribute("apiError", apiError);
+        request.setAttribute("apiErrorCategory", apiErrorCategory);
+        request.setAttribute("apiStatusCode", apiStatusCode);
         request.setAttribute("dbError", dbError);
         request.setAttribute("isLiveProvider", flightSearchService.getActiveProvider().isLive());
         request.setAttribute("providerName", flightSearchService.getActiveProvider().getProviderName());

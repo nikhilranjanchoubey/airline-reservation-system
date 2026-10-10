@@ -3,7 +3,18 @@
    ========================================================================== */
 
 :root {
-    --skytech-primary: #0b172a;       /* Deep airline navy */
+    --primary: #1976D2;
+    --primary-dark: #0D47A1;
+    --background: #F5F9FF;
+    --surface: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #64748B;
+    --border: #E2E8F0;
+    --success: #15803D;
+    --warning: #B45309;
+    --danger: #B91C1C;
+
+    --skytech-primary: #071426;       /* Solid midnight navy navbar */
     --skytech-secondary: #172554;     /* Navy secondary */
     --skytech-accent: #0284c7;        /* Aviation sky blue */
     --skytech-accent-hover: #0369a1;
@@ -13,6 +24,15 @@
     --skytech-text-muted: #64748b;
     --skytech-border: #e2e8f0;
     --skytech-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+[id] {
+    scroll-margin-top: 90px;
 }
 
 body {
@@ -26,10 +46,12 @@ body {
    Navbar & Sticky Header
    ========================================================================== */
 .bg-skytech {
-    background-color: var(--skytech-primary) !important;
+    background-color: #071426 !important;
 }
 
 #skyTechMainNavbar {
+    background-color: #071426 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
     transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -39,9 +61,10 @@ body {
 #skyTechMainNavbar.navbar-compact {
     padding-top: 0.55rem;
     padding-bottom: 0.55rem;
-    background-color: rgba(11, 23, 42, 0.96) !important;
+    background-color: rgba(7, 20, 38, 0.98) !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .text-skytech-accent {
@@ -72,7 +95,10 @@ body {
     padding-right: 0.75rem;
 }
 
-.navbar .nav-link:hover,
+.navbar .nav-link:hover {
+    color: #38bdf8 !important;
+}
+
 .navbar .nav-link.active {
     color: #ffffff !important;
 }
@@ -84,7 +110,7 @@ body {
     left: 0.75rem;
     right: 0.75rem;
     height: 2px;
-    background-color: var(--skytech-accent);
+    background-color: #38bdf8;
     border-radius: 2px;
 }
 
@@ -423,25 +449,102 @@ body {
 }
 
 /* ==============================================================================
-   Help & Quick Action Cards
+   SkyTech Shared Feature & Action Cards Design System
    ============================================================================== */
+.skytech-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 1199.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.skytech-feature-card,
 .help-action-card {
     background: #FFFFFF;
-    border: 1px solid var(--skytech-border);
-    border-radius: 14px;
-    padding: 1.75rem;
-    transition: all 0.25s ease;
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     height: 100%;
     text-decoration: none;
     color: inherit;
-    display: block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+    position: relative;
 }
 
+.help-action-card {
+    cursor: pointer;
+}
+
+.help-action-card:focus-visible {
+    outline: 2px solid var(--primary, #1976D2);
+    outline-offset: 3px;
+}
+
+.skytech-feature-card:hover,
 .help-action-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
-    border-color: var(--skytech-accent);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    border-color: rgba(25, 118, 210, 0.35);
     color: inherit;
+}
+
+/* Icon container with uniform dimensions and centered alignment */
+.skytech-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.skytech-feature-card:hover .skytech-card-icon,
+.help-action-card:hover .skytech-card-icon {
+    transform: scale(1.08);
+}
+
+/* Heading with fixed vertical baseline alignment */
+.skytech-card-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary, #1F2937);
+    margin-bottom: 0.65rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+/* Description naturally wrapping with balanced line height */
+.skytech-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #64748B);
+    line-height: 1.55;
+    margin-bottom: 0;
+    flex-grow: 1;
 }
 
 /* ==============================================================================
@@ -512,4 +615,50 @@ body {
 .btn-remove-segment:hover {
     background: rgba(239, 68, 68, 0.1);
 }
+
+/* ==========================================================================
+   Flight Results & Travel Information Component Utilities
+   ========================================================================== */
+.border-start-md {
+    border-left: none;
+}
+
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid var(--border) !important;
+        padding-left: 1.5rem;
+    }
+}
+
+.travel-nav-scroller {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.travel-info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.5rem;
+}
+
+.travel-info-card:hover {
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.travel-icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
 

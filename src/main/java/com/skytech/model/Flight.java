@@ -173,8 +173,29 @@ public class Flight implements Serializable {
     private String baggageBelt;
     private String status;
 
+    public static String formatTerminal(String raw) {
+        if (raw == null) return null;
+        String trimmed = raw.trim();
+        if (trimmed.isEmpty() || "Not available".equalsIgnoreCase(trimmed) || "null".equalsIgnoreCase(trimmed) || "-".equals(trimmed)) {
+            return null;
+        }
+        if (trimmed.toLowerCase().startsWith("terminal ")) {
+            return trimmed;
+        }
+        if (trimmed.toLowerCase().startsWith("t") && trimmed.length() > 1 && Character.isDigit(trimmed.charAt(1))) {
+            return "Terminal " + trimmed.substring(1).trim();
+        }
+        if (trimmed.matches("^[0-9]+[A-Za-z]?$")) {
+            return "Terminal " + trimmed;
+        }
+        return trimmed;
+    }
+
     public String getDepartureTerminal() {
-        return departureTerminal != null ? departureTerminal : (sourceAirport != null ? sourceAirport.getTerminal() : "Terminal 1");
+        String val = (departureTerminal != null && !departureTerminal.trim().isEmpty()) 
+            ? departureTerminal 
+            : (sourceAirport != null ? sourceAirport.getTerminal() : null);
+        return formatTerminal(val);
     }
 
     public void setDepartureTerminal(String departureTerminal) {
@@ -182,7 +203,10 @@ public class Flight implements Serializable {
     }
 
     public String getArrivalTerminal() {
-        return arrivalTerminal != null ? arrivalTerminal : (destinationAirport != null ? destinationAirport.getTerminal() : "Terminal 1");
+        String val = (arrivalTerminal != null && !arrivalTerminal.trim().isEmpty()) 
+            ? arrivalTerminal 
+            : (destinationAirport != null ? destinationAirport.getTerminal() : null);
+        return formatTerminal(val);
     }
 
     public void setArrivalTerminal(String arrivalTerminal) {

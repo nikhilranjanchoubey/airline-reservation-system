@@ -55,6 +55,14 @@
         </div>
     </div>
 
+    <!-- Inventory Verification Disclaimer Notice -->
+    <div class="alert alert-light border border-primary-subtle text-muted d-flex align-items-center gap-2 mb-4 py-2 px-3 small rounded-3">
+        <i class="bi bi-info-circle-fill text-primary flex-shrink-0"></i>
+        <div>
+            <strong>Demonstration Seat Map:</strong> Seat availability has not been verified with the airline. Actual seat assignment is confirmed by the carrier at check-in.
+        </div>
+    </div>
+
     <!-- Seat Map Workspace Grid -->
     <div class="row g-4">
         <!-- Aircraft Cabin Visual (Left / Center) -->
@@ -281,21 +289,21 @@
         </div>
     </div>
 
-    <!-- Seat Confirmation Modal -->
+    <!-- Seat Preference Modal -->
     <div class="modal fade" id="seatHandoffModal" tabindex="-1" aria-labelledby="seatHandoffModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow border-0 rounded-4">
                 <div class="modal-header border-bottom">
                     <h5 class="modal-title fw-bold" id="seatHandoffModalLabel">
-                        <i class="bi bi-airplane-fill text-primary me-2"></i>Seats Confirmed
+                        <i class="bi bi-airplane-fill text-primary me-2"></i>Seat Preferences Selected
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center py-4">
-                    <div class="display-6 text-success mb-3">
+                    <div class="display-6 text-primary mb-3">
                         <i class="bi bi-check-circle"></i>
                     </div>
-                    <h5 class="fw-bold mb-2">Seat Assignment Ready!</h5>
+                    <h5 class="fw-bold mb-2">Seat Preferences Recorded</h5>
                     <p class="text-muted small mb-3">
                         Flight: <strong>${schedule.flight.airline.airlineName} ${schedule.flight.flightNumber}</strong><br>
                         Route: <strong>${schedule.flight.sourceAirport.airportCode} &rarr; ${schedule.flight.destinationAirport.airportCode}</strong><br>
@@ -306,7 +314,7 @@
                     </p>
                     <div class="p-3 bg-light rounded-3 text-start small text-muted">
                         <i class="bi bi-info-circle text-primary me-1"></i>
-                        <strong>Next Step:</strong> Complete passenger information and proceed to payment.
+                        <strong>Notice:</strong> Seat availability has not been verified with the airline. Preferences are saved and subject to final confirmation during carrier check-in.
                     </div>
                 </div>
                 <div class="modal-footer border-top">

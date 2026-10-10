@@ -61,9 +61,6 @@
                             <span class="badge bg-success-subtle text-success border border-success-subtle">
                                 <i class="bi bi-check-circle me-1"></i>${schedule.status}
                             </span>
-                            <span class="badge ${schedule.seatsBadgeClass} badge-seats">
-                                <i class="bi bi-person-check me-1"></i> ${schedule.seatsAvailabilityText}
-                            </span>
                             <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
                                 ${travelClass}
                             </span>
@@ -105,6 +102,17 @@
                                     <span>&bull;</span>
                                     <span><i class="bi bi-arrow-repeat me-1"></i> <strong>${schedule.flight.stopsDescription}</strong></span>
                                 </div>
+                                <c:if test="${not empty schedule.segments && schedule.segments.size() > 1}">
+                                    <div class="mt-2 pt-2 border-top border-light">
+                                        <div class="small fw-semibold text-secondary mb-1">Flight Segments:</div>
+                                        <c:forEach var="seg" items="${schedule.segments}" varStatus="status">
+                                            <div class="small text-muted d-flex align-items-center gap-2 mb-1">
+                                                <span class="badge bg-white text-dark border">Leg ${status.index + 1}</span>
+                                                <strong>${seg.carrierCode} ${seg.flightNumber}</strong>: ${seg.origin} &rarr; ${seg.destination} (${seg.formattedDuration})
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </c:if>
                             </div>
 
                             <!-- Arrival Node -->
@@ -169,9 +177,19 @@
 
                 <!-- Back Action -->
                 <div>
-                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Results
-                    </button>
+                    <c:choose>
+                        <c:when test="${not empty selectedSource && not empty selectedDestination}">
+                            <a href="${pageContext.request.contextPath}/search-flights?source=${selectedSource}&destination=${selectedDestination}&departureDate=${selectedDepartureDate}&returnDate=${selectedReturnDate}&tripType=${tripType}&travelClass=${travelClass}&passengers=${passengers}&adults=${adults}&children=${children}&infants=${infants}"
+                               class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Back to Results
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                                <i class="bi bi-arrow-left me-1"></i> Back to Results
+                            </button>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </main>
 
@@ -180,10 +198,9 @@
                 <div class="flight-details-card">
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h5 class="fw-bold text-dark mb-0">Fare Breakdown</h5>
-                        <span class="badge bg-secondary-subtle text-secondary border small">Estimated fare</span>
                     </div>
                     
-                    <div class="fare-breakdown-box mb-4">
+                    <div class="fare-breakdown-box mb-3">
                         <div class="fare-breakdown-row">
                             <span>Base Fare (${passengers} &times; &#8377;<fmt:formatNumber value="${perPassengerFare}" type="number" maxFractionDigits="0" />)</span>
                             <span class="fw-semibold text-dark">&#8377;<fmt:formatNumber value="${baseTotal}" type="number" maxFractionDigits="0" /></span>
@@ -198,6 +215,13 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-light border text-muted d-flex align-items-start gap-2 mb-3 py-2 px-3 small rounded-3">
+                        <i class="bi bi-info-circle text-primary mt-1 flex-shrink-0"></i>
+                        <div>
+                            Seat availability has not been verified with the airline. Final seat assignment is confirmed at check-in.
+                        </div>
+                    </div>
+
                     <!-- Seat Map & Booking Actions -->
                     <a href="${pageContext.request.contextPath}/seat-selection?id=${schedule.scheduleId}&flightNumber=${schedule.flight.flightNumber}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}"
                        class="btn btn-primary w-100 py-2 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2">
@@ -205,7 +229,7 @@
                     </a>
 
                     <!-- Booking CTA Button -->
-                    <button type="button" class="btn btn-outline-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                    <button type="button" class="btn btn-outline-primary w-100 py-2 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#bookingHandoffModal">
                         Continue to Passenger Details <i class="bi bi-arrow-right"></i>
                     </button>
@@ -214,15 +238,15 @@
                     <div class="mt-4 pt-3 border-top small text-muted">
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <i class="bi bi-shield-check text-success"></i>
-                            <span>Cancellation & refund subject to airline fare rules</span>
+                            <span>Cancellation &amp; refund subject to airline fare rules</span>
                         </div>
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <i class="bi bi-lightning-charge text-warning"></i>
-                            <span>Instant e-ticket issuance upon booking</span>
+                            <i class="bi bi-tag text-primary"></i>
+                            <span>Transparent pricing with statutory taxes included</span>
                         </div>
                         <div class="d-flex align-items-center gap-2">
                             <i class="bi bi-headset text-primary"></i>
-                            <span>24/7 Dedicated passenger assistance</span>
+                            <span>Passenger guidance &amp; support portal</span>
                         </div>
                     </div>
                 </div>
@@ -235,7 +259,7 @@
                 <div class="modal-content shadow border-0 rounded-4">
                     <div class="modal-header border-bottom">
                         <h5 class="modal-title fw-bold" id="bookingHandoffModalLabel">
-                            <i class="bi bi-ticket-perforated text-primary me-2"></i>Flight Reservation
+                            <i class="bi bi-ticket-perforated text-primary me-2"></i>Flight Reservation Notice
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -243,7 +267,7 @@
                         <div class="display-6 text-primary mb-3">
                             <i class="bi bi-airplane-engines-fill"></i>
                         </div>
-                        <h5 class="fw-bold mb-2">Ready to Book</h5>
+                        <h5 class="fw-bold mb-2">Proceed to Booking</h5>
                         <p class="text-muted small mb-3">
                             Flight: <strong>${schedule.flight.airline.airlineName} ${schedule.flight.flightNumber}</strong><br>
                             Route: <strong>${schedule.flight.sourceAirport.airportCode} &rarr; ${schedule.flight.destinationAirport.airportCode}</strong><br>
@@ -253,11 +277,11 @@
                         </p>
                         <div class="p-3 bg-light rounded-3 text-start small text-muted">
                             <i class="bi bi-info-circle text-primary me-1"></i>
-                            <strong>Next Step:</strong> Passenger manifest capture and ticket confirmation will proceed upon checkout.
+                            <strong>Notice:</strong> This search result reflects schedules returned by the provider. Final seat inventory, passenger ticketing, and payment completion are subject to carrier confirmation.
                         </div>
                     </div>
                     <div class="modal-footer border-top">
-                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Proceed</button>
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Understood</button>
                     </div>
                 </div>
             </div>

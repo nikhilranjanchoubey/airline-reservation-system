@@ -74,18 +74,18 @@
             <!-- Main Route & Date Selector Grid -->
             <!-- Standard Route Grid Container -->
             <div id="standardRouteContainer" class="${tripType == 'multi-city' ? 'd-none' : ''}">
-                <div class="row g-3 align-items-center" id="standardRouteRow">
+                <div class="booking-form-grid-row-1 ${tripType == 'round-trip' ? 'is-round-trip' : ''}" id="standardRouteRow">
                     <!-- FROM (Origin) -->
-                    <div class="col-lg-${tripType == 'round-trip' ? '3' : '4'} col-md-5" id="fromCol">
+                    <div id="fromCol">
                         <div class="search-field-box position-relative" id="fromBoxContainer">
-                            <label class="field-label">
+                            <label class="field-label" for="fromAirportDisplay">
                                 <i class="bi bi-geo-alt-fill text-primary"></i> FROM
                             </label>
                             <input type="text" class="field-input fw-bold" id="fromAirportDisplay" 
                                    placeholder="City or Airport (e.g. DEL, Mumbai)" 
                                    value="${not empty sourceAirport ? sourceAirport.city.concat(' (').concat(sourceAirport.airportCode).concat(')') : (not empty selectedSource ? selectedSource : 'Jaipur (JAI)')}" 
                                    autocomplete="off" required onfocus="openAirportDropdown('from')" oninput="onAirportSearchInput('from')">
-                            <small class="text-muted d-block text-truncate" id="fromSubtext">
+                            <small class="field-subtext text-muted text-truncate d-block" id="fromSubtext">
                                 <c:choose>
                                     <c:when test="${not empty sourceAirport}">${sourceAirport.city} &bull; ${sourceAirport.airportName}</c:when>
                                     <c:otherwise>Jaipur &bull; Jaipur International Airport</c:otherwise>
@@ -106,23 +106,23 @@
                     </div>
 
                     <!-- Swap Button -->
-                    <div class="col-lg-auto col-md-2 text-center d-flex justify-content-center" id="swapCol">
-                        <button type="button" class="btn-swap-airports" id="btnSwapAirports" title="Swap departure and arrival airports" onclick="swapAirports()">
+                    <div class="swap-grid-col text-center d-flex justify-content-center" id="swapCol">
+                        <button type="button" class="btn-swap-airports" id="btnSwapAirports" title="Swap departure and arrival airports" onclick="swapAirports()" aria-label="Swap departure and arrival airports">
                             <i class="bi bi-arrow-left-right"></i>
                         </button>
                     </div>
 
                     <!-- TO (Destination) -->
-                    <div class="col-lg-${tripType == 'round-trip' ? '3' : '4'} col-md-5" id="toCol">
+                    <div id="toCol">
                         <div class="search-field-box position-relative" id="toBoxContainer">
-                            <label class="field-label">
+                            <label class="field-label" for="toAirportDisplay">
                                 <i class="bi bi-geo-fill text-danger"></i> TO
                             </label>
                             <input type="text" class="field-input fw-bold" id="toAirportDisplay" 
                                    placeholder="City or Airport (e.g. BOM, Delhi)" 
                                    value="${not empty destAirport ? destAirport.city.concat(' (').concat(destAirport.airportCode).concat(')') : (not empty selectedDestination ? selectedDestination : 'Delhi (DEL)')}" 
                                    autocomplete="off" required onfocus="openAirportDropdown('to')" oninput="onAirportSearchInput('to')">
-                            <small class="text-muted d-block text-truncate" id="toSubtext">
+                            <small class="field-subtext text-muted text-truncate d-block" id="toSubtext">
                                 <c:choose>
                                     <c:when test="${not empty destAirport}">${destAirport.city} &bull; ${destAirport.airportName}</c:when>
                                     <c:otherwise>Delhi &bull; Indira Gandhi International Airport</c:otherwise>
@@ -143,16 +143,16 @@
                     </div>
 
                     <!-- Departure Date -->
-                    <div class="col-lg-3 col-md-6" id="depCol">
+                    <div class="dep-grid-col" id="depCol">
                         <div class="search-field-box date-picker-box position-relative" id="depFieldBox"
                              onclick="openSearchPageCalendar('departure')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSearchPageCalendar('departure');}"
                              role="button" tabindex="0" aria-label="Departure Date Picker">
-                            <label class="field-label mb-1" style="pointer-events: none;">
+                            <label class="field-label" style="pointer-events: none;">
                                 <i class="bi bi-calendar-event text-primary"></i> DEPARTURE
                             </label>
-                            <div class="date-custom-display d-flex align-items-center justify-content-between" id="departureDateDisplay">
-                                <div class="d-flex align-items-baseline gap-2">
-                                    <span class="date-main-text" id="departureDatePrimary">
+                            <div class="d-flex align-items-center justify-content-between" id="departureDateDisplay" style="pointer-events: none;">
+                                <div class="text-truncate">
+                                    <span class="field-input-text fw-bold text-dark d-block text-truncate" id="departureDatePrimary">
                                         <c:choose>
                                             <c:when test="${not empty formattedDepartureDate}">${formattedDepartureDate}</c:when>
                                             <c:when test="${not empty selectedDepartureDate}">${selectedDepartureDate}</c:when>
@@ -160,14 +160,14 @@
                                             <c:otherwise>Select Date</c:otherwise>
                                         </c:choose>
                                     </span>
-                                    <span class="date-sub-text" id="departureDaySubtext">
+                                    <small class="field-subtext text-muted text-truncate d-block" id="departureDaySubtext">
                                         <c:choose>
                                             <c:when test="${not empty departureDayOfWeek}">&bull; ${departureDayOfWeek}</c:when>
                                             <c:when test="${not empty todayDayOfWeek}">&bull; ${todayDayOfWeek}</c:when>
                                         </c:choose>
-                                    </span>
+                                    </small>
                                 </div>
-                                <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                <i class="bi bi-calendar3 text-primary fs-5 ms-2 flex-shrink-0" aria-hidden="true"></i>
                             </div>
                             <input type="hidden" id="departureDateInput" name="departureDate"
                                    value="${not empty selectedDepartureDate ? selectedDepartureDate : (not empty todayDate ? todayDate : minDate)}">
@@ -175,27 +175,27 @@
                     </div>
 
                     <!-- Return Date (Hidden in One Way) -->
-                    <div class="col-lg-2 col-md-6 ${tripType == 'round-trip' ? '' : 'd-none'}" id="returnDateContainer">
+                    <div class="return-grid-col ${tripType == 'round-trip' ? '' : 'd-none'}" id="returnDateContainer">
                         <div class="search-field-box date-picker-box position-relative" id="returnFieldBox"
                              onclick="openSearchPageCalendar('return')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSearchPageCalendar('return');}"
                              role="button" tabindex="0" aria-label="Return Date Picker">
-                            <label class="field-label mb-1" style="pointer-events: none;">
+                            <label class="field-label" style="pointer-events: none;">
                                 <i class="bi bi-calendar2-check text-primary"></i> RETURN
                             </label>
-                            <div class="date-custom-display d-flex align-items-center justify-content-between" id="returnDateDisplay">
-                                <div class="d-flex align-items-baseline gap-2">
-                                    <span class="date-main-text" id="returnDatePrimary">
+                            <div class="d-flex align-items-center justify-content-between" id="returnDateDisplay" style="pointer-events: none;">
+                                <div class="text-truncate">
+                                    <span class="field-input-text fw-bold text-dark d-block text-truncate" id="returnDatePrimary">
                                         <c:choose>
                                             <c:when test="${not empty formattedReturnDate}">${formattedReturnDate}</c:when>
                                             <c:when test="${not empty selectedReturnDate}">${selectedReturnDate}</c:when>
                                             <c:otherwise>Select Return</c:otherwise>
                                         </c:choose>
                                     </span>
-                                    <span class="date-sub-text" id="returnDaySubtext">
+                                    <small class="field-subtext text-muted text-truncate d-block" id="returnDaySubtext">
                                         <c:if test="${not empty returnDayOfWeek}">&bull; ${returnDayOfWeek}</c:if>
-                                    </span>
+                                    </small>
                                 </div>
-                                <i class="bi bi-calendar3 text-primary fs-5" aria-hidden="true"></i>
+                                <i class="bi bi-calendar3 text-primary fs-5 ms-2 flex-shrink-0" aria-hidden="true"></i>
                             </div>
                             <input type="hidden" id="returnDateInput" 
                                    ${tripType == 'round-trip' ? 'name="returnDate"' : ''}
@@ -227,20 +227,33 @@
             </div>
 
             <!-- Row 2: Passengers, Cabin & CTA -->
-            <div class="row g-3 mt-1 align-items-center">
+            <div class="booking-form-grid-row-2">
                 <!-- Passengers Selector Dropdown -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="search-field-box dropdown">
-                        <label class="field-label">
+                <div id="passengerCol">
+                    <div class="search-field-box dropdown position-relative" id="passengerBoxContainer">
+                        <label class="field-label" id="passengerDropdownLabel">
                             <i class="bi bi-people-fill text-primary"></i> TRAVELLERS
                         </label>
-                        <button type="button" class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center"
-                                id="passengerDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                            <span id="passengerSummaryText">${empty passengers ? '1 Adult' : passengers} ${empty passengers ? '' : (passengers > 1 ? 'Passengers' : 'Passenger')}</span>
-                            <i class="bi bi-chevron-down text-muted small"></i>
+                        <button type="button" class="field-select-trigger btn p-0 text-start w-100 d-flex justify-content-between align-items-center"
+                                id="passengerDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-display="static" aria-expanded="false" aria-labelledby="passengerDropdownLabel passengerDropdownBtn">
+                            <div class="text-truncate">
+                                <span id="passengerSummaryText" class="field-input-text fw-bold text-dark d-block text-truncate">
+                                    <c:choose>
+                                        <c:when test="${not empty passengers && passengers > 1}">${passengers} Travellers</c:when>
+                                        <c:otherwise>1 Traveller</c:otherwise>
+                                    </c:choose>
+                                </span>
+                                <small id="passengerSubtext" class="field-subtext text-muted text-truncate d-block">
+                                    <c:choose>
+                                        <c:when test="${not empty adults}">${adults} Adult<c:if test="${adults > 1}">s</c:if><c:if test="${not empty children && children > 0}">, ${children} Child</c:if><c:if test="${not empty infants && infants > 0}">, ${infants} Infant</c:if></c:when>
+                                        <c:otherwise>1 Adult</c:otherwise>
+                                    </c:choose>
+                                </small>
+                            </div>
+                            <i class="bi bi-chevron-down text-muted small ms-2 field-chevron flex-shrink-0"></i>
                         </button>
 
-                        <div class="dropdown-menu passenger-dropdown-menu" aria-labelledby="passengerDropdownBtn">
+                        <div class="dropdown-menu passenger-dropdown-menu shadow-lg p-3" aria-labelledby="passengerDropdownBtn">
                             <!-- Adults -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
@@ -248,9 +261,9 @@
                                     <small class="text-muted">12+ years</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('adults', -1)">&minus;</button>
+                                    <button type="button" class="counter-btn" id="adultMinusBtn" onclick="updatePassenger('adults', -1)" ${empty adults || adults <= 1 ? 'disabled' : ''} aria-label="Decrease adult passengers">&minus;</button>
                                     <span id="adultCountDisplay" class="fw-bold px-2">${empty adults ? 1 : adults}</span>
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('adults', 1)">&#43;</button>
+                                    <button type="button" class="counter-btn" id="adultPlusBtn" onclick="updatePassenger('adults', 1)" aria-label="Increase adult passengers">&#43;</button>
                                 </div>
                             </div>
 
@@ -261,9 +274,9 @@
                                     <small class="text-muted">2 - 11 years</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('children', -1)">&minus;</button>
+                                    <button type="button" class="counter-btn" id="childMinusBtn" onclick="updatePassenger('children', -1)" ${empty children || children <= 0 ? 'disabled' : ''} aria-label="Decrease child passengers">&minus;</button>
                                     <span id="childCountDisplay" class="fw-bold px-2">${empty children ? 0 : children}</span>
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('children', 1)">&#43;</button>
+                                    <button type="button" class="counter-btn" id="childPlusBtn" onclick="updatePassenger('children', 1)" aria-label="Increase child passengers">&#43;</button>
                                 </div>
                             </div>
 
@@ -274,9 +287,9 @@
                                     <small class="text-muted">Under 2 years (on lap)</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('infants', -1)">&minus;</button>
+                                    <button type="button" class="counter-btn" id="infantMinusBtn" onclick="updatePassenger('infants', -1)" ${empty infants || infants <= 0 ? 'disabled' : ''} aria-label="Decrease infant passengers">&minus;</button>
                                     <span id="infantCountDisplay" class="fw-bold px-2">${empty infants ? 0 : infants}</span>
-                                    <button type="button" class="counter-btn" onclick="updatePassenger('infants', 1)">&#43;</button>
+                                    <button type="button" class="counter-btn" id="infantPlusBtn" onclick="updatePassenger('infants', 1)" aria-label="Increase infant passengers">&#43;</button>
                                 </div>
                             </div>
 
@@ -295,30 +308,31 @@
                 </div>
 
                 <!-- Cabin Class Selector -->
-                <div class="col-lg-4 col-md-6">
+                <div id="cabinCol">
                     <div class="search-field-box dropdown position-relative" id="cabinClassBoxContainer">
                         <label id="travelClassDropdownLabel" class="field-label">
                             <i class="bi bi-award-fill text-primary"></i> CABIN CLASS
                         </label>
                         <button type="button" 
-                                class="btn p-0 text-start w-100 fw-bold d-flex justify-content-between align-items-center cabin-class-btn"
+                                class="field-select-trigger btn p-0 text-start w-100 d-flex justify-content-between align-items-center cabin-class-btn"
                                 id="travelClassDropdownBtn" 
                                 data-bs-toggle="dropdown" 
+                                data-bs-display="static"
                                 aria-expanded="false" 
                                 aria-haspopup="listbox" 
                                 aria-labelledby="travelClassDropdownLabel travelClassDropdownBtn">
-                            <span class="d-flex flex-column text-truncate">
-                                <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark">${not empty travelClass ? travelClass : 'Economy'}</span>
-                                <small id="travelClassSubtext" class="text-muted text-truncate" style="font-size: 0.75rem;">
+                            <div class="text-truncate">
+                                <span id="travelClassDisplayText" class="field-input-text fw-bold text-dark d-block text-truncate">${not empty travelClass ? travelClass : 'Economy'}</span>
+                                <small id="travelClassSubtext" class="field-subtext text-muted text-truncate d-block">
                                     <c:choose>
-                                        <c:when test="${travelClass == 'Premium Economy'}">Extra legroom &amp; priority boarding</c:when>
-                                        <c:when test="${travelClass == 'Business'}">Spacious seating &amp; gourmet dining</c:when>
-                                        <c:when test="${travelClass == 'First Class'}">Luxury private suite &amp; personal care</c:when>
-                                        <c:otherwise>Standard seating &amp; best value fares</c:otherwise>
+                                        <c:when test="${travelClass == 'Premium Economy'}">Extra legroom</c:when>
+                                        <c:when test="${travelClass == 'Business'}">Spacious seating</c:when>
+                                        <c:when test="${travelClass == 'First Class'}">Luxury suite</c:when>
+                                        <c:otherwise>Standard seating</c:otherwise>
                                     </c:choose>
                                 </small>
-                            </span>
-                            <i class="bi bi-chevron-down text-muted small ms-2 cabin-chevron"></i>
+                            </div>
+                            <i class="bi bi-chevron-down text-muted small ms-2 field-chevron flex-shrink-0"></i>
                         </button>
 
                         <ul class="dropdown-menu cabin-class-dropdown-menu shadow-lg p-2" 
@@ -328,15 +342,15 @@
                             <li role="option" aria-selected="${empty travelClass || travelClass == 'Economy' ? 'true' : 'false'}">
                                 <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${empty travelClass || travelClass == 'Economy' ? 'active' : ''}" 
                                         data-value="Economy"
-                                        data-subtext="Standard seating &amp; best value fares"
-                                        onclick="selectCabinClass('Economy', 'Standard seating &amp; best value fares')">
+                                        data-subtext="Standard seating &amp; value fares"
+                                        onclick="selectCabinClass('Economy', 'Standard seating &amp; value fares')">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="cabin-icon-box text-primary">
                                             <i class="bi bi-person-fill"></i>
                                         </div>
                                         <div>
                                             <div class="fw-bold cabin-option-title">Economy</div>
-                                            <small class="text-muted d-block cabin-option-sub">Standard seating &amp; best value fares</small>
+                                            <small class="text-muted d-block cabin-option-sub">Standard seating and value fares</small>
                                         </div>
                                     </div>
                                     <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${empty travelClass || travelClass == 'Economy' ? '' : 'd-none'}"></i>
@@ -345,15 +359,15 @@
                             <li role="option" aria-selected="${travelClass == 'Premium Economy' ? 'true' : 'false'}">
                                 <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'Premium Economy' ? 'active' : ''}" 
                                         data-value="Premium Economy"
-                                        data-subtext="Extra legroom &amp; priority boarding"
-                                        onclick="selectCabinClass('Premium Economy', 'Extra legroom &amp; priority boarding')">
+                                        data-subtext="Extra space &amp; added comfort"
+                                        onclick="selectCabinClass('Premium Economy', 'Extra space &amp; added comfort')">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="cabin-icon-box text-primary">
                                             <i class="bi bi-gem"></i>
                                         </div>
                                         <div>
                                             <div class="fw-bold cabin-option-title">Premium Economy</div>
-                                            <small class="text-muted d-block cabin-option-sub">Extra legroom &amp; priority boarding</small>
+                                            <small class="text-muted d-block cabin-option-sub">Extra space and added comfort</small>
                                         </div>
                                     </div>
                                     <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'Premium Economy' ? '' : 'd-none'}"></i>
@@ -362,15 +376,15 @@
                             <li role="option" aria-selected="${travelClass == 'Business' ? 'true' : 'false'}">
                                 <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'Business' ? 'active' : ''}" 
                                         data-value="Business"
-                                        data-subtext="Spacious seating &amp; gourmet dining"
-                                        onclick="selectCabinClass('Business', 'Spacious seating &amp; gourmet dining')">
+                                        data-subtext="More space &amp; premium services"
+                                        onclick="selectCabinClass('Business', 'More space &amp; premium services')">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="cabin-icon-box text-primary">
                                             <i class="bi bi-briefcase-fill"></i>
                                         </div>
                                         <div>
                                             <div class="fw-bold cabin-option-title">Business</div>
-                                            <small class="text-muted d-block cabin-option-sub">Spacious seating &amp; gourmet dining</small>
+                                            <small class="text-muted d-block cabin-option-sub">More space and premium services</small>
                                         </div>
                                     </div>
                                     <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'Business' ? '' : 'd-none'}"></i>
@@ -379,15 +393,15 @@
                             <li role="option" aria-selected="${travelClass == 'First Class' ? 'true' : 'false'}">
                                 <button type="button" class="dropdown-item cabin-option-item rounded-2 py-2 px-3 d-flex align-items-center justify-content-between ${travelClass == 'First Class' ? 'active' : ''}" 
                                         data-value="First Class"
-                                        data-subtext="Luxury private suite &amp; personal care"
-                                        onclick="selectCabinClass('First Class', 'Luxury private suite &amp; personal care')">
+                                        data-subtext="Premium cabin experience"
+                                        onclick="selectCabinClass('First Class', 'Premium cabin experience')">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="cabin-icon-box text-primary">
                                             <i class="bi bi-stars"></i>
                                         </div>
                                         <div>
                                             <div class="fw-bold cabin-option-title">First Class</div>
-                                            <small class="text-muted d-block cabin-option-sub">Luxury private suite &amp; personal care</small>
+                                            <small class="text-muted d-block cabin-option-sub">Premium cabin experience</small>
                                         </div>
                                     </div>
                                     <i class="bi bi-check-lg text-primary fw-bold cabin-check-icon ${travelClass == 'First Class' ? '' : 'd-none'}"></i>
@@ -401,10 +415,12 @@
                 </div>
 
                 <!-- Search CTA Button -->
-                <div class="col-lg-4 col-md-12">
-                    <button type="submit" class="btn btn-search-flights w-100 py-3" id="btnSearchSubmit">
-                        <span id="btnSearchText"><i class="bi bi-search me-1"></i> SEARCH FLIGHTS</span>
-                        <span id="btnSearchSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <div class="search-cta-grid-col" id="searchCtaCol">
+                    <button type="submit" class="btn btn-search-flights shadow-sm" id="btnSearchSubmit">
+                        <span id="btnSearchText" class="d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-search"></i> SEARCH FLIGHTS
+                        </span>
+                        <span id="btnSearchSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -473,11 +489,8 @@
         const returnInput = document.getElementById('returnDateInput');
         const returnLabel = document.getElementById('returnDayLabel');
         const stdContainer = document.getElementById('standardRouteContainer');
+        const stdRow = document.getElementById('standardRouteRow');
         const mcContainer = document.getElementById('multiCityContainer');
-
-        const fromCol = document.getElementById('fromCol');
-        const toCol = document.getElementById('toCol');
-        const depCol = document.getElementById('depCol');
 
         [btnOneWay, btnRoundTrip, btnMultiCity].forEach(b => { if (b) b.classList.remove('active'); });
 
@@ -485,15 +498,11 @@
             btnRoundTrip.classList.add('active');
             stdContainer.classList.remove('d-none');
             mcContainer.classList.add('d-none');
+            if (stdRow) stdRow.classList.add('is-round-trip');
             returnContainer.classList.remove('d-none');
             returnInput.disabled = false;
             returnInput.setAttribute('name', 'returnDate');
             returnInput.required = true;
-
-            if (fromCol) fromCol.className = 'col-lg-3 col-md-5';
-            if (toCol) toCol.className = 'col-lg-3 col-md-5';
-            if (depCol) depCol.className = 'col-lg-3 col-md-6';
-            if (returnContainer) returnContainer.className = 'col-lg-2 col-md-6';
 
             const depDate = document.getElementById('departureDateInput').value;
             if (depDate) {
@@ -514,6 +523,7 @@
             btnMultiCity.classList.add('active');
             stdContainer.classList.add('d-none');
             mcContainer.classList.remove('d-none');
+            if (stdRow) stdRow.classList.remove('is-round-trip');
             returnContainer.classList.add('d-none');
             returnInput.disabled = true;
             returnInput.removeAttribute('name');
@@ -525,15 +535,12 @@
             btnOneWay.classList.add('active');
             stdContainer.classList.remove('d-none');
             mcContainer.classList.add('d-none');
+            if (stdRow) stdRow.classList.remove('is-round-trip');
             returnContainer.classList.add('d-none');
             returnInput.disabled = true;
             returnInput.removeAttribute('name');
             returnInput.value = '';
             returnInput.required = false;
-
-            if (fromCol) fromCol.className = 'col-lg-4 col-md-5';
-            if (toCol) toCol.className = 'col-lg-4 col-md-5';
-            if (depCol) depCol.className = 'col-lg-3 col-md-6';
         }
     }
 
@@ -822,27 +829,65 @@
         let c = parseInt(childInput.value) || 0;
         let i = parseInt(infantInput.value) || 0;
 
-        if (type === 'adults') a = Math.max(1, Math.min(9, a + delta));
-        if (type === 'children') c = Math.max(0, Math.min(8, c + delta));
-        if (type === 'infants') {
-            i = Math.max(0, Math.min(a, i + delta)); // Infants cannot exceed adults
+        if (type === 'adults') {
+            const nextA = a + delta;
+            if (nextA >= 1 && (nextA + c) <= 9) {
+                a = nextA;
+                if (i > a) i = a; // Infants cannot exceed accompanying adults
+            }
+        } else if (type === 'children') {
+            const nextC = c + delta;
+            if (nextC >= 0 && (a + nextC) <= 9) {
+                c = nextC;
+            }
+        } else if (type === 'infants') {
+            const nextI = i + delta;
+            if (nextI >= 0 && nextI <= a) {
+                i = nextI;
+            }
         }
-
-        if (a + c + i > 9) return; // Total limit 9
 
         adultInput.value = a;
         childInput.value = c;
         infantInput.value = i;
 
-        document.getElementById('adultCountDisplay').textContent = a;
-        document.getElementById('childCountDisplay').textContent = c;
-        document.getElementById('infantCountDisplay').textContent = i;
+        const adultDisplay = document.getElementById('adultCountDisplay');
+        const childDisplay = document.getElementById('childCountDisplay');
+        const infantDisplay = document.getElementById('infantCountDisplay');
+        if (adultDisplay) adultDisplay.textContent = a;
+        if (childDisplay) childDisplay.textContent = c;
+        if (infantDisplay) infantDisplay.textContent = i;
 
-        let summary = a + (a === 1 ? ' Adult' : ' Adults');
-        if (c > 0) summary += ', ' + c + (c === 1 ? ' Child' : ' Children');
-        if (i > 0) summary += ', ' + i + (i === 1 ? ' Infant' : ' Infants');
+        // Stepper buttons disabled state
+        const adultMinus = document.getElementById('adultMinusBtn');
+        const childMinus = document.getElementById('childMinusBtn');
+        const infantMinus = document.getElementById('infantMinusBtn');
+        const adultPlus = document.getElementById('adultPlusBtn');
+        const childPlus = document.getElementById('childPlusBtn');
+        const infantPlus = document.getElementById('infantPlusBtn');
 
-        document.getElementById('passengerSummaryText').textContent = summary;
+        if (adultMinus) adultMinus.disabled = (a <= 1);
+        if (childMinus) childMinus.disabled = (c <= 0);
+        if (infantMinus) infantMinus.disabled = (i <= 0);
+
+        const totalSeated = a + c;
+        if (adultPlus) adultPlus.disabled = (totalSeated >= 9);
+        if (childPlus) childPlus.disabled = (totalSeated >= 9);
+        if (infantPlus) infantPlus.disabled = (i >= a);
+
+        const total = a + c + i;
+        const summaryText = document.getElementById('passengerSummaryText');
+        const subtext = document.getElementById('passengerSubtext');
+
+        if (summaryText) {
+            summaryText.textContent = total + (total === 1 ? ' Traveller' : ' Travellers');
+        }
+        if (subtext) {
+            let parts = [a + (a === 1 ? ' Adult' : ' Adults')];
+            if (c > 0) parts.push(c + (c === 1 ? ' Child' : ' Children'));
+            if (i > 0) parts.push(i + (i === 1 ? ' Infant' : ' Infants'));
+            subtext.textContent = parts.join(', ');
+        }
     }
 
     function closePassengerDropdown() {
@@ -857,7 +902,15 @@
         const sub = document.getElementById('travelClassSubtext');
         if (input) input.value = className;
         if (display) display.textContent = className;
-        if (sub) sub.textContent = subtext || '';
+
+        let displaySub = subtext;
+        if (!displaySub) {
+            if (className === 'Premium Economy') displaySub = 'Extra space & added comfort';
+            else if (className === 'Business') displaySub = 'More space & premium services';
+            else if (className === 'First Class') displaySub = 'Premium cabin experience';
+            else displaySub = 'Standard seating & value fares';
+        }
+        if (sub) sub.textContent = displaySub;
 
         const items = document.querySelectorAll('#travelClassMenuList .cabin-option-item');
         items.forEach(item => {
@@ -1081,16 +1134,21 @@
             }
         }
 
-        // Sync passenger summary text
+        // Sync passenger summary text & subtext
         const aVal = parseInt(document.getElementById('adultsInput')?.value || '1', 10);
         const cVal = parseInt(document.getElementById('childrenInput')?.value || '0', 10);
         const iVal = parseInt(document.getElementById('infantsInput')?.value || '0', 10);
+        const totalPass = aVal + cVal + iVal;
         const pSummary = document.getElementById('passengerSummaryText');
+        const pSub = document.getElementById('passengerSubtext');
         if (pSummary) {
-            let summary = aVal + (aVal === 1 ? ' Adult' : ' Adults');
-            if (cVal > 0) summary += ', ' + cVal + (cVal === 1 ? ' Child' : ' Children');
-            if (iVal > 0) summary += ', ' + iVal + (iVal === 1 ? ' Infant' : ' Infants');
-            pSummary.textContent = summary;
+            pSummary.textContent = totalPass + (totalPass === 1 ? ' Traveller' : ' Travellers');
+        }
+        if (pSub) {
+            let parts = [aVal + (aVal === 1 ? ' Adult' : ' Adults')];
+            if (cVal > 0) parts.push(cVal + (cVal === 1 ? ' Child' : ' Children'));
+            if (iVal > 0) parts.push(iVal + (iVal === 1 ? ' Infant' : ' Infants'));
+            pSub.textContent = parts.join(', ');
         }
     });
 </script>

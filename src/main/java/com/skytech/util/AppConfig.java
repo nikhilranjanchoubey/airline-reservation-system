@@ -61,12 +61,20 @@ public final class AppConfig {
     }
 
     private static void loadDotenvManuallyIfEmpty() {
+        String catalinaBase = System.getProperty("catalina.base");
+        String catalinaHome = System.getProperty("catalina.home");
+        String userDir = System.getProperty("user.dir");
+
         String[] possiblePaths = {
             ".env",
             "../.env",
-            System.getProperty("user.dir") + File.separator + ".env",
-            System.getProperty("catalina.base") + File.separator + ".env",
-            System.getProperty("catalina.home") + File.separator + ".env"
+            "../../.env",
+            userDir != null ? userDir + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + ".env" : null,
+            catalinaHome != null ? catalinaHome + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "skytech" + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "skytech" + File.separator + "WEB-INF" + File.separator + ".env" : null,
+            "c:\\Users\\choub\\OneDrive\\Documents\\GitHub\\airline-reservation-system\\.env"
         };
 
         for (String path : possiblePaths) {
@@ -91,7 +99,7 @@ public final class AppConfig {
                             }
                         }
                     }
-                    LOGGER.info("Successfully loaded environment configuration from: " + f.getName());
+                    LOGGER.info("Successfully loaded environment configuration from: " + f.getAbsolutePath());
                     break;
                 } catch (Exception e) {
                     LOGGER.log(Level.WARNING, "Could not read .env at path: " + path, e);
@@ -159,32 +167,52 @@ public final class AppConfig {
     }
 
     // ==========================================
-    // RAPIDAPI / AERODATABOX ACCESSORS
+    // REEFAPI ACCESSORS
     // ==========================================
 
     /**
-     * Obtains the configured RapidAPI Key.
-     * Fails clearly if missing without exposing secret data.
+     * Obtains the configured ReefAPI Key (from REEF_API_KEY or reef.api.key).
+     * Fails cleanly if missing without exposing secret data.
      */
-    public static String getRapidApiKey() {
-        String key = get("RAPIDAPI_KEY");
+    public static String getReefApiKey() {
+        String key = get("REEF_API_KEY", get("reef.api.key", null));
         if (key == null || key.trim().isEmpty()) {
-            throw new IllegalStateException("RapidAPI configuration is missing. Please configure RAPIDAPI_KEY in .env or environment.");
+            throw new IllegalStateException("ReefAPI configuration is missing. Please configure REEF_API_KEY in .env or environment.");
         }
         return key.trim();
     }
 
     /**
-     * Returns true if RapidAPI Key is configured.
+     * Returns true if ReefAPI Key is configured.
      */
+    public static boolean isReefApiConfigured() {
+        String key = get("REEF_API_KEY", get("reef.api.key", null));
+        return key != null && !key.trim().isEmpty();
+    }
+
+    /**
+     * Obtains the ReefAPI Base URL (default: https://api.reefapi.com).
+     */
+    public static String getReefApiBaseUrl() {
+        return get("REEF_API_URL", "https://api.reefapi.com");
+    }
+
+    // ==========================================
+    // LEGACY RAPIDAPI / AERODATABOX ACCESSORS (DEPRECATED)
+    // ==========================================
+
+    @Deprecated
+    public static String getRapidApiKey() {
+        return get("RAPIDAPI_KEY", "");
+    }
+
+    @Deprecated
     public static boolean isRapidApiConfigured() {
         String key = get("RAPIDAPI_KEY");
         return key != null && !key.trim().isEmpty();
     }
 
-    /**
-     * Obtains the RapidAPI Host (default: aerodatabox.p.rapidapi.com).
-     */
+    @Deprecated
     public static String getRapidApiHost() {
         return get("RAPIDAPI_HOST", "aerodatabox.p.rapidapi.com");
     }

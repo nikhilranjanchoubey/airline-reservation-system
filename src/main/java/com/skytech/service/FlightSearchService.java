@@ -3,7 +3,7 @@ package com.skytech.service;
 import com.skytech.dao.AirportDao;
 import com.skytech.dao.SearchHistoryDao;
 import com.skytech.integration.FlightProvider;
-import com.skytech.integration.aerodatabox.AeroDataBoxFlightProvider;
+import com.skytech.integration.reefapi.ReefApiFlightProvider;
 import com.skytech.model.Airport;
 import com.skytech.model.FlightSchedule;
 import com.skytech.model.FlightSearchRequest;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Service layer coordinating flight search business logic, validations, AeroDataBox live integration, and search history.
+ * Service layer coordinating flight search business logic, validations, ReefAPI live integration, and search history.
  */
 public class FlightSearchService {
 
@@ -31,7 +31,7 @@ public class FlightSearchService {
 
     public FlightSearchService() {
         this.airportDao = new AirportDao();
-        this.flightProvider = new AeroDataBoxFlightProvider();
+        this.flightProvider = new ReefApiFlightProvider();
         this.searchHistoryDao = new SearchHistoryDao();
     }
 
@@ -207,11 +207,22 @@ public class FlightSearchService {
     }
 
     /**
-     * Searches flights using configured provider (Amadeus or Local Database).
+     * Searches flights using configured provider (ReefAPI or Local Database).
      */
     public List<FlightSchedule> searchFlights(String sourceCode, String destinationCode,
                                               LocalDate departureDate, int passengers, String travelClass) throws Exception {
         return flightProvider.searchFlights(sourceCode, destinationCode, departureDate, passengers, travelClass);
+    }
+
+    /**
+     * Searches flights with round-trip and passenger breakdown support.
+     */
+    public List<FlightSchedule> searchFlights(String sourceCode, String destinationCode,
+                                              LocalDate departureDate, LocalDate returnDate,
+                                              int adults, int children, int infants,
+                                              String travelClass, String tripType) throws Exception {
+        return flightProvider.searchFlights(sourceCode, destinationCode, departureDate, returnDate,
+                adults, children, infants, travelClass, tripType);
     }
 
     /**
@@ -229,6 +240,35 @@ public class FlightSearchService {
     }
 
     /**
+     * Resolves flight schedule details by verifying route, flight number, and date.
+     */
+    public FlightSchedule getFlightDetailsByRouteAndFlightNumber(String flightNumber, String source, String destination, LocalDate departureDate) {
+        if (flightNumber == null || flightNumber.trim().isEmpty()) {
+            return null;
+        }
+        LocalDate targetDate = (departureDate != null) ? departureDate : LocalDate.now(APP_ZONE_ID);
+
+        // 1. Check ReefAPI live feed cache
+        if (flightProvider instanceof ReefApiFlightProvider) {
+            FlightSchedule liveFs = ((ReefApiFlightProvider) flightProvider).getFlightByRouteAndNumber(flightNumber, source, destination, targetDate);
+            if (liveFs != null) {
+                return liveFs;
+            }
+        }
+
+        // 2. Check general flight number lookup
+        FlightSchedule byNum = getFlightByFlightNumber(flightNumber, targetDate);
+        if (byNum != null) {
+            if (source == null || byNum.getFlight() == null || byNum.getFlight().getSourceAirport() == null
+                    || source.trim().equalsIgnoreCase(byNum.getFlight().getSourceAirport().getAirportCode())) {
+                return byNum;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Finds a flight schedule by flight number and date for flight tracking.
      */
     public FlightSchedule getFlightByFlightNumber(String flightNumber, LocalDate flightDate) {
@@ -236,8 +276,8 @@ public class FlightSearchService {
             return null;
         }
         LocalDate targetDate = (flightDate != null) ? flightDate : LocalDate.now(APP_ZONE_ID);
-        if (flightProvider instanceof AeroDataBoxFlightProvider) {
-            FlightSchedule liveFs = ((AeroDataBoxFlightProvider) flightProvider).getFlightByFlightNumber(flightNumber, targetDate);
+        if (flightProvider instanceof ReefApiFlightProvider) {
+            FlightSchedule liveFs = ((ReefApiFlightProvider) flightProvider).getFlightByFlightNumber(flightNumber, targetDate);
             if (liveFs != null) {
                 return liveFs;
             }
@@ -304,8 +344,7 @@ public class FlightSearchService {
 
     /**
      * Dynamically calculates featured route deals from active flight inventory.
-     * Uses current date as seed for deterministic Daily Shuffle rotation (consistent for 24h).
-     * Guaranteed single source of truth for homepage pricing.
+     * Uses local catalog/database inventory to prevent exhausting user RapidAPI quota on homepage visits.
      */
     public List<com.skytech.model.PopularRouteDeal> getPopularRouteDeals(LocalDate rotationDate) {
         List<com.skytech.model.PopularRouteDeal> deals = new ArrayList<>();
@@ -329,6 +368,8 @@ public class FlightSearchService {
             }
         }
 
+        com.skytech.integration.DatabaseFlightProvider localCatalogProvider = new com.skytech.integration.DatabaseFlightProvider();
+
         for (int idx = 0; idx < orderedRoutes.size(); idx++) {
             FeaturedRouteConfig cfg = orderedRoutes.get(idx);
             boolean isDaily = (idx == 0);
@@ -340,7 +381,8 @@ public class FlightSearchService {
             java.util.Set<String> airlineSet = new java.util.LinkedHashSet<>();
 
             try {
-                List<FlightSchedule> flights = searchFlights(cfg.src, cfg.dst, searchDate, 1, "Economy");
+                // Query local catalog so homepage does not burn external RapidAPI rate limits
+                List<FlightSchedule> flights = localCatalogProvider.searchFlights(cfg.src, cfg.dst, searchDate, 1, "Economy");
                 if (flights != null && !flights.isEmpty()) {
                     for (FlightSchedule fs : flights) {
                         java.math.BigDecimal p = fs.getPriceForClass("Economy");
