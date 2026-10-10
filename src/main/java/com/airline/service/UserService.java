@@ -7,8 +7,17 @@ import com.airline.model.User;
 import com.airline.util.PasswordUtil;
 import com.airline.util.ValidationUtil;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Service class orchestrating business logic for Authentication & User Management.
@@ -215,5 +224,119 @@ public class UserService {
      */
     public User getUserById(int userId) {
         return userDao.findById(userId);
+    }
+
+    /**
+     * Verifies a Google ID token and authenticates or registers the user.
+     *
+     * @param idTokenString    The JWT ID token sent from Google Identity Services
+     * @param expectedClientId The configured Google Client ID
+     * @return ServiceResult containing authenticated User or failure message
+     */
+    public ServiceResult<User> processGoogleLogin(String idTokenString, String expectedClientId) {
+        if (idTokenString == null || idTokenString.isBlank()) {
+            return ServiceResult.fail("Google ID token is required.");
+        }
+        if (expectedClientId == null || expectedClientId.isBlank()) {
+            return ServiceResult.fail("Google Client ID is not configured on server.");
+        }
+
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(expectedClientId))
+                    .setIssuers(Arrays.asList("https://accounts.google.com", "accounts.google.com"))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken == null) {
+                return ServiceResult.fail("Invalid or expired Google authentication token.");
+            }
+
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String googleId = payload.getSubject();
+            String email = payload.getEmail();
+            Boolean emailVerified = payload.getEmailVerified();
+
+            if (googleId == null || googleId.isBlank()) {
+                return ServiceResult.fail("Invalid Google token: subject identifier missing.");
+            }
+            if (email == null || email.isBlank()) {
+                return ServiceResult.fail("Invalid Google token: email missing.");
+            }
+            if (emailVerified != null && !emailVerified) {
+                return ServiceResult.fail("Google email address is not verified.");
+            }
+
+            String cleanEmail = email.trim().toLowerCase();
+
+            // 1. Check if user already exists with this googleId
+            User user = userDao.findByGoogleId(googleId);
+            if (user != null) {
+                if ("SUSPENDED".equalsIgnoreCase(user.getStatus())) {
+                    return ServiceResult.fail("Your account has been suspended. Please contact support.");
+                }
+                return ServiceResult.ok("Google sign-in successful.", user);
+            }
+
+            // 2. Check if user exists by email address (Safe Account Linking Policy)
+            User existingUser = userDao.findByEmail(cleanEmail);
+            if (existingUser != null) {
+                if ("SUSPENDED".equalsIgnoreCase(existingUser.getStatus())) {
+                    return ServiceResult.fail("Your account has been suspended. Please contact support.");
+                }
+                if (existingUser.getGoogleId() != null && !existingUser.getGoogleId().equals(googleId)) {
+                    return ServiceResult.fail("An account with this email is already linked to another Google account.");
+                }
+
+                // Safely link Google ID to existing verified account
+                boolean linked = userDao.linkGoogleId(existingUser.getUserId(), googleId);
+                if (linked) {
+                    existingUser.setGoogleId(googleId);
+                    return ServiceResult.ok("Google account linked successfully.", existingUser);
+                } else {
+                    return ServiceResult.fail("Failed to link Google account in database.");
+                }
+            }
+
+            // 3. New User Registration via Google (Strictly PASSENGER role)
+            String name = (String) payload.get("name");
+            String givenName = (String) payload.get("given_name");
+            String familyName = (String) payload.get("family_name");
+
+            String firstName = (givenName != null && !givenName.isBlank()) ? givenName.trim() : "Passenger";
+            String lastName = (familyName != null && !familyName.isBlank()) ? familyName.trim() : "User";
+
+            if ((givenName == null || givenName.isBlank()) && name != null && !name.isBlank()) {
+                String[] parts = name.trim().split("\\s+", 2);
+                firstName = parts[0];
+                if (parts.length > 1) {
+                    lastName = parts[1];
+                }
+            }
+
+            User newUser = new User();
+            newUser.setEmail(cleanEmail);
+            newUser.setGoogleId(googleId);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setPhone(null);
+            newUser.setPassportNumber(null);
+            newUser.setDateOfBirth(null);
+            newUser.setPasswordHash(null);
+            newUser.setSalt(null);
+            newUser.setRole(Role.PASSENGER); // Always PASSENGER for new Google registrations
+            newUser.setStatus("ACTIVE");
+
+            boolean created = userDao.createUser(newUser);
+            if (created) {
+                return ServiceResult.ok("Passenger account created via Google Sign-In.", newUser);
+            } else {
+                return ServiceResult.fail("Failed to create user account from Google Sign-In.");
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, "Error verifying Google token", e);
+            return ServiceResult.fail("Google authentication failed: " + e.getMessage());
+        }
     }
 }

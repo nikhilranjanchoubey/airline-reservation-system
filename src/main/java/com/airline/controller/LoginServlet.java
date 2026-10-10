@@ -4,6 +4,7 @@ import com.airline.model.Role;
 import com.airline.model.User;
 import com.airline.service.ServiceResult;
 import com.airline.service.UserService;
+import com.airline.util.ConfigUtil;
 import com.airline.util.ValidationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -50,6 +51,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
+        request.setAttribute("googleClientId", ConfigUtil.getGoogleClientId());
         request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
     }
 
@@ -85,6 +87,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             request.setAttribute("errorMessage", result.getMessage());
             request.setAttribute("loginEmail", email);
+            request.setAttribute("googleClientId", ConfigUtil.getGoogleClientId());
             request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
         }
     }

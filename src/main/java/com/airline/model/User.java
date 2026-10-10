@@ -12,6 +12,7 @@ public class User implements Serializable {
 
     private int userId;
     private String email;
+    private String googleId;
     private String passwordHash;
     private String salt;
     private String firstName;
@@ -55,6 +56,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getPasswordHash() {

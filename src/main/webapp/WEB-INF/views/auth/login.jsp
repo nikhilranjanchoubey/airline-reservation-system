@@ -110,6 +110,34 @@
                         </div>
                     </c:if>
 
+                    <c:set var="gClientId" value="${not empty googleClientId ? googleClientId : com.airline.util.ConfigUtil.getGoogleClientId()}" />
+
+                    <!-- Google Identity Services Web Authentication -->
+                    <script src="https://accounts.google.com/gsi/client" async defer></script>
+                    
+                    <div class="google-auth-wrapper text-center my-3">
+                        <div id="g_id_onload"
+                             data-client_id="<c:out value='${gClientId}' />"
+                             data-login_uri="${pageContext.request.contextPath}/auth/google"
+                             data-auto_prompt="false">
+                        </div>
+
+                        <!-- Render Container for Google Identity Services Button -->
+                        <div id="googleSignInBtnContainer" class="g_id_signin"
+                             data-type="standard"
+                             data-shape="rectangular"
+                             data-theme="outline"
+                             data-text="continue_with"
+                             data-size="large"
+                             data-logo_alignment="left"
+                             data-width="360">
+                        </div>
+                    </div>
+
+                    <div class="auth-divider">
+                        <span>OR CONTINUE WITH EMAIL</span>
+                    </div>
+
                     <!-- Login Form -->
                     <form action="${pageContext.request.contextPath}/login" method="post" id="loginForm" novalidate>
                         <!-- Email Field -->
@@ -151,36 +179,8 @@
                             <span>Sign In</span>
                         </button>
 
-                        <!-- Social OR Divider -->
-                        <div class="auth-divider">
-                            <span>OR</span>
-                        </div>
-
-                        <!-- Social Sign-in Options -->
-                        <div class="auth-social-buttons">
-                            <button type="button" class="btn-social-auth" onclick="handleSocialAuth('Google')">
-                                <svg class="social-icon-svg" viewBox="0 0 24 24">
-                                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-                                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-                                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-                                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                                </svg>
-                                <span>Continue with Google</span>
-                            </button>
-
-                            <button type="button" class="btn-social-auth" onclick="handleSocialAuth('Microsoft')">
-                                <svg class="social-icon-svg" viewBox="0 0 23 23">
-                                    <path fill="#f35325" d="M1 1h10v10H1z"/>
-                                    <path fill="#81bc06" d="M12 1h10v10H12z"/>
-                                    <path fill="#05a6f0" d="M1 12h10v10H1z"/>
-                                    <path fill="#ffba08" d="M12 12h10v10H12z"/>
-                                </svg>
-                                <span>Continue with Microsoft</span>
-                            </button>
-                        </div>
-
                         <!-- Registration Prompt -->
-                        <div class="auth-switch-prompt">
+                        <div class="auth-switch-prompt" style="margin-top: 1.5rem;">
                             Don't have an account yet? 
                             <a href="${pageContext.request.contextPath}/register" class="auth-switch-link">Create Passenger Account</a>
                         </div>
@@ -211,6 +211,20 @@
 </div>
 
 <script>
+    // Google Identity Services trigger
+    function triggerGooglePrompt() {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    // Fallback to standard Google Sign-In prompt/render
+                    console.log('Google One-tap prompt skipped/not displayed:', notification.getNotDisplayedReason());
+                }
+            });
+        } else {
+            alert("Google Identity Services is loading or blocked by a browser extension. Please refresh the page and try again.");
+        }
+    }
+
     // Password visibility toggle
     const toggleBtn = document.getElementById('togglePasswordBtn');
     const passwordInput = document.getElementById('password');
@@ -234,11 +248,6 @@
     // Forgot password info handler
     function handleForgotPassword() {
         alert("Password Recovery Notice:\n\nFor security and PBL environment testing, please log in using the pre-seeded credentials (Passenger or Admin), or contact system admin at admin@airline.com.");
-    }
-
-    // Social auth notice handler
-    function handleSocialAuth(provider) {
-        alert("Single Sign-On (" + provider + "):\n\nSocial federation is configured for production SkyTech SSO. In this local development build, please use the direct SkyTech credentials or register a local passenger account.");
     }
 
     // Form submission animation feedback

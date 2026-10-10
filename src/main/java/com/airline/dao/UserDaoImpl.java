@@ -19,15 +19,22 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class.getName());
 
     private static final String SQL_INSERT_USER =
-            "INSERT INTO users (email, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO users (email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SQL_FIND_BY_EMAIL =
-            "SELECT user_id, email, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
             "FROM users WHERE email = ?";
 
+    private static final String SQL_FIND_BY_GOOGLE_ID =
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "FROM users WHERE google_id = ?";
+
+    private static final String SQL_LINK_GOOGLE_ID =
+            "UPDATE users SET google_id = ? WHERE user_id = ?";
+
     private static final String SQL_FIND_BY_ID =
-            "SELECT user_id, email, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
             "FROM users WHERE user_id = ?";
 
     private static final String SQL_EXISTS_BY_EMAIL =
@@ -41,7 +48,7 @@ public class UserDaoImpl implements UserDao {
             "UPDATE users SET password_hash = ?, salt = ? WHERE user_id = ?";
 
     private static final String SQL_FIND_ALL =
-            "SELECT user_id, email, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
             "FROM users ORDER BY created_at DESC";
 
     private static final String SQL_UPDATE_STATUS =
@@ -56,21 +63,22 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement ps = conn.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPasswordHash());
-            ps.setString(3, user.getSalt());
-            ps.setString(4, user.getFirstName());
-            ps.setString(5, user.getLastName());
-            ps.setString(6, user.getPhone());
-            ps.setString(7, user.getPassportNumber());
+            ps.setString(2, user.getGoogleId());
+            ps.setString(3, user.getPasswordHash());
+            ps.setString(4, user.getSalt());
+            ps.setString(5, user.getFirstName());
+            ps.setString(6, user.getLastName());
+            ps.setString(7, user.getPhone());
+            ps.setString(8, user.getPassportNumber());
 
             if (user.getDateOfBirth() != null) {
-                ps.setDate(8, Date.valueOf(user.getDateOfBirth()));
+                ps.setDate(9, Date.valueOf(user.getDateOfBirth()));
             } else {
-                ps.setNull(8, Types.DATE);
+                ps.setNull(9, Types.DATE);
             }
 
-            ps.setString(9, user.getRole() != null ? user.getRole().name() : Role.PASSENGER.name());
-            ps.setString(10, user.getStatus() != null ? user.getStatus() : "ACTIVE");
+            ps.setString(10, user.getRole() != null ? user.getRole().name() : Role.PASSENGER.name());
+            ps.setString(11, user.getStatus() != null ? user.getStatus() : "ACTIVE");
 
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
@@ -103,6 +111,38 @@ public class UserDaoImpl implements UserDao {
             LOGGER.log(Level.SEVERE, "Error finding user by email: " + email, e);
         }
         return null;
+    }
+
+    @Override
+    public User findByGoogleId(String googleId) {
+        if (googleId == null || googleId.isBlank()) return null;
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_GOOGLE_ID)) {
+
+            ps.setString(1, googleId.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error finding user by googleId: " + googleId, e);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean linkGoogleId(int userId, String googleId) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL_LINK_GOOGLE_ID)) {
+
+            ps.setString(1, googleId);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error linking googleId for user ID: " + userId, e);
+        }
+        return false;
     }
 
     @Override
@@ -227,6 +267,7 @@ public class UserDaoImpl implements UserDao {
         User user = new User();
         user.setUserId(rs.getInt("user_id"));
         user.setEmail(rs.getString("email"));
+        user.setGoogleId(rs.getString("google_id"));
         user.setPasswordHash(rs.getString("password_hash"));
         user.setSalt(rs.getString("salt"));
         user.setFirstName(rs.getString("first_name"));

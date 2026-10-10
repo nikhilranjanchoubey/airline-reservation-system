@@ -25,6 +25,23 @@ public interface UserDao {
     User findByEmail(String email);
 
     /**
+     * Finds a user by their unique Google subject ID (sub).
+     *
+     * @param googleId The Google subject ID
+     * @return User object if found, null otherwise
+     */
+    User findByGoogleId(String googleId);
+
+    /**
+     * Links a Google subject ID to an existing user account.
+     *
+     * @param userId   The user's ID
+     * @param googleId The Google subject ID
+     * @return true if linking succeeded, false otherwise
+     */
+    boolean linkGoogleId(int userId, String googleId);
+
+    /**
      * Finds a user by their primary key user_id.
      *
      * @param userId The user's ID

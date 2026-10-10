@@ -4,6 +4,7 @@ import com.airline.model.Role;
 import com.airline.model.User;
 import com.airline.service.ServiceResult;
 import com.airline.service.UserService;
+import com.airline.util.ConfigUtil;
 import com.airline.util.ValidationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,6 +34,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        request.setAttribute("googleClientId", ConfigUtil.getGoogleClientId());
         request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
     }
 
@@ -54,6 +56,7 @@ public class RegisterServlet extends HttpServlet {
                 dob = LocalDate.parse(dobStr);
             } catch (DateTimeParseException e) {
                 request.setAttribute("errorMessage", "Invalid date format for Date of Birth. Use YYYY-MM-DD.");
+                request.setAttribute("googleClientId", ConfigUtil.getGoogleClientId());
                 preserveFormState(request, firstName, lastName, email, phone, passportNumber, dobStr);
                 request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
                 return;
@@ -77,6 +80,7 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             request.setAttribute("errorMessage", result.getMessage());
+            request.setAttribute("googleClientId", ConfigUtil.getGoogleClientId());
             preserveFormState(request, firstName, lastName, email, phone, passportNumber, dobStr);
             request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
         }

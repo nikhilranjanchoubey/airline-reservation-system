@@ -96,6 +96,34 @@
                         </div>
                     </c:if>
 
+                    <c:set var="gClientId" value="${not empty googleClientId ? googleClientId : com.airline.util.ConfigUtil.getGoogleClientId()}" />
+
+                    <!-- Google Identity Services Web Authentication -->
+                    <script src="https://accounts.google.com/gsi/client" async defer></script>
+                    
+                    <div class="google-auth-wrapper text-center my-3">
+                        <div id="g_id_onload"
+                             data-client_id="<c:out value='${gClientId}' />"
+                             data-login_uri="${pageContext.request.contextPath}/auth/google"
+                             data-auto_prompt="false">
+                        </div>
+
+                        <!-- Render Container for Google Identity Services Button -->
+                        <div id="googleSignInBtnContainerReg" class="g_id_signin"
+                             data-type="standard"
+                             data-shape="rectangular"
+                             data-theme="outline"
+                             data-text="continue_with"
+                             data-size="large"
+                             data-logo_alignment="left"
+                             data-width="360">
+                        </div>
+                    </div>
+
+                    <div class="auth-divider">
+                        <span>OR REGISTER WITH EMAIL</span>
+                    </div>
+
                     <!-- Registration Form -->
                     <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm" novalidate>
                         
@@ -246,6 +274,19 @@
 </div>
 
 <script>
+    // Google Identity Services trigger
+    function triggerGooglePrompt() {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    console.log('Google One-tap prompt skipped/not displayed:', notification.getNotDisplayedReason());
+                }
+            });
+        } else {
+            alert("Google Identity Services is loading or blocked by a browser extension. Please refresh the page and try again.");
+        }
+    }
+
     // Password toggles
     const passInput = document.getElementById('password');
     const togglePassBtn = document.getElementById('togglePasswordBtn');

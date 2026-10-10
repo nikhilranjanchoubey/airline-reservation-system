@@ -17,11 +17,12 @@ USE airline_db;
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(256) NOT NULL,
-    salt VARCHAR(64) NOT NULL,
+    google_id VARCHAR(255) NULL UNIQUE,
+    password_hash VARCHAR(256) NULL,
+    salt VARCHAR(64) NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
+    phone VARCHAR(20) NULL,
     passport_number VARCHAR(30) NULL,
     date_of_birth DATE NULL,
     role ENUM('PASSENGER', 'ADMIN') NOT NULL DEFAULT 'PASSENGER',
@@ -29,8 +30,19 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_user_email (email),
+    INDEX idx_user_google_id (google_id),
     INDEX idx_user_role (role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------------
+-- Migration Script for Existing Databases:
+-- Run the following statements if upgrading an existing DB:
+--
+-- ALTER TABLE users ADD COLUMN google_id VARCHAR(255) NULL UNIQUE AFTER email;
+-- ALTER TABLE users MODIFY COLUMN password_hash VARCHAR(256) NULL;
+-- ALTER TABLE users MODIFY COLUMN salt VARCHAR(64) NULL;
+-- ALTER TABLE users MODIFY COLUMN phone VARCHAR(20) NULL;
+-- ----------------------------------------------------------
 
 -- ----------------------------------------------------------
 -- Seed Data: Initial Administrator and Passenger Accounts
