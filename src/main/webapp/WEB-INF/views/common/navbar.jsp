@@ -42,7 +42,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ${activePage == 'contact' ? 'active' : ''}" href="${pageContext.request.contextPath}/#footerSection">
+                    <a class="nav-link ${activePage == 'about' ? 'active' : ''}" href="${pageContext.request.contextPath}/about">
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ${activePage == 'contact' ? 'active' : ''}" href="${pageContext.request.contextPath}/#contactSection">
                         Contact
                     </a>
                 </li>

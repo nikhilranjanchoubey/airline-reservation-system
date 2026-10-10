@@ -16,7 +16,7 @@
 
         <div class="container hero-inner-container">
             <div class="row align-items-center g-4">
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <div class="hero-eyebrow">
                         <i class="bi bi-airplane-fill" style="transform: rotate(45deg);"></i>
                         <span>INDIA'S TRUSTED AIRLINE PARTNER</span>
@@ -41,27 +41,6 @@
                             <i class="bi bi-play-circle-fill fs-5 text-white"></i>
                             <span>Watch Video</span>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Top-Right Floating Statistics Cards -->
-                <div class="col-lg-5 d-none d-lg-block">
-                    <div class="hero-stat-cards">
-                        <div class="stat-bubble-glass">
-                            <i class="bi bi-globe-americas stat-bubble-icon"></i>
-                            <div>
-                                <div class="stat-bubble-value">500+</div>
-                                <div class="stat-bubble-label">Destinations</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-bubble-glass">
-                            <i class="bi bi-people-fill stat-bubble-icon"></i>
-                            <div>
-                                <div class="stat-bubble-value">1M+</div>
-                                <div class="stat-bubble-label">Happy Travelers</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -341,7 +320,7 @@
                     </div>
                     <div>
                         <div class="why-feature-name">Wide Network</div>
-                        <p class="why-feature-sub">500+ destinations across the globe</p>
+                        <p class="why-feature-sub">Destinations across India and worldwide</p>
                     </div>
                 </div>
 
