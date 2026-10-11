@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <pattern id="flightGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#bgGrad)" />
+  <rect width="600" height="360" fill="url(#flightGrid)" />
+  <circle cx="300" cy="150" r="64" fill="rgba(2, 132, 199, 0.2)" />
+  <circle cx="300" cy="150" r="48" fill="rgba(255, 255, 255, 0.1)" />
+  <!-- Airplane icon -->
+  <path d="M300 120 L308 144 L336 150 L308 156 L305 174 L298 166 L295 174 L292 156 L264 150 L292 144 Z" fill="#ffffff" opacity="0.9" />
+  <text x="300" y="240" font-family="'Inter', sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="3">SKYTECH</text>
+  <text x="300" y="268" font-family="'Inter', sans-serif" font-size="14" font-weight="400" fill="#94a3b8" text-anchor="middle">Explore Featured Flight Route</text>
+</svg>

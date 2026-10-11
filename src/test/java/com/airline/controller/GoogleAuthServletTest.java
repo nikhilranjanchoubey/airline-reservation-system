@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 class GoogleAuthServletTest {
 
     @Mock
-    private UserService userService;
+    private com.airline.dao.UserDao userDao;
 
     @Mock
     private HttpServletRequest request;
@@ -37,6 +37,7 @@ class GoogleAuthServletTest {
 
     @BeforeEach
     void setUp() {
+        UserService userService = new UserService(userDao);
         servlet = new GoogleAuthServlet(userService);
     }
 

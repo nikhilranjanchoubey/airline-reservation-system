@@ -4,11 +4,11 @@
 -- Compatible with MySQL 8.0+
 -- ==========================================================
 
-CREATE DATABASE IF NOT EXISTS airline_db
+CREATE DATABASE IF NOT EXISTS skytech_db
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE airline_db;
+USE skytech_db;
 
 -- ----------------------------------------------------------
 -- Table: users

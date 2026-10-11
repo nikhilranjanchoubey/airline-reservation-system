@@ -36,26 +36,17 @@ public class DBConnection {
             return;
         }
 
-        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (input == null) {
-                LOGGER.log(Level.WARNING, "db.properties not found in classpath. Falling back to default settings.");
-                driver = "com.mysql.cj.jdbc.Driver";
-                url = "jdbc:mysql://localhost:3306/airline_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-                username = "root";
-                password = "root";
-            } else {
-                PROPERTIES.load(input);
-                driver = PROPERTIES.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
-                url = PROPERTIES.getProperty("db.url", "jdbc:mysql://localhost:3306/airline_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
-                username = PROPERTIES.getProperty("db.username", "root");
-                password = PROPERTIES.getProperty("db.password", "root");
-            }
+        try {
+            driver = com.skytech.util.AppConfig.getDbDriver();
+            url = com.skytech.util.AppConfig.getDbUrl();
+            username = com.skytech.util.AppConfig.getDbUsername();
+            password = com.skytech.util.AppConfig.getDbPassword();
 
             Class.forName(driver);
             initialized = true;
             LOGGER.info("JDBC Driver loaded successfully: " + driver);
-        } catch (IOException | ClassNotFoundException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load database configuration or JDBC driver: " + e.getMessage(), e);
+        } catch (ClassNotFoundException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load database JDBC driver: " + e.getMessage(), e);
             throw new RuntimeException("Database initialization failure", e);
         }
     }

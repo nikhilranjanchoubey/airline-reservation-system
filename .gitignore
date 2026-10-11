@@ -3,13 +3,27 @@ target/
 *.war
 *.jar
 
-# IDE and Editor configurations
+# Environment and sensitive credentials
+.env
+.env.*
+!.env.example
+src/main/resources/db.properties
+src/main/resources/api.properties
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
 .idea/
 *.iml
+*.iws
+*.ipr
+out/
+
+# Visual Studio Code
 .vscode/
-.settings/
-.project
-.classpath
 
 # OS specific files
 Thumbs.db
@@ -18,3 +32,4 @@ Desktop.ini
 
 # Log files
 *.log
+
