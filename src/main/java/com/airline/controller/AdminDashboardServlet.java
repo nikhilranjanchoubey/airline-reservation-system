@@ -20,7 +20,15 @@ import java.util.List;
 @WebServlet(name = "AdminDashboardServlet", urlPatterns = {"/admin/dashboard"})
 public class AdminDashboardServlet extends HttpServlet {
 
-    private final UserService userService = new UserService();
+    private final UserService userService;
+
+    public AdminDashboardServlet() {
+        this.userService = new UserService();
+    }
+
+    public AdminDashboardServlet(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

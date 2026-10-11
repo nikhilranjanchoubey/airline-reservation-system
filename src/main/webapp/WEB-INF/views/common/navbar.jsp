@@ -17,10 +17,7 @@
             <span class="brand-icon-wrapper">
                 <i class="bi bi-airplane-engines-fill text-skytech-accent fs-4"></i>
             </span>
-            <div class="d-inline-flex flex-column text-start">
-                <span class="fw-bold tracking-wide fs-4 text-white lh-1">SKYTECH</span>
-                <span class="brand-tagline small text-white-50" style="font-size: 0.65rem; letter-spacing: 2px;">AIRLINES</span>
-            </div>
+            <span class="fw-bold tracking-wide fs-4 text-white">SkyTech</span>
         </a>
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#skyTechNavbar"

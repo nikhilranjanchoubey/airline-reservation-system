@@ -6,7 +6,7 @@
         <!-- Sleek minimal footer for authentication pages -->
         <footer class="py-3 text-center text-secondary bg-transparent mt-auto" style="position: relative; z-index: 10;">
             <div class="container">
-                <span class="text-white-50 small">&copy; <%= java.time.Year.now().getValue() %> SkyTech Airlines &bull; Airline Reservation System</span>
+                <span class="text-white-50 small">&copy; <%= java.time.Year.now().getValue() %> SkyTech &bull; Airline Reservation System</span>
             </div>
         </footer>
     </c:when>
@@ -25,7 +25,7 @@
                                 <i class="bi bi-airplane-fill me-1"></i> SkyTech NextGen Aviation
                             </div>
                             <h2 class="display-6 fw-extrabold text-white mb-2 font-heading">
-                                Soar Higher with <span class="text-sky-cyan">SkyTech Airlines</span>
+                                Soar Higher with <span class="text-sky-cyan">SkyTech</span>
                             </h2>
                             <p class="text-cloud-white opacity-85 lead fs-6 mb-0">
                                 Engineering seamless passenger journeys, real-time flight search, seat selection, and reliable airline operations worldwide.
@@ -58,10 +58,7 @@
                                 <div class="brand-icon-wrap shadow-cyan-sm">
                                     <i class="bi bi-airplane-fill text-skytech-accent"></i>
                                 </div>
-                                <div class="brand-text-stack">
-                                    <span class="text-white fw-bold fs-4 tracking-tight font-heading">SkyTech</span>
-                                    <span class="text-sky-cyan text-uppercase fs-7 font-monospace tracking-widest d-block">Airlines</span>
-                                </div>
+                                <span class="text-white fw-bold fs-4 tracking-tight font-heading">SkyTech</span>
                             </div>
                             <p class="text-muted-slate small mb-3 pe-lg-3">
                                 Comprehensive Airline Reservation &amp; Passenger Management System featuring real-time flight search, interactive seat selection, and secure authentication.
@@ -133,7 +130,7 @@
                     <!-- Bottom Bar: Copyright & Tech Stack -->
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-muted-slate py-2 gap-2">
                         <div>
-                            &copy; <%= java.time.Year.now().getValue() %> <strong class="text-white">SkyTech Airlines</strong> &bull; Airline Reservation System. All rights reserved.
+                            &copy; <%= java.time.Year.now().getValue() %> <strong class="text-white">SkyTech</strong> &bull; Airline Reservation System. All rights reserved.
                         </div>
                         <div class="font-monospace fs-8 text-md-end text-cloud-white opacity-75">
                             Powered by <span class="text-sky-cyan fw-semibold">Java 21</span> &bull; <span class="text-sky-cyan">Jakarta EE 10</span> &bull; <span class="text-sky-cyan">MySQL 8.3</span> &bull; <span class="text-sky-cyan">Tomcat 10.1</span>
