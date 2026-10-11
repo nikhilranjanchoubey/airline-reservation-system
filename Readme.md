@@ -1,4 +1,23 @@
-# SkyTech — Airline Reservation System
+# ✈️ SkyTech Airlines — Flight Search & Availability
+
+[![Java 11](https://img.shields.io/badge/Java-11%20LTS-007396?logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
+[![Java Servlets](https://img.shields.io/badge/Java%20Servlets-4.0.1-E03C11?logo=eclipseide&logoColor=white)](https://javaee.github.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.x-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Tomcat / Jetty](https://img.shields.io/badge/Server-Tomcat%209%20%2F%20Jetty%2010-F8DC75?logo=apachetomcat&logoColor=black)](https://tomcat.apache.org/)
+[![Bootstrap 5.3](https://img.shields.io/badge/Bootstrap-5.3.3-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
+
+---
+
+**Project:** SkyTech Airlines — Airline Reservation System  
+**Module:** Module 2 — Flight Search & Availability  
+**Developer:** Nikhil Ranjan Choubey  
+**Mentor:** Er. Ram Babu Buri  
+**Department:** Department of Computer Science and Engineering (CSE)  
+**Project Period:** 6 July 2026 – 6 October 2026  
+**Technology Stack:** Java 11, JSP, Java Servlets, JDBC, MySQL, Maven, Bootstrap 5, HTML, CSS and JavaScript  
+
+---
 
 SkyTech is a Java-based web application designed to simplify flight search and support airline reservation workflows through a modular software architecture.
 
@@ -58,6 +77,21 @@ This branch delivers the core flight discovery and availability workflow. Featur
 - **Travel Information View (`/travel-information`):** Informational page outlining baggage policies and travel guidelines.
 - **Diagnostics Page (`/project`):** Diagnostic overview reporting active configuration properties, database connection status, and module architecture.
 
+### Milestone & Implementation Status
+
+- [x] **Airport Query & Autocomplete:** Asynchronous `/api/airports` endpoint supporting IATA codes, cities, and airport titles.
+- [x] **Interactive Airport Swapping:** One-click origin/destination interchange with synchronized input states.
+- [x] **Timezone-Anchored Date Picking:** Asia/Kolkata (`ZoneId.of("Asia/Kolkata")`) timezone boundary enforcement.
+- [x] **Multi-Trip Route Builders:** One-way, round-trip chronological validation, and 2-to-5 leg multi-city segment builder.
+- [x] **Passenger & Cabin Constraints:** Capacity limits (1–9 passengers, infants ≤ adults) and dynamic cabin price multipliers.
+- [x] **Flight Results Engine:** Multi-criteria filtering (stops, airlines, departure windows, price slider) and multi-column sorting.
+- [x] **Flight Details Modal:** Complete baggage policies, aircraft specs, and transparent fare breakdowns (`/flight-details`).
+- [x] **Interactive 2D Seat Map:** Cabin rows 1–20, columns A–F, premium fee calculation (`Airbus A320neo` / `Boeing 737`).
+- [x] **Dual-Engine Provider Architecture:** Live `ReefAPI` HTTPS client integration with offline MySQL database fallback.
+- [x] **Search Query Audit Trail:** Background logging into `flight_searches` table with soft-fail resilience.
+- [ ] *Upcoming (Module 3 Handoff):* Direct passenger manifest handoff to booking checkout and PNR generation.
+- [ ] *Upcoming (Module 3 Handoff):* Temporary seat inventory reservation locking timers.
+
 ---
 
 ## Application Screenshots
@@ -98,6 +132,35 @@ Verified from the Maven build configuration (`pom.xml`) and application source c
 | **Client Scripting** | Vanilla JavaScript | ES6+ | Calendar engine, dynamic DOM builders, filters |
 | **Build Tool** | Apache Maven | 3.x | Dependency management, compilation, WAR packaging |
 | **Runtime Container** | Apache Tomcat / Eclipse Jetty | 9.0 / 10.0.22 | Servlet container runtime environment |
+
+### Technology Justification & Architectural Choices
+
+| Technology | Role | Why This Technology Was Chosen |
+| :--- | :--- | :--- |
+| **Java 11 (LTS)** | Backend Core Language | Enterprise Long-Term Support release offering stable JVM performance, modern `java.time` date/time manipulation with timezone enforcement, and predictable memory safety. |
+| **Java Servlets 4.0.1** | HTTP Routing & Controller Layer | Standard lightweight HTTP request processing without heavyweight container overhead. Enables modular request filtering (`CharacterEncodingFilter`) and clean MVC request-scope isolation. |
+| **JSP 2.3.3 & JSTL 1.2** | Server-Side Presentation | Clean separation of business logic from UI templates. Expression language and tag libraries eliminate scriptlets, automatically mitigating XSS and enforcing view maintainability. |
+| **MySQL 8.x & JDBC** | Relational Persistence & Querying | ACID-compliant relational data management. Provides indexed route matching across airports and flight schedules with sub-millisecond query execution. |
+| **Dual-Engine `FlightProvider`** | Flight Data Abstraction Layer | Decoupled provider interface allowing transparent switching between live cloud data (`ReefAPI`) and local database catalogs for high availability and offline resilience. |
+| **Vanilla CSS3 & Bootstrap 5.3** | Responsive UI Design System | Zero heavy JavaScript framework dependencies. Ensures instant initial page load times, responsive flexbox/grid layouts, and consistent styling across desktop and mobile browsers. |
+
+### Shared Aviation UI Design Tokens
+
+The SkyTech user interface adheres to a curated aviation-themed design token system defined in `style.css`:
+
+| Design Token | CSS Variable / Hex | Usage in Flight Search Module |
+| :--- | :--- | :--- |
+| **Midnight Navy** | `--skytech-primary: #071426` | Navigation header bar, footer, and dark hero banners |
+| **Deep Aviation Navy** | `--skytech-secondary: #172554` | Secondary surface accents, modal containers, and filter headers |
+| **Aviation Sky Blue** | `--skytech-accent: #0284c7` | Primary CTA buttons, active flight filters, and departure route badges |
+| **Electric Accent Hover**| `--skytech-accent-hover: #0369a1` | Interactive button and link hover states |
+| **Cloud Light Background**| `--skytech-light-bg: #f8fafc` | Application canvas and page background |
+| **Pure White Surface** | `--skytech-card-bg: #ffffff` | Search widget cards, flight results cards, and cabin seat maps |
+| **Primary Typography** | `--skytech-text: #0f172a` | High-contrast body text, flight numbers, and price indicators |
+| **Muted Slate Text** | `--skytech-text-muted: #64748b` | IATA airport names, journey durations, and baggage policy labels |
+| **Subtle Border** | `--skytech-border: #e2e8f0` | Card borders, segment dividers, and seat map layout grids |
+| **Success Emerald** | `--success: #15803D` | Available seat indicators and confirmed flight status badges |
+| **Alert Amber** | `--warning: #B45309` | Fast-filling seat notices and exit row selection highlights |
 
 ---
 
