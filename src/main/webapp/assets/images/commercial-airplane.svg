@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 180" width="540" height="180" fill="none">
+    <defs>
+        <!-- Fuselage 3D gradient -->
+        <linearGradient id="fuselageGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="35%" stop-color="#F1F5F9"/>
+            <stop offset="70%" stop-color="#E2E8F0"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+        </linearGradient>
+
+        <!-- Belly shading -->
+        <linearGradient id="bellyShading" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#64748B" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#334155" stop-opacity="0.6"/>
+        </linearGradient>
+
+        <!-- Tail Fin Gradient (SkyTech Navy to Cyan Livery) -->
+        <linearGradient id="tailFinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0284C7"/>
+            <stop offset="60%" stop-color="#0369A1"/>
+            <stop offset="100%" stop-color="#071426"/>
+        </linearGradient>
+
+        <!-- Wing Gradient -->
+        <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F8FAFC"/>
+            <stop offset="50%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+        </linearGradient>
+
+        <!-- Engine Nacelle Gradient -->
+        <linearGradient id="engineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="40%" stop-color="#E2E8F0"/>
+            <stop offset="85%" stop-color="#64748B"/>
+            <stop offset="100%" stop-color="#334155"/>
+        </linearGradient>
+
+        <!-- Engine Spinner/Inlet -->
+        <linearGradient id="engineInletGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1E293B"/>
+            <stop offset="100%" stop-color="#475569"/>
+        </linearGradient>
+
+        <!-- Cockpit Glass -->
+        <linearGradient id="cockpitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0F172A"/>
+            <stop offset="60%" stop-color="#1E293B"/>
+            <stop offset="100%" stop-color="#38BDF8"/>
+        </linearGradient>
+
+        <!-- Contrail / Jet stream glow -->
+        <linearGradient id="contrailGrad" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+            <stop offset="70%" stop-color="#E0F2FE" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#BAE6FD" stop-opacity="0"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Contrail faint trail from engine exhaust -->
+    <path d="M 185 116 L 10 114 C 5 114 0 115 0 117 C 0 119 5 120 10 120 L 185 118 Z" fill="url(#contrailGrad)" filter="blur(2px)"/>
+
+    <!-- Far/Port Wing (behind fuselage) -->
+    <path d="M 230 88 L 175 42 L 205 40 L 295 86 Z" fill="#94A3B8" opacity="0.85"/>
+
+    <!-- Far/Port Horizontal Stabilizer -->
+    <path d="M 85 96 L 25 76 L 45 74 L 115 97 Z" fill="#64748B" opacity="0.85"/>
+
+    <!-- Vertical Stabilizer / Tail Fin -->
+    <path d="M 140 92 L 65 14 L 102 12 L 175 92 Z" fill="url(#tailFinGrad)"/>
+    <!-- Tail Fin decorative swoosh (SkyTech Cyan Brand accent) -->
+    <path d="M 108 26 L 82 27 L 128 88 L 145 88 Z" fill="#38BDF8" opacity="0.85"/>
+
+    <!-- Near/Starboard Horizontal Stabilizer -->
+    <path d="M 105 106 L 38 122 L 55 126 L 130 109 Z" fill="url(#wingGrad)"/>
+
+    <!-- Main Fuselage -->
+    <!-- Nose at (515, 96), Tail cone at (75, 96) -->
+    <path d="
+        M 515 96
+        C 505 84, 465 78, 380 78
+        L 160 78
+        C 110 78, 75 90, 68 95
+        L 52 97
+        L 68 99
+        C 75 104, 110 114, 160 114
+        L 380 114
+        C 465 114, 505 108, 515 96
+        Z
+    " fill="url(#fuselageGrad)"/>
+
+    <!-- Fuselage Lower Belly Shadow -->
+    <path d="
+        M 505 102
+        C 465 114, 400 114, 340 114
+        L 160 114
+        C 110 114, 75 104, 68 99
+        C 90 108, 140 112, 180 112
+        L 380 112
+        C 455 112, 490 106, 505 102
+        Z
+    " fill="url(#bellyShading)"/>
+
+    <!-- Cockpit Windshield -->
+    <path d="
+        M 498 90
+        C 490 87, 478 86, 468 87
+        L 467 92
+        C 478 91, 488 92, 496 95
+        Z
+    " fill="url(#cockpitGrad)"/>
+
+    <!-- Cockpit Window Frames -->
+    <rect x="473" y="87" width="1.5" height="4.5" fill="#FFFFFF" opacity="0.6"/>
+    <rect x="482" y="88" width="1.5" height="5" fill="#FFFFFF" opacity="0.6"/>
+    <rect x="490" y="90" width="1.5" height="5" fill="#FFFFFF" opacity="0.6"/>
+
+    <!-- Passenger Cabin Windows (Continuous elegant airline window line) -->
+    <!-- Front section -->
+    <g fill="#1E293B" opacity="0.75">
+        <rect x="450" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="442" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="434" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="426" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="418" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="410" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="402" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="394" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="386" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="378" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="370" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="362" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="354" y="91" width="3" height="4.5" rx="1.5"/>
+        <!-- Mid-aft section -->
+        <rect x="300" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="292" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="284" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="276" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="268" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="260" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="252" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="244" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="236" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="228" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="220" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="212" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="204" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="196" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="188" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="180" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="172" y="91" width="3" height="4.5" rx="1.5"/>
+        <rect x="164" y="91" width="3" height="4.5" rx="1.5"/>
+    </g>
+
+    <!-- Near/Starboard Swept Main Wing -->
+    <!-- Root around (350, 98), Tip at (220, 155), Trailing root at (260, 106) -->
+    <path d="
+        M 350 98
+        L 218 156
+        C 214 158, 210 156, 212 152
+        L 224 140
+        L 264 105
+        Z
+    " fill="url(#wingGrad)"/>
+
+    <!-- Wing Tip Raked Winglet (Modern 787/A350 style) -->
+    <path d="M 218 156 L 210 168 L 215 168 L 224 140 Z" fill="#0284C7"/>
+
+    <!-- Engine Pylon -->
+    <rect x="272" y="106" width="16" height="10" fill="#64748B" rx="2"/>
+
+    <!-- Jet Engine Turbofan Nacelle -->
+    <!-- Nacelle body -->
+    <path d="
+        M 302 110
+        C 298 108, 280 108, 258 110
+        L 254 112
+        C 252 118, 252 122, 254 128
+        L 258 130
+        C 280 132, 298 132, 302 130
+        C 305 125, 305 115, 302 110
+        Z
+    " fill="url(#engineGrad)"/>
+
+    <!-- Engine Air Intake (Front Rim & Spinner) -->
+    <ellipse cx="301" cy="120" rx="3.5" ry="10" fill="url(#engineInletGrad)"/>
+    <ellipse cx="301" cy="120" rx="1.5" ry="4" fill="#0F172A"/>
+
+    <!-- Engine Exhaust Nozzle Cone -->
+    <path d="M 254 114 L 246 117 L 246 123 L 254 126 Z" fill="#1E293B"/>
+
+    <!-- Subtle fuselage top specular highlight -->
+    <path d="M 460 80 L 180 80 C 170 80, 160 80.5, 155 81 L 450 81 Z" fill="#FFFFFF" opacity="0.7"/>
+</svg>

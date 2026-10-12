@@ -1,0 +1,1008 @@
+/* SkyTech - Custom Airline Styles & Interactions */
+
+:root {
+    --primary: #1976D2;
+    --primary-dark: #0D47A1;
+    --background: #F5F9FF;
+    --surface: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #64748B;
+    --border: #E2E8F0;
+    --success: #15803D;
+    --warning: #B45309;
+    --danger: #B91C1C;
+
+    --skytech-primary: #071426;       /* Solid midnight navy navbar */
+    --skytech-secondary: #172554;     /* Navy secondary */
+    --skytech-accent: #0284c7;        /* Aviation sky blue */
+    --skytech-accent-hover: #0369a1;
+    --skytech-light-bg: #f8fafc;
+    --skytech-card-bg: #ffffff;
+    --skytech-text: #0f172a;
+    --skytech-text-muted: #64748b;
+    --skytech-border: #e2e8f0;
+    --skytech-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+[id] {
+    scroll-margin-top: 90px;
+}
+
+body {
+    font-family: var(--skytech-font-sans);
+    color: var(--skytech-text);
+    background-color: var(--skytech-light-bg);
+    overflow-x: clip;
+}
+
+/* Navbar & Sticky Header */
+.bg-skytech {
+    background-color: #071426 !important;
+}
+
+#skyTechMainNavbar {
+    background-color: #071426 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    z-index: 1040;
+}
+
+#skyTechMainNavbar.navbar-compact {
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    background-color: rgba(7, 20, 38, 0.98) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.text-skytech-accent {
+    color: var(--skytech-accent) !important;
+}
+
+.btn-skytech-accent {
+    background-color: var(--skytech-accent);
+    color: #ffffff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-skytech-accent:hover {
+    background-color: var(--skytech-accent-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+/* ==========================================================
+   SkyTech Navbar Action Buttons — Unified Interaction System
+   Standardizes hover, focus, active, transitions & color identities
+   ========================================================== */
+:root {
+    --navbar-transition: 200ms ease;
+    --navbar-btn-min-height: 34px;
+}
+
+/* Base button properties across all action buttons */
+#skyTechMainNavbar .navbar-action,
+#skyTechMainNavbar .nav-btn-trips,
+#skyTechMainNavbar .nav-btn-profile,
+#skyTechMainNavbar .btn-outline-warning,
+#skyTechMainNavbar .btn-skytech-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: var(--navbar-btn-min-height);
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 9999px;
+    padding: 0.35rem 0.95rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    background-color: var(--navbar-btn-bg, transparent);
+    color: var(--navbar-btn-color, #FFFFFF) !important;
+    border: 1px solid var(--navbar-btn-border, rgba(255, 255, 255, 0.45));
+    box-shadow: var(--navbar-btn-shadow, none);
+    transition:
+        background-color var(--navbar-transition),
+        border-color var(--navbar-transition),
+        box-shadow var(--navbar-transition),
+        color var(--navbar-transition);
+}
+
+#skyTechMainNavbar .navbar-action i,
+#skyTechMainNavbar .navbar-action span,
+#skyTechMainNavbar .nav-btn-trips i,
+#skyTechMainNavbar .nav-btn-trips span,
+#skyTechMainNavbar .nav-btn-profile i,
+#skyTechMainNavbar .nav-btn-profile span {
+    color: inherit !important;
+    transition: color var(--navbar-transition);
+}
+
+/* Base Hover Behavior (Standardized) */
+#skyTechMainNavbar .navbar-action:hover,
+#skyTechMainNavbar .nav-btn-trips:hover,
+#skyTechMainNavbar .nav-btn-profile:hover,
+#skyTechMainNavbar .btn-outline-warning:hover,
+#skyTechMainNavbar .btn-skytech-accent:hover {
+    background-color: var(--navbar-btn-hover-bg) !important;
+    border-color: var(--navbar-btn-hover-border) !important;
+    color: var(--navbar-btn-hover-color, #FFFFFF) !important;
+    box-shadow: var(--navbar-btn-hover-shadow) !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Base Active / Pressed Behavior (Standardized) */
+#skyTechMainNavbar .navbar-action:active,
+#skyTechMainNavbar .navbar-action.active,
+#skyTechMainNavbar .nav-btn-trips:active,
+#skyTechMainNavbar .nav-btn-trips.active,
+#skyTechMainNavbar .nav-btn-profile:active,
+#skyTechMainNavbar .nav-btn-profile.active,
+#skyTechMainNavbar .btn-outline-warning:active,
+#skyTechMainNavbar .btn-skytech-accent:active {
+    background-color: var(--navbar-btn-active-bg) !important;
+    border-color: var(--navbar-btn-active-border) !important;
+    color: var(--navbar-btn-hover-color, #FFFFFF) !important;
+    box-shadow: var(--navbar-btn-active-shadow, inset 0 1px 3px rgba(0, 0, 0, 0.3)) !important;
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Base Keyboard Focus (:focus-visible) */
+#skyTechMainNavbar .navbar-action:focus-visible,
+#skyTechMainNavbar .nav-btn-trips:focus-visible,
+#skyTechMainNavbar .nav-btn-profile:focus-visible,
+#skyTechMainNavbar .btn-outline-warning:focus-visible,
+#skyTechMainNavbar .btn-skytech-accent:focus-visible {
+    outline: 2px solid var(--navbar-btn-accent, #56CCF2);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(86, 204, 242, 0.35) !important;
+}
+
+#skyTechMainNavbar .navbar-action:focus:not(:focus-visible),
+#skyTechMainNavbar .nav-btn-trips:focus:not(:focus-visible),
+#skyTechMainNavbar .nav-btn-profile:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Disabled State */
+#skyTechMainNavbar .navbar-action:disabled,
+#skyTechMainNavbar .navbar-action.disabled {
+    opacity: 0.50 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ----------------------------------------------------------
+   Variant 1: Admin Panel (Yellow / Gold Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--admin,
+#skyTechMainNavbar .btn-outline-warning {
+    --navbar-btn-accent: #F59E0B;
+    --navbar-btn-bg: rgba(245, 158, 11, 0.12);
+    --navbar-btn-border: rgba(245, 158, 11, 0.50);
+    --navbar-btn-color: #FDE68A;
+    --navbar-btn-hover-bg: rgba(245, 158, 11, 0.22);
+    --navbar-btn-hover-border: #FBBF24;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25), 0 2px 10px rgba(245, 158, 11, 0.20);
+    --navbar-btn-active-bg: rgba(245, 158, 11, 0.34);
+    --navbar-btn-active-border: #D97706;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(245, 158, 11, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--admin i,
+#skyTechMainNavbar .btn-outline-warning i {
+    color: #FBBF24 !important;
+}
+
+#skyTechMainNavbar .navbar-action--admin:hover i,
+#skyTechMainNavbar .btn-outline-warning:hover i {
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------------------------
+   Variant 2: My Trips (Cyan / Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--trips,
+#skyTechMainNavbar .nav-btn-trips {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(86, 204, 242, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* ----------------------------------------------------------
+   Variant 3: Passenger Profile & System (Cyan / Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--profile,
+#skyTechMainNavbar .nav-btn-profile {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(86, 204, 242, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--profile img,
+#skyTechMainNavbar .nav-btn-profile img {
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    transition: border-color var(--navbar-transition);
+}
+
+#skyTechMainNavbar .navbar-action--profile:hover img,
+#skyTechMainNavbar .nav-btn-profile:hover img,
+#skyTechMainNavbar .navbar-action--profile:focus-visible img,
+#skyTechMainNavbar .nav-btn-profile:focus-visible img {
+    border-color: #56CCF2;
+}
+
+/* ----------------------------------------------------------
+   Variant 4: Sign Out (Neutral White / Gray Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--signout {
+    --navbar-btn-accent: #E2E8F0;
+    --navbar-btn-bg: rgba(255, 255, 255, 0.10);
+    --navbar-btn-border: rgba(255, 255, 255, 0.35);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(255, 255, 255, 0.22);
+    --navbar-btn-hover-border: rgba(255, 255, 255, 0.85);
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18), 0 2px 8px rgba(255, 255, 255, 0.12);
+    --navbar-btn-active-bg: rgba(255, 255, 255, 0.32);
+    --navbar-btn-active-border: #FFFFFF;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+/* ----------------------------------------------------------
+   Variant 5: Search Flights (Airline Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--search,
+#skyTechMainNavbar .btn-skytech-accent {
+    --navbar-btn-accent: #168BFF;
+    --navbar-btn-bg: #168BFF;
+    --navbar-btn-border: #168BFF;
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-shadow: 0 2px 6px rgba(22, 139, 255, 0.30);
+    --navbar-btn-hover-bg: #0E73D6;
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 4px 14px rgba(22, 139, 255, 0.35);
+    --navbar-btn-active-bg: #0A5CB0;
+    --navbar-btn-active-border: #0E73D6;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* ----------------------------------------------------------
+   Variant 6 & 7: Login & Sign Up (Guest States)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--login {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(255, 255, 255, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--signup {
+    --navbar-btn-accent: #168BFF;
+    --navbar-btn-bg: #168BFF;
+    --navbar-btn-border: #168BFF;
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-shadow: 0 2px 6px rgba(22, 139, 255, 0.30);
+    --navbar-btn-hover-bg: #0E73D6;
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 4px 14px rgba(22, 139, 255, 0.35);
+    --navbar-btn-active-bg: #0A5CB0;
+    --navbar-btn-active-border: #0E73D6;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    #skyTechMainNavbar .navbar-action,
+    #skyTechMainNavbar .navbar-action i,
+    #skyTechMainNavbar .navbar-action span,
+    #skyTechMainNavbar .nav-btn-trips,
+    #skyTechMainNavbar .nav-btn-profile,
+    #skyTechMainNavbar .navbar-action--profile img,
+    #skyTechMainNavbar .nav-btn-profile img {
+        transition: none !important;
+    }
+}
+
+.navbar .nav-link {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.2s ease;
+    position: relative;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.navbar .nav-link:hover {
+    color: #38bdf8 !important;
+}
+
+.navbar .nav-link.active {
+    color: #ffffff !important;
+}
+
+.navbar .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0.75rem;
+    right: 0.75rem;
+    height: 2px;
+    background-color: #38bdf8;
+    border-radius: 2px;
+}
+
+/* Status Indicator Dot */
+.status-indicator-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* Scroll-Triggered Reveal Animations */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* Floating Back To Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--skytech-accent);
+    border: none;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
+}
+
+.back-to-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top-btn:hover {
+    background-color: var(--skytech-accent-hover);
+    color: #ffffff;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 24px rgba(2, 132, 199, 0.5);
+}
+
+/* Footer Styling */
+/* Sticky Navbar Offset for In-Page Anchor Links */
+#baggage, #checkin, #documents, #airports, #guidelines, #passenger-rights,
+#help, #careers, #faqs, #terms, #privacy, #cookies, #accessibility,
+#popularRoutesSection, #whySkyTechSection, #travelExperienceSection,
+#inspirationSection, #helpSection {
+    scroll-margin-top: 95px;
+}
+
+.skytech-footer {
+    background: #071426 !important;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+}
+
+.footer-heading {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-links li {
+    margin-bottom: 0.45rem;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+    font-size: 0.85rem;
+}
+
+.footer-links a:hover {
+    color: #38bdf8;
+    transform: translateX(2px);
+}
+
+.footer-legal-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.8125rem;
+    transition: color 0.15s ease;
+}
+
+.footer-legal-links a:hover {
+    color: #38bdf8;
+    text-decoration: underline;
+}
+
+/* Destination Cards & Grid */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+    .destinations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .destinations-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.destination-deal-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #FFFFFF;
+    border: 1px solid var(--skytech-border);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.destination-deal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12) !important;
+}
+
+.destination-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #071426;
+}
+
+.destination-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.destination-deal-card:hover .destination-img {
+    transform: scale(1.06);
+}
+
+.destination-badge-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    backdrop-filter: blur(8px);
+    background: rgba(7, 20, 38, 0.85);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 20px;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.destination-badge-tag.badge-daily-shuffle {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    letter-spacing: 0.02em;
+}
+
+/* Journey Timeline */
+.journey-timeline-wrapper {
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .journey-timeline-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 50px;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: repeating-linear-gradient(90deg, #0284c7 0, #0284c7 8px, transparent 8px, transparent 16px);
+        z-index: 1;
+    }
+}
+
+.journey-step-card {
+    position: relative;
+    z-index: 2;
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid var(--skytech-border);
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.journey-step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.12);
+    border-color: var(--skytech-accent);
+}
+
+.journey-step-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0284c7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+}
+
+.journey-step-card:hover .journey-step-num {
+    background: #0284c7;
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+/* Travel Inspiration Cards */
+.inspiration-card {
+    position: relative;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.inspiration-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inspiration-card:hover img {
+    transform: scale(1.07);
+}
+
+.inspiration-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(11, 23, 42, 0.88) 85%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    color: #FFFFFF;
+    transition: background 0.3s ease;
+}
+
+.inspiration-card:hover .inspiration-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(11, 23, 42, 0.95) 85%);
+}
+
+.inspiration-btn {
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+
+.inspiration-card:hover .inspiration-btn {
+    opacity: 1;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+}
+
+/* Shared Feature & Action Cards */
+.skytech-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 1199.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.skytech-feature-card,
+.help-action-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+    position: relative;
+}
+
+.help-action-card {
+    cursor: pointer;
+}
+
+.help-action-card:focus-visible {
+    outline: 2px solid var(--primary, #1976D2);
+    outline-offset: 3px;
+}
+
+.skytech-feature-card:hover,
+.help-action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    border-color: rgba(25, 118, 210, 0.35);
+    color: inherit;
+}
+
+/* Icon container with uniform dimensions and centered alignment */
+.skytech-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.skytech-feature-card:hover .skytech-card-icon,
+.help-action-card:hover .skytech-card-icon {
+    transform: scale(1.08);
+}
+
+/* Heading with fixed vertical baseline alignment */
+.skytech-card-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary, #1F2937);
+    margin-bottom: 0.65rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+/* Description naturally wrapping with balanced line height */
+.skytech-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #64748B);
+    line-height: 1.55;
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+/* Newsletter CTA Card */
+.newsletter-banner {
+    background: linear-gradient(135deg, #0b172a 0%, #0369a1 100%);
+    border-radius: 20px;
+    color: #FFFFFF;
+    padding: 3.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(11, 23, 42, 0.2);
+}
+
+.newsletter-banner::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* Multi-City Dynamic Segment Styling */
+.multi-city-segment-card {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.multi-city-segment-card:hover {
+    border-color: var(--skytech-accent);
+    background: #f0f9ff;
+}
+
+.segment-badge-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--skytech-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.btn-remove-segment {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.btn-remove-segment:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Flight Results & Travel Information Component Utilities */
+.border-start-md {
+    border-left: none;
+}
+
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid var(--border) !important;
+        padding-left: 1.5rem;
+    }
+}
+
+.travel-nav-scroller {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.travel-info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.5rem;
+}
+
+.travel-info-card:hover {
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.travel-icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+/* ==========================================================
+   SKYTECH UNIFIED BRAND & LOGO SPECIFICATION
+   ========================================================== */
+.skytech-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+    vertical-align: middle;
+    transition: opacity 220ms ease, transform 220ms ease;
+    cursor: pointer;
+}
+
+.skytech-brand:hover {
+    text-decoration: none !important;
+}
+
+.skytech-brand__icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #168BFF 0%, #0B2D52 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.30);
+    transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+    flex-shrink: 0;
+}
+
+.skytech-brand__icon i {
+    display: inline-block;
+    line-height: 1;
+    color: #56CCF2;
+    transition: color 220ms ease, filter 220ms ease;
+}
+
+.skytech-brand__text {
+    font-family: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 800;
+    font-size: 1.45rem;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    transition: color 220ms ease;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Hover Interaction */
+.skytech-brand:hover .skytech-brand__icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 7px rgba(86, 204, 242, 0.55));
+    box-shadow: 0 6px 16px rgba(86, 204, 242, 0.35);
+}
+
+.skytech-brand:hover .skytech-brand__icon i {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 4px rgba(86, 204, 242, 0.8));
+}
+
+.skytech-brand:hover .skytech-brand__text {
+    color: #FFFFFF;
+}
+
+/* Light Background Variant */
+.skytech-brand--light-bg .skytech-brand__text {
+    color: #071A35;
+}
+
+.skytech-brand--light-bg:hover .skytech-brand__text {
+    color: #168BFF;
+}
+
+/* Keyboard Focus Accessibility */
+.skytech-brand:focus-visible {
+    outline: 3px solid #56CCF2;
+    outline-offset: 4px;
+    border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skytech-brand,
+    .skytech-brand__icon,
+    .skytech-brand__icon i,
+    .skytech-brand__text {
+        transition: none !important;
+        transform: none !important;
+        animation: none !important;
+    }
+}
+
+
+

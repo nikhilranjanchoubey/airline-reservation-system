@@ -1,0 +1,233 @@
+package com.airline.model;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+/**
+ * Entity representing a user (Passenger or Admin) in the system.
+ */
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private int userId;
+    private String email;
+    private String googleId;
+    private String passwordHash;
+    private String salt;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String passportNumber;
+    private LocalDate dateOfBirth;
+    private String profilePhoto;
+    private Role role = Role.PASSENGER;
+    private String status = "ACTIVE";
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public User() {
+    }
+
+    public User(String email, String passwordHash, String salt, String firstName, 
+                String lastName, String phone, String passportNumber, LocalDate dateOfBirth, Role role) {
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.salt = salt;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.passportNumber = passportNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.role = role != null ? role : Role.PASSENGER;
+        this.status = "ACTIVE";
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        if (firstName == null && lastName == null) return "";
+        if (firstName == null) return lastName;
+        if (lastName == null) return firstName;
+        return firstName.trim() + " " + lastName.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public String getInitials() {
+        StringBuilder sb = new StringBuilder();
+        if (firstName != null && !firstName.isBlank()) {
+            sb.append(Character.toUpperCase(firstName.trim().charAt(0)));
+        }
+        if (lastName != null && !lastName.isBlank()) {
+            sb.append(Character.toUpperCase(lastName.trim().charAt(0)));
+        }
+        return sb.length() > 0 ? sb.toString() : "P";
+    }
+
+    public String getMaskedPassportNumber() {
+        if (passportNumber == null || passportNumber.isBlank()) {
+            return null;
+        }
+        String trimmed = passportNumber.trim();
+        int len = trimmed.length();
+        if (len <= 4) {
+            return "••••" + trimmed;
+        }
+        // Show first char and last 3 chars, mask the rest
+        StringBuilder sb = new StringBuilder();
+        sb.append(trimmed.charAt(0));
+        for (int i = 1; i < len - 3; i++) {
+            sb.append("•");
+        }
+        sb.append(trimmed.substring(len - 3));
+        return sb.toString();
+    }
+
+    public String getFormattedDateOfBirth() {
+        if (dateOfBirth == null) {
+            return null;
+        }
+        return dateOfBirth.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"));
+    }
+
+    public String getFormattedCreatedAt() {
+        if (createdAt == null) {
+            return "Member";
+        }
+        return createdAt.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"));
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isAdmin() {
+        return Role.ADMIN.equals(this.role);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role=" + role +
+                ", status='" + status + '\'' +
+                '}';
+    }
+}

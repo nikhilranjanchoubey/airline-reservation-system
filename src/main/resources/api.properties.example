@@ -1,0 +1,16 @@
+# ==============================================================================
+# SkyTech - External Flight APIs Configuration (Amadeus Self-Service)
+# ==============================================================================
+# Copy this file to 'api.properties' in this directory.
+# 'api.properties' is ignored by Git to keep API secrets secure.
+# ==============================================================================
+
+# Enable/disable live Amadeus API integration (default: false for offline/demo database)
+amadeus.enabled=false
+
+# Amadeus Self-Service API Credentials (get from https://developers.amadeus.com)
+amadeus.client.id=YOUR_AMADEUS_CLIENT_ID
+amadeus.client.secret=YOUR_AMADEUS_CLIENT_SECRET
+
+# Environment: 'test' for test.api.amadeus.com, 'production' for api.amadeus.com
+amadeus.environment=test
