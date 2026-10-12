@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(20) NULL,
     passport_number VARCHAR(30) NULL,
     date_of_birth DATE NULL,
+    profile_photo VARCHAR(255) NULL,
     role ENUM('PASSENGER', 'ADMIN') NOT NULL DEFAULT 'PASSENGER',
     status ENUM('ACTIVE', 'SUSPENDED') NOT NULL DEFAULT 'ACTIVE',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -23,18 +23,18 @@ public class UserDaoImpl implements UserDao {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SQL_FIND_BY_EMAIL =
-            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, profile_photo, role, status, created_at, updated_at " +
             "FROM users WHERE email = ?";
 
     private static final String SQL_FIND_BY_GOOGLE_ID =
-            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, profile_photo, role, status, created_at, updated_at " +
             "FROM users WHERE google_id = ?";
 
     private static final String SQL_LINK_GOOGLE_ID =
             "UPDATE users SET google_id = ? WHERE user_id = ?";
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, profile_photo, role, status, created_at, updated_at " +
             "FROM users WHERE user_id = ?";
 
     private static final String SQL_EXISTS_BY_EMAIL =
@@ -44,11 +44,14 @@ public class UserDaoImpl implements UserDao {
             "UPDATE users SET first_name = ?, last_name = ?, phone = ?, passport_number = ?, date_of_birth = ? " +
             "WHERE user_id = ?";
 
+    private static final String SQL_UPDATE_PROFILE_PHOTO =
+            "UPDATE users SET profile_photo = ? WHERE user_id = ?";
+
     private static final String SQL_UPDATE_PASSWORD =
             "UPDATE users SET password_hash = ?, salt = ? WHERE user_id = ?";
 
     private static final String SQL_FIND_ALL =
-            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, role, status, created_at, updated_at " +
+            "SELECT user_id, email, google_id, password_hash, salt, first_name, last_name, phone, passport_number, date_of_birth, profile_photo, role, status, created_at, updated_at " +
             "FROM users ORDER BY created_at DESC";
 
     private static final String SQL_UPDATE_STATUS =
@@ -203,6 +206,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean updateProfilePhoto(int userId, String photoPath) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_PROFILE_PHOTO)) {
+
+            if (photoPath != null && !photoPath.isBlank()) {
+                ps.setString(1, photoPath.trim());
+            } else {
+                ps.setNull(1, Types.VARCHAR);
+            }
+            ps.setInt(2, userId);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating profile photo for user ID: " + userId, e);
+        }
+        return false;
+    }
+
+    @Override
     public boolean updatePassword(int userId, String newPasswordHash, String newSalt) {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_PASSWORD)) {
@@ -278,6 +300,12 @@ public class UserDaoImpl implements UserDao {
         Date dob = rs.getDate("date_of_birth");
         if (dob != null) {
             user.setDateOfBirth(dob.toLocalDate());
+        }
+
+        try {
+            user.setProfilePhoto(rs.getString("profile_photo"));
+        } catch (SQLException ignored) {
+            // Field might be omitted in custom queries
         }
 
         user.setRole(Role.fromString(rs.getString("role")));

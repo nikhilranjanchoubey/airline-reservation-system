@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Controller serving the About Project & Team page for SkyTech Airlines.
+ * Controller serving the About Project & Team page for SkyTech.
  */
 @WebServlet(name = "AboutServlet", urlPatterns = {"/about"})
 public class AboutServlet extends HttpServlet {

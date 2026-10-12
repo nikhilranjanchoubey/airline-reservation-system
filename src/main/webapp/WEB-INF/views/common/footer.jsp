@@ -2,21 +2,21 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:choose>
-    <c:when test="${activePage == 'login' || activePage == 'register'}">
-        <!-- Sleek minimal footer for authentication pages -->
+    <c:when test="${activePage == 'login' || activePage == 'register' || param.activePage == 'login' || param.activePage == 'register'}">
+        <!-- Minimal footer for authentication pages -->
         <footer class="py-3 text-center text-secondary bg-transparent mt-auto" style="position: relative; z-index: 10;">
             <div class="container">
-                <span class="text-white-50 small">&copy; <%= java.time.Year.now().getValue() %> SkyTech &bull; Airline Reservation System</span>
+                <span class="text-white-50 small">&copy; 2026 SkyTech. All rights reserved.</span>
             </div>
         </footer>
     </c:when>
     <c:otherwise>
-        <!-- Full Cinematic & Travel Navigation Footer -->
-        <footer class="skytech-cinematic-footer mt-auto" id="contactSection" role="contentinfo" aria-label="SkyTech Corporate and Travel Information">
-            <!-- Part A: Cinematic Aviation Hero Banner -->
+        <!-- Polished Public Airline Footer -->
+        <footer class="skytech-airline-footer mt-auto" role="contentinfo" aria-label="SkyTech Corporate and Travel Information">
+            <!-- Aviation Hero Banner Above Footer -->
             <div class="skytech-footer-hero-banner">
                 <div class="footer-hero-overlay"></div>
-                <img src="${pageContext.request.contextPath}/images/footer-cinematic-hero.jpg" alt="SkyTech Airlines Jet Cruising Above Clouds" class="footer-hero-bg-img" loading="lazy">
+                <img src="${pageContext.request.contextPath}/images/footer-cinematic-hero.jpg" alt="SkyTech Jet Cruising Above Clouds" class="footer-hero-bg-img" loading="lazy">
                 
                 <div class="container footer-hero-content position-relative">
                     <div class="row align-items-center py-4 py-lg-5">
@@ -28,7 +28,7 @@
                                 Soar Higher with <span class="text-sky-cyan">SkyTech</span>
                             </h2>
                             <p class="text-cloud-white opacity-85 lead fs-6 mb-0">
-                                Engineering seamless passenger journeys, real-time flight search, seat selection, and reliable airline operations worldwide.
+                                Experience seamless passenger journeys, convenient flight search, seat selection, and reliable airline operations worldwide.
                             </p>
                         </div>
                         <div class="col-lg-5 text-lg-end mt-3 mt-lg-0">
@@ -48,92 +48,139 @@
                 </div>
             </div>
 
-            <!-- Footer Main Content Grid -->
             <div class="skytech-footer-body py-5 bg-midnight-navy">
                 <div class="container">
                     <div class="row g-4 mb-4">
-                        <!-- Column 1: SkyTech Brand -->
+                        <!-- SECTION A: SKYTECH -->
                         <div class="col-lg-4 col-md-6">
-                            <div class="d-flex align-items-center gap-2 mb-3">
-                                <div class="brand-icon-wrap shadow-cyan-sm">
-                                    <i class="bi bi-airplane-fill text-skytech-accent"></i>
-                                </div>
-                                <span class="text-white fw-bold fs-4 tracking-tight font-heading">SkyTech</span>
+                            <div class="d-flex align-items-center mb-3">
+                                <a href="${pageContext.request.contextPath}/" class="skytech-brand" aria-label="SkyTech Home">
+                                    <span class="skytech-brand__icon">
+                                        <i class="bi bi-airplane-engines-fill"></i>
+                                    </span>
+                                    <span class="skytech-brand__text">SkyTech</span>
+                                </a>
                             </div>
-                            <p class="text-muted-slate small mb-3 pe-lg-3">
-                                Comprehensive Airline Reservation &amp; Passenger Management System featuring real-time flight search, interactive seat selection, and secure authentication.
+                            <p class="text-muted-slate small mb-0 pe-lg-3" style="line-height: 1.65;">
+                                Explore flight options, review your bookings, and plan your journey with SkyTech.
                             </p>
-                            <!-- Social Links -->
-                            <div class="d-flex gap-2">
-                                <a href="https://x.com" target="_blank" rel="noopener" class="skytech-social-btn" aria-label="SkyTech X (Twitter)">
-                                    <i class="bi bi-twitter-x"></i>
-                                </a>
-                                <a href="https://facebook.com" target="_blank" rel="noopener" class="skytech-social-btn" aria-label="SkyTech Facebook">
-                                    <i class="bi bi-facebook"></i>
-                                </a>
-                                <a href="https://linkedin.com" target="_blank" rel="noopener" class="skytech-social-btn" aria-label="SkyTech LinkedIn">
-                                    <i class="bi bi-linkedin"></i>
-                                </a>
-                                <a href="https://instagram.com" target="_blank" rel="noopener" class="skytech-social-btn" aria-label="SkyTech Instagram">
-                                    <i class="bi bi-instagram"></i>
-                                </a>
-                            </div>
                         </div>
 
-                        <!-- Column 2: Book & Flight Operations -->
-                        <div class="col-lg-2 col-md-6 col-6">
+                        <!-- SECTION B: BOOK & TRAVEL -->
+                        <div class="col-lg-3 col-md-6 col-sm-6">
                             <h6 class="text-white fw-bold mb-3 font-heading text-uppercase fs-7 tracking-wider text-sky-cyan">Book &amp; Travel</h6>
                             <ul class="list-unstyled small d-flex flex-column gap-2 mb-0 footer-link-list">
-                                <li><a href="${pageContext.request.contextPath}/"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Home</a></li>
-                                <li><a href="${pageContext.request.contextPath}/search-flights"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Search Flights</a></li>
-                                <li><a href="${pageContext.request.contextPath}/flight-status"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Flight Status</a></li>
-                                <li><a href="${pageContext.request.contextPath}/manage-booking"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Manage Booking</a></li>
-                                <li><a href="${pageContext.request.contextPath}/travel-information"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Travel Info</a></li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/search-flights">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Search Flights
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/flight-status">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Flight Status
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/manage-booking">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Manage Booking
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/my-bookings">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> My Trips
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
-                        <!-- Column 3: Account & Management -->
-                        <div class="col-lg-2 col-md-6 col-6">
-                            <h6 class="text-white fw-bold mb-3 font-heading text-uppercase fs-7 tracking-wider text-sky-cyan">Account &amp; Docs</h6>
+                        <!-- SECTION C: PASSENGER SERVICES -->
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <h6 class="text-white fw-bold mb-3 font-heading text-uppercase fs-7 tracking-wider text-sky-cyan">Passenger Services</h6>
                             <ul class="list-unstyled small d-flex flex-column gap-2 mb-0 footer-link-list">
-                                <li><a href="${pageContext.request.contextPath}/login"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Sign In</a></li>
-                                <li><a href="${pageContext.request.contextPath}/register"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Create Account</a></li>
-                                <li><a href="${pageContext.request.contextPath}/profile"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Passenger Profile</a></li>
-                                <li><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Admin Dashboard</a></li>
-                                <li><a href="${pageContext.request.contextPath}/project"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Project Architecture</a></li>
-                                <li><a href="${pageContext.request.contextPath}/about"><i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Team &amp; Mentor</a></li>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.currentUser}">
+                                        <li>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.currentUser.role == 'ADMIN'}">
+                                                    <a href="${pageContext.request.contextPath}/admin/profile">
+                                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Admin Profile
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="${pageContext.request.contextPath}/profile">
+                                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Passenger Profile
+                                                    </a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </li>
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/my-bookings">
+                                                <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> My Trips
+                                            </a>
+                                        </li>
+                                        <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/admin/dashboard" class="text-warning">
+                                                    <i class="bi bi-shield-lock-fill me-1 text-warning fs-8"></i> Admin Dashboard
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/login">
+                                                <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Sign In
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/register">
+                                                <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Create Account
+                                            </a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/travel-information">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Travel Information
+                                    </a>
+                                </li>
                             </ul>
                         </div>
 
-                        <!-- Column 4: Customer Support -->
-                        <div class="col-lg-4 col-md-6">
-                            <h6 class="text-white fw-bold mb-3 font-heading text-uppercase fs-7 tracking-wider text-sky-cyan">Customer Support</h6>
-                            <ul class="list-unstyled small d-flex flex-column gap-3 mb-0 text-muted-slate">
-                                <li class="d-flex align-items-start gap-2">
-                                    <div class="support-icon-pill"><i class="bi bi-geo-alt-fill text-sky-cyan"></i></div>
-                                    <span>SkyTech Terminal 3, Global Aviation Boulevard</span>
+                        <!-- SECTION D: HELP & INFORMATION -->
+                        <div class="col-lg-2 col-md-6 col-sm-6">
+                            <h6 class="text-white fw-bold mb-3 font-heading text-uppercase fs-7 tracking-wider text-sky-cyan">Help &amp; Information</h6>
+                            <ul class="list-unstyled small d-flex flex-column gap-2 mb-0 footer-link-list">
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/about">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> About SkyTech
+                                    </a>
                                 </li>
-                                <li class="d-flex align-items-center gap-2">
-                                    <div class="support-icon-pill"><i class="bi bi-telephone-fill text-sky-cyan"></i></div>
-                                    <span>+1 (800) 555-SKYTECH</span>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/travel-information#faqs">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Travel FAQs
+                                    </a>
                                 </li>
-                                <li class="d-flex align-items-center gap-2">
-                                    <div class="support-icon-pill"><i class="bi bi-envelope-fill text-sky-cyan"></i></div>
-                                    <a href="mailto:support@skytech-airlines.com" class="text-cloud-white text-decoration-none hover-sky-cyan">support@skytech-airlines.com</a>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/travel-information#baggage">
+                                        <i class="bi bi-chevron-right me-1 text-sky-cyan fs-8"></i> Baggage Guidelines
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <hr class="border-secondary opacity-20 my-4">
+                    <hr class="border-secondary opacity-20 my-4" style="border-color: rgba(216, 227, 239, 0.15) !important;">
 
-                    <!-- Bottom Bar: Copyright & Tech Stack -->
+                    <!-- Bottom Bar: Copyright -->
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-muted-slate py-2 gap-2">
                         <div>
-                            &copy; <%= java.time.Year.now().getValue() %> <strong class="text-white">SkyTech</strong> &bull; Airline Reservation System. All rights reserved.
+                            &copy; 2026 SkyTech. All rights reserved.
                         </div>
-                        <div class="font-monospace fs-8 text-md-end text-cloud-white opacity-75">
-                            Powered by <span class="text-sky-cyan fw-semibold">Java 21</span> &bull; <span class="text-sky-cyan">Jakarta EE 10</span> &bull; <span class="text-sky-cyan">MySQL 8.3</span> &bull; <span class="text-sky-cyan">Tomcat 10.1</span>
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="${pageContext.request.contextPath}/travel-information" class="text-muted-slate text-decoration-none hover-sky-cyan small">Travel Information</a>
+                            <span class="opacity-25">&bull;</span>
+                            <a href="${pageContext.request.contextPath}/about" class="text-muted-slate text-decoration-none hover-sky-cyan small">About SkyTech</a>
                         </div>
                     </div>
                 </div>

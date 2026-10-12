@@ -1,24 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<c:set var="pageTitle" value="Create Account - SkyTech Airlines" />
-<c:set var="activePage" value="register" />
+<c:set var="pageTitle" value="Create Account - SkyTech" />
+<c:set var="activePage" value="register" scope="request" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <div class="auth-page-body">
-    <div class="auth-cinematic-wrapper register-bg">
+    <div class="auth-cinematic-wrapper register-bg" style="background-image: url('${pageContext.request.contextPath}/images/auth-register-bg.jpg');">
         <div class="auth-cinematic-overlay"></div>
 
         <!-- Minimalist Cinematic Top Navigation -->
         <header class="auth-top-bar">
-            <a href="${pageContext.request.contextPath}/" class="auth-brand" aria-label="SkyTech Airlines Homepage">
-                <div class="auth-brand-icon">
-                    <i class="bi bi-airplane-fill" style="transform: rotate(-35deg); display: inline-block;"></i>
-                </div>
-                <div class="auth-brand-text">
-                    <span class="auth-brand-name">SkyTech</span>
-                    <span class="auth-brand-sub">AIRLINES</span>
-                </div>
+            <a href="${pageContext.request.contextPath}/" class="auth-brand skytech-brand" aria-label="SkyTech Home">
+                <span class="skytech-brand__icon">
+                    <i class="bi bi-airplane-engines-fill"></i>
+                </span>
+                <span class="skytech-brand__text">SkyTech</span>
             </a>
             <a href="${pageContext.request.contextPath}/" class="auth-back-link">
                 <i class="bi bi-arrow-left"></i>
@@ -75,9 +72,8 @@
 
                     <!-- Ambient Quote Card -->
                     <div class="auth-quote-card">
-                        <div class="auth-quote-icon">“</div>
                         <div class="auth-quote-text">A safer, smarter and more connected way to fly.</div>
-                        <div class="auth-quote-author">— SkyTech Airlines</div>
+                        <div class="auth-quote-author">— SkyTech</div>
                     </div>
                 </div>
 
@@ -85,7 +81,7 @@
                 <div class="auth-card-panel">
                     <div class="auth-card-header">
                         <h2 class="auth-card-title">Create Passenger Account</h2>
-                        <p class="auth-card-subtitle">Join SkyTech Airlines for seamless flight booking, seat selection, and digital boarding passes.</p>
+                        <p class="auth-card-subtitle">Join SkyTech for seamless flight booking, seat selection, and digital boarding passes.</p>
                     </div>
 
                     <!-- Server Error Message -->
@@ -250,7 +246,7 @@
                         <div class="auth-terms-wrap">
                             <input type="checkbox" id="termsConsent" name="termsConsent" required checked>
                             <label for="termsConsent">
-                                I agree to SkyTech Airlines <a href="javascript:void(0)" onclick="viewTerms()" class="auth-switch-link">Terms of Carriage</a> and <a href="javascript:void(0)" onclick="viewPrivacy()" class="auth-switch-link">Privacy Policy</a>.
+                                I agree to SkyTech <a href="javascript:void(0)" onclick="viewTerms()" class="auth-switch-link">Terms of Carriage</a> and <a href="javascript:void(0)" onclick="viewPrivacy()" class="auth-switch-link">Privacy Policy</a>.
                             </label>
                         </div>
 
@@ -373,7 +369,7 @@
             const terms = document.getElementById('termsConsent');
             if (terms && !terms.checked) {
                 e.preventDefault();
-                alert("Please agree to the SkyTech Airlines Terms of Carriage to register.");
+                alert("Please agree to the SkyTech Terms of Carriage to register.");
                 terms.focus();
                 return;
             }
@@ -385,11 +381,11 @@
     }
 
     function viewTerms() {
-        alert("SkyTech Airlines Terms of Carriage:\n\nPassengers are entitled to standard baggage allowance, transparent fares, and 24-hour advance check-in. Standard flight safety guidelines apply.");
+        alert("SkyTech Terms of Carriage:\n\nPassengers are entitled to standard baggage allowance, transparent fares, and 24-hour advance check-in. Standard flight safety guidelines apply.");
     }
 
     function viewPrivacy() {
-        alert("SkyTech Airlines Privacy Policy:\n\nYour personal passenger details, contact numbers, and travel itineraries are securely stored and encrypted according to airline data privacy standards.");
+        alert("SkyTech Privacy Policy:\n\nYour personal passenger details, contact numbers, and travel itineraries are securely stored and encrypted according to airline data privacy standards.");
     }
 </script>
 

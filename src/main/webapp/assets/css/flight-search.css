@@ -1,25 +1,34 @@
 /* SkyTech - Flight Search & Availability Module Stylesheet */
 
 :root {
-    --sky-primary: #1976D2;
-    --sky-primary-hover: #1565C0;
-    --sky-navy: #0D1B3E;
-    --sky-navy-light: #162955;
-    --sky-light-blue: #E3F2FD;
-    --sky-bg: #F5F9FF;
-    --sky-card-bg: #FFFFFF;
-    --sky-text: #1F2937;
+    --sky-navy: #071A35;
+    --sky-deep-blue: #0B2D52;
+    --sky-blue: #168BFF;
+    --sky-cyan: #56CCF2;
+    --sky-cloud: #F4F8FC;
+    --sky-white: #FFFFFF;
+    --sky-success: #18A878;
+    --sky-danger: #E5484D;
+    --sky-text: #172B45;
     --sky-muted: #64748B;
-    --sky-border: #E2E8F0;
-    --sky-success: #16A34A;
-    --sky-warning: #F59E0B;
-    --sky-danger: #DC2626;
+    --sky-border: #D8E3EF;
     --sky-radius-sm: 8px;
-    --sky-radius-md: 12px;
-    --sky-radius-lg: 16px;
-    --sky-shadow-sm: 0 2px 4px rgba(13, 27, 62, 0.04);
-    --sky-shadow-md: 0 4px 12px rgba(13, 27, 62, 0.08);
-    --sky-shadow-lg: 0 10px 25px rgba(13, 27, 62, 0.12);
+    --sky-radius-md: 14px;
+    --sky-radius-lg: 22px;
+    --sky-shadow: 0 10px 30px rgba(7, 26, 53, 0.10);
+    --sky-transition: 220ms ease;
+
+    /* Semantic mappings for flight search controls */
+    --sky-primary: var(--sky-blue);
+    --sky-primary-hover: #0F75DC;
+    --sky-navy-light: var(--sky-deep-blue);
+    --sky-light-blue: #EBF5FF;
+    --sky-bg: var(--sky-cloud);
+    --sky-card-bg: var(--sky-white);
+    --sky-warning: #F59E0B;
+    --sky-shadow-sm: 0 2px 4px rgba(7, 26, 53, 0.05);
+    --sky-shadow-md: 0 4px 14px rgba(7, 26, 53, 0.08);
+    --sky-shadow-lg: var(--sky-shadow);
     --skytech-control-height: 64px;
     --skytech-control-radius: 12px;
     --skytech-control-padding: 0.65rem 0.95rem;
@@ -282,6 +291,12 @@ body {
     position: relative !important;
 }
 
+.search-field-box.dropdown.show,
+.search-field-box.dropdown:has(.show),
+.search-field-box.dropdown:focus-within {
+    z-index: 1055 !important;
+}
+
 .search-field-box .dropdown-menu,
 .passenger-dropdown-menu,
 .cabin-class-dropdown-menu {
@@ -431,11 +446,14 @@ li[aria-selected="true"] .cabin-option-item {
 }
 
 @media (max-width: 575.98px) {
-    .cabin-class-dropdown-menu {
+    .cabin-class-dropdown-menu,
+    .passenger-dropdown-menu {
         min-width: 100%;
         width: 100%;
+        max-width: 100%;
         left: 0 !important;
         right: 0 !important;
+        box-sizing: border-box;
     }
 }
 
@@ -1079,7 +1097,8 @@ li[aria-selected="true"] .cabin-option-item {
 /* Homepage & Deal Cards */
 .home-hero-section {
     position: relative;
-    background-color: #071426; /* Deep Midnight Navy Fallback */
+    min-height: 580px;
+    background-color: #071A35; /* Deep Midnight Navy */
     z-index: 20;
     /* overflow: visible by default so Cabin Class & Travellers dropdowns are never clipped! */
 }
@@ -1097,9 +1116,8 @@ li[aria-selected="true"] .cabin-option-item {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 75% 25%;
+    object-position: center right;
     display: block;
-    transform: scale(1.02);
 }
 
 @media (min-width: 992px) {
@@ -1113,7 +1131,7 @@ li[aria-selected="true"] .cabin-option-item {
         transform: scale(1.02) translate3d(0, 0, 0);
     }
     100% {
-        transform: scale(1.045) translate3d(-10px, -6px, 0);
+        transform: scale(1.04) translate3d(-8px, -4px, 0);
     }
 }
 
@@ -1128,17 +1146,53 @@ li[aria-selected="true"] .cabin-option-item {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-        130deg,
-        rgba(7, 20, 38, 0.86) 0%,
-        rgba(15, 38, 72, 0.68) 48%,
-        rgba(7, 20, 38, 0.38) 100%
+        180deg,
+        rgba(7, 26, 53, 0.48) 0%,
+        rgba(11, 45, 82, 0.22) 45%,
+        rgba(7, 26, 53, 0.12) 100%
+    ),
+    linear-gradient(
+        90deg,
+        rgba(7, 26, 53, 0.52) 0%,
+        rgba(7, 26, 53, 0.22) 55%,
+        rgba(7, 26, 53, 0.05) 100%
     );
     pointer-events: none;
 }
 
 .hero-content-container {
     position: relative;
-    z-index: 2;
+    z-index: 10;
+}
+
+.skytech-cyan-divider {
+    z-index: 1 !important;
+}
+
+.hero-main-heading {
+    font-family: 'Manrope', 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(2.35rem, 4.2vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.18;
+    color: #FFFFFF;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 14px rgba(7, 26, 53, 0.45);
+}
+
+.hero-main-heading .text-sky-cyan {
+    color: var(--sky-cyan, #56CCF2) !important;
+}
+
+.hero-subheading {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(244, 248, 252, 0.92);
+    max-width: 650px;
+    margin: 0 auto 2.25rem;
+    text-shadow: 0 1px 6px rgba(7, 26, 53, 0.35);
 }
 
 /* Refined Premium Hero Brand Badge */

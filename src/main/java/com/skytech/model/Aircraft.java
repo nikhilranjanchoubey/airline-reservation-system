@@ -65,4 +65,8 @@ public class Aircraft implements Serializable {
     public void setSeatsPerRow(int seatsPerRow) {
         this.seatsPerRow = seatsPerRow;
     }
+
+    public int getTotalCapacity() {
+        return totalRows * seatsPerRow;
+    }
 }

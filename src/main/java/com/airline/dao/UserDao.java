@@ -66,6 +66,15 @@ public interface UserDao {
     boolean updateProfile(User user);
 
     /**
+     * Updates the profile photo path/reference for a user.
+     *
+     * @param userId    The user's ID
+     * @param photoPath The path to the uploaded photo, or null to remove
+     * @return true if update succeeded, false otherwise
+     */
+    boolean updateProfilePhoto(int userId, String photoPath);
+
+    /**
      * Updates the password hash and salt for a user.
      *
      * @param userId          The user's ID

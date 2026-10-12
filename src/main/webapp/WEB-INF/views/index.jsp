@@ -9,23 +9,28 @@
     <section class="home-hero-section py-5 text-white" id="heroSearchSection">
         <!-- High-Resolution Real Aviation Photography Background -->
         <div class="home-hero-bg" aria-hidden="true">
-            <img src="${pageContext.request.contextPath}/assets/images/hero-aviation.jpg"
-                 alt=""
+            <img src="${pageContext.request.contextPath}/images/plane-hero.jpg"
+                 alt="SkyTech Jet Cruising"
                  class="home-hero-bg-img"
+                 onerror="this.src='${pageContext.request.contextPath}/images/hero-cinematic.jpg'"
                  loading="eager" />
             <div class="home-hero-overlay"></div>
         </div>
 
-        <div class="container py-3 hero-content-container">
-            <div class="text-center mb-4">
-                <span class="hero-premium-badge">
-                    <i class="bi bi-airplane-engines me-1 badge-icon"></i>
-                    <span>SKYTECH</span>
-                    <span class="badge-divider">|</span>
-                    <span>PREMIUM AIR TRAVEL</span>
-                </span>
-                <h1 class="display-4 fw-bold mb-2">Travel smarter with SkyTech</h1>
-                <p class="lead text-white-75 mb-0">Search. Compare. Fly.</p>
+        <div class="container py-4 hero-content-container">
+            <div class="text-center mb-4 mx-auto hero-header-block" style="max-width: 860px;">
+                <div class="d-inline-flex justify-content-center mb-3">
+                    <span class="hero-premium-badge">
+                        <i class="bi bi-airplane-fill me-1 badge-icon"></i>
+                        <span>YOUR JOURNEY, OUR PRIORITY</span>
+                    </span>
+                </div>
+                <h1 class="hero-main-heading mb-3">
+                    Your Next Journey <span class="text-sky-cyan">Starts Here.</span>
+                </h1>
+                <p class="hero-subheading mx-auto mb-4">
+                    Discover destinations. Compare flights. Travel with confidence.
+                </p>
             </div>
 
             <!-- Integrated Flight Search Widget -->
@@ -379,7 +384,7 @@
                         <div class="search-cta-grid-col" id="searchCtaCol">
                             <button type="submit" class="btn btn-search-flights shadow-sm" id="btnSearchSubmit">
                                 <span id="btnSearchText" class="d-flex align-items-center justify-content-center gap-2">
-                                    <i class="bi bi-search"></i> SEARCH FLIGHTS
+                                    <i class="bi bi-search"></i> Search Flights
                                 </span>
                                 <span id="btnSearchSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
                             </button>
@@ -387,6 +392,14 @@
                     </div>
                 </form>
             </div>
+        </div>
+
+        <!-- Glowing Curved Divider Line -->
+        <div class="skytech-cyan-divider" aria-hidden="true">
+            <svg viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0 48C360 0 1080 0 1440 48H0Z" fill="#FFFFFF"/>
+                <path d="M0 46C360 -2 1080 -2 1440 46" stroke="#56CCF2" stroke-width="2.5" filter="drop-shadow(0px 0px 8px #56CCF2)"/>
+            </svg>
         </div>
     </section>
 
@@ -1236,6 +1249,36 @@
         }
     }
 
+    function initPassengerDropdown() {
+        const box = document.getElementById('passengerBoxContainer');
+        const btn = document.getElementById('passengerDropdownBtn');
+        const menu = box ? box.querySelector('.passenger-dropdown-menu') : null;
+        if (!box || !btn || !menu) return;
+
+        btn.addEventListener('show.bs.dropdown', function () {
+            const rect = box.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+
+            // Only flip upward (dropup) if space below truly cannot fit and space above is abundant
+            if (spaceBelow < 180 && spaceAbove > 320) {
+                box.classList.add('dropup');
+            } else {
+                box.classList.remove('dropup');
+            }
+
+            // Prevent right-edge overflow on smaller desktop/tablet viewports
+            const spaceRight = window.innerWidth - rect.left;
+            if (spaceRight < 310 && window.innerWidth >= 576) {
+                menu.style.left = 'auto';
+                menu.style.right = '0';
+            } else {
+                menu.style.left = '';
+                menu.style.right = '';
+            }
+        });
+    }
+
     function initCabinClassDropdown() {
         const box = document.getElementById('homeCabinClassBoxContainer');
         const btn = document.getElementById('travelClassDropdownBtn');
@@ -1245,12 +1288,11 @@
         // Dynamic positioning detection on open to prevent bottom or right clipping
         btn.addEventListener('show.bs.dropdown', function () {
             const rect = box.getBoundingClientRect();
-            const menuHeight = 255;
             const spaceBelow = window.innerHeight - rect.bottom;
             const spaceAbove = rect.top;
 
-            // If space below is restricted, position upwards (dropup)
-            if (spaceBelow < menuHeight && spaceAbove > spaceBelow) {
+            // Only flip upward (dropup) if space below truly cannot fit and space above is abundant
+            if (spaceBelow < 180 && spaceAbove > 320) {
                 box.classList.add('dropup');
             } else {
                 box.classList.remove('dropup');
@@ -1453,6 +1495,7 @@
         if (window.SkyTechCalendar) {
             SkyTechCalendar.init({ todayIso: SERVER_TODAY_ISO });
         }
+        initPassengerDropdown();
         initCabinClassDropdown();
         const depInput = document.getElementById('departureDateInput');
         if (depInput && !depInput.value) {

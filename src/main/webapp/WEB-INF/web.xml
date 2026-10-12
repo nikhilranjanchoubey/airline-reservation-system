@@ -181,6 +181,50 @@
         <url-pattern>/travel-information</url-pattern>
     </servlet-mapping>
 
+    <!-- Passenger Profile Controller -->
+    <servlet>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>com.airline.controller.ProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin Profile Controller -->
+    <servlet>
+        <servlet-name>AdminProfileServlet</servlet-name>
+        <servlet-class>com.airline.controller.admin.AdminProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminProfileServlet</servlet-name>
+        <url-pattern>/admin/profile</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin Aircraft Fleet & Seat Configuration Controller -->
+    <servlet>
+        <servlet-name>AdminAircraftServlet</servlet-name>
+        <servlet-class>com.airline.controller.admin.AdminAircraftServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminAircraftServlet</servlet-name>
+        <url-pattern>/admin/aircraft</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin Dashboard Operations Controller -->
+    <servlet>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <servlet-class>com.airline.controller.AdminDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/admin/dashboard</url-pattern>
+    </servlet-mapping>
+
     <!-- Project Architecture Documentation (Academic / Evaluator) -->
     <servlet>
         <servlet-name>ProjectController</servlet-name>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <jsp:include page="../common/header.jsp">
-    <jsp:param name="pageTitle" value="Secure Checkout - SkyTech Airlines" />
+    <jsp:param name="pageTitle" value="Secure Checkout - SkyTech" />
     <jsp:param name="activePage" value="flights" />
 </jsp:include>
 <jsp:include page="../common/navbar.jsp" />
@@ -569,7 +569,7 @@ body {
             "key": "${razorpayKeyId}",
             "amount": "${amountInPaise}",
             "currency": "INR",
-            "name": "SkyTech Airlines",
+            "name": "SkyTech",
             "description": "Flight Reservation ${booking.bookingReference}",
             "order_id": "${payment.razorpayOrderId}",
             "handler": function (response) {

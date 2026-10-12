@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -76,6 +77,49 @@ public class AirportDao {
             }
         }
         return null;
+    }
+
+    public boolean createAirport(Airport a) {
+        String sql = "INSERT INTO airports (airport_code, airport_name, city, country, terminal) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBConnectionUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, a.getAirportCode().trim().toUpperCase());
+            ps.setString(2, a.getAirportName().trim());
+            ps.setString(3, a.getCity().trim());
+            ps.setString(4, a.getCountry() != null && !a.getCountry().trim().isEmpty() ? a.getCountry().trim() : "India");
+            ps.setString(5, a.getTerminal() != null && !a.getTerminal().trim().isEmpty() ? a.getTerminal().trim() : "Terminal 1");
+            int affected = ps.executeUpdate();
+            if (affected > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        a.setAirportId(rs.getInt(1));
+                    }
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Failed to create airport: " + e.getMessage(), e);
+        }
+        return false;
+    }
+
+    public boolean updateAirport(Airport a) {
+        String sql = "UPDATE airports SET airport_code = ?, airport_name = ?, city = ?, country = ?, terminal = ? " +
+                     "WHERE airport_id = ?";
+        try (Connection conn = DBConnectionUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, a.getAirportCode().trim().toUpperCase());
+            ps.setString(2, a.getAirportName().trim());
+            ps.setString(3, a.getCity().trim());
+            ps.setString(4, a.getCountry() != null ? a.getCountry().trim() : "India");
+            ps.setString(5, a.getTerminal() != null ? a.getTerminal().trim() : "Terminal 1");
+            ps.setInt(6, a.getAirportId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Failed to update airport: " + e.getMessage(), e);
+        }
+        return false;
     }
 
     private Airport mapRowToAirport(ResultSet rs) throws SQLException {

@@ -11,5 +11,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Console ready message
-    console.log("SkyTech Airline Reservation System foundation initialized.");
+    console.log("SkyTech foundation initialized.");
 });

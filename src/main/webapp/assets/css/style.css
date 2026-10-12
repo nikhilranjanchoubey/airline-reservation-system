@@ -82,6 +82,277 @@ body {
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
 }
 
+/* ==========================================================
+   SkyTech Navbar Action Buttons — Unified Interaction System
+   Standardizes hover, focus, active, transitions & color identities
+   ========================================================== */
+:root {
+    --navbar-transition: 200ms ease;
+    --navbar-btn-min-height: 34px;
+}
+
+/* Base button properties across all action buttons */
+#skyTechMainNavbar .navbar-action,
+#skyTechMainNavbar .nav-btn-trips,
+#skyTechMainNavbar .nav-btn-profile,
+#skyTechMainNavbar .btn-outline-warning,
+#skyTechMainNavbar .btn-skytech-accent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: var(--navbar-btn-min-height);
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 9999px;
+    padding: 0.35rem 0.95rem;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    background-color: var(--navbar-btn-bg, transparent);
+    color: var(--navbar-btn-color, #FFFFFF) !important;
+    border: 1px solid var(--navbar-btn-border, rgba(255, 255, 255, 0.45));
+    box-shadow: var(--navbar-btn-shadow, none);
+    transition:
+        background-color var(--navbar-transition),
+        border-color var(--navbar-transition),
+        box-shadow var(--navbar-transition),
+        color var(--navbar-transition);
+}
+
+#skyTechMainNavbar .navbar-action i,
+#skyTechMainNavbar .navbar-action span,
+#skyTechMainNavbar .nav-btn-trips i,
+#skyTechMainNavbar .nav-btn-trips span,
+#skyTechMainNavbar .nav-btn-profile i,
+#skyTechMainNavbar .nav-btn-profile span {
+    color: inherit !important;
+    transition: color var(--navbar-transition);
+}
+
+/* Base Hover Behavior (Standardized) */
+#skyTechMainNavbar .navbar-action:hover,
+#skyTechMainNavbar .nav-btn-trips:hover,
+#skyTechMainNavbar .nav-btn-profile:hover,
+#skyTechMainNavbar .btn-outline-warning:hover,
+#skyTechMainNavbar .btn-skytech-accent:hover {
+    background-color: var(--navbar-btn-hover-bg) !important;
+    border-color: var(--navbar-btn-hover-border) !important;
+    color: var(--navbar-btn-hover-color, #FFFFFF) !important;
+    box-shadow: var(--navbar-btn-hover-shadow) !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Base Active / Pressed Behavior (Standardized) */
+#skyTechMainNavbar .navbar-action:active,
+#skyTechMainNavbar .navbar-action.active,
+#skyTechMainNavbar .nav-btn-trips:active,
+#skyTechMainNavbar .nav-btn-trips.active,
+#skyTechMainNavbar .nav-btn-profile:active,
+#skyTechMainNavbar .nav-btn-profile.active,
+#skyTechMainNavbar .btn-outline-warning:active,
+#skyTechMainNavbar .btn-skytech-accent:active {
+    background-color: var(--navbar-btn-active-bg) !important;
+    border-color: var(--navbar-btn-active-border) !important;
+    color: var(--navbar-btn-hover-color, #FFFFFF) !important;
+    box-shadow: var(--navbar-btn-active-shadow, inset 0 1px 3px rgba(0, 0, 0, 0.3)) !important;
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Base Keyboard Focus (:focus-visible) */
+#skyTechMainNavbar .navbar-action:focus-visible,
+#skyTechMainNavbar .nav-btn-trips:focus-visible,
+#skyTechMainNavbar .nav-btn-profile:focus-visible,
+#skyTechMainNavbar .btn-outline-warning:focus-visible,
+#skyTechMainNavbar .btn-skytech-accent:focus-visible {
+    outline: 2px solid var(--navbar-btn-accent, #56CCF2);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(86, 204, 242, 0.35) !important;
+}
+
+#skyTechMainNavbar .navbar-action:focus:not(:focus-visible),
+#skyTechMainNavbar .nav-btn-trips:focus:not(:focus-visible),
+#skyTechMainNavbar .nav-btn-profile:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Disabled State */
+#skyTechMainNavbar .navbar-action:disabled,
+#skyTechMainNavbar .navbar-action.disabled {
+    opacity: 0.50 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ----------------------------------------------------------
+   Variant 1: Admin Panel (Yellow / Gold Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--admin,
+#skyTechMainNavbar .btn-outline-warning {
+    --navbar-btn-accent: #F59E0B;
+    --navbar-btn-bg: rgba(245, 158, 11, 0.12);
+    --navbar-btn-border: rgba(245, 158, 11, 0.50);
+    --navbar-btn-color: #FDE68A;
+    --navbar-btn-hover-bg: rgba(245, 158, 11, 0.22);
+    --navbar-btn-hover-border: #FBBF24;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25), 0 2px 10px rgba(245, 158, 11, 0.20);
+    --navbar-btn-active-bg: rgba(245, 158, 11, 0.34);
+    --navbar-btn-active-border: #D97706;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(245, 158, 11, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--admin i,
+#skyTechMainNavbar .btn-outline-warning i {
+    color: #FBBF24 !important;
+}
+
+#skyTechMainNavbar .navbar-action--admin:hover i,
+#skyTechMainNavbar .btn-outline-warning:hover i {
+    color: #FFFFFF !important;
+}
+
+/* ----------------------------------------------------------
+   Variant 2: My Trips (Cyan / Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--trips,
+#skyTechMainNavbar .nav-btn-trips {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(86, 204, 242, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* ----------------------------------------------------------
+   Variant 3: Passenger Profile & System (Cyan / Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--profile,
+#skyTechMainNavbar .nav-btn-profile {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(86, 204, 242, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--profile img,
+#skyTechMainNavbar .nav-btn-profile img {
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    transition: border-color var(--navbar-transition);
+}
+
+#skyTechMainNavbar .navbar-action--profile:hover img,
+#skyTechMainNavbar .nav-btn-profile:hover img,
+#skyTechMainNavbar .navbar-action--profile:focus-visible img,
+#skyTechMainNavbar .nav-btn-profile:focus-visible img {
+    border-color: #56CCF2;
+}
+
+/* ----------------------------------------------------------
+   Variant 4: Sign Out (Neutral White / Gray Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--signout {
+    --navbar-btn-accent: #E2E8F0;
+    --navbar-btn-bg: rgba(255, 255, 255, 0.10);
+    --navbar-btn-border: rgba(255, 255, 255, 0.35);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(255, 255, 255, 0.22);
+    --navbar-btn-hover-border: rgba(255, 255, 255, 0.85);
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18), 0 2px 8px rgba(255, 255, 255, 0.12);
+    --navbar-btn-active-bg: rgba(255, 255, 255, 0.32);
+    --navbar-btn-active-border: #FFFFFF;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+/* ----------------------------------------------------------
+   Variant 5: Search Flights (Airline Blue Accent)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--search,
+#skyTechMainNavbar .btn-skytech-accent {
+    --navbar-btn-accent: #168BFF;
+    --navbar-btn-bg: #168BFF;
+    --navbar-btn-border: #168BFF;
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-shadow: 0 2px 6px rgba(22, 139, 255, 0.30);
+    --navbar-btn-hover-bg: #0E73D6;
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 4px 14px rgba(22, 139, 255, 0.35);
+    --navbar-btn-active-bg: #0A5CB0;
+    --navbar-btn-active-border: #0E73D6;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* ----------------------------------------------------------
+   Variant 6 & 7: Login & Sign Up (Guest States)
+   ---------------------------------------------------------- */
+#skyTechMainNavbar .navbar-action--login {
+    --navbar-btn-accent: #56CCF2;
+    --navbar-btn-bg: rgba(255, 255, 255, 0.08);
+    --navbar-btn-border: rgba(255, 255, 255, 0.45);
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-hover-bg: rgba(86, 204, 242, 0.18);
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 2px 10px rgba(86, 204, 242, 0.20);
+    --navbar-btn-active-bg: rgba(86, 204, 242, 0.28);
+    --navbar-btn-active-border: #38BDF8;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+#skyTechMainNavbar .navbar-action--signup {
+    --navbar-btn-accent: #168BFF;
+    --navbar-btn-bg: #168BFF;
+    --navbar-btn-border: #168BFF;
+    --navbar-btn-color: #FFFFFF;
+    --navbar-btn-shadow: 0 2px 6px rgba(22, 139, 255, 0.30);
+    --navbar-btn-hover-bg: #0E73D6;
+    --navbar-btn-hover-border: #56CCF2;
+    --navbar-btn-hover-color: #FFFFFF;
+    --navbar-btn-hover-shadow: 0 0 0 2px rgba(86, 204, 242, 0.25), 0 4px 14px rgba(22, 139, 255, 0.35);
+    --navbar-btn-active-bg: #0A5CB0;
+    --navbar-btn-active-border: #0E73D6;
+    --navbar-btn-active-shadow: 0 0 0 1px rgba(86, 204, 242, 0.35);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    #skyTechMainNavbar .navbar-action,
+    #skyTechMainNavbar .navbar-action i,
+    #skyTechMainNavbar .navbar-action span,
+    #skyTechMainNavbar .nav-btn-trips,
+    #skyTechMainNavbar .nav-btn-profile,
+    #skyTechMainNavbar .navbar-action--profile img,
+    #skyTechMainNavbar .nav-btn-profile img {
+        transition: none !important;
+    }
+}
+
 .navbar .nav-link {
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.85);
@@ -636,5 +907,102 @@ body {
     justify-content: center;
     font-size: 1.25rem;
 }
+
+/* ==========================================================
+   SKYTECH UNIFIED BRAND & LOGO SPECIFICATION
+   ========================================================== */
+.skytech-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+    vertical-align: middle;
+    transition: opacity 220ms ease, transform 220ms ease;
+    cursor: pointer;
+}
+
+.skytech-brand:hover {
+    text-decoration: none !important;
+}
+
+.skytech-brand__icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #168BFF 0%, #0B2D52 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.30);
+    transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+    flex-shrink: 0;
+}
+
+.skytech-brand__icon i {
+    display: inline-block;
+    line-height: 1;
+    color: #56CCF2;
+    transition: color 220ms ease, filter 220ms ease;
+}
+
+.skytech-brand__text {
+    font-family: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 800;
+    font-size: 1.45rem;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    transition: color 220ms ease;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Hover Interaction */
+.skytech-brand:hover .skytech-brand__icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 7px rgba(86, 204, 242, 0.55));
+    box-shadow: 0 6px 16px rgba(86, 204, 242, 0.35);
+}
+
+.skytech-brand:hover .skytech-brand__icon i {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 4px rgba(86, 204, 242, 0.8));
+}
+
+.skytech-brand:hover .skytech-brand__text {
+    color: #FFFFFF;
+}
+
+/* Light Background Variant */
+.skytech-brand--light-bg .skytech-brand__text {
+    color: #071A35;
+}
+
+.skytech-brand--light-bg:hover .skytech-brand__text {
+    color: #168BFF;
+}
+
+/* Keyboard Focus Accessibility */
+.skytech-brand:focus-visible {
+    outline: 3px solid #56CCF2;
+    outline-offset: 4px;
+    border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skytech-brand,
+    .skytech-brand__icon,
+    .skytech-brand__icon i,
+    .skytech-brand__text {
+        transition: none !important;
+        transform: none !important;
+        animation: none !important;
+    }
+}
+
 
 

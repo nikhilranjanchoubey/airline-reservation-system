@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a flight reservation in the SkyTech Airline Reservation System.
+ * Represents a flight reservation in SkyTech.
  */
 public class Booking implements Serializable {
 

@@ -2,23 +2,32 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:set var="currentUri" value="${pageContext.request.requestURI}" />
+<c:set var="isAdminWorkspace" value="${currentUri.contains('/admin/') || currentUri.endsWith('/admin')}" />
 <c:set var="isHomeActive" value="${currentUri.endsWith('/') || currentUri.endsWith('/home') || currentUri.endsWith('/skytech/') || currentUri.endsWith('/skytech') || currentUri.endsWith('/index.jsp')}" />
 <c:set var="isFlightsActive" value="${currentUri.contains('/search-flights') || currentUri.contains('/flight-results') || currentUri.contains('/flight-details') || currentUri.contains('/seat-selection')}" />
 <c:set var="isManageActive" value="${currentUri.contains('/manage-booking')}" />
 <c:set var="isStatusActive" value="${currentUri.contains('/flight-status')}" />
 <c:set var="isTravelInfoActive" value="${currentUri.contains('/travel-information')}" />
 <c:set var="isAboutActive" value="${currentUri.contains('/about')}" />
-<c:set var="isProjectActive" value="${currentUri.contains('/project')}" />
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-skytech sticky-top" id="skyTechMainNavbar">
     <div class="container-fluid px-lg-4">
-        <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center gap-2" href="${pageContext.request.contextPath}/" aria-label="SkyTech Homepage">
-            <span class="brand-icon-wrapper">
-                <i class="bi bi-airplane-engines-fill text-skytech-accent fs-4"></i>
-            </span>
-            <span class="fw-bold tracking-wide fs-4 text-white">SkyTech</span>
-        </a>
+        <div class="d-flex align-items-center">
+            <!-- Mobile Admin Sidebar Toggle when in Admin Workspace -->
+            <c:if test="${isAdminWorkspace}">
+                <button class="btn btn-link text-white d-lg-none me-2 p-0 border-0" id="adminSidebarToggle" type="button" aria-label="Toggle Admin Sidebar">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
+            </c:if>
+
+            <!-- Logo -->
+            <a class="navbar-brand skytech-brand me-3" href="${pageContext.request.contextPath}/" aria-label="SkyTech Home">
+                <span class="skytech-brand__icon">
+                    <i class="bi bi-airplane-engines-fill"></i>
+                </span>
+                <span class="skytech-brand__text">SkyTech</span>
+            </a>
+        </div>
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#skyTechNavbar"
                 aria-controls="skyTechNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,49 +67,67 @@
                         About
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link ${isProjectActive ? 'active fw-semibold' : ''}" href="${pageContext.request.contextPath}/project">
-                        Project Docs
-                    </a>
-                </li>
             </ul>
 
             <!-- Right Action Bar: Search CTA + Auth Actions -->
             <div class="d-flex flex-wrap align-items-center gap-2 mt-2 mt-lg-0">
                 <c:choose>
                     <c:when test="${not empty sessionScope.currentUser}">
-                        <c:if test="${sessionScope.currentUser.role == 'ADMIN'}">
-                            <a class="btn btn-sm btn-outline-warning rounded-pill px-3" href="${pageContext.request.contextPath}/admin/dashboard">
-                                <i class="bi bi-shield-lock-fill me-1"></i> Admin Panel
-                            </a>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${sessionScope.currentUser.role == 'ADMIN'}">
+                                <c:choose>
+                                    <c:when test="${isAdminWorkspace}">
+                                        <a class="btn btn-sm rounded-pill px-3 navbar-action navbar-action--admin" href="${pageContext.request.contextPath}/" title="Return to Public Website">
+                                            <i class="bi bi-box-arrow-up-right me-1"></i> Public Site
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="btn btn-sm rounded-pill px-3 navbar-action navbar-action--admin" href="${pageContext.request.contextPath}/admin/dashboard" title="Open Admin Panel">
+                                            <i class="bi bi-shield-lock-fill me-1"></i> Admin Panel
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
 
-                        <c:if test="${sessionScope.currentUser.role == 'PASSENGER'}">
-                            <a class="btn btn-sm btn-outline-light rounded-pill px-3 text-white" href="${pageContext.request.contextPath}/my-bookings">
-                                <i class="bi bi-briefcase-fill me-1"></i> My Trips
-                            </a>
-                        </c:if>
+                                <a class="btn btn-sm rounded-pill px-3 py-1 text-white d-inline-flex align-items-center gap-2 nav-btn-profile navbar-action navbar-action--profile ${(currentUri.contains('/admin/profile') || currentUri.contains('/profile')) ? 'active' : ''}"
+                                   href="${pageContext.request.contextPath}/admin/profile" title="Administrator Profile">
+                                    <i class="bi bi-person-badge-fill"></i>
+                                    <span>Admin Profile</span>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="btn btn-sm rounded-pill px-3 text-white nav-btn-trips navbar-action navbar-action--trips ${currentUri.contains('/my-bookings') ? 'active' : ''}" href="${pageContext.request.contextPath}/my-bookings">
+                                    <i class="bi bi-briefcase-fill me-1"></i> My Trips
+                                </a>
 
-                        <a class="btn btn-sm btn-outline-light rounded-pill px-3 text-white" href="${pageContext.request.contextPath}/profile">
-                            <i class="bi bi-person-circle me-1"></i> <c:out value="${sessionScope.currentUser.firstName}" />
-                        </a>
+                                <a class="btn btn-sm rounded-pill px-3 py-1 text-white d-inline-flex align-items-center gap-2 nav-btn-profile navbar-action navbar-action--profile ${currentUri.contains('/profile') ? 'active' : ''}" href="${pageContext.request.contextPath}/profile">
+                                    <c:choose>
+                                        <c:when test="${not empty sessionScope.currentUser.profilePhoto}">
+                                            <img src="${pageContext.request.contextPath}${sessionScope.currentUser.profilePhoto}" alt="Avatar" class="rounded-circle" style="width: 22px; height: 22px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.85);">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="bi bi-person-circle"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <span><c:out value="${sessionScope.currentUser.firstName}" /></span>
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
 
-
-                        <a class="btn btn-sm btn-light rounded-pill px-3 py-1 fw-semibold" href="${pageContext.request.contextPath}/logout">
+                        <a class="btn btn-sm rounded-pill px-3 py-1 fw-semibold navbar-action navbar-action--signout" href="${pageContext.request.contextPath}/logout">
                             Sign Out
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <a class="btn btn-outline-light btn-sm rounded-pill px-3" href="${pageContext.request.contextPath}/login">
+                        <a class="btn btn-sm rounded-pill px-3 text-white navbar-action navbar-action--login" href="${pageContext.request.contextPath}/login">
                             <i class="bi bi-person me-1"></i> Login
                         </a>
-                        <a class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm fw-semibold" href="${pageContext.request.contextPath}/register">
+                        <a class="btn btn-sm rounded-pill px-3 shadow-sm fw-semibold navbar-action navbar-action--signup" href="${pageContext.request.contextPath}/register">
                             Sign Up
                         </a>
                     </c:otherwise>
                 </c:choose>
 
-                <a class="btn btn-skytech-accent btn-sm rounded-pill px-3 shadow-sm fw-semibold ms-lg-1" href="${pageContext.request.contextPath}/search-flights">
+                <a class="btn btn-sm rounded-pill px-3 shadow-sm fw-semibold ms-lg-1 navbar-action navbar-action--search" href="${pageContext.request.contextPath}/search-flights">
                     <i class="bi bi-search me-1"></i> Search Flights
                 </a>
             </div>

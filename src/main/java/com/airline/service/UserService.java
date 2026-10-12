@@ -143,20 +143,27 @@ public class UserService {
         if (!ValidationUtil.isValidName(lastName)) {
             return ServiceResult.fail("Last name must be between 2 and 50 alphabetic characters.");
         }
-        if (!ValidationUtil.isValidPhone(phone)) {
-            return ServiceResult.fail("Phone number must contain between 7 and 15 digits.");
+
+        String cleanPhone = (phone != null && !phone.trim().isEmpty()) ? phone.trim() : null;
+        if (cleanPhone != null) {
+            if (!ValidationUtil.isValidPhone(cleanPhone)) {
+                return ServiceResult.fail("Please provide a valid international mobile number with 7 to 15 digits (e.g. +1 555 123 4567 or +91 9876543210).");
+            }
         }
-        if (!ValidationUtil.isValidPassport(passportNumber)) {
+
+        String cleanPassport = (passportNumber != null && !passportNumber.trim().isEmpty()) ? passportNumber.trim().toUpperCase() : null;
+        if (cleanPassport != null && !ValidationUtil.isValidPassport(cleanPassport)) {
             return ServiceResult.fail("Passport number must be 6 to 20 alphanumeric characters.");
         }
+
         if (dob != null && !ValidationUtil.isValidDateOfBirth(dob)) {
-            return ServiceResult.fail("Please provide a valid date of birth.");
+            return ServiceResult.fail("Please provide a valid date of birth (must be in the past).");
         }
 
         user.setFirstName(firstName.trim());
         user.setLastName(lastName.trim());
-        user.setPhone(phone.trim());
-        user.setPassportNumber(passportNumber != null ? passportNumber.trim() : null);
+        user.setPhone(cleanPhone);
+        user.setPassportNumber(cleanPassport);
         user.setDateOfBirth(dob);
 
         boolean updated = userDao.updateProfile(user);
@@ -164,6 +171,23 @@ public class UserService {
             return ServiceResult.ok("Profile updated successfully.", user);
         } else {
             return ServiceResult.fail("Failed to update profile in database.");
+        }
+    }
+
+    /**
+     * Updates profile photo for a user.
+     */
+    public ServiceResult<User> updateProfilePhoto(int userId, String photoPath) {
+        User user = userDao.findById(userId);
+        if (user == null) {
+            return ServiceResult.fail("User not found.");
+        }
+        boolean updated = userDao.updateProfilePhoto(userId, photoPath);
+        if (updated) {
+            user.setProfilePhoto(photoPath);
+            return ServiceResult.ok("Profile photo updated successfully.", user);
+        } else {
+            return ServiceResult.fail("Failed to update profile photo in database.");
         }
     }
 

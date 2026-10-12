@@ -2,8 +2,7 @@ package com.airline.controller;
 
 import com.airline.model.Role;
 import com.airline.model.User;
-import com.airline.service.UserService;
-import com.skytech.service.BookingService;
+import com.skytech.dao.AdminDashboardDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,57 +11,68 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Controller providing administrative user, flight, and booking management dashboard.
+ * Controller providing the airline operations executive dashboard.
+ * Aggregates database-derived KPIs, operational queues (departures, recent bookings,
+ * payments, cancellations), seat inventory metrics, and analytics charts.
  * Access is guarded by AdminAuthorizationFilter.
  */
-@WebServlet(name = "AdminDashboardServlet", urlPatterns = {"/admin/dashboard"})
+@WebServlet(name = "AdminDashboardServlet", urlPatterns = {"/admin", "/admin/dashboard"})
 public class AdminDashboardServlet extends HttpServlet {
 
-    private final UserService userService;
-    private final BookingService bookingService;
+    private final AdminDashboardDao dashboardDao;
 
     public AdminDashboardServlet() {
-        this.userService = new UserService();
-        this.bookingService = new BookingService();
+        this.dashboardDao = new AdminDashboardDao();
     }
 
-    public AdminDashboardServlet(UserService userService) {
-        this.userService = userService;
-        this.bookingService = null;
-    }
-
-    public AdminDashboardServlet(UserService userService, BookingService bookingService) {
-        this.userService = userService;
-        this.bookingService = bookingService;
+    public AdminDashboardServlet(AdminDashboardDao dashboardDao) {
+        this.dashboardDao = dashboardDao != null ? dashboardDao : new AdminDashboardDao();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<User> userList = userService.getAllUsers();
-        request.setAttribute("users", userList);
 
-        long passengerCount = userList.stream().filter(u -> u.getRole() == Role.PASSENGER).count();
-        long adminCount = userList.stream().filter(u -> u.getRole() == Role.ADMIN).count();
-        long activeCount = userList.stream().filter(u -> "ACTIVE".equalsIgnoreCase(u.getStatus())).count();
+        // 1. Current Date & Time info
+        request.setAttribute("currentDateFormatted", LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")));
 
-        request.setAttribute("totalUsers", userList.size());
-        request.setAttribute("passengerCount", passengerCount);
-        request.setAttribute("adminCount", adminCount);
-        request.setAttribute("activeCount", activeCount);
+        // 2. Database-Derived KPIs (8 Required Metrics)
+        Map<String, Object> kpis = dashboardDao.getDashboardKpis();
+        request.setAttribute("kpis", kpis);
 
-        if (bookingService != null) {
-            request.setAttribute("totalBookings", bookingService.countTotalBookings());
-            request.setAttribute("confirmedBookings", bookingService.countConfirmedBookings());
-            request.setAttribute("pendingBookings", bookingService.countPendingBookings());
-            request.setAttribute("cancelledBookings", bookingService.countCancelledBookings());
-            request.setAttribute("totalRevenue", bookingService.calculateTotalRevenue());
-            request.setAttribute("allBookings", bookingService.getAllBookings());
-        }
+        // 3. Operational Overview Lists
+        List<Map<String, Object>> upcomingDepartures = dashboardDao.getUpcomingDepartures(5);
+        List<Map<String, Object>> recentReservations = dashboardDao.getRecentReservations(6);
+        List<Map<String, Object>> recentPayments = dashboardDao.getRecentSuccessfulPayments(5);
+        List<Map<String, Object>> pendingBookings = dashboardDao.getPendingPaymentBookings(5);
+        List<Map<String, Object>> recentCancellations = dashboardDao.getRecentCancellations(5);
+        Map<String, Object> inventorySummary = dashboardDao.getInventorySummary();
 
+        request.setAttribute("upcomingDepartures", upcomingDepartures);
+        request.setAttribute("recentReservations", recentReservations);
+        request.setAttribute("recentPayments", recentPayments);
+        request.setAttribute("pendingBookings", pendingBookings);
+        request.setAttribute("recentCancellations", recentCancellations);
+        request.setAttribute("inventorySummary", inventorySummary);
+
+        // 4. Chart Analytics Data
+        List<Map<String, Object>> bookings7Days = dashboardDao.getBookingsLast7Days();
+        List<Map<String, Object>> revenue7Days = dashboardDao.getRevenueLast7Days();
+        Map<String, Integer> statusDistribution = dashboardDao.getBookingStatusDistribution();
+        List<Map<String, Object>> popularRoutes = dashboardDao.getPopularRoutes(5);
+
+        request.setAttribute("chartBookings7Days", bookings7Days);
+        request.setAttribute("chartRevenue7Days", revenue7Days);
+        request.setAttribute("chartStatusDistribution", statusDistribution);
+        request.setAttribute("chartPopularRoutes", popularRoutes);
+
+        // Flash Messages
         HttpSession session = request.getSession(false);
         if (session != null) {
             String flashSuccess = (String) session.getAttribute("flashSuccess");
@@ -70,36 +80,13 @@ public class AdminDashboardServlet extends HttpServlet {
                 request.setAttribute("flashSuccess", flashSuccess);
                 session.removeAttribute("flashSuccess");
             }
-        }
-
-        request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String userIdStr = request.getParameter("userId");
-
-        if ("toggle_status".equalsIgnoreCase(action) && userIdStr != null) {
-            try {
-                int targetUserId = Integer.parseInt(userIdStr);
-                HttpSession session = request.getSession(false);
-                User currentAdmin = (session != null) ? (User) session.getAttribute("currentUser") : null;
-
-                // Prevent admin from disabling themselves
-                if (currentAdmin != null && currentAdmin.getUserId() == targetUserId) {
-                    session.setAttribute("flashError", "You cannot modify your own administrator account status.");
-                } else {
-                    boolean updated = userService.toggleUserStatus(targetUserId);
-                    if (updated && session != null) {
-                        session.setAttribute("flashSuccess", "User account status updated successfully.");
-                    }
-                }
-            } catch (NumberFormatException ignored) {
+            String flashError = (String) session.getAttribute("flashError");
+            if (flashError != null) {
+                request.setAttribute("flashError", flashError);
+                session.removeAttribute("flashError");
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+        request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
 }

@@ -1,24 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<c:set var="pageTitle" value="Sign In - SkyTech Airlines" />
-<c:set var="activePage" value="login" />
+<c:set var="pageTitle" value="Sign In - SkyTech" />
+<c:set var="activePage" value="login" scope="request" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <div class="auth-page-body">
-    <div class="auth-cinematic-wrapper login-bg">
+    <div class="auth-cinematic-wrapper login-bg" style="background-image: url('${pageContext.request.contextPath}/images/auth-login-bg.jpg');">
         <div class="auth-cinematic-overlay"></div>
 
         <!-- Minimalist Cinematic Top Navigation -->
         <header class="auth-top-bar">
-            <a href="${pageContext.request.contextPath}/" class="auth-brand" aria-label="SkyTech Airlines Homepage">
-                <div class="auth-brand-icon">
-                    <i class="bi bi-airplane-fill" style="transform: rotate(-35deg); display: inline-block;"></i>
-                </div>
-                <div class="auth-brand-text">
-                    <span class="auth-brand-name">SkyTech</span>
-                    <span class="auth-brand-sub">AIRLINES</span>
-                </div>
+            <a href="${pageContext.request.contextPath}/" class="auth-brand skytech-brand" aria-label="SkyTech Home">
+                <span class="skytech-brand__icon">
+                    <i class="bi bi-airplane-engines-fill"></i>
+                </span>
+                <span class="skytech-brand__text">SkyTech</span>
             </a>
             <a href="${pageContext.request.contextPath}/" class="auth-back-link">
                 <i class="bi bi-arrow-left"></i>
@@ -37,7 +34,7 @@
                         <span class="auth-highlight-text">Traveler.</span>
                     </h1>
                     <p class="auth-hero-desc">
-                        Your next journey is just a sign-in away. Access your bookings and manage your journeys with SkyTech Airlines.
+                        Your next journey is just a sign-in away. Access your bookings and manage your journeys with SkyTech.
                     </p>
 
                     <!-- 3 Benefit Indicators -->
@@ -75,9 +72,8 @@
 
                     <!-- Ambient Quote Card -->
                     <div class="auth-quote-card">
-                        <div class="auth-quote-icon">“</div>
-                        <div class="auth-quote-text">Connecting people, places and possibilities.</div>
-                        <div class="auth-quote-author">— SkyTech Airlines</div>
+                        <div class="auth-quote-text">Every journey begins with a destination.<br>Let SkyTech take you there.</div>
+                        <div class="auth-quote-author">— SkyTech</div>
                     </div>
                 </div>
 

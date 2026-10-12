@@ -20,6 +20,7 @@ public class User implements Serializable {
     private String phone;
     private String passportNumber;
     private LocalDate dateOfBirth;
+    private String profilePhoto;
     private Role role = Role.PASSENGER;
     private String status = "ACTIVE";
     private LocalDateTime createdAt;
@@ -127,6 +128,58 @@ public class User implements Serializable {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public String getInitials() {
+        StringBuilder sb = new StringBuilder();
+        if (firstName != null && !firstName.isBlank()) {
+            sb.append(Character.toUpperCase(firstName.trim().charAt(0)));
+        }
+        if (lastName != null && !lastName.isBlank()) {
+            sb.append(Character.toUpperCase(lastName.trim().charAt(0)));
+        }
+        return sb.length() > 0 ? sb.toString() : "P";
+    }
+
+    public String getMaskedPassportNumber() {
+        if (passportNumber == null || passportNumber.isBlank()) {
+            return null;
+        }
+        String trimmed = passportNumber.trim();
+        int len = trimmed.length();
+        if (len <= 4) {
+            return "••••" + trimmed;
+        }
+        // Show first char and last 3 chars, mask the rest
+        StringBuilder sb = new StringBuilder();
+        sb.append(trimmed.charAt(0));
+        for (int i = 1; i < len - 3; i++) {
+            sb.append("•");
+        }
+        sb.append(trimmed.substring(len - 3));
+        return sb.toString();
+    }
+
+    public String getFormattedDateOfBirth() {
+        if (dateOfBirth == null) {
+            return null;
+        }
+        return dateOfBirth.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"));
+    }
+
+    public String getFormattedCreatedAt() {
+        if (createdAt == null) {
+            return "Member";
+        }
+        return createdAt.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
 
     public Role getRole() {

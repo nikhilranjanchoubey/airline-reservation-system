@@ -55,4 +55,14 @@ public class Airline implements Serializable {
     public void setLogoIcon(String logoIcon) {
         this.logoIcon = logoIcon;
     }
+
+    private java.sql.Timestamp createdAt;
+
+    public java.sql.Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.sql.Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 }
