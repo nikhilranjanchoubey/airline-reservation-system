@@ -248,11 +248,11 @@ public final class AppConfig {
     }
 
     public static String getDbUsername() {
-        return get("DB_USERNAME", get("db.user", "root"));
+        return get("DB_USERNAME", get("db.user", "skytech_app"));
     }
 
     public static String getDbPassword() {
-        return get("DB_PASSWORD", get("db.password", ""));
+        return get("DB_PASSWORD", get("db.password", "SkyTech@Prod2026!"));
     }
 
     public static String getDbDriver() {

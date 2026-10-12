@@ -85,7 +85,21 @@ public final class DBConnectionUtil {
         String user = AppConfig.getDbUsername();
         String password = AppConfig.getDbPassword();
 
-        return DriverManager.getConnection(url, user, password);
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            String sanitizedUrl = sanitizeUrl(url);
+            LOGGER.log(Level.SEVERE, String.format(
+                    "[DB-CONNECTION-FAILURE] Target: %s, User: %s, Exception: %s, SQLState: %s, ErrorCode: %d, Message: %s",
+                    sanitizedUrl, user, e.getClass().getName(), e.getSQLState(), e.getErrorCode(), e.getMessage()));
+            throw e;
+        }
+    }
+
+    private static String sanitizeUrl(String rawUrl) {
+        if (rawUrl == null) return "null";
+        int q = rawUrl.indexOf('?');
+        return q > 0 ? rawUrl.substring(0, q) : rawUrl;
     }
 
     /**

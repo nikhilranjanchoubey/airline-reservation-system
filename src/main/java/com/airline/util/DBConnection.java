@@ -61,7 +61,15 @@ public class DBConnection {
         if (!initialized) {
             loadProperties();
         }
-        return DriverManager.getConnection(url, username, password);
+        try {
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            String sanitizedUrl = (url != null && url.indexOf('?') > 0) ? url.substring(0, url.indexOf('?')) : url;
+            LOGGER.log(Level.SEVERE, String.format(
+                    "[DB-CONNECTION-FAILURE] Target: %s, User: %s, Exception: %s, SQLState: %s, ErrorCode: %d, Message: %s",
+                    sanitizedUrl, username, e.getClass().getName(), e.getSQLState(), e.getErrorCode(), e.getMessage()));
+            throw e;
+        }
     }
 
     /**
