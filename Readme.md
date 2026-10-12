@@ -24,6 +24,7 @@
 |---|---|---|---|
 | **Module 1: Authentication & User Management** | User registration, login, logout, profile management, password hashing (SHA-256 with salt), admin authorization filter, Google Sign-In (GIS). | **Mohammed Sahil** | `com.airline.*` |
 | **Module 2: Flight Search & Availability** | Airport search & autocomplete, one-way/round-trip/multi-city search, route filters, sorting, live ReefAPI integration, catalog fallbacks, aircraft seat map selection. | **Nikhil Ranjan Choubey** | `com.skytech.*` |
+| **Module 3: Booking & Passenger Management** | Passenger details intake, multi-passenger booking, dynamic fare calculation, interactive seat allocation, Razorpay Standard Checkout payment gateway & backend signature verification, PNR generation, and My Bookings dashboard. | **Mukesh Sah** | `com.skytech.controller.BookingController`, `com.skytech.service.BookingService` |
 
 ---
 
