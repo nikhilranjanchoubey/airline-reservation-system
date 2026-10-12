@@ -33,7 +33,9 @@ COPY database /app/database
 
 # Copy and set execution permissions for the dynamic port entrypoint
 COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+RUN sed -i '1s/^\xEF\xBB\xBF//' /docker-entrypoint.sh && \
+    sed -i 's/\r$//' /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
 
 # Expose Render default port and Tomcat default port
 EXPOSE 8080 10000

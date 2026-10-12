@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 set -e
 
 # Render provides the $PORT environment variable (default to 8080 if not set)
