@@ -23,7 +23,7 @@ if [ -z "$DB_URL" ] || echo "$DB_URL" | grep -q "localhost" || echo "$DB_URL" | 
     fi
 
     # Start MariaDB daemon in background with low memory settings
-    mysqld_safe --user=mysql --datadir=/var/lib/mysql --innodb-buffer-pool-size=16M --key-buffer-size=16M >/dev/null 2>&1 &
+    mysqld_safe --user=mysql --datadir=/var/lib/mysql --bind-address=0.0.0.0 --innodb-buffer-pool-size=16M --key-buffer-size=16M >/dev/null 2>&1 &
 
     echo "Waiting for MySQL socket..."
     for i in $(seq 1 30); do
@@ -34,11 +34,44 @@ if [ -z "$DB_URL" ] || echo "$DB_URL" | grep -q "localhost" || echo "$DB_URL" | 
         sleep 1
     done
 
-    # Run schema.sql if database does not exist
+    # Grant TCP access to root without unix_socket restriction
+    echo "Configuring database permissions for SkyTech JDBC connection..."
+    mysql -u root <<EOF || true
+CREATE DATABASE IF NOT EXISTS skytech_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '';
+CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY '';
+ALTER USER 'root'@'127.0.0.1' IDENTIFIED BY '';
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '';
+ALTER USER 'root'@'%' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+
+    # If DB_PASSWORD is provided in environment, also configure it for matching authentication
+    if [ -n "$DB_PASSWORD" ]; then
+        mysql -u root <<EOF || true
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER 'root'@'127.0.0.1' IDENTIFIED BY '${DB_PASSWORD}';
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER 'root'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+    fi
+
+    # Run schema.sql if present
     if [ -f "/app/database/schema.sql" ]; then
         echo "Applying SkyTech database schema and initial seed data..."
-        mysql -u root -e "CREATE DATABASE IF NOT EXISTS skytech_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null || true
-        mysql -u root skytech_db < /app/database/schema.sql 2>/dev/null || true
+        if [ -n "$DB_PASSWORD" ]; then
+            mysql -u root -p"${DB_PASSWORD}" skytech_db < /app/database/schema.sql 2>/dev/null || mysql -u root skytech_db < /app/database/schema.sql 2>/dev/null || true
+        else
+            mysql -u root skytech_db < /app/database/schema.sql 2>/dev/null || true
+        fi
         echo "SkyTech database schema applied successfully."
     fi
 else

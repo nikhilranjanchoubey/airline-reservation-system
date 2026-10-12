@@ -77,6 +77,7 @@ public final class AppConfig {
             catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "airline-reservation-system" + File.separator + "WEB-INF" + File.separator + ".env" : null,
             catalinaHome != null ? catalinaHome + File.separator + ".env" : null,
             userDir != null ? userDir + File.separator + ".env" : null,
+            "/etc/secrets/.env",
             ".env",
             "../.env",
             "../../.env"
