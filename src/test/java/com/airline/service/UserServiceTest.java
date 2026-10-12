@@ -186,6 +186,66 @@ class UserServiceTest {
     }
 
     @Test
+    void testLoginAdminSuccess() {
+        User admin = new User();
+        admin.setUserId(99);
+        admin.setEmail("admin@airline.com");
+        admin.setRole(Role.ADMIN);
+        admin.setStatus("ACTIVE");
+        String salt = PasswordUtil.generateSalt();
+        admin.setSalt(salt);
+        admin.setPasswordHash(PasswordUtil.hashPassword("Admin@12345", salt));
+
+        when(userDao.findByEmail("admin@airline.com")).thenReturn(admin);
+
+        ServiceResult<User> result = userService.login("admin@airline.com", "Admin@12345");
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getData());
+        assertEquals(Role.ADMIN, result.getData().getRole());
+        assertTrue(result.getData().isAdmin());
+    }
+
+    @Test
+    void testLoginPassengerSuccess() {
+        User passenger = new User();
+        passenger.setUserId(100);
+        passenger.setEmail("passenger@airline.com");
+        passenger.setRole(Role.PASSENGER);
+        passenger.setStatus("ACTIVE");
+        String salt = PasswordUtil.generateSalt();
+        passenger.setSalt(salt);
+        passenger.setPasswordHash(PasswordUtil.hashPassword("Passenger@12345", salt));
+
+        when(userDao.findByEmail("passenger@airline.com")).thenReturn(passenger);
+
+        ServiceResult<User> result = userService.login("passenger@airline.com", "Passenger@12345");
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getData());
+        assertEquals(Role.PASSENGER, result.getData().getRole());
+        assertFalse(result.getData().isAdmin());
+    }
+
+    @Test
+    void testLoginEmailNormalization() {
+        User sample = createSampleUser("jane@test.com");
+        when(userDao.findByEmail("jane@test.com")).thenReturn(sample);
+
+        ServiceResult<User> result = userService.login("  JANE@TEST.COM  ", "Secure@1234");
+        assertTrue(result.isSuccess());
+        verify(userDao).findByEmail("jane@test.com");
+    }
+
+    @Test
+    void testLoginDatabaseConnectivityFailure() {
+        when(userDao.findByEmail("admin@airline.com"))
+                .thenThrow(new com.airline.exception.DataAccessException("Connection refused"));
+
+        ServiceResult<User> result = userService.login("admin@airline.com", "Admin@12345");
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("Database connection failed") || result.getMessage().contains("temporarily unavailable"));
+    }
+
+    @Test
     void testLoginUnknownEmail() {
         when(userDao.findByEmail("unknown@test.com")).thenReturn(null);
 

@@ -6,6 +6,11 @@
 
     <display-name>SkyTech - Airline Reservation System</display-name>
 
+    <!-- Application Lifecycle Database Initializer -->
+    <listener>
+        <listener-class>com.airline.init.DatabaseInitializer</listener-class>
+    </listener>
+
     <!-- Character Encoding Filter -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>

@@ -24,6 +24,7 @@ import java.util.logging.Logger;
  */
 public class UserService {
 
+    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
     private final UserDao userDao;
 
     public UserService() {
@@ -110,20 +111,42 @@ public class UserService {
             return ServiceResult.fail("Email and password are required.");
         }
 
-        User user = userDao.findByEmail(email.trim().toLowerCase());
+        String normalizedEmail = email.trim().toLowerCase();
+        User user;
+        try {
+            user = userDao.findByEmail(normalizedEmail);
+        } catch (com.airline.exception.DataAccessException e) {
+            LOGGER.log(Level.SEVERE, "Login error: database connectivity failure during user lookup: " + e.getMessage(), e);
+            return ServiceResult.fail("Authentication service is temporarily unavailable. Database connection failed.");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Login error: unexpected error querying user: " + e.getMessage(), e);
+            return ServiceResult.fail("Authentication service is temporarily unavailable. Please try again later.");
+        }
+
         if (user == null) {
+            LOGGER.log(Level.WARNING, "Login failed: User not found for email [{0}]", normalizedEmail);
             return ServiceResult.fail("Invalid email or password.");
         }
 
         if ("SUSPENDED".equalsIgnoreCase(user.getStatus())) {
+            LOGGER.log(Level.WARNING, "Login rejected: Account is suspended for [{0}]", normalizedEmail);
             return ServiceResult.fail("Your account has been suspended. Please contact support.");
         }
 
-        boolean passwordMatch = PasswordUtil.verifyPassword(rawPassword, user.getSalt(), user.getPasswordHash());
-        if (!passwordMatch) {
+        boolean passwordMatch;
+        try {
+            passwordMatch = PasswordUtil.verifyPassword(rawPassword, user.getSalt(), user.getPasswordHash());
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Password verification error for user [" + normalizedEmail + "]: " + e.getMessage(), e);
             return ServiceResult.fail("Invalid email or password.");
         }
 
+        if (!passwordMatch) {
+            LOGGER.log(Level.WARNING, "Login failed: Incorrect password for [{0}]", normalizedEmail);
+            return ServiceResult.fail("Invalid email or password.");
+        }
+
+        LOGGER.log(Level.INFO, "Authentication succeeded for [{0}] with role [{1}]", new Object[]{normalizedEmail, user.getRole()});
         return ServiceResult.ok("Login successful.", user);
     }
 

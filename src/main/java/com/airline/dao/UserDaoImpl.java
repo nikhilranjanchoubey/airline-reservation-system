@@ -1,5 +1,6 @@
 package com.airline.dao;
 
+import com.airline.exception.DataAccessException;
 import com.airline.model.Role;
 import com.airline.model.User;
 import com.airline.util.DBConnection;
@@ -111,7 +112,8 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error finding user by email: " + email, e);
+            LOGGER.log(Level.SEVERE, "Database error finding user by email [" + email + "]: " + e.getMessage(), e);
+            throw new DataAccessException("Database connectivity error while fetching user by email", e);
         }
         return null;
     }
@@ -160,7 +162,8 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error finding user by ID: " + userId, e);
+            LOGGER.log(Level.SEVERE, "Database error finding user by ID [" + userId + "]: " + e.getMessage(), e);
+            throw new DataAccessException("Database connectivity error while fetching user by ID", e);
         }
         return null;
     }
@@ -176,9 +179,9 @@ public class UserDaoImpl implements UserDao {
                 return rs.next();
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error checking email existence: " + email, e);
+            LOGGER.log(Level.SEVERE, "Database error checking email existence [" + email + "]: " + e.getMessage(), e);
+            throw new DataAccessException("Database connectivity error while checking email existence", e);
         }
-        return false;
     }
 
     @Override
@@ -251,7 +254,8 @@ public class UserDaoImpl implements UserDao {
                 list.add(mapRowToUser(rs));
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error fetching all users", e);
+            LOGGER.log(Level.SEVERE, "Database error fetching all users: " + e.getMessage(), e);
+            throw new DataAccessException("Database connectivity error while fetching all users", e);
         }
         return list;
     }
@@ -280,7 +284,8 @@ public class UserDaoImpl implements UserDao {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error counting users", e);
+            LOGGER.log(Level.SEVERE, "Database error counting users: " + e.getMessage(), e);
+            throw new DataAccessException("Database connectivity error while counting users", e);
         }
         return 0;
     }
