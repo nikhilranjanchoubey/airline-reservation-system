@@ -75,9 +75,16 @@
                             </a>
                         </c:if>
 
+                        <c:if test="${sessionScope.currentUser.role == 'PASSENGER'}">
+                            <a class="btn btn-sm btn-outline-light rounded-pill px-3 text-white" href="${pageContext.request.contextPath}/my-bookings">
+                                <i class="bi bi-briefcase-fill me-1"></i> My Trips
+                            </a>
+                        </c:if>
+
                         <a class="btn btn-sm btn-outline-light rounded-pill px-3 text-white" href="${pageContext.request.contextPath}/profile">
                             <i class="bi bi-person-circle me-1"></i> <c:out value="${sessionScope.currentUser.firstName}" />
                         </a>
+
 
                         <a class="btn btn-sm btn-light rounded-pill px-3 py-1 fw-semibold" href="${pageContext.request.contextPath}/logout">
                             Sign Out

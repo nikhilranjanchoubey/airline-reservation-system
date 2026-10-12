@@ -229,10 +229,11 @@
                     </a>
 
                     <!-- Booking CTA Button -->
-                    <button type="button" class="btn btn-outline-primary w-100 py-2 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2"
-                            data-bs-toggle="modal" data-bs-target="#bookingHandoffModal">
+                    <a href="${pageContext.request.contextPath}/book-flight?scheduleId=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}&source=${selectedSource}&destination=${selectedDestination}"
+                       class="btn btn-primary w-100 py-2 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2">
                         Continue to Passenger Details <i class="bi bi-arrow-right"></i>
-                    </button>
+                    </a>
+
 
                     <!-- Trust & Information Notes -->
                     <div class="mt-4 pt-3 border-top small text-muted">

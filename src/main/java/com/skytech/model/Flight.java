@@ -158,6 +158,10 @@ public class Flight implements Serializable {
         }
     }
 
+    public String getDurationFormatted() {
+        return getFormattedDuration();
+    }
+
     public String getStopsDescription() {
         if (stops == 0) {
             return "Non-stop";

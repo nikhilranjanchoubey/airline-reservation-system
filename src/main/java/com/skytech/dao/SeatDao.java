@@ -118,4 +118,76 @@ public class SeatDao {
         }
         return demoSeats;
     }
+
+    /**
+     * Checks if a seat is currently available for booking on a specific schedule.
+     */
+    public boolean isSeatAvailable(int scheduleId, String seatNumber) {
+        String sql = "SELECT COALESCE(inv.status, 'AVAILABLE') AS seat_status " +
+                     "FROM aircraft_seats s " +
+                     "LEFT JOIN flight_seat_inventory inv ON s.seat_id = inv.seat_id AND inv.schedule_id = ? " +
+                     "WHERE s.seat_number = ? LIMIT 1";
+        try (Connection conn = DBConnectionUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, scheduleId);
+            ps.setString(2, seatNumber);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return "AVAILABLE".equalsIgnoreCase(rs.getString("seat_status"));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARNING, "Error checking seat availability for schedule " + scheduleId + ", seat " + seatNumber, e);
+        }
+        return true;
+    }
+
+    /**
+     * Reserves a seat on a schedule inside an active transaction.
+     */
+    public boolean reserveSeat(int scheduleId, String seatNumber, Connection conn) throws SQLException {
+        String sql = "INSERT INTO flight_seat_inventory (schedule_id, seat_id, status) " +
+                     "SELECT ?, seat_id, 'OCCUPIED' FROM aircraft_seats WHERE seat_number = ? LIMIT 1 " +
+                     "ON DUPLICATE KEY UPDATE status = 'OCCUPIED'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, scheduleId);
+            ps.setString(2, seatNumber);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }
+    }
+
+    /**
+     * Releases a seat back to available status inside an active transaction.
+     */
+    public boolean releaseSeat(int scheduleId, String seatNumber, Connection conn) throws SQLException {
+        String sql = "UPDATE flight_seat_inventory inv " +
+                     "JOIN aircraft_seats s ON inv.seat_id = s.seat_id " +
+                     "SET inv.status = 'AVAILABLE' " +
+                     "WHERE inv.schedule_id = ? AND s.seat_number = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, scheduleId);
+            ps.setString(2, seatNumber);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }
+    }
+
+    /**
+     * Updates available seat count in flight_schedules.
+     */
+    public void updateScheduleInventoryCount(int scheduleId, int delta, Connection conn) throws SQLException {
+        String sql;
+        if (delta < 0) {
+            sql = "UPDATE flight_schedules SET available_seats = GREATEST(0, available_seats + ?) WHERE schedule_id = ?";
+        } else {
+            sql = "UPDATE flight_schedules SET available_seats = LEAST(total_seats, available_seats + ?) WHERE schedule_id = ?";
+        }
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, delta);
+            ps.setInt(2, scheduleId);
+            ps.executeUpdate();
+        }
+    }
 }
+

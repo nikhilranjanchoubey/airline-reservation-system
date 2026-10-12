@@ -15,6 +15,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
 
 :root {
+    /* SkyTech Core Design Tokens */
+    --sky-navy: #071A35;
+    --sky-deep-blue: #0B2D52;
+    --sky-blue: #168BFF;
+    --sky-cyan: #56CCF2;
+    --sky-cloud: #F4F8FC;
+    --sky-white: #FFFFFF;
+    --sky-success: #18A878;
+    --sky-danger: #E5484D;
+    --sky-text: #172B45;
+    --sky-muted: #64748B;
+    --sky-border: #D8E3EF;
+    --sky-radius-sm: 8px;
+    --sky-radius-md: 14px;
+    --sky-radius-lg: 22px;
+    --sky-shadow: 0 10px 30px rgba(7, 26, 53, 0.10);
+    --sky-transition: 220ms ease;
+
     --color-midnight-navy:   #071A33;
     --color-deep-blue:       #0B3470;
     --color-electric-blue:   #0866FF;
@@ -2889,6 +2907,262 @@ footer a:hover {
         transform: none !important;
     }
 }
+
+/* ==========================================================
+   SkyTech Checkout & Payment Design System
+   ========================================================== */
+.checkout-wrapper {
+    background-color: var(--sky-cloud);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--sky-text);
+    overflow-x: hidden;
+}
+
+.checkout-container {
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.font-heading,
+.checkout-title,
+.checkout-amount-value,
+.checkout-summary-title {
+    font-family: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* 4-Step Progress Indicator */
+.sky-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.sky-step-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    white-space: nowrap;
+}
+
+.sky-step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.sky-step-done .sky-step-badge {
+    background: var(--sky-deep-blue);
+    color: var(--sky-white);
+}
+.sky-step-done {
+    color: var(--sky-deep-blue);
+}
+
+.sky-step-active .sky-step-badge {
+    background: var(--sky-blue);
+    color: var(--sky-white);
+    box-shadow: 0 0 0 3px rgba(22, 139, 255, 0.25);
+}
+.sky-step-active {
+    color: var(--sky-blue);
+}
+
+.sky-step-pending .sky-step-badge {
+    background: var(--sky-white);
+    color: var(--sky-muted);
+    border: 1px solid var(--sky-border);
+}
+.sky-step-pending {
+    color: var(--sky-muted);
+}
+
+.sky-step-connector {
+    flex-grow: 1;
+    height: 2px;
+    margin: 0 0.75rem;
+}
+.sky-step-connector.completed {
+    background: var(--sky-blue);
+}
+.sky-step-connector.upcoming {
+    background: var(--sky-border);
+}
+
+/* Checkout Cards */
+.sky-checkout-card {
+    background: var(--sky-white);
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-lg);
+    box-shadow: var(--sky-shadow);
+    padding: 1.75rem;
+    transition: box-shadow var(--sky-transition);
+}
+
+.sky-checkout-card:hover {
+    box-shadow: 0 14px 36px rgba(7, 26, 53, 0.12);
+}
+
+.sky-checkout-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--sky-border);
+}
+
+.sky-checkout-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--sky-navy);
+    margin: 0;
+}
+
+/* Amount Box */
+.sky-amount-box {
+    background: var(--sky-cloud);
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-md);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.sky-amount-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+}
+
+.sky-amount-label {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: var(--sky-muted);
+}
+
+.sky-amount-val {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.15rem;
+    font-weight: 800;
+    color: var(--sky-navy);
+    letter-spacing: -0.5px;
+}
+
+.sky-amount-val .currency-symbol {
+    color: var(--sky-blue);
+    font-size: 1.65rem;
+    font-weight: 700;
+    margin-right: 2px;
+}
+
+.sky-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    font-size: 0.85rem;
+    border-top: 1px solid var(--sky-border);
+    color: var(--sky-muted);
+}
+
+.sky-data-row .val {
+    color: var(--sky-navy);
+    font-weight: 600;
+}
+
+/* Pay Button */
+.btn-sky-pay {
+    background: var(--sky-blue);
+    color: var(--sky-white);
+    border: none;
+    border-radius: var(--sky-radius-md);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.95rem 1.5rem;
+    box-shadow: 0 4px 14px rgba(22, 139, 255, 0.35);
+    transition: all var(--sky-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-sky-pay:hover:not(:disabled) {
+    background: var(--sky-deep-blue);
+    color: var(--sky-white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(7, 26, 53, 0.22);
+}
+
+.btn-sky-pay:focus-visible {
+    outline: 3px solid var(--sky-cyan);
+    outline-offset: 2px;
+}
+
+.btn-sky-pay:disabled {
+    background: var(--sky-muted);
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Subtle Payment Method Ribbon */
+.sky-payment-methods-ribbon {
+    background: var(--sky-cloud);
+    border: 1px dashed var(--sky-border);
+    border-radius: var(--sky-radius-sm);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Route Display */
+.sky-route-banner {
+    background: var(--sky-cloud);
+    border: 1px solid var(--sky-border);
+    border-radius: var(--sky-radius-md);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.sky-route-code {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--sky-navy);
+}
+
+.sky-passenger-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--sky-border);
+    font-size: 0.88rem;
+    color: var(--sky-text);
+}
+.sky-passenger-item:last-child {
+    border-bottom: none;
+}
+
 
 
 

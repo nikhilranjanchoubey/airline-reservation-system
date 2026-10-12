@@ -318,8 +318,10 @@
                     </div>
                 </div>
                 <div class="modal-footer border-top">
-                    <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Proceed</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Change Seats</button>
+                    <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" onclick="proceedToBooking()">Proceed to Passenger Details &rarr;</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -424,6 +426,13 @@
         const el = document.querySelector('[data-seat="' + seatNum + '"]');
         if (el) toggleSeatSelection(el);
     }
+
+    function proceedToBooking() {
+        const seatList = selectedSeats.map(s => s.number).join(',');
+        const url = '${pageContext.request.contextPath}/book-flight?scheduleId=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengers}&departureDate=${selectedDepartureDate}&selectedSeats=' + encodeURIComponent(seatList);
+        window.location.href = url;
+    }
 </script>
+
 
 <jsp:include page="../common/footer.jsp" />

@@ -80,7 +80,7 @@
         <url-pattern>/api/airports</url-pattern>
     </servlet-mapping>
 
-    <!-- Manage Booking Controller Servlet -->
+    <!-- Manage Booking & Cancellation Controller Servlet -->
     <servlet>
         <servlet-name>ManageBookingController</servlet-name>
         <servlet-class>com.skytech.controller.ManageBookingController</servlet-class>
@@ -89,6 +89,77 @@
         <servlet-name>ManageBookingController</servlet-name>
         <url-pattern>/manage-booking</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageBookingController</servlet-name>
+        <url-pattern>/booking/cancel</url-pattern>
+    </servlet-mapping>
+
+    <!-- Flight Booking Workflow Controller -->
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>com.skytech.controller.BookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/book-flight</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/booking/passenger-details</url-pattern>
+    </servlet-mapping>
+
+    <!-- Payment & Razorpay Checkout Controller -->
+    <servlet>
+        <servlet-name>PaymentController</servlet-name>
+        <servlet-class>com.skytech.controller.PaymentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentController</servlet-name>
+        <url-pattern>/booking/checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaymentController</servlet-name>
+        <url-pattern>/booking/verify-payment</url-pattern>
+    </servlet-mapping>
+
+    <!-- Booking Confirmation Controller -->
+    <servlet>
+        <servlet-name>ConfirmationController</servlet-name>
+        <servlet-class>com.skytech.controller.ConfirmationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfirmationController</servlet-name>
+        <url-pattern>/booking/confirmation</url-pattern>
+    </servlet-mapping>
+
+    <!-- Ticket & Boarding Pass Controller -->
+    <servlet>
+        <servlet-name>TicketController</servlet-name>
+        <servlet-class>com.skytech.controller.TicketController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TicketController</servlet-name>
+        <url-pattern>/ticket/download</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TicketController</servlet-name>
+        <url-pattern>/ticket/view</url-pattern>
+    </servlet-mapping>
+
+    <!-- Passenger Dashboard ("My Trips") Controller -->
+    <servlet>
+        <servlet-name>PassengerDashboardController</servlet-name>
+        <servlet-class>com.skytech.controller.PassengerDashboardController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PassengerDashboardController</servlet-name>
+        <url-pattern>/my-bookings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PassengerDashboardController</servlet-name>
+        <url-pattern>/my-trips</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Flight Status Controller Servlet -->
     <servlet>

@@ -28,8 +28,9 @@ public final class AppConfig {
     private static final Logger LOGGER = Logger.getLogger(AppConfig.class.getName());
 
     private static Dotenv dotenvInstance;
-    private static final Map<String, String> DOTENV_FALLBACK_MAP = new HashMap<>();
+    private static final Map<String, String> DOTENV_FALLBACK_MAP = new java.util.concurrent.ConcurrentHashMap<>();
     private static final Properties CLASSPATH_PROPERTIES = new Properties();
+    private static final Map<String, String> CONFIG_SOURCES = new java.util.concurrent.ConcurrentHashMap<>();
 
     static {
         initialize();
@@ -52,29 +53,33 @@ public final class AppConfig {
             LOGGER.log(Level.FINE, "Dotenv-java standard load skipped: " + e.getMessage());
         }
 
-        // 2. Fallback manual search for .env in common project/container locations
+        // 2. Fallback manual search for .env across common project/container locations
         loadDotenvManuallyIfEmpty();
 
         // 3. Load classpath properties (db.properties, api.properties)
         loadClasspathProperties("db.properties");
         loadClasspathProperties("api.properties");
+
+        // 4. Log safe diagnostics (never exposing secrets)
+        logSafeDiagnostics();
     }
 
-    private static void loadDotenvManuallyIfEmpty() {
+    private static synchronized void loadDotenvManuallyIfEmpty() {
         String catalinaBase = System.getProperty("catalina.base");
         String catalinaHome = System.getProperty("catalina.home");
         String userDir = System.getProperty("user.dir");
 
         String[] possiblePaths = {
+            "c:\\Users\\choub\\OneDrive\\Documents\\GitHub\\airline-reservation-system\\.env",
+            catalinaBase != null ? catalinaBase + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + "bin" + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "airline-reservation-system" + File.separator + ".env" : null,
+            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "airline-reservation-system" + File.separator + "WEB-INF" + File.separator + ".env" : null,
+            catalinaHome != null ? catalinaHome + File.separator + ".env" : null,
+            userDir != null ? userDir + File.separator + ".env" : null,
             ".env",
             "../.env",
-            "../../.env",
-            userDir != null ? userDir + File.separator + ".env" : null,
-            catalinaBase != null ? catalinaBase + File.separator + ".env" : null,
-            catalinaHome != null ? catalinaHome + File.separator + ".env" : null,
-            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "skytech" + File.separator + ".env" : null,
-            catalinaBase != null ? catalinaBase + File.separator + "webapps" + File.separator + "skytech" + File.separator + "WEB-INF" + File.separator + ".env" : null,
-            "c:\\Users\\choub\\OneDrive\\Documents\\GitHub\\airline-reservation-system\\.env"
+            "../../.env"
         };
 
         for (String path : possiblePaths) {
@@ -84,23 +89,26 @@ public final class AppConfig {
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
                     String line;
+                    int keysLoaded = 0;
                     while ((line = reader.readLine()) != null) {
                         line = line.trim();
                         if (line.isEmpty() || line.startsWith("#")) continue;
                         int eq = line.indexOf('=');
                         if (eq > 0) {
                             String k = line.substring(0, eq).trim();
-                            String v = line.substring(eq + 1).trim();
-                            if ((v.startsWith("\"") && v.endsWith("\"")) || (v.startsWith("'") && v.endsWith("'"))) {
-                                v = v.substring(1, v.length() - 1);
-                            }
-                            if (!k.isEmpty() && !DOTENV_FALLBACK_MAP.containsKey(k)) {
-                                DOTENV_FALLBACK_MAP.put(k, v);
+                            String v = cleanValue(line.substring(eq + 1).trim());
+                            if (!k.isEmpty() && v != null && !v.isEmpty()) {
+                                if (!DOTENV_FALLBACK_MAP.containsKey(k)) {
+                                    DOTENV_FALLBACK_MAP.put(k, v);
+                                    CONFIG_SOURCES.put(k, "Local file (" + f.getAbsolutePath() + ")");
+                                    keysLoaded++;
+                                }
                             }
                         }
                     }
-                    LOGGER.info("Successfully loaded environment configuration from: " + f.getAbsolutePath());
-                    break;
+                    if (keysLoaded > 0) {
+                        LOGGER.info("Loaded " + keysLoaded + " configuration keys from: " + f.getAbsolutePath());
+                    }
                 } catch (Exception e) {
                     LOGGER.log(Level.WARNING, "Could not read .env at path: " + path, e);
                 }
@@ -133,7 +141,8 @@ public final class AppConfig {
         // 1. Environment variables
         String envVal = System.getenv(key);
         if (envVal != null && !envVal.trim().isEmpty()) {
-            return envVal.trim();
+            CONFIG_SOURCES.put(key, "System environment variable (System.getenv)");
+            return cleanValue(envVal);
         }
 
         // 2. Dotenv library
@@ -141,25 +150,42 @@ public final class AppConfig {
             try {
                 String val = dotenvInstance.get(key);
                 if (val != null && !val.trim().isEmpty()) {
-                    return val.trim();
+                    CONFIG_SOURCES.put(key, "Dotenv library (.env)");
+                    return cleanValue(val);
                 }
             } catch (Exception ignored) {
             }
         }
 
-        // 3. Fallback .env map
+        // 3. Fallback .env map (if key missing, retry scan once)
         String fallbackVal = DOTENV_FALLBACK_MAP.get(key);
+        if (fallbackVal == null && (key.startsWith("RAZORPAY") || key.startsWith("DB_") || key.startsWith("REEF"))) {
+            loadDotenvManuallyIfEmpty();
+            fallbackVal = DOTENV_FALLBACK_MAP.get(key);
+        }
         if (fallbackVal != null && !fallbackVal.trim().isEmpty()) {
-            return fallbackVal.trim();
+            return cleanValue(fallbackVal);
         }
 
         // 4. Classpath properties
         String propVal = CLASSPATH_PROPERTIES.getProperty(key);
         if (propVal != null && !propVal.trim().isEmpty()) {
-            return propVal.trim();
+            CONFIG_SOURCES.put(key, "Classpath properties file");
+            return cleanValue(propVal);
         }
 
         return defaultValue;
+    }
+
+    private static String cleanValue(String val) {
+        if (val == null) return null;
+        val = val.trim();
+        if ((val.startsWith("\"") && val.endsWith("\"")) || (val.startsWith("'") && val.endsWith("'"))) {
+            if (val.length() >= 2) {
+                val = val.substring(1, val.length() - 1).trim();
+            }
+        }
+        return val;
     }
 
     public static String get(String key) {
@@ -231,4 +257,53 @@ public final class AppConfig {
     public static String getDbDriver() {
         return get("DB_DRIVER", get("db.driver", "com.mysql.cj.jdbc.Driver"));
     }
+
+    // Razorpay payment integration accessors (Secure server-side handling)
+
+    /**
+     * Public Key ID safe for client-side Razorpay Checkout initialization.
+     */
+    public static String getRazorpayKeyId() {
+        return get("RAZORPAY_KEY_ID", null);
+    }
+
+    /**
+     * Private Key Secret strictly kept on server side for signature verification.
+     */
+    public static String getRazorpayKeySecret() {
+        return get("RAZORPAY_KEY_SECRET", null);
+    }
+
+    /**
+     * Indicates whether valid Razorpay credentials have been supplied.
+     */
+    public static boolean isRazorpayConfigured() {
+        String key = getRazorpayKeyId();
+        String secret = getRazorpayKeySecret();
+        return key != null && !key.trim().isEmpty() && secret != null && !secret.trim().isEmpty();
+    }
+
+    /**
+     * Reports which configuration source provided the given key.
+     */
+    public static String getConfigurationSource(String key) {
+        if (key == null) return "Unknown";
+        String src = CONFIG_SOURCES.get(key);
+        return src != null ? src : "Not found in any source";
+    }
+
+    /**
+     * Safe diagnostics: Logs whether credentials are present and their sources without exposing secret values.
+     */
+    public static void logSafeDiagnostics() {
+        boolean keyIdPresent = getRazorpayKeyId() != null && !getRazorpayKeyId().trim().isEmpty();
+        boolean keySecretPresent = getRazorpayKeySecret() != null && !getRazorpayKeySecret().trim().isEmpty();
+        String keyIdSource = getConfigurationSource("RAZORPAY_KEY_ID");
+        String keySecretSource = getConfigurationSource("RAZORPAY_KEY_SECRET");
+
+        LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Key ID Present: " + keyIdPresent + " (Source: " + keyIdSource + ")");
+        LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Key Secret Present: " + keySecretPresent + " (Source: " + keySecretSource + ")");
+        LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Fully Configured: " + isRazorpayConfigured());
+    }
 }
+

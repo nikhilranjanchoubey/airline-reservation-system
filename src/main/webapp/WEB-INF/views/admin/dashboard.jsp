@@ -104,6 +104,144 @@
         </div>
     </div>
 
+    <!-- Booking & Revenue Metrics KPI Grid -->
+    <c:if test="${not empty totalBookings}">
+        <div class="row g-4 mb-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="admin-stat-card border-primary">
+                    <div class="admin-stat-icon icon-blue">
+                        <i class="bi bi-ticket-perforated-fill"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-label">Total Bookings</span>
+                        <h3 class="admin-stat-value text-primary">${totalBookings}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="admin-stat-card border-success">
+                    <div class="admin-stat-icon icon-success">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-label">Confirmed Trips</span>
+                        <h3 class="admin-stat-value text-success">${confirmedBookings}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="admin-stat-card border-danger">
+                    <div class="admin-stat-icon icon-warning">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-label">Cancellations</span>
+                        <h3 class="admin-stat-value text-danger">${cancelledBookings}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="admin-stat-card border-success">
+                    <div class="admin-stat-icon icon-sky">
+                        <i class="bi bi-currency-rupee"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span class="admin-stat-label">Verified Revenue</span>
+                        <h3 class="admin-stat-value text-success">
+                            &#8377;<fmt:formatNumber value="${totalRevenue}" type="number" maxFractionDigits="0" />
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <!-- Booking Registry Table Card -->
+    <c:if test="${not empty allBookings}">
+        <div class="admin-table-card mb-4">
+            <div class="admin-card-header">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="admin-header-icon">
+                        <i class="bi bi-airplane-fill"></i>
+                    </div>
+                    <div>
+                        <h3 class="admin-card-title">Flight Reservations Registry</h3>
+                        <p class="admin-card-sub">Central database of passenger bookings, PNRs, and transaction statuses</p>
+                    </div>
+                </div>
+                <span class="admin-live-badge">
+                    <span class="live-dot"></span> Real-time PNR Tracking
+                </span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 admin-registry-table">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">PNR / Ref</th>
+                            <th>Flight</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="b" items="${allBookings}">
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="user-id-badge font-monospace fw-bold text-primary">
+                                        ${not empty b.pnr ? b.pnr : b.bookingReference}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark border font-monospace">${b.flightNumber}</span>
+                                    <div class="small text-muted">${b.travelClass}</div>
+                                </td>
+                                <td>
+                                    <strong>${b.originCode} &rarr; ${b.destinationCode}</strong>
+                                    <div class="small text-muted">${b.passengers.size()} Traveler(s)</div>
+                                </td>
+                                <td>${b.departureDate}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${b.status == 'CONFIRMED'}">
+                                            <span class="badge-status-active"><i class="bi bi-check2 me-1"></i>CONFIRMED</span>
+                                        </c:when>
+                                        <c:when test="${b.status == 'CANCELLED'}">
+                                            <span class="badge-status-suspended"><i class="bi bi-x me-1"></i>CANCELLED</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i>${b.status}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <strong>&#8377;<fmt:formatNumber value="${b.totalAmount}" type="number" maxFractionDigits="2" /></strong>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <c:if test="${b.status == 'CONFIRMED'}">
+                                        <a href="${pageContext.request.contextPath}/ticket/download?id=${b.id}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            <i class="bi bi-file-earmark-pdf"></i> Ticket
+                                        </a>
+                                    </c:if>
+                                    <a href="${pageContext.request.contextPath}/manage-booking?pnr=${not empty b.pnr ? b.pnr : b.bookingReference}" class="btn btn-sm btn-light border rounded-pill px-3">
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </c:if>
+
+
     <!-- Live User Registry Table Card -->
     <div class="admin-table-card">
         <div class="admin-card-header">

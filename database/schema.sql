@@ -360,20 +360,108 @@ CREATE TABLE IF NOT EXISTS flight_searches (
 
 -- ==============================================================================
 -- MODULE 3: Booking & Passenger Management
--- Planned Scope: Bookings, Passenger Records, Seat Allocation, Booking Status
--- Status: To be finalized before module development
 -- ==============================================================================
 
+CREATE TABLE IF NOT EXISTS bookings (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_reference VARCHAR(20) NOT NULL UNIQUE,
+    user_id BIGINT NULL,
+    schedule_id INT NULL,
+    flight_number VARCHAR(20) NULL,
+    travel_class VARCHAR(30) DEFAULT 'Economy',
+    seat_numbers VARCHAR(100) NULL,
+    contact_email VARCHAR(100) NULL,
+    contact_phone VARCHAR(20) NULL,
+    pnr VARCHAR(20) NULL,
+    provider VARCHAR(50) DEFAULT 'LOCAL_CATALOG',
+    provider_order_id VARCHAR(150) NULL,
+    origin_code CHAR(3) NOT NULL,
+    destination_code CHAR(3) NOT NULL,
+    departure_date DATE NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'PENDING_PAYMENT',
+    total_amount DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    currency CHAR(3) DEFAULT 'INR',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_bookings_user (user_id),
+    INDEX idx_bookings_pnr (pnr),
+    INDEX idx_bookings_status (status)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS passengers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id BIGINT NOT NULL,
+    first_name VARCHAR(80) NOT NULL,
+    last_name VARCHAR(80) NULL,
+    date_of_birth DATE NULL,
+    gender VARCHAR(20) NULL,
+    passport_number VARCHAR(50) NULL,
+    nationality VARCHAR(50) NULL,
+    passenger_type ENUM('ADULT', 'CHILD', 'INFANT') DEFAULT 'ADULT',
+    seat_number VARCHAR(10) NULL,
+    ticket_number VARCHAR(50) NULL,
+    CONSTRAINT fk_passengers_booking FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+    INDEX idx_passengers_booking (booking_id)
+) ENGINE=InnoDB;
 
 -- ==============================================================================
--- MODULE 4: Ticketing & Cancellation
--- Planned Scope: Tickets, Boarding Passes, Cancellations, Refunds, Payment Transactions
--- Status: To be finalized before module development
+-- MODULE 4: Payments & Ticketing
 -- ==============================================================================
 
+CREATE TABLE IF NOT EXISTS payments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id BIGINT NOT NULL,
+    payment_reference VARCHAR(100) NULL,
+    amount DECIMAL(12, 2) NOT NULL,
+    currency CHAR(3) DEFAULT 'INR',
+    payment_method VARCHAR(50) NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+    razorpay_order_id VARCHAR(150) NULL,
+    razorpay_payment_id VARCHAR(150) NULL,
+    razorpay_signature VARCHAR(255) NULL,
+    paid_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_payments_booking FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+    INDEX idx_payments_order (razorpay_order_id),
+    INDEX idx_payments_booking (booking_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS tickets (
+    ticket_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id BIGINT NOT NULL,
+    passenger_id BIGINT NOT NULL,
+    ticket_number VARCHAR(50) NOT NULL UNIQUE,
+    pnr VARCHAR(20) NOT NULL,
+    flight_number VARCHAR(20) NOT NULL,
+    origin_code CHAR(3) NOT NULL,
+    destination_code CHAR(3) NOT NULL,
+    departure_time DATETIME NOT NULL,
+    arrival_time DATETIME NOT NULL,
+    seat_number VARCHAR(10) NULL,
+    cabin_class VARCHAR(30) DEFAULT 'Economy',
+    passenger_name VARCHAR(150) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'CONFIRMED',
+    issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tickets_booking FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+    INDEX idx_tickets_pnr (pnr),
+    INDEX idx_tickets_booking (booking_id)
+) ENGINE=InnoDB;
 
 -- ==============================================================================
--- MODULE 5: Admin Dashboard & Flight Management
--- Planned Scope: Admin Logs, Schedule Management, Operational Status Updates
--- Status: To be finalized before module development
+-- MODULE 5: Cancellations & Refund Management
 -- ==============================================================================
+
+CREATE TABLE IF NOT EXISTS cancellations (
+    cancellation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id BIGINT NOT NULL,
+    pnr VARCHAR(20) NOT NULL,
+    cancellation_reason VARCHAR(255) NULL,
+    cancellation_fee DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    refund_amount DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
+    refund_status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+    refund_reference VARCHAR(150) NULL,
+    cancelled_by_user_id BIGINT NULL,
+    cancelled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_cancellations_booking FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+    INDEX idx_cancellations_pnr (pnr)
+) ENGINE=InnoDB;
+

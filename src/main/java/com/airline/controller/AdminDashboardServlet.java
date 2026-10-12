@@ -3,6 +3,7 @@ package com.airline.controller;
 import com.airline.model.Role;
 import com.airline.model.User;
 import com.airline.service.UserService;
+import com.skytech.service.BookingService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,20 +15,28 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Controller providing administrative user management dashboard.
+ * Controller providing administrative user, flight, and booking management dashboard.
  * Access is guarded by AdminAuthorizationFilter.
  */
 @WebServlet(name = "AdminDashboardServlet", urlPatterns = {"/admin/dashboard"})
 public class AdminDashboardServlet extends HttpServlet {
 
     private final UserService userService;
+    private final BookingService bookingService;
 
     public AdminDashboardServlet() {
         this.userService = new UserService();
+        this.bookingService = new BookingService();
     }
 
     public AdminDashboardServlet(UserService userService) {
         this.userService = userService;
+        this.bookingService = null;
+    }
+
+    public AdminDashboardServlet(UserService userService, BookingService bookingService) {
+        this.userService = userService;
+        this.bookingService = bookingService;
     }
 
     @Override
@@ -44,6 +53,15 @@ public class AdminDashboardServlet extends HttpServlet {
         request.setAttribute("passengerCount", passengerCount);
         request.setAttribute("adminCount", adminCount);
         request.setAttribute("activeCount", activeCount);
+
+        if (bookingService != null) {
+            request.setAttribute("totalBookings", bookingService.countTotalBookings());
+            request.setAttribute("confirmedBookings", bookingService.countConfirmedBookings());
+            request.setAttribute("pendingBookings", bookingService.countPendingBookings());
+            request.setAttribute("cancelledBookings", bookingService.countCancelledBookings());
+            request.setAttribute("totalRevenue", bookingService.calculateTotalRevenue());
+            request.setAttribute("allBookings", bookingService.getAllBookings());
+        }
 
         HttpSession session = request.getSession(false);
         if (session != null) {
