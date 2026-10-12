@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <display-name>SKYTECH AIRLINES - Flight Reservation &amp; Passenger Portal</display-name>
+    <description>
+        SKYTECH AIRLINES Official Passenger Reservation System.
+    </description>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Booking Entry Servlet -->
+    <servlet>
+        <servlet-name>BookingServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.BookingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingServlet</servlet-name>
+        <url-pattern>/booking</url-pattern>
+        <url-pattern>/booking/start</url-pattern>
+    </servlet-mapping>
+
+    <!-- Passenger Details Servlet -->
+    <servlet>
+        <servlet-name>PassengerServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.PassengerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PassengerServlet</servlet-name>
+        <url-pattern>/booking/passengers</url-pattern>
+    </servlet-mapping>
+
+    <!-- Seat Selection Servlet -->
+    <servlet>
+        <servlet-name>SeatSelectionServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.SeatSelectionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatSelectionServlet</servlet-name>
+        <url-pattern>/booking/seats</url-pattern>
+        <url-pattern>/booking/seats/map</url-pattern>
+    </servlet-mapping>
+
+    <!-- Booking Review Servlet -->
+    <servlet>
+        <servlet-name>BookingReviewServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.BookingReviewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingReviewServlet</servlet-name>
+        <url-pattern>/booking/review</url-pattern>
+    </servlet-mapping>
+
+    <!-- Payment Servlet -->
+    <servlet>
+        <servlet-name>PaymentServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.PaymentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentServlet</servlet-name>
+        <url-pattern>/booking/payment</url-pattern>
+    </servlet-mapping>
+
+    <!-- Payment Callback Servlet -->
+    <servlet>
+        <servlet-name>PaymentCallbackServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.PaymentCallbackServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentCallbackServlet</servlet-name>
+        <url-pattern>/booking/payment-callback</url-pattern>
+    </servlet-mapping>
+
+    <!-- Payment Webhook Servlet -->
+    <servlet>
+        <servlet-name>PaymentWebhookServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.PaymentWebhookServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentWebhookServlet</servlet-name>
+        <url-pattern>/booking/payment-webhook</url-pattern>
+    </servlet-mapping>
+
+    <!-- Booking Confirmation Servlet -->
+    <servlet>
+        <servlet-name>BookingConfirmationServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.BookingConfirmationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingConfirmationServlet</servlet-name>
+        <url-pattern>/booking/confirmation</url-pattern>
+    </servlet-mapping>
+
+    <!-- My Bookings Servlet -->
+    <servlet>
+        <servlet-name>MyBookingsServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.MyBookingsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyBookingsServlet</servlet-name>
+        <url-pattern>/booking/my-bookings</url-pattern>
+        <url-pattern>/my-bookings</url-pattern>
+    </servlet-mapping>
+
+    <!-- Booking Cancellation Servlet -->
+    <servlet>
+        <servlet-name>BookingCancellationServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.BookingCancellationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingCancellationServlet</servlet-name>
+        <url-pattern>/booking/cancel</url-pattern>
+    </servlet-mapping>
+
+    <!-- Secure E-Ticket REST Export API -->
+    <servlet>
+        <servlet-name>BookingExportServlet</servlet-name>
+        <servlet-class>com.skytech.airlines.booking.controller.BookingExportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingExportServlet</servlet-name>
+        <url-pattern>/api/booking/details</url-pattern>
+    </servlet-mapping>
+
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>false</secure>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+</web-app>

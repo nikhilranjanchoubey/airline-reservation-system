@@ -1,0 +1,24 @@
+# =============================================================================
+# SKYTECH AIRLINES — Flight Reservation & Passenger Management
+# Application Configuration
+# =============================================================================
+
+# Database Connection (MySQL 8.0+ / 8.4 LTS)
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/skytech_airlines_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+db.user=root
+db.password=
+
+# Razorpay Gateway Test Mode Credentials
+razorpay.key.id=rzp_test_placeholderKey
+razorpay.key.secret=placeholderSecret
+razorpay.webhook.secret=webhookSecretPlaceholder
+razorpay.currency=INR
+
+# Business Rules
+booking.seat.hold.seconds=900
+booking.tax.rate=0.12
+booking.pnr.length=6
+
+# Module 1 Integration Endpoint
+module1.login.url=/auth/login

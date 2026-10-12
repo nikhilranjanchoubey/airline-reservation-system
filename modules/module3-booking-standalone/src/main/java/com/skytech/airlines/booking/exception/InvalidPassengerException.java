@@ -1,0 +1,6 @@
+package com.skytech.airlines.booking.exception;
+
+public class InvalidPassengerException extends BookingException {
+    private static final long serialVersionUID = 1L;
+    public InvalidPassengerException(String message) { super(message); }
+}
