@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" width="120" height="40">
+  <rect width="120" height="40" rx="6" fill="#ea580c"/>
+  <path d="M14 26 C16 16, 24 14, 26 14 C24 18, 20 22, 18 26 Z" fill="#ffffff"/>
+  <path d="M20 26 C23 18, 28 16, 30 16 C28 20, 24 24, 22 26 Z" fill="#fed7aa"/>
+  <text x="36" y="25" font-family="'Inter', sans-serif" font-size="13" font-weight="800" fill="#ffffff">Akasa Air</text>
+  <text x="98" y="18" font-family="'Inter', sans-serif" font-size="9" font-weight="700" fill="#ffedd5">QP</text>
+</svg>

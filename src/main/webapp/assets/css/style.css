@@ -1,0 +1,640 @@
+/* SkyTech - Custom Airline Styles & Interactions */
+
+:root {
+    --primary: #1976D2;
+    --primary-dark: #0D47A1;
+    --background: #F5F9FF;
+    --surface: #FFFFFF;
+    --text-primary: #1F2937;
+    --text-secondary: #64748B;
+    --border: #E2E8F0;
+    --success: #15803D;
+    --warning: #B45309;
+    --danger: #B91C1C;
+
+    --skytech-primary: #071426;       /* Solid midnight navy navbar */
+    --skytech-secondary: #172554;     /* Navy secondary */
+    --skytech-accent: #0284c7;        /* Aviation sky blue */
+    --skytech-accent-hover: #0369a1;
+    --skytech-light-bg: #f8fafc;
+    --skytech-card-bg: #ffffff;
+    --skytech-text: #0f172a;
+    --skytech-text-muted: #64748b;
+    --skytech-border: #e2e8f0;
+    --skytech-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+[id] {
+    scroll-margin-top: 90px;
+}
+
+body {
+    font-family: var(--skytech-font-sans);
+    color: var(--skytech-text);
+    background-color: var(--skytech-light-bg);
+    overflow-x: clip;
+}
+
+/* Navbar & Sticky Header */
+.bg-skytech {
+    background-color: #071426 !important;
+}
+
+#skyTechMainNavbar {
+    background-color: #071426 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    z-index: 1040;
+}
+
+#skyTechMainNavbar.navbar-compact {
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    background-color: rgba(7, 20, 38, 0.98) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.text-skytech-accent {
+    color: var(--skytech-accent) !important;
+}
+
+.btn-skytech-accent {
+    background-color: var(--skytech-accent);
+    color: #ffffff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-skytech-accent:hover {
+    background-color: var(--skytech-accent-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.navbar .nav-link {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.2s ease;
+    position: relative;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.navbar .nav-link:hover {
+    color: #38bdf8 !important;
+}
+
+.navbar .nav-link.active {
+    color: #ffffff !important;
+}
+
+.navbar .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0.75rem;
+    right: 0.75rem;
+    height: 2px;
+    background-color: #38bdf8;
+    border-radius: 2px;
+}
+
+/* Status Indicator Dot */
+.status-indicator-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* Scroll-Triggered Reveal Animations */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* Floating Back To Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--skytech-accent);
+    border: none;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
+}
+
+.back-to-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top-btn:hover {
+    background-color: var(--skytech-accent-hover);
+    color: #ffffff;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 24px rgba(2, 132, 199, 0.5);
+}
+
+/* Footer Styling */
+/* Sticky Navbar Offset for In-Page Anchor Links */
+#baggage, #checkin, #documents, #airports, #guidelines, #passenger-rights,
+#help, #careers, #faqs, #terms, #privacy, #cookies, #accessibility,
+#popularRoutesSection, #whySkyTechSection, #travelExperienceSection,
+#inspirationSection, #helpSection {
+    scroll-margin-top: 95px;
+}
+
+.skytech-footer {
+    background: #071426 !important;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+}
+
+.footer-heading {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-links li {
+    margin-bottom: 0.45rem;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+    font-size: 0.85rem;
+}
+
+.footer-links a:hover {
+    color: #38bdf8;
+    transform: translateX(2px);
+}
+
+.footer-legal-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.8125rem;
+    transition: color 0.15s ease;
+}
+
+.footer-legal-links a:hover {
+    color: #38bdf8;
+    text-decoration: underline;
+}
+
+/* Destination Cards & Grid */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+    .destinations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .destinations-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.destination-deal-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #FFFFFF;
+    border: 1px solid var(--skytech-border);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.destination-deal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12) !important;
+}
+
+.destination-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #071426;
+}
+
+.destination-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.destination-deal-card:hover .destination-img {
+    transform: scale(1.06);
+}
+
+.destination-badge-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    backdrop-filter: blur(8px);
+    background: rgba(7, 20, 38, 0.85);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 20px;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.destination-badge-tag.badge-daily-shuffle {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    letter-spacing: 0.02em;
+}
+
+/* Journey Timeline */
+.journey-timeline-wrapper {
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .journey-timeline-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 50px;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: repeating-linear-gradient(90deg, #0284c7 0, #0284c7 8px, transparent 8px, transparent 16px);
+        z-index: 1;
+    }
+}
+
+.journey-step-card {
+    position: relative;
+    z-index: 2;
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid var(--skytech-border);
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.journey-step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.12);
+    border-color: var(--skytech-accent);
+}
+
+.journey-step-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0284c7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+}
+
+.journey-step-card:hover .journey-step-num {
+    background: #0284c7;
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+/* Travel Inspiration Cards */
+.inspiration-card {
+    position: relative;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.inspiration-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inspiration-card:hover img {
+    transform: scale(1.07);
+}
+
+.inspiration-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(11, 23, 42, 0.88) 85%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    color: #FFFFFF;
+    transition: background 0.3s ease;
+}
+
+.inspiration-card:hover .inspiration-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(11, 23, 42, 0.95) 85%);
+}
+
+.inspiration-btn {
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+
+.inspiration-card:hover .inspiration-btn {
+    opacity: 1;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+}
+
+/* Shared Feature & Action Cards */
+.skytech-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 1199.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .skytech-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.skytech-feature-card,
+.help-action-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+    position: relative;
+}
+
+.help-action-card {
+    cursor: pointer;
+}
+
+.help-action-card:focus-visible {
+    outline: 2px solid var(--primary, #1976D2);
+    outline-offset: 3px;
+}
+
+.skytech-feature-card:hover,
+.help-action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    border-color: rgba(25, 118, 210, 0.35);
+    color: inherit;
+}
+
+/* Icon container with uniform dimensions and centered alignment */
+.skytech-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.skytech-feature-card:hover .skytech-card-icon,
+.help-action-card:hover .skytech-card-icon {
+    transform: scale(1.08);
+}
+
+/* Heading with fixed vertical baseline alignment */
+.skytech-card-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary, #1F2937);
+    margin-bottom: 0.65rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+/* Description naturally wrapping with balanced line height */
+.skytech-card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #64748B);
+    line-height: 1.55;
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+/* Newsletter CTA Card */
+.newsletter-banner {
+    background: linear-gradient(135deg, #0b172a 0%, #0369a1 100%);
+    border-radius: 20px;
+    color: #FFFFFF;
+    padding: 3.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(11, 23, 42, 0.2);
+}
+
+.newsletter-banner::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* Multi-City Dynamic Segment Styling */
+.multi-city-segment-card {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.multi-city-segment-card:hover {
+    border-color: var(--skytech-accent);
+    background: #f0f9ff;
+}
+
+.segment-badge-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--skytech-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.btn-remove-segment {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.btn-remove-segment:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Flight Results & Travel Information Component Utilities */
+.border-start-md {
+    border-left: none;
+}
+
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid var(--border) !important;
+        padding-left: 1.5rem;
+    }
+}
+
+.travel-nav-scroller {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.travel-info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.5rem;
+}
+
+.travel-info-card:hover {
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.travel-icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+
