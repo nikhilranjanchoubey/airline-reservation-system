@@ -1,4 +1,4 @@
-# ✈️ SkyTech — Airline Reservation & Passenger Management System
+# ✈️ SkyTech — Airline Reservation System
 
 [![Java 21](https://img.shields.io/badge/Java-21%20LTS-007396?logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Jakarta EE 10](https://img.shields.io/badge/Jakarta%20EE-10%20(Servlet%206.0)-E03C11?logo=eclipseide&logoColor=white)](https://jakarta.ee/)
