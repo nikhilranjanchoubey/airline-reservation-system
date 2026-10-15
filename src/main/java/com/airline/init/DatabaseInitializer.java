@@ -166,6 +166,16 @@ public class DatabaseInitializer implements ServletContextListener {
                 LOGGER.info("[DB-INIT] All 15 required database tables verified successfully.");
             }
         } else {
+            // Check if bookings table is empty; if so, populate recovery data
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM `bookings`")) {
+                if (rs.next() && rs.getInt(1) == 0) {
+                    LOGGER.info("[DB-INIT] Bookings table has 0 records. Populating recovery data from schema.sql...");
+                    executeSchemaScript(conn);
+                }
+            } catch (SQLException e) {
+                LOGGER.fine("[DB-INIT] Bookings check note: " + e.getMessage());
+            }
             LOGGER.info("[DB-INIT] All 15 required database tables verified.");
         }
     }
@@ -250,8 +260,15 @@ public class DatabaseInitializer implements ServletContextListener {
                     String existingFirstName = rs.getString("first_name");
                     String existingLastName = rs.getString("last_name");
 
-                    // If account has default placeholder "John Doe", safely update to restored profile "Ramesh Kumar"
-                    boolean nameNeedsUpdate = "John".equalsIgnoreCase(existingFirstName) && "Doe".equalsIgnoreCase(existingLastName);
+                    // If account exists with a different name (e.g. placeholder John Doe), update it when first_name is non-null
+                    boolean nameNeedsUpdate = false;
+                    if (existingFirstName != null) {
+                        if ("passenger@airline.com".equalsIgnoreCase(cleanEmail)) {
+                            nameNeedsUpdate = !"Ramesh".equalsIgnoreCase(existingFirstName.trim());
+                        } else if ("admin@airline.com".equalsIgnoreCase(cleanEmail)) {
+                            nameNeedsUpdate = !"Team".equalsIgnoreCase(existingFirstName.trim());
+                        }
+                    }
 
                     if (nameNeedsUpdate) {
                         String updateNameSql = "UPDATE users SET first_name = ?, last_name = ?, phone = COALESCE(phone, ?), passport_number = COALESCE(passport_number, ?) WHERE user_id = ?";

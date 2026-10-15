@@ -43,16 +43,37 @@ public class HealthController extends HttpServlet {
         boolean tablesReady = false;
         java.util.List<String> missingCoreTables = new java.util.ArrayList<>();
         String[] coreTables = {"users", "airports", "flights", "flight_schedules", "bookings", "passengers"};
+        String catalog = null;
+        String dbProduct = null;
+        int userCount = 0;
+        int bookingCount = 0;
+        String passengerAccount = null;
 
         try (Connection conn = DBConnectionUtil.getConnection()) {
             if (conn != null && !conn.isClosed()) {
                 dbConnected = true;
+                catalog = conn.getCatalog();
+                try {
+                    dbProduct = conn.getMetaData().getDatabaseProductName() + " " + conn.getMetaData().getDatabaseProductVersion();
+                } catch (Exception ignored) {
+                }
                 try (java.sql.Statement stmt = conn.createStatement()) {
                     for (String tbl : coreTables) {
                         try {
                             stmt.execute("SELECT 1 FROM `" + tbl + "` LIMIT 1");
                         } catch (SQLException e) {
                             missingCoreTables.add(tbl);
+                        }
+                    }
+                    if (missingCoreTables.isEmpty()) {
+                        try (java.sql.ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM `users`")) {
+                            if (rs.next()) userCount = rs.getInt(1);
+                        }
+                        try (java.sql.ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM `bookings`")) {
+                            if (rs.next()) bookingCount = rs.getInt(1);
+                        }
+                        try (java.sql.ResultSet rs = stmt.executeQuery("SELECT first_name, last_name FROM `users` WHERE email='passenger@airline.com'")) {
+                            if (rs.next()) passengerAccount = rs.getString(1) + " " + rs.getString(2);
                         }
                     }
                 }
@@ -67,6 +88,18 @@ public class HealthController extends HttpServlet {
         health.put("status", fullyOperational ? "UP" : "DEGRADED");
         health.put("service", "SkyTech Airline Reservation System API");
         health.put("database", dbConnected ? (tablesReady ? "CONNECTED" : "SCHEMA_INCOMPLETE") : "DISCONNECTED");
+        if (catalog != null) {
+            health.put("databaseCatalog", catalog);
+        }
+        if (dbProduct != null) {
+            health.put("databaseEngine", dbProduct);
+        }
+        health.put("tablesReady", tablesReady);
+        health.put("userCount", userCount);
+        health.put("bookingCount", bookingCount);
+        if (passengerAccount != null) {
+            health.put("passengerAccount", passengerAccount);
+        }
         if (!missingCoreTables.isEmpty()) {
             health.put("missingTables", missingCoreTables);
         }
