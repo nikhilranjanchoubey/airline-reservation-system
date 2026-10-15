@@ -79,10 +79,12 @@ public class HealthController extends HttpServlet {
                     }
                 }
                 tablesReady = missingCoreTables.isEmpty();
+            } else {
+                probeError = (conn == null) ? "DBConnectionUtil.getConnection() returned null" : "Database connection is closed";
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Health check database probe warning: " + e.getMessage());
-            String rawErr = e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "null");
+        } catch (Throwable t) {
+            LOGGER.log(Level.WARNING, "Health check database probe warning: " + t.getMessage());
+            String rawErr = t.getClass().getSimpleName() + ": " + (t.getMessage() != null ? t.getMessage() : "null");
             probeError = rawErr.replaceAll(":[^/@\\s]+@", ":***@");
         }
 
@@ -91,6 +93,9 @@ public class HealthController extends HttpServlet {
         health.put("status", fullyOperational ? "UP" : "DEGRADED");
         health.put("service", "SkyTech Airline Reservation System API");
         health.put("database", dbConnected ? (tablesReady ? "CONNECTED" : "SCHEMA_INCOMPLETE") : "DISCONNECTED");
+        health.put("databaseTarget", sanitizeTargetUrl(AppConfig.getDbUrl()));
+        health.put("databaseUser", AppConfig.getDbUsername());
+        health.put("databaseSource", AppConfig.getConfigurationSource("DB_URL"));
         if (probeError != null) {
             health.put("databaseError", probeError);
         }
@@ -121,5 +126,11 @@ public class HealthController extends HttpServlet {
             out.print(GSON.toJson(health));
             out.flush();
         }
+    }
+
+    private static String sanitizeTargetUrl(String url) {
+        if (url == null) return "null";
+        int q = url.indexOf('?');
+        return q > 0 ? url.substring(0, q) : url;
     }
 }
