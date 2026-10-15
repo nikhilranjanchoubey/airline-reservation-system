@@ -1249,16 +1249,7 @@ li[aria-selected="true"] .cabin-option-item {
     }
 }
 
-
-.destination-deal-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: var(--sky-radius-md);
-}
-
-.destination-deal-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sky-shadow-md) !important;
-}
+/* Destination card styles moved to popular-destinations.css */
 
 /* Airport Autocomplete Dropdown */
 .airport-autocomplete-list {

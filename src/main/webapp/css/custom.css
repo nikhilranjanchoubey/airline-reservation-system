@@ -158,7 +158,7 @@ button {
     gap: 10px;
     text-decoration: none !important;
     vertical-align: middle;
-    transition: opacity 220ms ease, transform 220ms ease;
+    transition: transform 200ms ease, opacity 200ms ease;
     cursor: pointer;
 }
 
@@ -178,8 +178,8 @@ button {
     justify-content: center;
     color: #FFFFFF;
     font-size: 1.2rem;
-    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.30);
-    transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.25);
+    transition: filter 200ms ease, box-shadow 200ms ease;
     flex-shrink: 0;
 }
 
@@ -187,7 +187,7 @@ button {
     display: inline-block;
     line-height: 1;
     color: #56CCF2;
-    transition: color 220ms ease, filter 220ms ease;
+    transition: color 200ms ease;
 }
 
 .skytech-brand__text {
@@ -197,25 +197,29 @@ button {
     line-height: 1;
     letter-spacing: -0.035em;
     color: #FFFFFF;
-    transition: color 220ms ease;
+    transition: color 200ms ease;
     display: inline-block;
     white-space: nowrap;
 }
 
-/* Subtle, Premium Hover Interaction */
-.skytech-brand:hover .skytech-brand__icon {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 0 7px rgba(86, 204, 242, 0.55));
-    box-shadow: 0 6px 16px rgba(86, 204, 242, 0.35);
-}
+/* Premium, Refined Brand Lockup Hover Interaction */
+@media (hover: hover) and (pointer: fine) {
+    .skytech-brand:hover {
+        transform: translateY(-1px);
+    }
 
-.skytech-brand:hover .skytech-brand__icon i {
-    color: #FFFFFF;
-    filter: drop-shadow(0 0 4px rgba(86, 204, 242, 0.8));
-}
+    .skytech-brand:hover .skytech-brand__icon {
+        filter: brightness(1.06);
+        box-shadow: 0 4px 14px rgba(22, 139, 255, 0.28);
+    }
 
-.skytech-brand:hover .skytech-brand__text {
-    color: #FFFFFF;
+    .skytech-brand:hover .skytech-brand__icon i {
+        color: #E0F2FE;
+    }
+
+    .skytech-brand:hover .skytech-brand__text {
+        color: #F0F7FF;
+    }
 }
 
 /* Light Background Variant */
@@ -223,15 +227,27 @@ button {
     color: #071A35;
 }
 
-.skytech-brand--light-bg:hover .skytech-brand__text {
-    color: #168BFF;
+@media (hover: hover) and (pointer: fine) {
+    .skytech-brand--light-bg:hover .skytech-brand__text {
+        color: #168BFF;
+    }
 }
 
-/* Keyboard Focus Accessibility */
+/* Accessible Keyboard Focus Navigation */
 .skytech-brand:focus-visible {
-    outline: 3px solid #56CCF2;
+    outline: 2px solid #38BDF8;
     outline-offset: 4px;
-    border-radius: 6px;
+    border-radius: 8px;
+    transform: translateY(-1px);
+}
+
+.skytech-brand:focus-visible .skytech-brand__icon {
+    filter: brightness(1.06);
+    box-shadow: 0 4px 14px rgba(22, 139, 255, 0.28);
+}
+
+.skytech-brand:focus-visible .skytech-brand__text {
+    color: #F0F7FF;
 }
 
 /* Reduced Motion Preference */
@@ -758,137 +774,7 @@ button {
     line-height: 1.4;
 }
 
-/* ==========================================================
-   4. Popular Destinations Section
-   ========================================================== */
-.destinations-section {
-    padding: 3rem 0 4.5rem;
-}
-
-.destinations-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-}
-
-.section-headline {
-    font-size: 2.15rem;
-    font-weight: 800;
-    color: var(--color-midnight-navy);
-    letter-spacing: -0.5px;
-    margin-bottom: 0.35rem;
-}
-
-.section-subtext {
-    font-size: 1rem;
-    color: var(--color-text-muted);
-    margin: 0;
-}
-
-.view-all-dest-link {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-electric-blue);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.view-all-dest-link:hover {
-    text-decoration: underline;
-}
-
-.destinations-cards-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-}
-
-.dest-flight-card {
-    position: relative;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    height: 240px;
-    box-shadow: var(--shadow-card);
-    transition: transform var(--motion-smooth), box-shadow var(--motion-smooth);
-    text-decoration: none;
-    display: block;
-}
-
-.dest-flight-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-float);
-}
-
-.dest-flight-bg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-    display: block;
-}
-
-.dest-flight-card:hover .dest-flight-bg {
-    transform: scale(1.08);
-}
-
-.dest-card-gradient {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 65%;
-    background: linear-gradient(180deg, transparent 0%, rgba(7, 26, 51, 0.92) 100%);
-    display: flex;
-    align-items: flex-end;
-    padding: 1.25rem 1.4rem;
-}
-
-.dest-card-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.dest-route-name {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--color-white);
-    margin-bottom: 2px;
-}
-
-.dest-fare-tag {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.dest-fare-tag strong {
-    color: var(--color-white);
-    font-weight: 800;
-}
-
-.dest-arrow-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--color-white);
-    color: var(--color-midnight-navy);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: background var(--motion-fast), color var(--motion-fast);
-}
-
-.dest-flight-card:hover .dest-arrow-btn {
-    background: var(--color-electric-blue);
-    color: var(--color-white);
-}
+/* (Popular Destinations styling managed in assets/css/popular-destinations.css) */
 
 /* ==========================================================
    5. Why Fly with SkyTech? Section
@@ -1072,7 +958,6 @@ footer a:hover {
     align-items: center;
     gap: 10px;
     text-decoration: none !important;
-    transition: opacity 220ms ease, transform 220ms ease;
 }
 
 .auth-brand-icon {
@@ -1085,21 +970,10 @@ footer a:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #56CCF2;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.30);
-    transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
-}
-
-.auth-brand:hover .auth-brand-icon {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 0 7px rgba(86, 204, 242, 0.55));
-    box-shadow: 0 6px 16px rgba(86, 204, 242, 0.35);
-}
-
-.auth-brand:hover .auth-brand-icon i {
     color: #FFFFFF;
-    filter: drop-shadow(0 0 4px rgba(86, 204, 242, 0.8));
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(22, 139, 255, 0.25);
+    flex-shrink: 0;
 }
 
 .auth-brand-text {
@@ -3685,6 +3559,512 @@ footer a:hover {
 .sky-passenger-item:last-child {
     border-bottom: none;
 }
+
+/* ==============================================================================
+   MODULE: My Trips / Passenger Dashboard Premium Airline Design
+   ============================================================================== */
+
+.trips-dashboard-container {
+    max-width: 1140px;
+}
+
+/* Welcome Card */
+.trips-welcome-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid var(--sky-border, #D8E3EF);
+    padding: 24px 28px;
+    box-shadow: 0 4px 20px rgba(7, 26, 53, 0.05);
+    margin-bottom: 24px;
+}
+
+.trips-welcome-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.trips-user-identity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.trips-avatar-circle {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--sky-deep-blue, #0B2D52) 0%, var(--sky-blue, #168BFF) 100%);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    box-shadow: 0 4px 14px rgba(7, 26, 53, 0.12);
+    border: 3px solid #FFFFFF;
+    outline: 1px solid var(--sky-border, #D8E3EF);
+    flex-shrink: 0;
+}
+
+.trips-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.trips-welcome-title {
+    font-family: 'Manrope', 'Inter', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--sky-navy, #071A35);
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+}
+
+.trips-welcome-subtitle {
+    font-size: 0.9rem;
+    color: var(--sky-muted, #64748B);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.btn-book-new-flight {
+    background-color: var(--sky-blue, #168BFF);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 10px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    box-shadow: 0 4px 14px rgba(22, 139, 255, 0.28);
+    transition: all 0.2s ease;
+}
+
+.btn-book-new-flight:hover {
+    background-color: #0d7be8;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(22, 139, 255, 0.35);
+}
+
+/* Statistics Cards Row */
+.trips-stat-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    border: 1px solid var(--sky-border, #D8E3EF);
+    padding: 20px 22px;
+    box-shadow: 0 2px 10px rgba(7, 26, 53, 0.04);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trips-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(7, 26, 53, 0.08);
+}
+
+.trips-stat-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sky-muted, #64748B);
+    margin-bottom: 4px;
+}
+
+.trips-stat-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.trips-stat-value.value-total {
+    color: var(--sky-blue, #168BFF);
+}
+
+.trips-stat-value.value-confirmed {
+    color: var(--sky-success, #18A878);
+}
+
+.trips-stat-value.value-cancelled {
+    color: var(--sky-danger, #E5484D);
+}
+
+.trips-stat-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.icon-wrap-total {
+    background: rgba(22, 139, 255, 0.12);
+    color: var(--sky-blue, #168BFF);
+}
+
+.icon-wrap-confirmed {
+    background: rgba(24, 168, 120, 0.12);
+    color: var(--sky-success, #18A878);
+}
+
+.icon-wrap-cancelled {
+    background: rgba(229, 72, 77, 0.12);
+    color: var(--sky-danger, #E5484D);
+}
+
+/* Bookings Card & Table */
+.trips-table-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid var(--sky-border, #D8E3EF);
+    box-shadow: 0 4px 20px rgba(7, 26, 53, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.trips-table-card-header {
+    padding: 18px 24px;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--sky-border, #D8E3EF);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.trips-table-card-title {
+    font-family: 'Manrope', 'Inter', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sky-navy, #071A35);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.trips-count-badge {
+    background: #F1F5F9;
+    color: var(--sky-muted, #64748B);
+    border: 1px solid var(--sky-border, #D8E3EF);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.trips-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.trips-table {
+    width: 100%;
+    min-width: 820px;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.trips-table th {
+    background-color: #F8FAFC;
+    color: var(--sky-muted, #64748B);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--sky-border, #D8E3EF);
+    white-space: nowrap;
+}
+
+.trips-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--sky-border, #D8E3EF);
+    vertical-align: middle;
+    color: var(--sky-text, #172B45);
+    font-size: 0.9rem;
+}
+
+.trips-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.trips-table tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+.trips-pnr-link {
+    font-family: 'Space Grotesk', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--sky-blue, #168BFF);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.trips-pnr-link:hover {
+    color: var(--sky-deep-blue, #0B2D52);
+    text-decoration: underline;
+}
+
+.trips-booked-date {
+    font-size: 0.75rem;
+    color: var(--sky-muted, #64748B);
+    margin-top: 2px;
+}
+
+.trips-flight-badge {
+    background-color: #F1F5F9;
+    color: var(--sky-navy, #071A35);
+    border: 1px solid #CBD5E1;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 600;
+    font-size: 0.82rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.trips-class-label {
+    font-size: 0.78rem;
+    color: var(--sky-muted, #64748B);
+    margin-top: 2px;
+}
+
+.trips-route-text {
+    font-weight: 600;
+    color: var(--sky-navy, #071A35);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trips-pax-count {
+    font-size: 0.78rem;
+    color: var(--sky-muted, #64748B);
+    margin-top: 2px;
+}
+
+.trips-travel-date {
+    font-weight: 600;
+    color: var(--sky-navy, #071A35);
+    font-size: 0.88rem;
+}
+
+.trips-fare-amount {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: var(--sky-navy, #071A35);
+    font-size: 0.98rem;
+    white-space: nowrap;
+}
+
+/* Status Badges */
+.trips-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.trips-status-confirmed {
+    background: rgba(24, 168, 120, 0.12);
+    color: #0F7652;
+    border: 1px solid rgba(24, 168, 120, 0.25);
+}
+
+.trips-status-cancelled {
+    background: rgba(229, 72, 77, 0.12);
+    color: #B91C1C;
+    border: 1px solid rgba(229, 72, 77, 0.25);
+}
+
+.trips-status-pending {
+    background: rgba(245, 158, 11, 0.12);
+    color: #B45309;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* Action Buttons */
+.trips-actions-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btn-trips-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    line-height: 1.25;
+}
+
+.btn-trips-pdf {
+    background: #FFFFFF;
+    color: var(--sky-blue, #168BFF);
+    border-color: rgba(22, 139, 255, 0.4);
+}
+
+.btn-trips-pdf:hover {
+    background: rgba(22, 139, 255, 0.08);
+    color: #0d7be8;
+    border-color: var(--sky-blue, #168BFF);
+}
+
+.btn-trips-manage {
+    background: #F8FAFC;
+    color: var(--sky-text, #172B45);
+    border-color: var(--sky-border, #D8E3EF);
+}
+
+.btn-trips-manage:hover {
+    background: #E2E8F0;
+    color: var(--sky-navy, #071A35);
+}
+
+.btn-trips-pay {
+    background: var(--sky-warning, #F59E0B);
+    color: #FFFFFF;
+    border-color: var(--sky-warning, #F59E0B);
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+}
+
+.btn-trips-pay:hover {
+    background: #D97706;
+    color: #FFFFFF;
+    border-color: #D97706;
+}
+
+.btn-trips-refund {
+    background: #FFFFFF;
+    color: var(--sky-muted, #64748B);
+    border-color: var(--sky-border, #D8E3EF);
+}
+
+.btn-trips-refund:hover {
+    background: #F1F5F9;
+    color: var(--sky-navy, #071A35);
+}
+
+/* Pagination Bar */
+.trips-pagination-bar {
+    padding: 14px 24px;
+    background: #FFFFFF;
+    border-top: 1px solid var(--sky-border, #D8E3EF);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.trips-pagination-info {
+    font-size: 0.84rem;
+    color: var(--sky-muted, #64748B);
+}
+
+.trips-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-page-step {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--sky-border, #D8E3EF);
+    background: #FFFFFF;
+    color: var(--sky-text, #172B45);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-page-step:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+}
+
+.btn-page-step:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.btn-page-step.active {
+    background: var(--sky-blue, #168BFF);
+    color: #FFFFFF;
+    border-color: var(--sky-blue, #168BFF);
+}
+
+/* Empty State */
+.trips-empty-state {
+    text-align: center;
+    padding: 56px 20px;
+}
+
+.trips-empty-icon {
+    font-size: 3.5rem;
+    color: var(--sky-border, #D8E3EF);
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.trips-empty-title {
+    font-family: 'Manrope', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--sky-navy, #071A35);
+    margin-bottom: 6px;
+}
+
+.trips-empty-desc {
+    color: var(--sky-muted, #64748B);
+    font-size: 0.9rem;
+    max-width: 440px;
+    margin: 0 auto 20px;
+    line-height: 1.45;
+}
+
 
 
 

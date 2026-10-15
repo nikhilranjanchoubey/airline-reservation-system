@@ -270,6 +270,10 @@ public class FlightScheduleDao {
         list.add(createDemoSchedule(9, 9, "AI 671", aii, maa, bom, "16:20:00", "18:20:00", 120, 0, "Airbus A321",
                 fDate, "4500.00", "5299.00", "7400.00", "14800.00", "21500.00", 14, 186));
 
+        // Flight 10: 6E 205 DEL -> JAI
+        list.add(createDemoSchedule(10, 10, "6E 205", igo, del, jai, "07:00:00", "09:05:00", 125, 0, "Airbus A320neo",
+                fDate, "3700.00", "4299.00", "6499.00", "12999.00", "18999.00", 24, 180));
+
         return list;
     }
 

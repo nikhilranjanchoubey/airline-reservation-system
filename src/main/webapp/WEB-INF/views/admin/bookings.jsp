@@ -187,7 +187,7 @@
                             <th>Flight</th>
                             <th>Route</th>
                             <th>Travel Date</th>
-                            <th>Pax</th>
+                            <th class="th-pax">Pax</th>
                             <th>Class</th>
                             <th>Total Fare</th>
                             <th>Booking Status</th>
@@ -217,7 +217,11 @@
                                             </span>
                                         </td>
                                         <td><fmt:formatDate value="${b.departureDate}" pattern="dd MMM yyyy" /></td>
-                                        <td><span class="badge bg-light text-navy border">${b.passengerCount}</span></td>
+                                        <td class="td-pax">
+                                            <span class="admin-pax-badge" title="${not empty b.passengerCount && b.passengerCount > 0 ? b.passengerCount : 1} Passenger(s)">
+                                                <c:out value="${not empty b.passengerCount && b.passengerCount > 0 ? b.passengerCount : 1}" />
+                                            </span>
+                                        </td>
                                         <td><small class="text-muted"><c:out value="${b.travelClass}" /></small></td>
                                         <td class="fw-bold text-navy">₹<fmt:formatNumber value="${b.totalAmount}" maxFractionDigits="0" /></td>
                                         <td>

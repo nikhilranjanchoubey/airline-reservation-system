@@ -114,13 +114,6 @@
                 <span>Admin Profile</span>
             </a>
         </li>
-        <li class="admin-nav-item">
-            <a class="admin-nav-link ${(reqUri.contains('/admin/settings') || act == 'settings') ? 'active' : ''}"
-               href="${pageContext.request.contextPath}/admin/settings">
-                <i class="bi bi-gear-fill"></i>
-                <span>System Settings</span>
-            </a>
-        </li>
     </ul>
 
     <div class="admin-sidebar-footer">

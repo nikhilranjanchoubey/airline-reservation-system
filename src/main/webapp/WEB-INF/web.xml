@@ -85,6 +85,16 @@
         <url-pattern>/api/airports</url-pattern>
     </servlet-mapping>
 
+    <!-- SkyTech AI Assistant Chat API Servlet -->
+    <servlet>
+        <servlet-name>AiChatController</servlet-name>
+        <servlet-class>com.skytech.controller.AiChatController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AiChatController</servlet-name>
+        <url-pattern>/api/ai/chat</url-pattern>
+    </servlet-mapping>
+
     <!-- Manage Booking & Cancellation Controller Servlet -->
     <servlet>
         <servlet-name>ManageBookingController</servlet-name>

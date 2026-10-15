@@ -182,7 +182,15 @@ INSERT INTO flights (flight_number, airline_id, source_airport_id, destination_a
 -- Mumbai to Bengaluru
 ('AI-302', (SELECT airline_id FROM airlines WHERE airline_code = 'AI'), (SELECT airport_id FROM airports WHERE airport_code = 'BOM'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), '14:20:00', '16:05:00', 105, 0, 'Airbus A320neo'),
 ('6E-442', (SELECT airline_id FROM airlines WHERE airline_code = '6E'), (SELECT airport_id FROM airports WHERE airport_code = 'BOM'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), '08:45:00', '10:30:00', 105, 0, 'Airbus A320neo'),
-('QP-112', (SELECT airline_id FROM airlines WHERE airline_code = 'QP'), (SELECT airport_id FROM airports WHERE airport_code = 'BOM'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), '19:10:00', '20:55:00', 105, 0, 'Boeing 737 MAX 8')
+('QP-112', (SELECT airline_id FROM airlines WHERE airline_code = 'QP'), (SELECT airport_id FROM airports WHERE airport_code = 'BOM'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), '19:10:00', '20:55:00', 105, 0, 'Boeing 737 MAX 8'),
+
+-- Delhi to Goa
+('6E-531', (SELECT airline_id FROM airlines WHERE airline_code = '6E'), (SELECT airport_id FROM airports WHERE airport_code = 'DEL'), (SELECT airport_id FROM airports WHERE airport_code = 'GOI'), '11:15:00', '13:50:00', 155, 0, 'Airbus A320neo'),
+('AI-860', (SELECT airline_id FROM airlines WHERE airline_code = 'AI'), (SELECT airport_id FROM airports WHERE airport_code = 'DEL'), (SELECT airport_id FROM airports WHERE airport_code = 'GOI'), '14:00:00', '16:40:00', 160, 0, 'Airbus A321'),
+
+-- Bengaluru to Hyderabad
+('6E-651', (SELECT airline_id FROM airlines WHERE airline_code = '6E'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), (SELECT airport_id FROM airports WHERE airport_code = 'HYD'), '07:15:00', '08:30:00', 75, 0, 'Airbus A320neo'),
+('QP-1301', (SELECT airline_id FROM airlines WHERE airline_code = 'QP'), (SELECT airport_id FROM airports WHERE airport_code = 'BLR'), (SELECT airport_id FROM airports WHERE airport_code = 'HYD'), '16:30:00', '17:45:00', 75, 0, 'Boeing 737 MAX 8')
 ON DUPLICATE KEY UPDATE departure_time=VALUES(departure_time);
 
 -- Seed Schedules for current test dates and next 30 days
@@ -204,6 +212,10 @@ SELECT
         WHEN f.flight_number = 'AI-302' THEN 6120.00
         WHEN f.flight_number = '6E-442' THEN 4750.00
         WHEN f.flight_number = 'QP-112' THEN 4300.00
+        WHEN f.flight_number = '6E-531' THEN 4890.00
+        WHEN f.flight_number = 'AI-860' THEN 5650.00
+        WHEN f.flight_number = '6E-651' THEN 3490.00
+        WHEN f.flight_number = 'QP-1301' THEN 3190.00
         ELSE 4500.00
     END AS base_price,
     CASE 
@@ -219,6 +231,10 @@ SELECT
         WHEN f.flight_number = 'AI-302' THEN 6120.00
         WHEN f.flight_number = '6E-442' THEN 4750.00
         WHEN f.flight_number = 'QP-112' THEN 4300.00
+        WHEN f.flight_number = '6E-531' THEN 4890.00
+        WHEN f.flight_number = 'AI-860' THEN 5650.00
+        WHEN f.flight_number = '6E-651' THEN 3490.00
+        WHEN f.flight_number = 'QP-1301' THEN 3190.00
         ELSE 4500.00
     END AS economy_price,
     ROUND(CASE WHEN f.flight_number = '6E-204' THEN 4299.00 ELSE 5000.00 END * 1.35, 2) AS premium_economy_price,

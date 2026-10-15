@@ -100,7 +100,12 @@ public class SeatSelectionController extends HttpServlet {
 
         String airlineCode = (schedule.getFlight() != null && schedule.getFlight().getAirline() != null)
                 ? schedule.getFlight().getAirline().getAirlineCode() : "6E";
+        String airlineName = (schedule.getFlight() != null && schedule.getFlight().getAirline() != null)
+                ? schedule.getFlight().getAirline().getAirlineName() : "SkyTech Airline";
+        String aircraftModel = (schedule.getFlight() != null && schedule.getFlight().getAircraftModel() != null)
+                ? schedule.getFlight().getAircraftModel() : "Airbus A320neo";
 
+        com.skytech.model.CabinLayout cabinLayout = seatMapService.getCabinLayout(scheduleId, airlineCode, travelClass, aircraftModel, airlineName);
         List<Seat> seats = seatMapService.getSeatMapForSchedule(scheduleId, airlineCode);
 
         java.math.BigDecimal perPassengerFare = schedule.getPriceForClass(travelClass);
@@ -108,14 +113,20 @@ public class SeatSelectionController extends HttpServlet {
                 com.skytech.service.FareCalculationService.calculateFare(perPassengerFare, passengers, null);
 
         request.setAttribute("schedule", schedule);
+        request.setAttribute("cabinLayout", cabinLayout);
         request.setAttribute("seats", seats);
         request.setAttribute("passengers", passengers);
         request.setAttribute("travelClass", travelClass);
+        request.setAttribute("aircraftModel", aircraftModel);
+        request.setAttribute("airlineName", airlineName);
         request.setAttribute("perPassengerFare", perPassengerFare);
         request.setAttribute("baseFareTotal", initialFare.getBaseFareTotal());
         request.setAttribute("initialTaxes", initialFare.getTaxesAndFees());
         request.setAttribute("initialGrandTotal", initialFare.getGrandTotal());
         request.setAttribute("fareSummary", initialFare);
+        String preSelectedSeatsParam = request.getParameter("selectedSeats");
+        request.setAttribute("preSelectedSeatsParam", preSelectedSeatsParam != null ? preSelectedSeatsParam : "");
+
         request.setAttribute("airlineCode", airlineCode);
         request.setAttribute("selectedDepartureDate", selectedDate != null ? selectedDate.toString() : (schedule.getFlightDate() != null ? schedule.getFlightDate().toLocalDate().toString() : ""));
         request.setAttribute("pageTitle", "Select Seats &bull; " + schedule.getFlight().getFlightNumber() + " - SkyTech");

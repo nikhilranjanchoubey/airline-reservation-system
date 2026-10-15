@@ -207,6 +207,18 @@
 <script src="${pageContext.request.contextPath}/assets/js/skytech-calendar.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
 
+<!-- SkyTech AI Flight Assistant (Excluded on Checkout, Login, and Registration/Signup) -->
+<c:set var="reqUri" value="${pageContext.request.requestURI != null ? pageContext.request.requestURI.toLowerCase() : ''}" />
+<c:set var="servletP" value="${pageContext.request.servletPath != null ? pageContext.request.servletPath.toLowerCase() : ''}" />
+<c:set var="isChatExcluded" value="${reqUri.contains('checkout') || servletP.contains('checkout')
+                                    || reqUri.contains('login') || servletP.contains('login')
+                                    || reqUri.contains('register') || servletP.contains('register')
+                                    || reqUri.contains('signup') || servletP.contains('signup')}" />
+<c:if test="${!isChatExcluded}">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/skytech-chat.css?v=2.0">
+    <script src="${pageContext.request.contextPath}/assets/js/skytech-chat.js?v=2.0" defer></script>
+</c:if>
+
 <!-- Global Interactions (Sticky Navbar, Back to Top, Scroll Animations) -->
 <script>
     window.addEventListener('scroll', function() {

@@ -403,76 +403,158 @@
         </div>
     </section>
 
-    <!-- 2. Popular Destinations & Deals -->
-    <section class="py-5 bg-white fade-in-on-scroll" id="popularRoutesSection" style="position: relative; z-index: 1;">
+    <!-- 2. Popular Destinations -->
+    <section class="popular-destinations-section py-5 bg-white fade-in-on-scroll" id="popularRoutesSection">
         <div class="container py-2">
-            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
-                <div>
-                    <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 mb-2 rounded-pill">
-                        Featured Routes
-                    </span>
-                    <h2 class="fw-bold mb-1">Popular Destinations</h2>
-                    <p class="text-muted small mb-0">Explore popular routes and discover your next destination.</p>
+            <!-- Section Header -->
+            <div class="popular-header-wrapper d-flex flex-wrap justify-content-between align-items-end mb-4 gap-3">
+                <div class="popular-header-left">
+                    <h2 class="popular-heading">Popular Destinations</h2>
+                    <p class="popular-subheading">Discover exciting routes and find your next journey.</p>
                 </div>
-                <a href="${pageContext.request.contextPath}/search-flights" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                    View All Schedules &rarr;
-                </a>
+                <div class="popular-header-right">
+                    <a href="${pageContext.request.contextPath}/search-flights" class="view-all-flights-link" aria-label="View all flights">
+                        <span>View All Flights</span>
+                        <i class="bi bi-arrow-right view-all-arrow" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
 
+            <!-- Destinations Grid -->
             <div class="destinations-grid">
                 <c:choose>
                     <c:when test="${not empty popularDeals}">
                         <c:forEach items="${popularDeals}" var="deal">
-                            <div class="destination-deal-card" onclick="window.location.href='${pageContext.request.contextPath}/search-flights?tripType=one-way&source=${deal.sourceCode}&destination=${deal.destinationCode}&departureDate=${deal.searchDate}&adults=1&travelClass=Economy'">
-                                <div class="destination-img-wrapper">
-                                    <img src="${pageContext.request.contextPath}/${deal.imageUrl}" 
-                                         alt="${deal.imageAlt}" class="destination-img" loading="lazy"
-                                         onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/destinations/default.jpg';">
-                                    <c:choose>
-                                        <c:when test="${deal.dailyShuffle}">
-                                            <span class="destination-badge-tag badge-daily-shuffle"><i class="bi bi-shuffle me-1"></i>Daily Shuffle</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="destination-badge-tag"><i class="bi bi-airplane-fill text-skytech-accent me-1"></i>${deal.tag}</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                                <div class="p-4 d-flex flex-column flex-grow-1">
-                                    <span class="text-uppercase small fw-bold text-muted mb-1" style="font-size: 0.75rem; letter-spacing: 0.05em;">${deal.sourceCode} &bull; ${deal.destinationCode}</span>
-                                    <h5 class="fw-bold text-dark mb-1">${deal.sourceCity} &rarr; ${deal.destinationCity}</h5>
-                                    <p class="text-muted small mb-3 text-truncate">${deal.airlineSummary}</p>
-                                    
-                                    <div class="mt-auto border-top pt-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
+                            <article class="popular-dest-card"
+                                     tabindex="0"
+                                     role="article"
+                                     aria-label="Explore flights from ${deal.sourceCity} to ${deal.destinationCity}"
+                                     data-source="${deal.sourceCode}"
+                                     data-destination="${deal.destinationCode}"
+                                     data-date="${deal.searchDate}"
+                                     onclick="handlePopularCardClick(event, this)"
+                                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handlePopularCardClick(event, this);}">
+                                
+                                <!-- Full-Background Destination Image -->
+                                <img src="${pageContext.request.contextPath}/${deal.imageUrl}" 
+                                     alt="${deal.imageAlt}" 
+                                     class="popular-dest-bg-img" 
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/destinations/default.jpg';" />
+
+                                <!-- Dark Gradient Overlay (inspired by Discover Your Next Destination) -->
+                                <div class="popular-dest-overlay">
+                                    <!-- Top Badges Area -->
+                                    <div class="popular-dest-top mb-auto">
+                                        <c:choose>
+                                            <c:when test="${deal.destinationCode eq 'GOI'}">
+                                                <span class="badge popular-badge popular-badge-warning rounded-pill">
+                                                    <i class="bi bi-sun-fill me-1" aria-hidden="true"></i>HOLIDAY ROUTE
+                                                </span>
+                                            </c:when>
+                                            <c:when test="${deal.sourceCode eq 'JAI' or deal.destinationCode eq 'JAI'}">
+                                                <span class="badge popular-badge popular-badge-cyan rounded-pill">
+                                                    <i class="bi bi-geo-alt-fill me-1" aria-hidden="true"></i>HERITAGE ROUTE
+                                                </span>
+                                            </c:when>
+                                            <c:when test="${deal.sourceCode eq 'BLR' and deal.destinationCode eq 'HYD'}">
+                                                <span class="badge popular-badge popular-badge-emerald rounded-pill">
+                                                    <i class="bi bi-lightning-charge-fill me-1" aria-hidden="true"></i>QUICK GETAWAY
+                                                </span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge popular-badge popular-badge-blue rounded-pill">
+                                                    <i class="bi bi-star-fill me-1" aria-hidden="true"></i>POPULAR ROUTE
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+
+                                    <!-- Content Area Over Overlay -->
+                                    <div class="popular-dest-content">
+                                        <!-- Airport Codes -->
+                                        <div class="popular-dest-codes">
+                                            <span class="code-badge">${deal.sourceCode}</span>
+                                            <span class="code-arrow" aria-hidden="true">&rarr;</span>
+                                            <span class="code-badge">${deal.destinationCode}</span>
+                                        </div>
+
+                                        <!-- Destination Title -->
+                                        <h3 class="popular-dest-title" title="${deal.sourceCity} to ${deal.destinationCity}">
+                                            ${deal.sourceCity} &rarr; ${deal.destinationCity}
+                                        </h3>
+
+                                        <!-- Airline Info Line -->
+                                        <div class="popular-dest-airlines text-truncate" title="${not empty deal.airlineSummary ? deal.airlineSummary : 'Major Carriers'}">
+                                            <i class="bi bi-airplane-fill me-1" aria-hidden="true"></i>
+                                            <span>
                                                 <c:choose>
-                                                    <c:when test="${not empty deal.formattedPrice}">
-                                                        <span class="text-muted d-block" style="font-size: 0.75rem;">From</span>
-                                                        <span class="fs-4 fw-bold text-primary">&#8377;${deal.formattedPrice}</span>
+                                                    <c:when test="${not empty deal.airlineSummary}">
+                                                        ${deal.airlineSummary}
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="text-muted d-block" style="font-size: 0.75rem;">Fares</span>
-                                                        <span class="small text-muted fw-semibold">Check availability</span>
+                                                        IndiGo &bull; Air India &bull; Vistara
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </span>
+                                        </div>
+
+                                        <!-- Translucent Two-Column Fare & Duration Panel -->
+                                        <div class="popular-dest-meta-panel">
+                                            <!-- Column 1: Starting Fare -->
+                                            <div class="popular-meta-col">
+                                                <span class="popular-meta-label">Starting fare</span>
+                                                <c:choose>
+                                                    <c:when test="${not empty deal.formattedPrice}">
+                                                        <div class="popular-meta-price">&#8377;${deal.formattedPrice}</div>
+                                                        <span class="popular-meta-sub">Indicative fare</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="popular-meta-price fs-6">&#8212;</div>
+                                                        <span class="popular-meta-sub">Check current fares</span>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
-                                            <div class="text-end">
-                                                <span class="text-muted d-block" style="font-size: 0.75rem;">Duration</span>
-                                                <span class="badge bg-light text-secondary border">${deal.durationFormatted} &bull; ${deal.stopsDescription}</span>
+
+                                            <!-- Divider -->
+                                            <div class="popular-meta-divider" aria-hidden="true"></div>
+
+                                            <!-- Column 2: Flight Duration -->
+                                            <div class="popular-meta-col text-end">
+                                                <span class="popular-meta-label">Flight duration</span>
+                                                <div class="popular-meta-duration">
+                                                    <i class="bi bi-clock me-1 text-sky-cyan" aria-hidden="true"></i>
+                                                    <span>${not empty deal.durationFormatted ? deal.durationFormatted : 'Direct'}</span>
+                                                </div>
+                                                <span class="popular-meta-sub">
+                                                    <c:choose>
+                                                        <c:when test="${not empty deal.stopsDescription}">
+                                                            ${deal.stopsDescription}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Non-stop
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </span>
                                             </div>
                                         </div>
-                                        <a href="${pageContext.request.contextPath}/search-flights?tripType=one-way&source=${deal.sourceCode}&destination=${deal.destinationCode}&departureDate=${deal.searchDate}&adults=1&travelClass=Economy" 
-                                           class="btn btn-primary w-100 rounded-pill py-2 fw-semibold text-decoration-none">
-                                            Explore Flights &rarr;
+
+                                        <!-- Explore Flights Button (White Pill Button matching Discover Section) -->
+                                        <a href="${pageContext.request.contextPath}/search-flights?tripType=one-way&source=${deal.sourceCode}&origin=${deal.sourceCode}&destination=${deal.destinationCode}&dest=${deal.destinationCode}&departureDate=${deal.searchDate}&adults=1&passengers=1&travelClass=Economy" 
+                                           class="btn btn-light rounded-pill popular-explore-btn fw-bold"
+                                           aria-label="Explore flights from ${deal.sourceCity} to ${deal.destinationCity}"
+                                           onclick="handleExploreFlightsBtn(event, '${deal.sourceCode}', '${deal.destinationCode}', '${deal.searchDate}')">
+                                            <span>Explore Flights</span>
+                                            <i class="bi bi-arrow-right btn-arrow" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
                         <div class="col-12 py-5 text-center text-muted">
-                            <i class="bi bi-airplane fs-1 d-block mb-3 text-secondary"></i>
+                            <i class="bi bi-airplane fs-1 d-block mb-3 text-secondary" aria-hidden="true"></i>
                             <p class="fw-semibold">No flight deals currently available.</p>
                         </div>
                     </c:otherwise>
@@ -1344,7 +1426,67 @@
         });
     }
 
-    // 7. Deal Card & Inspiration Quick Selection
+    // 7. Popular Destinations Interaction & Flight Search Navigation
+    function navigateToPopularFlightSearch(sourceCode, destCode, defaultDate) {
+        const contextPath = '${pageContext.request.contextPath}';
+        
+        // Check if user has selected a departure date on the homepage search form
+        let depDate = null;
+        const depInput = document.getElementById('departureDateInput');
+        if (depInput && depInput.value && depInput.value.trim() !== '') {
+            depDate = depInput.value.trim();
+        } else if (defaultDate && defaultDate.trim() !== '') {
+            depDate = defaultDate.trim();
+        }
+
+        const adults = document.getElementById('adultsInput') ? document.getElementById('adultsInput').value : '1';
+        const children = document.getElementById('childrenInput') ? document.getElementById('childrenInput').value : '0';
+        const infants = document.getElementById('infantsInput') ? document.getElementById('infantsInput').value : '0';
+        const travelClass = document.getElementById('travelClassInput') ? document.getElementById('travelClassInput').value : 'Economy';
+
+        if (depDate) {
+            const url = contextPath + '/search-flights?tripType=one-way'
+                + '&source=' + encodeURIComponent(sourceCode)
+                + '&origin=' + encodeURIComponent(sourceCode)
+                + '&destination=' + encodeURIComponent(destCode)
+                + '&dest=' + encodeURIComponent(destCode)
+                + '&departureDate=' + encodeURIComponent(depDate)
+                + '&adults=' + encodeURIComponent(adults)
+                + '&passengers=' + encodeURIComponent(adults)
+                + '&children=' + encodeURIComponent(children)
+                + '&infants=' + encodeURIComponent(infants)
+                + '&travelClass=' + encodeURIComponent(travelClass);
+            window.location.href = url;
+        } else {
+            // Missing departure date: prefill route and take user to search form to pick date
+            const url = contextPath + '/search-flights?tripType=one-way'
+                + '&source=' + encodeURIComponent(sourceCode)
+                + '&origin=' + encodeURIComponent(sourceCode)
+                + '&destination=' + encodeURIComponent(destCode)
+                + '&dest=' + encodeURIComponent(destCode)
+                + '&adults=' + encodeURIComponent(adults)
+                + '&travelClass=' + encodeURIComponent(travelClass)
+                + '&modify=true';
+            window.location.href = url;
+        }
+    }
+
+    function handlePopularCardClick(event, cardEl) {
+        if (event.target.closest('.popular-explore-btn') || event.target.closest('.explore-flights-btn') || event.target.closest('a')) {
+            return;
+        }
+        const src = cardEl.getAttribute('data-source');
+        const dst = cardEl.getAttribute('data-destination');
+        const dDate = cardEl.getAttribute('data-date');
+        navigateToPopularFlightSearch(src, dst, dDate);
+    }
+
+    function handleExploreFlightsBtn(event, sourceCode, destCode, defaultDate) {
+        event.preventDefault();
+        event.stopPropagation();
+        navigateToPopularFlightSearch(sourceCode, destCode, defaultDate);
+    }
+
     function selectDealRoute(src, dst, srcCity, dstCity) {
         setTripType('one-way');
         const srcApt = AIRPORTS_DATA.find(a => a.code === src);

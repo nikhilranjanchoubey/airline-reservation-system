@@ -28,17 +28,17 @@
 
         <div class="admin-card">
             <div class="admin-table-wrap">
-                <table class="admin-table">
+                <table class="admin-table admin-table-audit">
                     <thead>
                         <tr>
-                            <th>Log ID</th>
-                            <th>Timestamp</th>
-                            <th>Administrator</th>
-                            <th>Action</th>
-                            <th>Target Entity</th>
-                            <th>Record ID</th>
-                            <th>Status</th>
-                            <th>Summary & Details</th>
+                            <th class="col-audit-id">Log ID</th>
+                            <th class="col-audit-time">Timestamp</th>
+                            <th class="col-audit-admin">Administrator</th>
+                            <th class="col-audit-action">Action</th>
+                            <th class="col-audit-target">Target Entity</th>
+                            <th class="col-audit-record">Record ID</th>
+                            <th class="col-audit-status">Status</th>
+                            <th class="col-audit-details">Summary & Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,26 +46,34 @@
                             <c:when test="${not empty auditLogs}">
                                 <c:forEach var="log" items="${auditLogs}">
                                     <tr>
-                                        <td>#${log.logId}</td>
-                                        <td>
+                                        <td class="col-audit-id">#${log.logId}</td>
+                                        <td class="col-audit-time">
                                             <div class="fw-semibold"><fmt:formatDate value="${log.createdAt}" pattern="dd MMM yyyy" /></div>
                                             <small class="text-muted"><fmt:formatDate value="${log.createdAt}" pattern="HH:mm:ss" /></small>
                                         </td>
-                                        <td class="fw-bold text-navy">
-                                            <c:out value="${log.adminName}" />
+                                        <td class="col-audit-admin">
+                                            <div class="fw-bold text-navy text-truncate" title="<c:out value="${log.adminName}" />">
+                                                <c:out value="${log.adminName}" />
+                                            </div>
                                             <div class="text-muted" style="font-size: 0.72rem;">User #${log.adminUserId}</div>
                                         </td>
-                                        <td>
-                                            <span class="badge bg-light text-navy border font-monospace"><c:out value="${log.action}" /></span>
+                                        <td class="col-audit-action">
+                                            <span class="admin-action-badge"><c:out value="${log.action}" /></span>
                                         </td>
-                                        <td><c:out value="${log.affectedRecordType}" /></td>
-                                        <td><code><c:out value="${log.affectedRecordId}" /></code></td>
-                                        <td>
+                                        <td class="col-audit-target">
+                                            <span class="audit-entity-badge" title="<c:out value="${log.affectedRecordType}" />">
+                                                <c:out value="${log.affectedRecordType}" />
+                                            </span>
+                                        </td>
+                                        <td class="col-audit-record">
+                                            <code class="audit-record-id"><c:out value="${log.affectedRecordId}" /></code>
+                                        </td>
+                                        <td class="col-audit-status">
                                             <span class="badge-status badge-status-${log.status.toLowerCase()}">
                                                 <c:out value="${log.status}" />
                                             </span>
                                         </td>
-                                        <td>
+                                        <td class="col-audit-details audit-details-cell">
                                             <small class="text-muted"><c:out value="${log.details}" /></small>
                                         </td>
                                     </tr>

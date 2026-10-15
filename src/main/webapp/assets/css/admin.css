@@ -430,6 +430,165 @@ h1, h2, h3, h4, h5, h6, .admin-heading {
   color: #0369A1;
 }
 
+/* Bookings Registry PAX Column & Badges */
+.admin-table th.th-pax,
+.admin-table td.td-pax {
+  width: 80px;
+  min-width: 80px;
+  max-width: 85px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.admin-pax-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 8px;
+  background-color: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  color: #172B45;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+/* Text Utility: text-navy */
+.text-navy {
+  color: var(--sky-navy, #071A35) !important;
+}
+
+/* Administrative Audit Table & Action Badges */
+.admin-table-audit {
+  min-width: 1120px;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.admin-table th.col-audit-id,
+.admin-table td.col-audit-id {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-time,
+.admin-table td.col-audit-time {
+  width: 130px;
+  min-width: 130px;
+  max-width: 140px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-admin,
+.admin-table td.col-audit-admin {
+  width: 150px;
+  min-width: 150px;
+  max-width: 160px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-action,
+.admin-table td.col-audit-action {
+  width: 170px;
+  min-width: 170px;
+  max-width: 180px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-target,
+.admin-table td.col-audit-target {
+  width: 175px;
+  min-width: 175px;
+  max-width: 190px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-record,
+.admin-table td.col-audit-record {
+  width: 110px;
+  min-width: 110px;
+  max-width: 120px;
+  padding-left: 12px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-status,
+.admin-table td.col-audit-status {
+  width: 115px;
+  min-width: 115px;
+  max-width: 125px;
+  box-sizing: border-box;
+}
+
+.admin-table th.col-audit-details,
+.admin-table td.col-audit-details {
+  width: auto;
+  min-width: 250px;
+  box-sizing: border-box;
+}
+
+.audit-entity-badge {
+  display: inline-block;
+  max-width: 100%;
+  font-family: 'Space Grotesk', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1E293B;
+  background-color: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audit-record-id {
+  display: inline-block;
+  padding: 2px 7px;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: 4px;
+  color: #0F172A;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.admin-action-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #172B45 !important;
+  font-family: 'Space Grotesk', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.audit-details-cell {
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.45;
+}
+
 /* ---------------------------------------------------------
    Search, Filter, and Action Bars
    --------------------------------------------------------- */

@@ -20,8 +20,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom SkyTech Theme CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css?v=3.3">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css?v=2.3">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/flight-search.css?v=2.3">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css?v=4.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css?v=4.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/flight-search.css?v=4.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/popular-destinations.css?v=4.0">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">

@@ -50,6 +50,7 @@
                 <input type="hidden" name="travelClass" value="${travelClass}">
                 <input type="hidden" name="passengersCount" value="${passengersCount}">
                 <input type="hidden" name="selectedSeats" value="${selectedSeatsStr}">
+                <input type="hidden" name="departureDate" value="${departureDate}">
 
                 <!-- Contact Information Card -->
                 <div class="card sky-card border-0 rounded-4 shadow-sm mb-4 overflow-hidden">
@@ -219,12 +220,25 @@
                                 <span>Passengers:</span>
                                 <strong class="text-dark">${passengersCount} Traveler(s)</strong>
                             </li>
-                            <c:if test="${not empty selectedSeats}">
-                                <li class="d-flex justify-content-between">
-                                    <span>Selected Seat(s):</span>
-                                    <strong class="text-primary">${selectedSeatsStr}</strong>
-                                </li>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${not empty selectedSeats}">
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <span>Selected Seat(s):</span>
+                                        <div class="text-end">
+                                            <strong class="text-primary">${selectedSeatsStr}</strong>
+                                            <a href="${pageContext.request.contextPath}/seat-selection?id=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengersCount}&departureDate=${departureDate}&selectedSeats=${selectedSeatsStr}" class="d-block small text-decoration-none">Change Seats</a>
+                                        </div>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="d-flex justify-content-between align-items-center">
+                                        <span>Seats:</span>
+                                        <a href="${pageContext.request.contextPath}/seat-selection?id=${schedule.scheduleId}&travelClass=${travelClass}&passengers=${passengersCount}&departureDate=${departureDate}" class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 0.75rem;">
+                                            <i class="bi bi-grid me-1"></i>Select Seats
+                                        </a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </div>
                 </div>

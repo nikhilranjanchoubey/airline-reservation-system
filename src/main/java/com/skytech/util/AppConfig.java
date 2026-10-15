@@ -160,7 +160,7 @@ public final class AppConfig {
 
         // 3. Fallback .env map (if key missing, retry scan once)
         String fallbackVal = DOTENV_FALLBACK_MAP.get(key);
-        if (fallbackVal == null && (key.startsWith("RAZORPAY") || key.startsWith("DB_") || key.startsWith("REEF"))) {
+        if (fallbackVal == null && (key.startsWith("RAZORPAY") || key.startsWith("DB_") || key.startsWith("REEF") || key.startsWith("GEMINI"))) {
             loadDotenvManuallyIfEmpty();
             fallbackVal = DOTENV_FALLBACK_MAP.get(key);
         }
@@ -293,6 +293,44 @@ public final class AppConfig {
         return src != null ? src : "Not found in any source";
     }
 
+    // Google Gemini AI accessors
+
+    /**
+     * Obtains the configured Gemini API Key (from GEMINI_API_KEY or gemini.api.key).
+     */
+    public static String getGeminiApiKey() {
+        return get("GEMINI_API_KEY", get("gemini.api.key", null));
+    }
+
+    /**
+     * Returns true if Gemini API Key is configured.
+     */
+    public static boolean isGeminiConfigured() {
+        String key = getGeminiApiKey();
+        return key != null && !key.trim().isEmpty();
+    }
+
+    /**
+     * Obtains the configured Gemini Model name (default: gemini-2.5-flash).
+     */
+    public static String getGeminiModel() {
+        return get("GEMINI_MODEL", get("gemini.model", "gemini-2.5-flash"));
+    }
+
+    // SkyTech Customer Support Configuration accessors
+
+    public static String getSupportEmail() {
+        return get("SKYTECH_SUPPORT_EMAIL", "support@skytech.com");
+    }
+
+    public static String getSupportPhone() {
+        return get("SKYTECH_SUPPORT_PHONE", "+91 1800-SKY-TECH");
+    }
+
+    public static String getSupportHours() {
+        return get("SKYTECH_SUPPORT_HOURS", "24/7 (All days)");
+    }
+
     /**
      * Safe diagnostics: Logs whether credentials are present and their sources without exposing secret values.
      */
@@ -305,6 +343,11 @@ public final class AppConfig {
         LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Key ID Present: " + keyIdPresent + " (Source: " + keyIdSource + ")");
         LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Key Secret Present: " + keySecretPresent + " (Source: " + keySecretSource + ")");
         LOGGER.info("[APP-CONFIG DIAGNOSTICS] Razorpay Fully Configured: " + isRazorpayConfigured());
+
+        boolean geminiPresent = isGeminiConfigured();
+        String geminiSource = getConfigurationSource("GEMINI_API_KEY");
+        LOGGER.info("[APP-CONFIG DIAGNOSTICS] Gemini AI Configured: " + geminiPresent + " (Model: " + getGeminiModel() + ", Source: " + geminiSource + ")");
     }
 }
+
 

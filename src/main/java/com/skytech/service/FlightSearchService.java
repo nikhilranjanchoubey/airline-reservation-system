@@ -293,7 +293,7 @@ public class FlightSearchService {
                 }
             }
         }
-        return !all.isEmpty() ? all.get(0) : null;
+        return null;
     }
 
     /**
@@ -321,22 +321,22 @@ public class FlightSearchService {
     }
 
     private static final List<FeaturedRouteConfig> FEATURED_ROUTES = java.util.Arrays.asList(
-        new FeaturedRouteConfig("JAI", "DEL", "Jaipur", "Delhi", "Popular Route",
-                "assets/images/destinations/delhi.jpg", "India Gate landmark in Delhi"),
-        new FeaturedRouteConfig("DEL", "BOM", "Delhi", "Mumbai", "Business Route",
-                "assets/images/destinations/mumbai.jpg", "Gateway of India in Mumbai"),
-        new FeaturedRouteConfig("BOM", "BLR", "Mumbai", "Bengaluru", "Business Route",
-                "assets/images/destinations/bengaluru.jpg", "Vidhana Soudha in Bengaluru"),
-        new FeaturedRouteConfig("DEL", "GOI", "Delhi", "Goa", "Holiday Route",
-                "assets/images/destinations/goa.jpg", "Goa beach shoreline and coastal palms"),
-        new FeaturedRouteConfig("BLR", "HYD", "Bengaluru", "Hyderabad", "Popular Route",
-                "assets/images/destinations/hyderabad.jpg", "Historic Charminar in Hyderabad"),
-        new FeaturedRouteConfig("MAA", "BOM", "Chennai", "Mumbai", "Popular Route",
-                "assets/images/destinations/mumbai.jpg", "Marine Drive skyline in Mumbai")
+        new FeaturedRouteConfig("JAI", "DEL", "Jaipur", "Delhi", "",
+                "assets/images/destinations/delhi-india-gate.jpg", "India Gate landmark in Delhi"),
+        new FeaturedRouteConfig("DEL", "BOM", "Delhi", "Mumbai", "",
+                "assets/images/destinations/mumbai-gateway-of-india.jpg", "Gateway of India in Mumbai"),
+        new FeaturedRouteConfig("DEL", "GOI", "Delhi", "Goa", "",
+                "assets/images/destinations/goa-beach.jpg", "Pristine beaches and coastal palms in Goa"),
+        new FeaturedRouteConfig("BOM", "BLR", "Mumbai", "Bengaluru", "",
+                "assets/images/destinations/bengaluru-city.jpg", "Vidhana Soudha and modern skyline in Bengaluru"),
+        new FeaturedRouteConfig("BLR", "HYD", "Bengaluru", "Hyderabad", "",
+                "assets/images/destinations/hyderabad-charminar.jpg", "Historic Charminar in Hyderabad"),
+        new FeaturedRouteConfig("DEL", "JAI", "Delhi", "Jaipur", "",
+                "assets/images/destinations/jaipur-hawa-mahal.jpg", "Hawa Mahal and royal palace in Jaipur")
     );
 
     /**
-     * Returns featured route deals for today with deterministic Daily Shuffle rotation.
+     * Returns featured route deals for today with stable, verified destination inventory.
      */
     public List<com.skytech.model.PopularRouteDeal> getPopularRouteDeals() {
         return getPopularRouteDeals(LocalDate.now(APP_ZONE_ID));
@@ -355,29 +355,18 @@ public class FlightSearchService {
             return deals;
         }
 
-        // Daily rotation index
-        long epochDay = baseDate.toEpochDay();
-        int dailyIndex = (int) (Math.abs(epochDay) % FEATURED_ROUTES.size());
-
-        // Order routes starting with featured deal
-        List<FeaturedRouteConfig> orderedRoutes = new ArrayList<>();
-        orderedRoutes.add(FEATURED_ROUTES.get(dailyIndex));
-        for (int i = 0; i < FEATURED_ROUTES.size(); i++) {
-            if (i != dailyIndex) {
-                orderedRoutes.add(FEATURED_ROUTES.get(i));
-            }
-        }
+        // Stable, intentional route list without random daily shuffling
+        List<FeaturedRouteConfig> orderedRoutes = FEATURED_ROUTES;
 
         com.skytech.integration.DatabaseFlightProvider localCatalogProvider = new com.skytech.integration.DatabaseFlightProvider();
 
-        for (int idx = 0; idx < orderedRoutes.size(); idx++) {
-            FeaturedRouteConfig cfg = orderedRoutes.get(idx);
-            boolean isDaily = (idx == 0);
-            String tag = isDaily ? "Daily Shuffle" : cfg.defaultTag;
+        for (FeaturedRouteConfig cfg : orderedRoutes) {
+            boolean isDaily = false;
+            String tag = "";
 
             java.math.BigDecimal lowestPrice = null;
-            String duration = "1h 45m";
-            String stops = "Non-stop";
+            String duration = null;
+            String stops = null;
             java.util.Set<String> airlineSet = new java.util.LinkedHashSet<>();
 
             try {
@@ -393,7 +382,7 @@ public class FlightSearchService {
                                 stops = fs.getFlight().getStopsDescription();
                             }
                         }
-                        if (fs.getFlight() != null && fs.getFlight().getAirline() != null) {
+                        if (fs.getFlight() != null && fs.getFlight().getAirline() != null && fs.getFlight().getAirline().getAirlineName() != null) {
                             airlineSet.add(fs.getFlight().getAirline().getAirlineName());
                         }
                     }
@@ -402,7 +391,8 @@ public class FlightSearchService {
                 LOGGER.log(Level.FINE, "Could not resolve dynamic pricing for " + cfg.src + " -> " + cfg.dst, e);
             }
 
-            String airlines = airlineSet.isEmpty() ? "IndiGo • Air India • Akasa Air" : String.join(" • ", airlineSet);
+            // Only display airlines and durations supported by verified data
+            String airlines = airlineSet.isEmpty() ? null : String.join(" • ", airlineSet);
 
             deals.add(new com.skytech.model.PopularRouteDeal(
                 cfg.src, cfg.dst, cfg.srcCity, cfg.dstCity, airlines, lowestPrice, duration, stops,

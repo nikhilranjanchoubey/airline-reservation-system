@@ -47,7 +47,13 @@ public class FlightSearchController extends HttpServlet {
         request.setAttribute("airports", airports);
 
         String source = request.getParameter("source");
+        if (source == null || source.trim().isEmpty()) {
+            source = request.getParameter("origin");
+        }
         String destination = request.getParameter("destination");
+        if (destination == null || destination.trim().isEmpty()) {
+            destination = request.getParameter("dest");
+        }
         String departureDateStr = request.getParameter("departureDate");
 
         String tripType = request.getParameter("tripType");
@@ -137,7 +143,13 @@ public class FlightSearchController extends HttpServlet {
 
         LocalDate today = LocalDate.now(APP_ZONE_ID);
         String source = request.getParameter("source");
+        if (source == null || source.trim().isEmpty()) {
+            source = request.getParameter("origin");
+        }
         String destination = request.getParameter("destination");
+        if (destination == null || destination.trim().isEmpty()) {
+            destination = request.getParameter("dest");
+        }
         String departureDateStr = request.getParameter("departureDate");
         String tripType = request.getParameter("tripType");
         if (tripType == null || tripType.trim().isEmpty()) {

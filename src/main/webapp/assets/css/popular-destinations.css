@@ -1,0 +1,448 @@
+/* ==========================================================================
+   Popular Destinations Section
+   ========================================================================== */
+
+/* Section Container */
+.popular-destinations-section {
+    position: relative;
+    z-index: 1;
+    background-color: #FFFFFF;
+    padding-top: 3.5rem;
+    padding-bottom: 4.5rem;
+}
+
+/* Section Header */
+.popular-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.25rem;
+    width: 100%;
+}
+
+.popular-heading {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 2.15rem;
+    font-weight: 800;
+    color: #071A35;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.35rem;
+}
+
+.popular-subheading {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 1.05rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.view-all-flights-link {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #168BFF;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.view-all-flights-link:hover {
+    color: #0B2D52;
+    text-decoration: none;
+}
+
+.view-all-flights-link .view-all-arrow {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.view-all-flights-link:hover .view-all-arrow {
+    transform: translateX(5px);
+}
+
+.view-all-flights-link:focus-visible {
+    outline: 2px solid #168BFF;
+    outline-offset: 2px;
+}
+
+/* Responsive CSS Grid (Exactly 3 equal-width columns on desktop, 2 on tablet, 1 on mobile) */
+.popular-destinations-grid,
+.destinations-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+@media (max-width: 991.98px) {
+
+    .popular-destinations-grid,
+    .destinations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .popular-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.85rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .view-all-flights-link {
+        padding-left: 0;
+        width: auto;
+    }
+
+    .popular-destinations-grid,
+    .destinations-grid {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+}
+
+/* ==========================================================================
+   Destination Image-Overlay Card (Inspire Style)
+   ========================================================================== */
+.popular-dest-card {
+    position: relative !important;
+    height: 480px !important;
+    min-height: 480px !important;
+    max-height: 480px !important;
+    width: 100% !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(7, 26, 53, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background-color: #071A35 !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.28s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    outline: none;
+    text-decoration: none;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+.popular-dest-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 22px 45px -10px rgba(7, 26, 53, 0.32), 0 8px 18px -4px rgba(22, 139, 255, 0.2) !important;
+    border-color: rgba(86, 204, 242, 0.45) !important;
+}
+
+.popular-dest-card:focus-visible {
+    outline: 2px solid #56CCF2 !important;
+    outline-offset: 3px;
+}
+
+/* Full-Background Destination Image */
+.popular-dest-bg-img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 0 !important;
+    display: block !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border: none !important;
+}
+
+.popular-dest-card:hover .popular-dest-bg-img {
+    transform: scale(1.05) !important;
+}
+
+/* Subtle Dark Gradient Overlay (stronger near bottom for pristine readability) */
+.popular-dest-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    background: linear-gradient(180deg,
+            rgba(7, 26, 53, 0.22) 0%,
+            rgba(7, 26, 53, 0.10) 30%,
+            rgba(7, 26, 53, 0.72) 65%,
+            rgba(7, 26, 53, 0.95) 100%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 1.5rem !important;
+    color: #FFFFFF !important;
+    transition: background 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.popular-dest-card:hover .popular-dest-overlay {
+    background: linear-gradient(180deg,
+            rgba(7, 26, 53, 0.18) 0%,
+            rgba(7, 26, 53, 0.18) 30%,
+            rgba(7, 26, 53, 0.80) 65%,
+            rgba(7, 26, 53, 0.98) 100%) !important;
+}
+
+/* Top Badges Area */
+.popular-dest-top {
+    display: flex;
+    align-items: flex-start;
+    z-index: 2;
+    margin-bottom: auto !important;
+}
+
+.popular-badge {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.85rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+}
+
+.popular-badge-blue {
+    background: rgba(22, 139, 255, 0.92) !important;
+    color: #FFFFFF !important;
+}
+
+.popular-badge-cyan {
+    background: rgba(14, 165, 233, 0.92) !important;
+    color: #FFFFFF !important;
+}
+
+.popular-badge-warning {
+    background: rgba(245, 158, 11, 0.95) !important;
+    color: #071A35 !important;
+}
+
+.popular-badge-emerald {
+    background: rgba(16, 185, 129, 0.92) !important;
+    color: #FFFFFF !important;
+}
+
+/* Card Content Area Over Overlay */
+.popular-dest-content {
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 2 !important;
+    width: 100% !important;
+}
+
+.popular-dest-card:hover .popular-dest-content {
+    transform: translateY(-4px) !important;
+}
+
+/* Airport Route Codes */
+.popular-dest-codes {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.popular-dest-codes .code-badge {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    color: #56CCF2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.popular-dest-codes .code-arrow {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Route Title */
+.popular-dest-title {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.55rem !important;
+    /* ~25px */
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Airlines Line */
+.popular-dest-airlines {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.875rem !important;
+    /* ~14px */
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.95rem !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.popular-dest-airlines .bi-airplane-fill {
+    color: #56CCF2 !important;
+    font-size: 0.8125rem !important;
+    flex-shrink: 0 !important;
+}
+
+/* Translucent Two-Column Fare & Duration Panel */
+.popular-dest-meta-panel {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    border-radius: 14px !important;
+    padding: 0.85rem 1rem !important;
+    margin-bottom: 1.1rem !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    gap: 0.85rem !important;
+}
+
+.popular-meta-col {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+}
+
+.popular-meta-divider {
+    width: 1px !important;
+    height: 100% !important;
+    min-height: 40px !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+}
+
+.popular-meta-label {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.2 !important;
+    margin-bottom: 2px !important;
+}
+
+.popular-meta-price {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.45rem !important;
+    /* ~23px */
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.popular-meta-duration {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    line-height: 1.2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.popular-meta-sub {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    line-height: 1.2 !important;
+    margin-top: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Explore Flights Button (White Pill Button matching Discover Section) */
+.popular-explore-btn {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FFFFFF !important;
+    color: #071A35 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    width: 100% !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    opacity: 0.95;
+    box-sizing: border-box !important;
+}
+
+.popular-dest-card:hover .popular-explore-btn {
+    opacity: 1 !important;
+    background-color: #FFFFFF !important;
+    color: #168BFF !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35) !important;
+}
+
+.popular-explore-btn .btn-arrow {
+    display: inline-block !important;
+    transition: transform 0.25s ease !important;
+}
+
+.popular-dest-card:hover .popular-explore-btn .btn-arrow {
+    transform: translateX(5px) !important;
+}
+
+.popular-explore-btn:focus-visible {
+    outline: 2px solid #56CCF2 !important;
+    outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .popular-dest-card,
+    .popular-dest-bg-img,
+    .popular-dest-content,
+    .popular-explore-btn,
+    .popular-explore-btn .btn-arrow,
+    .view-all-flights-link,
+    .view-all-flights-link .view-all-arrow {
+        transition: none !important;
+        transform: none !important;
+    }
+}

@@ -73,17 +73,14 @@ public class BookingController extends HttpServlet {
             scheduleIdParam = request.getParameter("id");
         }
 
-        if (scheduleIdParam == null || scheduleIdParam.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/search-flights");
-            return;
+        String flightNumberParam = request.getParameter("flightNumber");
+        String sourceParam = request.getParameter("source");
+        if (sourceParam == null || sourceParam.trim().isEmpty()) {
+            sourceParam = request.getParameter("origin");
         }
-
-        int scheduleId;
-        try {
-            scheduleId = Integer.parseInt(scheduleIdParam.trim());
-        } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/search-flights");
-            return;
+        String destParam = request.getParameter("destination");
+        if (destParam == null || destParam.trim().isEmpty()) {
+            destParam = request.getParameter("dest");
         }
 
         String travelClass = request.getParameter("travelClass");
@@ -109,17 +106,50 @@ public class BookingController extends HttpServlet {
             }
         }
 
+        int scheduleId = -1;
+        if (scheduleIdParam != null && !scheduleIdParam.trim().isEmpty()) {
+            try {
+                scheduleId = Integer.parseInt(scheduleIdParam.trim());
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
         FlightSchedule schedule = null;
-        try {
-            schedule = flightSearchService.getFlightDetails(scheduleId, departureDate);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Failed to retrieve schedule details: " + e.getMessage());
+        if (scheduleId > 0) {
+            try {
+                schedule = flightSearchService.getFlightDetails(scheduleId, departureDate);
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Failed to retrieve schedule details for ID " + scheduleId + ": " + e.getMessage());
+            }
+        }
+
+        // Fallback: Resolve by flight number and route if scheduleId alone expired
+        if (schedule == null && flightNumberParam != null && !flightNumberParam.trim().isEmpty()) {
+            try {
+                schedule = flightSearchService.getFlightDetailsByRouteAndFlightNumber(flightNumberParam, sourceParam, destParam, departureDate);
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Failed to fallback retrieve schedule by flightNumber: " + e.getMessage());
+            }
         }
 
         if (schedule == null) {
-            request.setAttribute("errorMessage", "The requested flight schedule could not be found or has expired.");
-            response.sendRedirect(request.getContextPath() + "/search-flights");
+            HttpSession s = request.getSession(true);
+            s.setAttribute("flashError", "The requested flight schedule could not be found or has expired. Please select an available flight.");
+            String redirectUrl = request.getContextPath() + "/search-flights";
+            if (sourceParam != null && destParam != null && departureDateStr != null) {
+                redirectUrl += "?source=" + URLEncoder.encode(sourceParam, StandardCharsets.UTF_8)
+                            + "&origin=" + URLEncoder.encode(sourceParam, StandardCharsets.UTF_8)
+                            + "&destination=" + URLEncoder.encode(destParam, StandardCharsets.UTF_8)
+                            + "&dest=" + URLEncoder.encode(destParam, StandardCharsets.UTF_8)
+                            + "&departureDate=" + URLEncoder.encode(departureDateStr, StandardCharsets.UTF_8)
+                            + "&tripType=one-way&adults=1&passengers=1&travelClass=Economy";
+            }
+            response.sendRedirect(redirectUrl);
             return;
+        }
+
+        if (departureDate != null) {
+            schedule.setFlightDate(java.sql.Date.valueOf(departureDate));
         }
 
         // Selected Seats Parsing
