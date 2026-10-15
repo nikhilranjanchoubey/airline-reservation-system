@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +34,12 @@ import java.util.logging.Logger;
 public class DatabaseInitializer implements ServletContextListener {
 
     private static final Logger LOGGER = Logger.getLogger(DatabaseInitializer.class.getName());
+
+    public static final String[] REQUIRED_TABLES = {
+        "users", "airports", "airlines", "flights", "flight_schedules",
+        "aircraft", "aircraft_seats", "flight_seat_inventory", "flight_searches",
+        "bookings", "passengers", "payments", "tickets", "cancellations", "admin_audit_logs"
+    };
 
     public static final String DEMO_ADMIN_EMAIL = "admin@airline.com";
     public static final String DEMO_ADMIN_PASS = "Admin@12345";
@@ -146,18 +154,33 @@ public class DatabaseInitializer implements ServletContextListener {
     }
 
     private static void ensureMasterTablesExist(Connection conn) {
-        boolean airportsExist = false;
-        try (PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM airports LIMIT 1")) {
-            ps.executeQuery();
-            airportsExist = true;
-        } catch (SQLException ignored) {
-            airportsExist = false;
-        }
-
-        if (!airportsExist) {
-            LOGGER.info("[DB-INIT] Master tables not detected. Loading full schema from resources...");
+        List<String> missingTables = getMissingTables(conn);
+        if (!missingTables.isEmpty()) {
+            LOGGER.warning("[DB-INIT] Required database tables missing: " + missingTables + ". Loading full schema from resources...");
             executeSchemaScript(conn);
+
+            List<String> remainingMissing = getMissingTables(conn);
+            if (!remainingMissing.isEmpty()) {
+                LOGGER.severe("[DB-INIT] FATAL: Database tables still missing after schema initialization: " + remainingMissing);
+            } else {
+                LOGGER.info("[DB-INIT] All 15 required database tables verified successfully.");
+            }
+        } else {
+            LOGGER.info("[DB-INIT] All 15 required database tables verified.");
         }
+    }
+
+    public static List<String> getMissingTables(Connection conn) {
+        List<String> missing = new ArrayList<>();
+        for (String table : REQUIRED_TABLES) {
+            String checkSql = "SELECT 1 FROM `" + table + "` LIMIT 1";
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute(checkSql);
+            } catch (SQLException e) {
+                missing.add(table);
+            }
+        }
+        return missing;
     }
 
     private static void executeSchemaScript(Connection conn) {
@@ -204,17 +227,17 @@ public class DatabaseInitializer implements ServletContextListener {
      */
     public static void provisionOrVerifyDemoAccounts(Connection conn) {
         provisionOrVerifyAccount(conn, DEMO_ADMIN_EMAIL, DEMO_ADMIN_PASS, DEMO_ADMIN_SALT,
-                "System", "Administrator", "+18005550199", "ADM99988877", LocalDate.of(1985, 1, 1), Role.ADMIN);
+                "Team", "SkyTech", "+91 9876543210", "ADM99988877", LocalDate.of(1985, 1, 1), Role.ADMIN);
 
         provisionOrVerifyAccount(conn, DEMO_PASSENGER_EMAIL, DEMO_PASSENGER_PASS, DEMO_PASSENGER_SALT,
-                "John", "Doe", "+15551234567", "P12345678", LocalDate.of(1995, 5, 15), Role.PASSENGER);
+                "Ramesh", "Kumar", "+91 999 777 8888", "P99887766", LocalDate.of(1993, 8, 20), Role.PASSENGER);
     }
 
     private static void provisionOrVerifyAccount(Connection conn, String email, String rawPassword, String defaultSalt,
                                                  String firstName, String lastName, String phone, String passportNumber,
                                                  LocalDate dob, Role role) {
         String cleanEmail = email.trim().toLowerCase();
-        String selectSql = "SELECT user_id, password_hash, salt, role, status FROM users WHERE email = ?";
+        String selectSql = "SELECT user_id, password_hash, salt, role, status, first_name, last_name FROM users WHERE email = ?";
         try (PreparedStatement ps = conn.prepareStatement(selectSql)) {
             ps.setString(1, cleanEmail);
             try (ResultSet rs = ps.executeQuery()) {
@@ -224,6 +247,25 @@ public class DatabaseInitializer implements ServletContextListener {
                     String existingSalt = rs.getString("salt");
                     String existingRole = rs.getString("role");
                     String existingStatus = rs.getString("status");
+                    String existingFirstName = rs.getString("first_name");
+                    String existingLastName = rs.getString("last_name");
+
+                    // If account has default placeholder "John Doe", safely update to restored profile "Ramesh Kumar"
+                    boolean nameNeedsUpdate = ("John".equalsIgnoreCase(existingFirstName) && "Doe".equalsIgnoreCase(existingLastName))
+                            || (firstName != null && !firstName.equalsIgnoreCase(existingFirstName) && "passenger@airline.com".equalsIgnoreCase(cleanEmail));
+
+                    if (nameNeedsUpdate) {
+                        String updateNameSql = "UPDATE users SET first_name = ?, last_name = ?, phone = COALESCE(phone, ?), passport_number = COALESCE(passport_number, ?) WHERE user_id = ?";
+                        try (PreparedStatement updateNamePs = conn.prepareStatement(updateNameSql)) {
+                            updateNamePs.setString(1, firstName);
+                            updateNamePs.setString(2, lastName);
+                            updateNamePs.setString(3, phone);
+                            updateNamePs.setString(4, passportNumber);
+                            updateNamePs.setInt(5, userId);
+                            updateNamePs.executeUpdate();
+                            LOGGER.info("[DB-INIT] Corrected user account name to [" + firstName + " " + lastName + "] for [" + cleanEmail + "]");
+                        }
+                    }
 
                     boolean passwordValid = (existingHash != null && existingSalt != null)
                             && PasswordUtil.verifyPassword(rawPassword, existingSalt, existingHash);
@@ -232,7 +274,7 @@ public class DatabaseInitializer implements ServletContextListener {
                     boolean statusValid = "ACTIVE".equalsIgnoreCase(existingStatus);
 
                     if (passwordValid && roleValid && statusValid) {
-                        LOGGER.info("[DB-INIT] Verified account [" + cleanEmail + "] (Role: " + existingRole + ", Status: " + existingStatus + ")");
+                        LOGGER.info("[DB-INIT] Verified account [" + cleanEmail + "] (Name: " + (nameNeedsUpdate ? firstName + " " + lastName : existingFirstName + " " + existingLastName) + ", Role: " + existingRole + ", Status: " + existingStatus + ")");
                     } else {
                         // Safe repair: refresh hash with expected password and ensure ACTIVE status and intended role
                         String newSalt = (existingSalt != null && !existingSalt.isBlank()) ? existingSalt : defaultSalt;
@@ -266,7 +308,7 @@ public class DatabaseInitializer implements ServletContextListener {
                         insertPs.setDate(8, Date.valueOf(dob));
                         insertPs.setString(9, role.name());
                         insertPs.executeUpdate();
-                        LOGGER.info("[DB-INIT] Successfully provisioned demo account [" + cleanEmail + "] with role " + role);
+                        LOGGER.info("[DB-INIT] Successfully provisioned account [" + cleanEmail + "] (" + firstName + " " + lastName + ") with role " + role);
                     }
                 }
             }

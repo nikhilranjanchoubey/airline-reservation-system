@@ -314,7 +314,7 @@ public final class AppConfig {
      * Obtains the configured Gemini Model name (default: gemini-2.5-flash).
      */
     public static String getGeminiModel() {
-        return get("GEMINI_MODEL", get("gemini.model", "gemini-2.5-flash"));
+        return get("GEMINI_MODEL", get("GEMINI_MODE", get("gemini.model", "gemini-2.5-flash")));
     }
 
     // SkyTech Customer Support Configuration accessors

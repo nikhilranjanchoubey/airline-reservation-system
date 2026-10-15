@@ -62,11 +62,53 @@ FLUSH PRIVILEGES;"
     # Run schema.sql if present
     if [ -f "/app/database/schema.sql" ]; then
         echo "Applying SkyTech database schema and initial seed data..."
-        mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db < /app/database/schema.sql 2>/dev/null || \
-        mysql -u root -p"${APP_PASS}" skytech_db < /app/database/schema.sql 2>/dev/null || \
-        mysql -u root skytech_db < /app/database/schema.sql 2>/dev/null || true
-        echo "SkyTech database schema applied successfully."
+        mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db < /app/database/schema.sql || \
+        mysql -u root -p"${APP_PASS}" skytech_db < /app/database/schema.sql || \
+        mysql -u root skytech_db < /app/database/schema.sql || true
+        echo "SkyTech database schema applied."
     fi
+
+    # Run any migration scripts if present
+    for migration in /app/database/migration_*.sql; do
+        if [ -f "$migration" ]; then
+            echo "Applying migration $(basename "$migration")..."
+            mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db < "$migration" 2>/dev/null || \
+            mysql -u root -p"${APP_PASS}" skytech_db < "$migration" 2>/dev/null || true
+        fi
+    done
+
+    # Verify all 15 required tables are present before proceeding
+    REQUIRED_TABLES="users airports airlines flights flight_schedules aircraft aircraft_seats flight_seat_inventory flight_searches bookings passengers payments tickets cancellations admin_audit_logs"
+    echo "Verifying all required database tables..."
+    MISSING_TABLES=""
+    for tbl in $REQUIRED_TABLES; do
+        if ! mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db -e "SELECT 1 FROM \`$tbl\` LIMIT 1;" >/dev/null 2>&1; then
+            MISSING_TABLES="$MISSING_TABLES $tbl"
+        fi
+    done
+
+    if [ -n "$MISSING_TABLES" ]; then
+        echo "WARNING: Missing required database tables detected:$MISSING_TABLES"
+        echo "Attempting schema recovery..."
+        mysql -u root -p"${APP_PASS}" skytech_db < /app/database/schema.sql || true
+        STILL_MISSING=""
+        for tbl in $REQUIRED_TABLES; do
+            if ! mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db -e "SELECT 1 FROM \`$tbl\` LIMIT 1;" >/dev/null 2>&1; then
+                STILL_MISSING="$STILL_MISSING $tbl"
+            fi
+        done
+        if [ -n "$STILL_MISSING" ]; then
+            echo "FATAL: Database verification failed. Unresolved missing tables:$STILL_MISSING"
+        else
+            echo "Database recovery successful: All 15 required tables verified."
+        fi
+    else
+        echo "Database verification successful: All 15 required tables verified."
+    fi
+
+    # Ensure demo accounts have restored profile names
+    mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db -e "UPDATE users SET first_name='Ramesh', last_name='Kumar', phone='+91 999 777 8888', passport_number='P99887766' WHERE email='passenger@airline.com' AND (first_name='John' OR first_name='');" >/dev/null 2>&1 || true
+    mysql -u "${APP_USER}" -p"${APP_PASS}" skytech_db -e "UPDATE users SET first_name='Team', last_name='SkyTech' WHERE email='admin@airline.com' AND first_name='System';" >/dev/null 2>&1 || true
 else
     echo "External database configured: connecting to remote MySQL host."
 fi

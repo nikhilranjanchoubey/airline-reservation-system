@@ -39,21 +39,39 @@ public class HealthController extends HttpServlet {
         response.setDateHeader("Expires", 0);
 
         boolean dbConnected = false;
+        boolean tablesReady = false;
+        java.util.List<String> missingCoreTables = new java.util.ArrayList<>();
+        String[] coreTables = {"users", "airports", "flights", "flight_schedules", "bookings", "passengers"};
+
         try (Connection conn = DBConnectionUtil.getConnection()) {
             if (conn != null && !conn.isClosed()) {
                 dbConnected = true;
+                try (java.sql.Statement stmt = conn.createStatement()) {
+                    for (String tbl : coreTables) {
+                        try {
+                            stmt.execute("SELECT 1 FROM `" + tbl + "` LIMIT 1");
+                        } catch (SQLException e) {
+                            missingCoreTables.add(tbl);
+                        }
+                    }
+                }
+                tablesReady = missingCoreTables.isEmpty();
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Health check database probe warning: " + e.getMessage());
         }
 
+        boolean fullyOperational = dbConnected && tablesReady;
         Map<String, Object> health = new LinkedHashMap<>();
-        health.put("status", dbConnected ? "UP" : "DEGRADED");
+        health.put("status", fullyOperational ? "UP" : "DEGRADED");
         health.put("service", "SkyTech Airline Reservation System API");
-        health.put("database", dbConnected ? "CONNECTED" : "DISCONNECTED");
+        health.put("database", dbConnected ? (tablesReady ? "CONNECTED" : "SCHEMA_INCOMPLETE") : "DISCONNECTED");
+        if (!missingCoreTables.isEmpty()) {
+            health.put("missingTables", missingCoreTables);
+        }
         health.put("timestamp", Instant.now().toString());
 
-        if (!dbConnected) {
+        if (!fullyOperational) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
         } else {
             response.setStatus(HttpServletResponse.SC_OK);

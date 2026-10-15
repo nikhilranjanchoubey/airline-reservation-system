@@ -157,6 +157,7 @@ public class BookingService {
         booking.setDestinationCode(schedule.getFlight().getDestinationAirport().getAirportCode());
         booking.setDepartureDate(schedule.getFlightDate() != null ? schedule.getFlightDate().toLocalDate() : null);
         booking.setStatus("PENDING_PAYMENT");
+        booking.setProvider("LOCAL_CATALOG");
         booking.setTotalAmount(grandTotal);
         booking.setCurrency("INR");
         booking.setPassengers(passengers);

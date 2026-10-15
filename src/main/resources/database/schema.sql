@@ -45,9 +45,9 @@ VALUES
     'admin@airline.com',
     'cb81638176dd740c00f49106b5cf8fd91ba4c0bb172948a60b7adb08cd21d712',
     'a1b2c3d4e5f60718293a4b5c6d7e8f90',
-    'System',
-    'Administrator',
-    '+18005550199',
+    'Team',
+    'SkyTech',
+    '+91 9876543210',
     'ADM99988877',
     '1985-01-01',
     'ADMIN',
@@ -57,11 +57,11 @@ VALUES
     'passenger@airline.com',
     '3d3f6b2232fc7a3382161bdf3545eefc3551117b4817cd1cca9db22980425eb7',
     'f1e2d3c4b5a69788796a5b4c3d2e1f00',
-    'John',
-    'Doe',
-    '+15551234567',
-    'P12345678',
-    '1995-05-15',
+    'Ramesh',
+    'Kumar',
+    '+91 999 777 8888',
+    'P99887766',
+    '1993-08-20',
     'PASSENGER',
     'ACTIVE'
 )
@@ -108,7 +108,8 @@ CREATE TABLE IF NOT EXISTS flights (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_flights_airline FOREIGN KEY (airline_id) REFERENCES airlines(airline_id) ON DELETE CASCADE,
     CONSTRAINT fk_flights_source FOREIGN KEY (source_airport_id) REFERENCES airports(airport_id) ON DELETE CASCADE,
-    CONSTRAINT fk_flights_dest FOREIGN KEY (destination_airport_id) REFERENCES airports(airport_id) ON DELETE CASCADE
+    CONSTRAINT fk_flights_dest FOREIGN KEY (destination_airport_id) REFERENCES airports(airport_id) ON DELETE CASCADE,
+    INDEX idx_flights_route (source_airport_id, destination_airport_id)
 ) ENGINE=InnoDB;
 
 -- 2.4 Flight Schedules / Inventory Table
@@ -126,13 +127,12 @@ CREATE TABLE IF NOT EXISTS flight_schedules (
     status VARCHAR(20) NOT NULL DEFAULT 'SCHEDULED',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_schedules_flight FOREIGN KEY (flight_id) REFERENCES flights(flight_id) ON DELETE CASCADE,
-    CONSTRAINT uq_flight_date UNIQUE (flight_id, flight_date)
+    CONSTRAINT uq_flight_date UNIQUE (flight_id, flight_date),
+    INDEX idx_schedules_date (flight_date),
+    INDEX idx_schedules_search (flight_id, flight_date, available_seats)
 ) ENGINE=InnoDB;
 
 -- Indexes for performance
-CREATE INDEX idx_flights_route ON flights(source_airport_id, destination_airport_id);
-CREATE INDEX idx_schedules_date ON flight_schedules(flight_date);
-CREATE INDEX idx_schedules_search ON flight_schedules(flight_id, flight_date, available_seats);
 
 -- ==============================================================================
 -- MODULE 2 SEED DATA (Realistic Indian Domestic Routes & Test Flights)
@@ -195,7 +195,7 @@ ON DUPLICATE KEY UPDATE departure_time=VALUES(departure_time);
 
 -- Seed Schedules for current test dates and next 30 days
 -- Schedules generated dynamically relative to CURDATE() so testing always succeeds:
-INSERT INTO flight_schedules (flight_id, flight_date, base_price, economy_price, premiumEconomy_price, business_price, first_class_price, available_seats, total_seats, status)
+INSERT IGNORE INTO flight_schedules (flight_id, flight_date, base_price, economy_price, premium_economy_price, business_price, first_class_price, available_seats, total_seats, status)
 SELECT 
     f.flight_id,
     d.dt AS flight_date,
@@ -264,8 +264,7 @@ CROSS JOIN (
     UNION ALL SELECT '2026-10-15'
     UNION ALL SELECT '2026-10-18'
     UNION ALL SELECT '2026-10-20'
-) d
-ON DUPLICATE KEY UPDATE available_seats=VALUES(available_seats);
+) d;
 
 -- 2.5 Aircraft Master Table
 CREATE TABLE IF NOT EXISTS aircraft (
@@ -282,7 +281,7 @@ CREATE TABLE IF NOT EXISTS aircraft_seats (
     seat_id INT AUTO_INCREMENT PRIMARY KEY,
     aircraft_id INT NOT NULL,
     seat_number VARCHAR(5) NOT NULL,
-    row_number INT NOT NULL,
+    `row_number` INT NOT NULL,
     column_letter CHAR(1) NOT NULL,
     seat_type VARCHAR(20) NOT NULL DEFAULT 'STANDARD',
     premium_fee DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
@@ -311,11 +310,11 @@ ON DUPLICATE KEY UPDATE manufacturer=VALUES(manufacturer);
 -- Row 1: Premium / Extra Legroom (fee 500)
 -- Row 12: Exit Row / Extra Legroom (fee 350)
 -- Other Rows: Window (A, F), Aisle (C, D), Middle (B, E)
-INSERT INTO aircraft_seats (aircraft_id, seat_number, row_number, column_letter, seat_type, premium_fee)
+INSERT IGNORE INTO aircraft_seats (aircraft_id, seat_number, `row_number`, column_letter, seat_type, premium_fee)
 SELECT 
     (SELECT aircraft_id FROM aircraft WHERE model_name = 'Airbus A320neo') AS aircraft_id,
     CONCAT(r.num, c.col) AS seat_number,
-    r.num AS row_number,
+    r.num AS `row_number`,
     c.col AS column_letter,
     CASE 
         WHEN r.num = 1 THEN 'EXTRA_LEGROOM'
@@ -340,10 +339,10 @@ CROSS JOIN (
     SELECT 'A' AS col UNION ALL SELECT 'B' UNION ALL SELECT 'C'
     UNION ALL SELECT 'D' UNION ALL SELECT 'E' UNION ALL SELECT 'F'
 ) c
-ON DUPLICATE KEY UPDATE seat_type=VALUES(seat_type);
+;
 
 -- Seed some occupied and blocked seats for first few schedules
-INSERT INTO flight_seat_inventory (schedule_id, seat_id, status)
+INSERT IGNORE INTO flight_seat_inventory (schedule_id, seat_id, status)
 SELECT 
     s.schedule_id,
     s_seat.seat_id,
@@ -354,7 +353,7 @@ SELECT
     END AS status
 FROM (SELECT schedule_id FROM flight_schedules LIMIT 10) s
 CROSS JOIN (SELECT seat_id, seat_number FROM aircraft_seats WHERE aircraft_id = (SELECT aircraft_id FROM aircraft WHERE model_name = 'Airbus A320neo') LIMIT 60) s_seat
-ON DUPLICATE KEY UPDATE status=VALUES(status);
+;
 
 -- 2.8 Flight Search History Table (Module 2 Search Logs)
 CREATE TABLE IF NOT EXISTS flight_searches (
@@ -482,3 +481,38 @@ CREATE TABLE IF NOT EXISTS cancellations (
     INDEX idx_cancellations_pnr (pnr)
 ) ENGINE=InnoDB;
 
+-- ==============================================================================
+-- MODULE 6: Admin Operations Audit Logging
+-- ==============================================================================
+
+CREATE TABLE IF NOT EXISTS admin_audit_logs (
+    log_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    admin_user_id INT NOT NULL,
+    admin_name VARCHAR(100) NULL,
+    action VARCHAR(100) NOT NULL,
+    affected_record_type VARCHAR(50) NOT NULL,
+    affected_record_id VARCHAR(50) NOT NULL,
+    details TEXT NULL,
+    status ENUM('SUCCESS', 'FAILED') NOT NULL DEFAULT 'SUCCESS',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_audit_admin (admin_user_id),
+    INDEX idx_audit_type (affected_record_type),
+    INDEX idx_audit_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ==============================================================================
+-- PRODUCTION DATA RECOVERY: Restored Bookings, Passengers & History
+-- ==============================================================================
+
+INSERT IGNORE INTO bookings VALUES (1,'SKYT-96HXS4',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CANCELLED',8780.80,'INR','2026-10-12 12:04:21',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567','4QZZN6'),(2,'SKYT-9BZUL4',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CANCELLED',8780.80,'INR','2026-10-12 12:04:57',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567','C6JADZ'),(3,'SKYT-LK4NRB',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-12','CONFIRMED',6143.20,'INR','2026-10-12 12:10:39',10001,'6E 2376','Economy',NULL,'passenger@airline.com','+15551234567','SSKCUT'),(4,'SKYT-NU2G5U',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',8780.80,'INR','2026-10-12 12:33:18',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567',NULL),(5,'SKYT-XD3QS6',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CANCELLED',8780.80,'INR','2026-10-12 12:34:31',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567','CFMESS'),(6,'SKYT-TFM4KT',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 12:35:02',1,'UK-975','Economy','14B','passenger@airline.com','+919876543210',NULL),(7,'SKYT-QBBXMF',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 12:35:43',1,'UK-975','Economy','14B','passenger@airline.com','+919876543210',NULL),(8,'SKYT-KBBKAE',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CONFIRMED',7716.80,'INR','2026-10-12 12:35:43',1,'UK-975','Economy','14B','passenger@airline.com','+919876543210','ZMFEXS'),(9,'SKYT-8TRL8H',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CANCELLED',8780.80,'INR','2026-10-12 12:35:56',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567','5N8VVK'),(10,'SKYT-M4MRR7',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-12','PENDING_PAYMENT',41093.92,'INR','2026-10-12 12:37:25',10002,'AI 9123','Economy',NULL,'passenger@airline.com','+15551234567',NULL),(11,'SKYT-RVXF4A',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-12','PENDING_PAYMENT',40032.16,'INR','2026-10-12 12:46:39',10001,'AI 9123','Economy',NULL,'passenger@airline.com','+15551234567',NULL),(12,'SKYT-5CKBUQ',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CONFIRMED',7884.80,'INR','2026-10-12 12:46:57',1,'UK-975','Economy','16C','passenger@airline.com','+919876543210','LHC2GP'),(13,'SKYT-BDCFAZ',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-12','PENDING_PAYMENT',40424.16,'INR','2026-10-12 12:48:17',10001,'AI 9123','Economy','4D','passenger@airline.com','+15551234567',NULL),(14,'SKYT-LX7ULG',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7884.80,'INR','2026-10-12 12:56:33',1,'UK-975','Economy','18D','passenger@airline.com','+919876543210',NULL),(15,'SKYT-65X2Q8',1,'LOCAL_CATALOG',NULL,'DEL','GOI','2026-10-12','CONFIRMED',9494.24,'INR','2026-10-12 12:56:51',10001,'IX 1235','Economy',NULL,'admin@airline.com','+18005550199','4XQFT5'),(16,'SKYT-STF3HA',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 12:59:05',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210',NULL),(17,'SKYT-EFFN64',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CONFIRMED',7716.80,'INR','2026-10-12 12:59:49',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210','L4DVHN'),(18,'SKYT-DENHWR',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CANCELLED',8780.80,'INR','2026-10-12 13:00:00',1,'UK-975','Economy','12A','passenger@airline.com','+15551234567','66QAJP'),(19,'SKYT-GN4RR7',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 13:17:38',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210',NULL),(20,'SKYT-4DYPM5',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','CONFIRMED',7716.80,'INR','2026-10-12 13:17:50',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210','NKHTZS'),(21,'SKYT-UTQZ9V',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 13:40:33',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210',NULL),(22,'SKYT-CMHVZV',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 13:54:56',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210',NULL),(23,'SKYT-X48ECB',2,'LOCAL_CATALOG',NULL,'DEL','BOM','2026-10-12','PENDING_PAYMENT',7716.80,'INR','2026-10-12 14:00:42',1,'UK-975','Economy',NULL,'passenger@airline.com','+919876543210',NULL),(24,'SKYT-8KEPBH',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','PENDING_PAYMENT',5361.44,'INR','2026-10-12 17:13:18',10081,'AI 1844','Economy',NULL,'passenger@airline.com','+91 999 777 8888',NULL),(25,'SKYT-UBQZFU',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','CONFIRMED',5361.44,'INR','2026-10-12 20:38:39',10001,'AI 1844','Economy',NULL,'passenger@airline.com','+91 999 777 8888','LY5NQQ'),(26,'SKYT-JMP3EU',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','CONFIRMED',5361.44,'INR','2026-10-12 21:22:22',10001,'AI 1844','Economy',NULL,'passenger@airline.com','+91 999 777 8888','X2XHN8'),(27,'SKYT-B8GV5B',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','PENDING_PAYMENT',5979.68,'INR','2026-10-13 04:50:07',10001,'6E 6492','Economy',NULL,'passenger@airline.com','+91 999 777 8888',NULL),(28,'SKYT-W44728',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','CONFIRMED',5979.68,'INR','2026-10-13 04:50:13',10001,'6E 6492','Economy',NULL,'passenger@airline.com','+91 999 777 8888','XA6J84'),(29,'SKYT-2SBY4T',2,'LOCAL_CATALOG',NULL,'JAI','CCU','2026-10-13','PENDING_PAYMENT',204986.88,'INR','2026-10-13 08:44:53',10008,'AI 9123','Economy','4D','passenger@airline.com','+91 999 777 8888',NULL),(30,'SKYT-WWXHMT',2,'LOCAL_CATALOG',NULL,'JAI','CCU','2026-10-13','PENDING_PAYMENT',204986.88,'INR','2026-10-13 08:45:01',10008,'AI 9123','Economy','4D','passenger@airline.com','+91 999 777 8888',NULL),(31,'SKYT-8MRXL8',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','CONFIRMED',5951.68,'INR','2026-10-13 09:03:07',10001,'6E 2376','Economy',NULL,'passenger@airline.com','+91 999 777 8888','5Q5JS8'),(32,'SKYT-U53NPN',1,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','PENDING_PAYMENT',6142.08,'INR','2026-10-13 09:17:28',10011,'6E 2376','Economy',NULL,'admin@airline.com','+91 9876543210',NULL),(33,'SKYT-2BUF2G',2,'LOCAL_CATALOG',NULL,'JAI','DEL','2026-10-13','PENDING_PAYMENT',6142.08,'INR','2026-10-13 09:21:25',10011,'6E 2376','Economy',NULL,'passenger@airline.com','+91 999 777 8888',NULL);
+
+INSERT IGNORE INTO passengers VALUES (1,1,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A','098-1-001'),(2,2,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A','098-2-001'),(3,3,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT',NULL,'098-3-001'),(4,4,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A',NULL),(5,5,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A','098-5-001'),(6,6,'Test','Passenger','1992-08-20','MALE','P98765432','Indian','ADULT','14B',NULL),(7,7,'Test','Passenger','1992-08-20','MALE','P98765432','Indian','ADULT','14B',NULL),(8,8,'Test','Passenger','1992-08-20','MALE','P98765432','Indian','ADULT','14B','098-8-001'),(9,9,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A','098-9-001'),(10,10,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT',NULL,NULL),(11,11,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT',NULL,NULL),(12,12,'Rahul','Sharma','1995-04-12','MALE','P54321678','Indian','ADULT','16C','098-12-001'),(13,13,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','4D',NULL),(14,14,'Rahul','Sharma','1995-04-12','MALE','P54321678','Indian','ADULT','18D',NULL),(15,15,'System','Administrator','1985-01-01','MALE','ADM99988877','Indian','ADULT',NULL,'098-15-001'),(16,16,'Rahul','Sharma','1995-04-12','MALE','P9454321','Indian','ADULT',NULL,NULL),(17,17,'Aarav','Patel','1990-01-01','MALE','P89957','Indian','ADULT',NULL,'098-17-001'),(18,18,'John','Doe','1995-05-15','MALE','P12345678','Indian','ADULT','12A','098-18-001'),(19,19,'Rahul','Sharma','1995-04-12','MALE','P584321','Indian','ADULT',NULL,NULL),(20,20,'Aarav','Patel','1990-01-01','MALE','P70228','Indian','ADULT',NULL,'098-20-001'),(21,21,'Rahul','Sharma','1995-04-12','MALE','P4334321','Indian','ADULT',NULL,NULL),(22,22,'Rahul','Sharma','1995-04-12','MALE','P2964321','Indian','ADULT',NULL,NULL),(23,23,'Rahul','Sharma','1995-04-12','MALE','P6424321','Indian','ADULT',NULL,NULL),(24,24,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,NULL),(25,25,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,'098-25-001'),(26,26,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,'098-26-001'),(27,27,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,NULL),(28,28,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,'098-28-001'),(29,29,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT','4D',NULL),(30,30,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT','4D',NULL),(31,31,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,'098-31-001'),(32,32,'Team','SkyTech','1985-01-01','MALE','ADM99988877','Indian','ADULT',NULL,NULL),(33,33,'Ramesh','Kumar','1993-08-20','MALE','P99887766','Indian','ADULT',NULL,NULL);
+
+INSERT IGNORE INTO payments VALUES (1,1,'REF_1791806661205',8780.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:04:21','order_sim_SKYT96HXS4_1791806661201',NULL,NULL),(2,1,'REF_4QZZN6',8780.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:04:21','2026-10-12 12:04:21','order_sim_SKYT96HXS4_1791806661331','pay_sim_1_999','sim_sig_verified_1'),(3,2,'REF_1791806697100',8780.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:04:57','order_sim_SKYT9BZUL4_1791806697100',NULL,NULL),(4,2,'REF_C6JADZ',8780.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:04:57','2026-10-12 12:04:57','order_sim_SKYT9BZUL4_1791806697135','pay_sim_2_999','sim_sig_verified_2'),(5,3,'REF_SSKCUT',6143.20,'INR','RAZORPAY','SUCCESS','2026-10-12 12:10:48','2026-10-12 12:10:39','order_sim_SKYTLK4NRB_1791807039630','pay_sim_order_sim_SKYTLK4NRB_1791807039630','sim_sig_verified_SKYT-LK4NRB'),(6,4,'REF_1791808398420',8780.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:33:18','order_sim_SKYTNU2G5U_1791808398413',NULL,NULL),(7,5,'REF_CFMESS',8780.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:34:31','2026-10-12 12:34:31','order_sim_SKYTXD3QS6_1791808471765','pay_sim_5_999','sim_sig_verified_5'),(8,6,'CANCELLED_BY_USER',7716.80,'INR','RAZORPAY','FAILED',NULL,'2026-10-12 12:35:02','order_sim_SKYTTFM4KT_1791808502604',NULL,NULL),(9,6,'REF_1791808502682',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:35:02','order_sim_SKYTTFM4KT_1791808502682',NULL,NULL),(10,7,'CANCELLED_BY_USER',7716.80,'INR','RAZORPAY','FAILED',NULL,'2026-10-12 12:35:43','order_sim_SKYTQBBXMF_1791808543169',NULL,NULL),(11,7,'REF_1791808543233',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:35:43','order_sim_SKYTQBBXMF_1791808543233',NULL,NULL),(12,8,'REF_ZMFEXS',7716.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:35:43','2026-10-12 12:35:43','order_sim_SKYTKBBKAE_1791808543305','pay_test_8_valid','sim_sig_verified_8'),(13,9,'REF_5N8VVK',8780.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:35:56','2026-10-12 12:35:56','order_sim_SKYT8TRL8H_1791808556590','pay_sim_9_999','sim_sig_verified_9'),(14,10,'REF_1791808645752',41093.92,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:37:25','order_sim_SKYTM4MRR7_1791808645745',NULL,NULL),(15,11,'REF_1791809199803',40032.16,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:46:39','order_Tn0B01akCnCEqa',NULL,NULL),(16,12,'REF_LHC2GP',7884.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:47:16','2026-10-12 12:46:57','order_Tn0BJgk5IuShNK','pay_test_live_verify_123','d06aba04b3042d3b899388376566945a094d7af3fdf50e848c63c3fa62d63c02'),(17,13,'REF_1791809297405',40424.16,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:48:17','order_Tn0Cibbvf6qLC0',NULL,NULL),(18,14,'REF_1791809793569',7884.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:56:33','order_Tn0LS9C3WLAkGB',NULL,NULL),(19,15,'REF_4XQFT5',9494.24,'INR','RAZORPAY','SUCCESS','2026-10-12 12:58:49','2026-10-12 12:56:51','order_Tn0LmAJSKpVzuH','pay_Tn0NTnxQu7RAva','db8ea9e9fcdc656a212db2f19f84c7e831b7b64ea2dccbfb1950eafd9f8e93e8'),(20,16,'REF_1791809945744',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 12:59:05','order_Tn0O8HNhyYfzA5',NULL,NULL),(21,17,'REF_L4DVHN',7716.80,'INR','RAZORPAY','SUCCESS','2026-10-12 12:59:50','2026-10-12 12:59:50','order_Tn0Ov3lQiWN86H','pay_test_Tn0Ov3lQiWN86H','b6b5fe9a0aeff40b71fd5c3ad1a1ea87d0a8b72566101e55bb1d66e105e6bb1e'),(22,18,'REF_66QAJP',8780.80,'INR','RAZORPAY','SUCCESS','2026-10-12 13:00:01','2026-10-12 13:00:01','order_Tn0P6mDox01N80','pay_test_18_789','cfe98f62614dce83b45d33dbd6e92b54b877824d5b3647eada24f9e6fc5fcc6e'),(23,19,'REF_1791811059330',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 13:17:39','order_Tn0hjocwDZI81C',NULL,NULL),(24,20,'REF_NKHTZS',7716.80,'INR','RAZORPAY','SUCCESS','2026-10-12 13:17:50','2026-10-12 13:17:50','order_Tn0hvwdM4Qxp9S','pay_test_Tn0hvwdM4Qxp9S','e61674d1d34b8cc5d7a6f1b4be80cb69c01730d0d1f534fa085695ea10bc0c9a'),(25,21,'REF_1791812434081',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 13:40:34','order_Tn15wS87j5lnfV',NULL,NULL),(26,22,'REF_1791813296824',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 13:54:56','order_Tn1L8CGCAY9nnd',NULL,NULL),(27,23,'REF_1791813642880',7716.80,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 14:00:42','order_Tn1RDvd5TiX2hf',NULL,NULL),(28,24,'REF_1791825199063',5361.44,'INR','RAZORPAY','PENDING',NULL,'2026-10-12 17:13:19','order_Tn4ifwrcs42kjz',NULL,NULL),(29,25,'REF_LY5NQQ',5361.44,'INR','RAZORPAY','SUCCESS','2026-10-12 20:39:39','2026-10-12 20:38:40','order_Tn8Db7OEMKuOVh','pay_Tn8EIRJvxRIxeA','faa07ad092d4c93c08085772982eebdb2e0b19507d1e9dd4ea531a7c60b02acc'),(30,26,'REF_X2XHN8',5361.44,'INR','RAZORPAY','SUCCESS','2026-10-12 21:23:12','2026-10-12 21:22:22','order_Tn8xm7CZ5pZdoK','pay_Tn8yHJfy3lz7tz','6d0ffa515c87471c42593f914a24757920af5340f339aa05878df06fdadd278f'),(31,27,'REF_1791867020719',5979.68,'INR','RAZORPAY','PENDING',NULL,'2026-10-13 04:50:20','order_TnGaxMJqqGZFus',NULL,NULL),(32,28,'REF_XA6J84',5979.68,'INR','RAZORPAY','SUCCESS','2026-10-13 04:53:02','2026-10-13 04:50:24','order_TnGb1HSzSVVAk0','pay_TnGd9yKwfRLvOc','33b7c8c544afa514f38c6a2ee4b0468eed5d27340dc126915a6a20b2721873d3'),(33,31,'REF_5Q5JS8',5951.68,'INR','RAZORPAY','SUCCESS','2026-10-13 09:05:06','2026-10-13 09:03:07','order_TnKtzIsD1i6lbj','pay_TnKvgnsAfby4xO','e0429b607b75083b2025c2c8c30aa354d95dd9f69f52a220f7caaaa8d7ed5c68'),(34,32,'REF_1791883048658',6142.08,'INR','RAZORPAY','PENDING',NULL,'2026-10-13 09:17:28','order_TnL98yG79GMJeG',NULL,NULL),(35,33,'REF_1791883286410',6142.08,'INR','RAZORPAY','PENDING',NULL,'2026-10-13 09:21:26','order_TnLDKQNVplC79t',NULL,NULL);
+
+INSERT IGNORE INTO tickets VALUES (1,1,1,'098-1-001','4QZZN6','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','12A','Economy','John Doe','CANCELLED','2026-10-12 12:04:21'),(2,2,2,'098-2-001','C6JADZ','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','12A','Economy','John Doe','CANCELLED','2026-10-12 12:04:57'),(3,3,3,'098-3-001','SSKCUT','6E 2376','JAI','DEL','2026-10-12 10:00:00','2026-10-12 12:00:00',NULL,'Economy','John Doe','CONFIRMED','2026-10-12 12:10:48'),(4,5,5,'098-5-001','CFMESS','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','12A','Economy','John Doe','CANCELLED','2026-10-12 12:34:31'),(5,8,8,'098-8-001','ZMFEXS','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','14B','Economy','Test Passenger','CONFIRMED','2026-10-12 12:35:43'),(6,9,9,'098-9-001','5N8VVK','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','12A','Economy','John Doe','CANCELLED','2026-10-12 12:35:56'),(7,12,12,'098-12-001','LHC2GP','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','16C','Economy','Rahul Sharma','CONFIRMED','2026-10-12 12:47:16'),(8,15,15,'098-15-001','4XQFT5','IX 1235','DEL','GOI','2026-10-12 10:00:00','2026-10-12 12:00:00',NULL,'Economy','System Administrator','CONFIRMED','2026-10-12 12:58:49'),(9,17,17,'098-17-001','L4DVHN','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00',NULL,'Economy','Aarav Patel','CONFIRMED','2026-10-12 12:59:50'),(10,18,18,'098-18-001','66QAJP','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00','12A','Economy','John Doe','CANCELLED','2026-10-12 13:00:01'),(11,20,20,'098-20-001','NKHTZS','UK-975','DEL','BOM','2026-10-12 10:00:00','2026-10-12 12:00:00',NULL,'Economy','Aarav Patel','CONFIRMED','2026-10-12 13:17:50'),(12,25,25,'098-25-001','LY5NQQ','AI 1844','JAI','DEL','2026-10-13 10:00:00','2026-10-13 12:00:00',NULL,'Economy','Ramesh Kumar','CONFIRMED','2026-10-12 20:39:39'),(13,26,26,'098-26-001','X2XHN8','AI 1844','JAI','DEL','2026-10-13 10:00:00','2026-10-13 12:00:00',NULL,'Economy','Ramesh Kumar','CONFIRMED','2026-10-12 21:23:12'),(14,28,28,'098-28-001','XA6J84','6E 6492','JAI','DEL','2026-10-13 10:00:00','2026-10-13 12:00:00',NULL,'Economy','Ramesh Kumar','CONFIRMED','2026-10-13 04:53:02'),(15,31,31,'098-31-001','5Q5JS8','6E 2376','JAI','DEL','2026-10-13 10:00:00','2026-10-13 12:00:00',NULL,'Economy','Ramesh Kumar','CONFIRMED','2026-10-13 09:05:06');
+
+INSERT IGNORE INTO cancellations VALUES (1,1,'4QZZN6','College demonstration verification',1000.00,7780.80,'COMPLETED','REF_RFND_1791806662021',2,'2026-10-12 12:04:22'),(2,2,'C6JADZ','College demonstration verification',1000.00,7780.80,'COMPLETED','REF_RFND_1791806697333',2,'2026-10-12 12:04:57'),(3,5,'CFMESS','College demonstration verification',1000.00,7780.80,'RECORDED_ACADEMIC_REFUND','SIM_RFND_1791808473174',2,'2026-10-12 12:34:33'),(4,9,'5N8VVK','College demonstration verification',1000.00,7780.80,'RECORDED_ACADEMIC_REFUND','SIM_RFND_1791808556853',2,'2026-10-12 12:35:56'),(5,18,'66QAJP','College demonstration verification',1000.00,7780.80,'REFUND_PENDING','PENDING_GATEWAY_RECONCILIATION',2,'2026-10-12 13:00:03');
+
+INSERT IGNORE INTO admin_audit_logs VALUES (1,1,'System Administrator','CREATE_FLIGHT','FLIGHT','ST-1655','Scheduled flight ST-1655 for date 2026-11-20','SUCCESS','2026-10-12 19:00:55'),(2,1,'System Administrator','CREATE_AIRPORT','AIRPORT','T66','Added airport T66 (TestCity)','SUCCESS','2026-10-12 19:00:56'),(3,1,'System Administrator','UPDATE_ADMIN_PROFILE','USER','1','Updated administrator name to System Administrator (Phone: +18005550199)','SUCCESS','2026-10-12 20:52:25'),(4,1,'System Administrator','UPDATE_ADMIN_PROFILE','USER','1','Updated administrator name to Team SkyTech (Phone: +91 9876543210)','SUCCESS','2026-10-12 21:06:49'),(5,1,'Team SkyTech','UPDATE_STATUS','FLIGHT_SCHEDULE','128','Updated schedule status to DELAYED','SUCCESS','2026-10-13 04:54:04');
