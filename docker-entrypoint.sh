@@ -39,19 +39,7 @@ if [ -z "$DB_URL" ] || echo "$DB_URL" | grep -q "localhost" || echo "$DB_URL" | 
 
     # Configure dedicated SkyTech application user with privileges only on skytech_db
     echo "Provisioning dedicated application database user '${APP_USER}'..."
-    mysql -u root <<EOF || mysql -u root -p"${APP_PASS}" <<EOF || true
-CREATE DATABASE IF NOT EXISTS skytech_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE USER IF NOT EXISTS 'skytech_app'@'localhost' IDENTIFIED BY '${APP_PASS}';
-ALTER USER 'skytech_app'@'localhost' IDENTIFIED BY '${APP_PASS}';
-CREATE USER IF NOT EXISTS 'skytech_app'@'127.0.0.1' IDENTIFIED BY '${APP_PASS}';
-ALTER USER 'skytech_app'@'127.0.0.1' IDENTIFIED BY '${APP_PASS}';
-CREATE USER IF NOT EXISTS 'skytech_app'@'%' IDENTIFIED BY '${APP_PASS}';
-ALTER USER 'skytech_app'@'%' IDENTIFIED BY '${APP_PASS}';
-GRANT ALL PRIVILEGES ON skytech_db.* TO 'skytech_app'@'localhost';
-GRANT ALL PRIVILEGES ON skytech_db.* TO 'skytech_app'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON skytech_db.* TO 'skytech_app'@'%';
-
+    SQL_PROVISION="CREATE DATABASE IF NOT EXISTS skytech_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '${APP_USER}'@'localhost' IDENTIFIED BY '${APP_PASS}';
 ALTER USER '${APP_USER}'@'localhost' IDENTIFIED BY '${APP_PASS}';
 CREATE USER IF NOT EXISTS '${APP_USER}'@'127.0.0.1' IDENTIFIED BY '${APP_PASS}';
@@ -61,14 +49,15 @@ ALTER USER '${APP_USER}'@'%' IDENTIFIED BY '${APP_PASS}';
 GRANT ALL PRIVILEGES ON skytech_db.* TO '${APP_USER}'@'localhost';
 GRANT ALL PRIVILEGES ON skytech_db.* TO '${APP_USER}'@'127.0.0.1';
 GRANT ALL PRIVILEGES ON skytech_db.* TO '${APP_USER}'@'%';
-
 CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY '${APP_PASS}';
 ALTER USER 'root'@'127.0.0.1' IDENTIFIED BY '${APP_PASS}';
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${APP_PASS}';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-EOF
+FLUSH PRIVILEGES;"
+
+    mysql -u root -e "$SQL_PROVISION" 2>/dev/null || \
+    mysql -u root -p"${APP_PASS}" -e "$SQL_PROVISION" 2>/dev/null || true
 
     # Run schema.sql if present
     if [ -f "/app/database/schema.sql" ]; then

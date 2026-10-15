@@ -22,5 +22,15 @@ services:
         sync: false
       - key: REEF_API_KEY
         sync: false
+      - key: REEF_API_URL
+        value: https://api.reefapi.com
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
       - key: GOOGLE_CLIENT_ID
         sync: false
+      - key: SKYTECH_SUPPORT_EMAIL
+        value: support@skytech.com
+      - key: SKYTECH_SUPPORT_PHONE
+        value: "+91 1800-SKY-TECH"

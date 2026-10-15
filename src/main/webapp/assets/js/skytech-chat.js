@@ -199,22 +199,23 @@
     function showWelcomeGreeting() {
         const welcomeHtml = `
             <div class="skytech-ai-welcome-card">
-                <div class="skytech-ai-welcome-text">
-                    Hi! 👋 Welcome to SkyTech.<br><br>
-                    I can help you find flights, check your bookings, and answer travel questions. What would you like to do?
+                <div class="skytech-ai-welcome-text" style="line-height: 1.5;">
+                    Hi! I'm SkyTech AI Assistant ✈️<br><br>
+                    I can help you find flights and guide you through booking.<br><br>
+                    Where would you like to fly?
                 </div>
                 <div class="skytech-ai-quick-actions">
                     <button type="button" class="skytech-ai-quick-btn" data-action="search">
-                        <i class="bi bi-search"></i> Search Flights
+                        <i class="bi bi-search"></i> Find Flights
                     </button>
                     <button type="button" class="skytech-ai-quick-btn" data-action="cheapest">
-                        <i class="bi bi-tag-fill"></i> Cheapest Flights
+                        <i class="bi bi-tag-fill"></i> Find Cheapest Flights
                     </button>
                     <button type="button" class="skytech-ai-quick-btn" data-action="booking">
-                        <i class="bi bi-ticket-perforated-fill"></i> My Bookings
+                        <i class="bi bi-ticket-perforated-fill"></i> Manage My Booking
                     </button>
                     <button type="button" class="skytech-ai-quick-btn" data-action="support">
-                        <i class="bi bi-headset"></i> Contact Us
+                        <i class="bi bi-headset"></i> Contact Support
                     </button>
                 </div>
             </div>

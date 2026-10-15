@@ -908,7 +908,20 @@ public class AiChatService {
                 resp.reply = "Travel dates in the past are not valid. Please select today (" + today + ") or a future travel date.";
                 return true;
             }
-            state.setDepartureDate(dateResult.departureDate);
+            if ("return_date".equals(state.getAwaitingField()) ||
+                ("round-trip".equalsIgnoreCase(state.getTripType()) && state.getDepartureDate() != null && dateResult.returnDate == null)) {
+                // User was asked for return date, or is supplying return date
+                if (dateResult.departureDate.isBefore(state.getDepartureDate())) {
+                    resp.success = true;
+                    resp.reply = "Return date cannot be earlier than your departure date (" + state.getDepartureDate() + "). Please enter a valid return date.";
+                    return true;
+                }
+                state.setReturnDate(dateResult.departureDate);
+                state.setTripType("round-trip");
+                state.setAwaitingField(null);
+            } else {
+                state.setDepartureDate(dateResult.departureDate);
+            }
         }
         if (dateResult.returnDate != null) {
             if (dateResult.isReturnBeforeDeparture) {
@@ -918,6 +931,7 @@ public class AiChatService {
             }
             state.setReturnDate(dateResult.returnDate);
             state.setTripType("round-trip");
+            state.setAwaitingField(null);
         }
 
         // Airport / City extraction with Fuzzy Match confirmation
