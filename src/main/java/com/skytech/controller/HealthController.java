@@ -48,6 +48,7 @@ public class HealthController extends HttpServlet {
         int userCount = 0;
         int bookingCount = 0;
         String passengerAccount = null;
+        String probeError = null;
 
         try (Connection conn = DBConnectionUtil.getConnection()) {
             if (conn != null && !conn.isClosed()) {
@@ -81,6 +82,8 @@ public class HealthController extends HttpServlet {
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Health check database probe warning: " + e.getMessage());
+            String rawErr = e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "null");
+            probeError = rawErr.replaceAll(":[^/@\\s]+@", ":***@");
         }
 
         boolean fullyOperational = dbConnected && tablesReady;
@@ -88,6 +91,9 @@ public class HealthController extends HttpServlet {
         health.put("status", fullyOperational ? "UP" : "DEGRADED");
         health.put("service", "SkyTech Airline Reservation System API");
         health.put("database", dbConnected ? (tablesReady ? "CONNECTED" : "SCHEMA_INCOMPLETE") : "DISCONNECTED");
+        if (probeError != null) {
+            health.put("databaseError", probeError);
+        }
         if (catalog != null) {
             health.put("databaseCatalog", catalog);
         }
