@@ -251,19 +251,20 @@ public class DatabaseInitializer implements ServletContextListener {
                     String existingLastName = rs.getString("last_name");
 
                     // If account has default placeholder "John Doe", safely update to restored profile "Ramesh Kumar"
-                    boolean nameNeedsUpdate = ("John".equalsIgnoreCase(existingFirstName) && "Doe".equalsIgnoreCase(existingLastName))
-                            || (firstName != null && !firstName.equalsIgnoreCase(existingFirstName) && "passenger@airline.com".equalsIgnoreCase(cleanEmail));
+                    boolean nameNeedsUpdate = "John".equalsIgnoreCase(existingFirstName) && "Doe".equalsIgnoreCase(existingLastName);
 
                     if (nameNeedsUpdate) {
                         String updateNameSql = "UPDATE users SET first_name = ?, last_name = ?, phone = COALESCE(phone, ?), passport_number = COALESCE(passport_number, ?) WHERE user_id = ?";
                         try (PreparedStatement updateNamePs = conn.prepareStatement(updateNameSql)) {
-                            updateNamePs.setString(1, firstName);
-                            updateNamePs.setString(2, lastName);
-                            updateNamePs.setString(3, phone);
-                            updateNamePs.setString(4, passportNumber);
-                            updateNamePs.setInt(5, userId);
-                            updateNamePs.executeUpdate();
-                            LOGGER.info("[DB-INIT] Corrected user account name to [" + firstName + " " + lastName + "] for [" + cleanEmail + "]");
+                            if (updateNamePs != null) {
+                                updateNamePs.setString(1, firstName);
+                                updateNamePs.setString(2, lastName);
+                                updateNamePs.setString(3, phone);
+                                updateNamePs.setString(4, passportNumber);
+                                updateNamePs.setInt(5, userId);
+                                updateNamePs.executeUpdate();
+                                LOGGER.info("[DB-INIT] Corrected user account name to [" + firstName + " " + lastName + "] for [" + cleanEmail + "]");
+                            }
                         }
                     }
 
