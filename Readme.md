@@ -18,8 +18,8 @@
 
 | Resource | View Online | Download Word Document |
 | :--- | :--- | :--- |
-| 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
-| 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx) |
+| 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**View DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
+| 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**View DOCX**](docs/SkyTech_Airlines_SRS.docx) |
 
 ---
 
