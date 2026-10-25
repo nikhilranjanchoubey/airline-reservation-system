@@ -19,8 +19,8 @@
 | Resource | Link | Description |
 | :--- | :--- | :--- |
 | 📦 **GitHub Repository** | [**GitHub Repository**](https://github.com/nikhilranjanchoubey/airline-reservation-system) | Official source code repository and issue tracker |
-| 📘 **Project Report** | [**SkyTech Airlines Project Report**](docs/SkyTech_Airlines_Project_Report.docx) | Comprehensive final academic project report (`.docx`) |
-| 📄 **Software Requirements Specification (SRS)** | [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx) | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
+| 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines Project Report</strong></a> | Comprehensive final academic project report (`.docx`) |
+| 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines SRS</strong></a> | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
 
 ---
 
@@ -105,13 +105,13 @@ Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specificatio
 
 The repository includes complete, formal academic engineering documentation located in the [`docs/`](docs/) directory. Both documents are tracked in Git and can be accessed or downloaded directly on GitHub:
 
-- 📘 **Project Report:** [**SkyTech Airlines Project Report**](docs/SkyTech_Airlines_Project_Report.docx)  
+- 📘 **Project Report:** <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines Project Report</strong></a>  
   *Detailed academic report covering domain background, system objectives, architectural diagrams, database normalization, module implementation summaries, security mechanisms, test matrices, and evaluation results.*  
-  *(Alternative Direct Link: [GitHub Raw File](https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_Project_Report.docx))*
+  *(Alternative Direct Link: <a href="https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer">GitHub Raw File</a>)*
 
-- 📄 **Software Requirements Specification (SRS):** [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx)  
+- 📄 **Software Requirements Specification (SRS):** <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines SRS</strong></a>  
   *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*  
-  *(Alternative Direct Link: [GitHub Raw File](https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_SRS.docx))*
+  *(Alternative Direct Link: <a href="https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer">GitHub Raw File</a>)*
 
 > [!TIP]
 > When browsing this repository on GitHub, clicking either relative link above will navigate directly to the document in GitHub's repository viewer, where you can inspect the file or click **Download** to save it locally.
