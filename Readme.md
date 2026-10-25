@@ -114,9 +114,6 @@ The repository includes complete, formal academic engineering documentation loca
   - 📝 **Word Document:** [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx)  
   *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*
 
-> [!TIP]
-> When browsing this repository on GitHub, clicking either relative link above will navigate directly to the document in GitHub's repository viewer, where you can inspect the file or click **Download** to save it locally.
-
 ---
 
 ## <a id="visual-preview--screenshots"></a>📸 Visual Preview & Screenshots
