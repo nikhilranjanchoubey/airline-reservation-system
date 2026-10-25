@@ -16,11 +16,10 @@
 > ### 🚀 Live Demo: [https://skytech-0l59.onrender.com/](https://skytech-0l59.onrender.com/)
 > **SkyTech is deployed live on Render.** Explore real-time flight searches, airport autocomplete, dynamic seat selection on Airbus A320neo / Boeing 737-800 fuselage grids, checkout with Razorpay, and instant vector PDF boarding pass generation.
 
-| Resource | Link | Description |
+| Resource | View Online | Download Word Document |
 | :--- | :--- | :--- |
-| 📦 **GitHub Repository** | [**GitHub Repository**](https://github.com/nikhilranjanchoubey/airline-reservation-system) | Official source code repository and issue tracker |
-| 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines Project Report</strong></a> | Comprehensive final academic project report (`.docx`) |
-| 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines SRS</strong></a> | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
+| 📘 **Project Report** | [**View PDF**](docs/SkyTech_Airlines_Project_Report.pdf) | [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
+| 📄 **Software Requirements Specification (SRS)** | [**View PDF**](docs/SkyTech_Airlines_SRS.pdf) | [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx) |
 
 ---
 
@@ -105,13 +104,15 @@ Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specificatio
 
 The repository includes complete, formal academic engineering documentation located in the [`docs/`](docs/) directory. Both documents are tracked in Git and can be accessed or downloaded directly on GitHub:
 
-- 📘 **Project Report:** <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines Project Report</strong></a>  
-  *Detailed academic report covering domain background, system objectives, architectural diagrams, database normalization, module implementation summaries, security mechanisms, test matrices, and evaluation results.*  
-  *(Alternative Direct Link: <a href="https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer">GitHub Raw File</a>)*
+- 📘 **Project Report:**
+  - 📄 **PDF (View Online):** [**SkyTech Airlines Project Report (PDF)**](docs/SkyTech_Airlines_Project_Report.pdf)
+  - 📝 **Word Document:** [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx)  
+  *Detailed academic report covering domain background, system objectives, architectural diagrams, database normalization, module implementation summaries, security mechanisms, test matrices, and evaluation results.*
 
-- 📄 **Software Requirements Specification (SRS):** <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines SRS</strong></a>  
-  *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*  
-  *(Alternative Direct Link: <a href="https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer">GitHub Raw File</a>)*
+- 📄 **Software Requirements Specification (SRS):**
+  - 📄 **PDF (View Online):** [**SkyTech Airlines SRS (PDF)**](docs/SkyTech_Airlines_SRS.pdf)
+  - 📝 **Word Document:** [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx)  
+  *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*
 
 > [!TIP]
 > When browsing this repository on GitHub, clicking either relative link above will navigate directly to the document in GitHub's repository viewer, where you can inspect the file or click **Download** to save it locally.
