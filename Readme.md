@@ -16,12 +16,11 @@
 > ### 🚀 Live Demo: [https://skytech-0l59.onrender.com/](https://skytech-0l59.onrender.com/)
 > **SkyTech is deployed live on Render.** Explore real-time flight searches, airport autocomplete, dynamic seat selection on Airbus A320neo / Boeing 737-800 fuselage grids, checkout with Razorpay, and instant vector PDF boarding pass generation.
 
-| Resource | Direct Link | Description |
+| Resource | Link | Description |
 | :--- | :--- | :--- |
-| 🚀 **Deployed Live Website** | [**https://skytech-0l59.onrender.com/**](https://skytech-0l59.onrender.com/) | Deployed production web application running in a Dockerized environment on Render |
-| 📦 **GitHub Repository** | [**nikhilranjanchoubey/airline-reservation-system**](https://github.com/nikhilranjanchoubey/airline-reservation-system) | Source code repository and issue tracker |
+| 📦 **GitHub Repository** | [**GitHub Repository**](https://github.com/nikhilranjanchoubey/airline-reservation-system) | Official source code repository and issue tracker |
 | 📘 **Project Report** | [**SkyTech Airlines Project Report**](docs/SkyTech_Airlines_Project_Report.docx) | Comprehensive final academic project report (`.docx`) |
-| 📄 **Software Requirements Specification** | [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx) | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
+| 📄 **Software Requirements Specification (SRS)** | [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx) | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
 
 ---
 
@@ -128,8 +127,8 @@ Modern glassmorphism interface featuring dynamic origin/destination selection wi
 
 ---
 
-### 2. Live Flight Search Results & Dynamic Filtering
-Comprehensive flight results grid displaying carrier branding, flight numbers, departure/arrival schedules, duration calculations, stop tags, fare pricing, and real-time faceted filters.
+### 2. Live Flight Search Results & Dynamic Availability
+Comprehensive flight results grid displaying the updated navigation bar, real-time carrier itineraries (IndiGo, Air India, Vistara), flight cards with fare pricing in INR, departure/arrival timelines, non-stop/connection badges, and interactive faceted filters.
 
 ![SkyTech Flight Search Results](docs/images/skytech-flight-results.png)
 
@@ -551,9 +550,7 @@ The project incorporates an automated test suite across all architectural layers
 
 ## <a id="production-deployment-information"></a>🚢 Production Deployment Information
 
-SkyTech is continuously containerized and deployed to **Render** using a multi-stage Docker build:
-
-- 🚀 **Live URL:** [**https://skytech-0l59.onrender.com/**](https://skytech-0l59.onrender.com/)
+SkyTech is continuously containerized and deployed on **Render** using a multi-stage Docker build that runs Apache Tomcat 10.1 and a self-contained production database service:
 
 ### Container Architecture ([Dockerfile](Dockerfile))
 1. **Stage 1 (Builder):** Uses `maven:3.9.9-eclipse-temurin-21` to compile and package the clean production WAR artifact.
