@@ -4,58 +4,151 @@
 [![Jakarta EE 10](https://img.shields.io/badge/Jakarta%20EE-10%20(Servlet%206.0)-E03C11?logo=eclipseide&logoColor=white)](https://jakarta.ee/)
 [![MySQL 8.3](https://img.shields.io/badge/MySQL-8.3%2B-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Tomcat 10.1](https://img.shields.io/badge/Apache%20Tomcat-10.1%2B-F8DC75?logo=apachetomcat&logoColor=black)](https://tomcat.apache.org/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Render](https://img.shields.io/badge/Render-Deployed%20Live-46E3B7?logo=render&logoColor=black)](https://skytech-0l59.onrender.com/)
 [![Bootstrap 5.3](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![OpenPDF 2.0.3](https://img.shields.io/badge/OpenPDF-2.0.3-red?logo=adobeacrobatreader&logoColor=white)](https://github.com/LibrePDF/OpenPDF)
-[![Build Status](https://img.shields.io/badge/Build-71%20Tests%20Passing-brightgreen.svg)]()
+[![Razorpay](https://img.shields.io/badge/Razorpay-Payment%20Gateway-0C2340?logo=razorpay&logoColor=white)](https://razorpay.com/)
+[![License](https://img.shields.io/badge/Academic-B.Tech%20CSE-blue.svg)](#academic-attribution--license)
 
 ---
 
-## 📌 Academic Context & Project Overview
-https://skytech-0l59.onrender.com/
+> ### 🚀 Live Demo: [https://skytech-0l59.onrender.com/](https://skytech-0l59.onrender.com/)
+> **SkyTech is deployed live on Render.** Explore real-time flight searches, airport autocomplete, dynamic seat selection on Airbus A320neo / Boeing 737-800 fuselage grids, checkout with Razorpay, and instant vector PDF boarding pass generation.
 
-
-**Institution:** Department of Computer Science and Engineering (CSE)  
-**Academic Program:** Bachelor of Technology (B.Tech) in Computer Science & Engineering  
-**Academic Context:** 5th Semester — Java Project-Based Learning (PBL)  
-**Project Title:** SkyTech — Airline Reservation System  
-**Mentor:** Er. Ram Babu Buri  
-**Project Duration:** 6 July 2026 – 6 October 2026 (10 Weeks)  
-**Primary Integration Branch:** `integration/skytech` (Targeting `main`)  
-**Technology Stack:** Java 21 LTS, Jakarta EE 10 (Servlet 6.0, JSP 3.1, JSTL 3.0), JDBC (MySQL Connector/J 8.3), MySQL 8.3+, Apache Maven 3.9+, Apache Tomcat 10.1+, Bootstrap 5.3, OpenPDF 2.0.3, HTML5, CSS3, JavaScript.
-
-SkyTech is an enterprise-grade, aviation-themed Airline Reservation System designed to provide passengers with seamless flight discovery, real-time schedule tracking, interactive seat map selection, secure payment processing, and digital e-ticket generation. Concurrently, it delivers operations personnel and system administrators a consolidated management dashboard with real-time fleet analytics, passenger management, seat inventory, and operational audit logging.
+| Resource | Direct Link | Description |
+| :--- | :--- | :--- |
+| 🚀 **Deployed Live Website** | [**https://skytech-0l59.onrender.com/**](https://skytech-0l59.onrender.com/) | Deployed production web application running in a Dockerized environment on Render |
+| 📦 **GitHub Repository** | [**nikhilranjanchoubey/airline-reservation-system**](https://github.com/nikhilranjanchoubey/airline-reservation-system) | Source code repository and issue tracker |
+| 📘 **Project Report** | [**SkyTech Airlines Project Report**](docs/SkyTech_Airlines_Project_Report.docx) | Comprehensive final academic project report (`.docx`) |
+| 📄 **Software Requirements Specification** | [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx) | Complete IEEE-compliant functional and non-functional requirements (`.docx`) |
 
 ---
 
-## 👥 Project Team Members
+## 📑 Table of Contents
 
-| # | Name | Enrollment Number | Email |
-|---|---|---|---|
-| 1 | Mohammed Sahil | 24E1ARCSM30P095 | [mohammedsahil9549@gmail.com](mailto:mohammedsahil9549@gmail.com) |
-| 2 | Mukesh Sah | 24E1ARCSM30P097 | [mukeshsah6395@gmail.com](mailto:mukeshsah6395@gmail.com) |
-| 3 | Muskan Raj | 24E1ARCSF40P098 | [muskanraj172024@gmail.com](mailto:muskanraj172024@gmail.com) |
-| 4 | Nikhil Ranjan Choubey | 24E1ARCSM40P103 | [ranjannikhil476@gmail.com](mailto:ranjannikhil476@gmail.com) |
-| 5 | Prashant Chaudhary | 24E1ARCSM10P115 | [chaudharyprashant590@gmail.com](mailto:chaudharyprashant590@gmail.com) |
-
----
-
-## 🧩 Module Ownership & Git Branch Mapping
-
-The engineering workload is partitioned into five specialized modules mapped to individual feature branches. All modules undergo rigorous pull-request review and integration on the `integration/skytech` branch prior to deployment on `main`.
-
-| Module | Scope & Core Responsibilities | Lead Engineer | Assigned Feature Branch | Package Namespace |
-|---|---|---|---|---|
-| **Module 1: Authentication & User Management** | User registration, login, logout, password hashing (salted SHA-256), Google Sign-In (GIS OAuth), session lifecycle, avatar uploads, and role-based route security (`AuthenticationFilter`). | **Mohammed Sahil** | `feature/mohammedsahil-auth` *(mapped to `feature/authentication`)* | `com.airline.controller`<br>`com.airline.service`<br>`com.airline.dao` |
-| **Module 2: Flight Search & Availability** | Airport search and autocomplete API (`/api/airports`), one-way/round-trip/multi-city search engine, flight filtering (airlines, stops, cabin class), sorting, live ReefAPI integration with offline catalog fallback, and aircraft seat map selection. | **Nikhil Ranjan Choubey** | `feature/nikhilranjanchoubey-flightsearch` *(mapped to `feature/flight-search`)* | `com.skytech.controller`<br>`com.skytech.service`<br>`com.skytech.api`<br>`com.skytech.dao` |
-| **Module 3: Booking & Passenger Management** | Booking lifecycle (`PENDING_PAYMENT` to `CONFIRMED`), unique PNR generation, passenger details capture, dynamic seat allocation, passenger booking history ("My Trips"), and reservation status retrieval. | **Mukesh Sah** | `feature/mukeshsah-booking` *(mapped to `feature/booking`)* | `com.skytech.service.BookingService`<br>`com.skytech.dao.BookingDao`<br>`com.skytech.model.Booking` |
-| **Module 4: Payment & Ticketing** | Razorpay payment gateway integration, order creation, signature verification, payment transaction auditing, and high-quality vector PDF E-Ticket generation using OpenPDF with Code128 barcodes. | **Muskan Raj** | `feature/muskanraj-ticketing` *(mapped to `feature/ticketing`)* | `com.skytech.service.PaymentService`<br>`com.skytech.service.TicketService`<br>`com.skytech.controller.TicketController` |
-| **Module 5: Admin Dashboard & System Management** | Executive operations dashboard with 8 KPI cards, fleet aircraft and seat capacity management (`/admin/aircraft`), flight schedules CRUD, airport/airline registries, cancellations, revenue analytics, and audit logging. | **Prashant Chaudhary** | `feature/prashantchaudhary-admin` *(mapped to `feature/admin`)* | `com.airline.controller.admin.*`<br>`com.skytech.dao.Admin*Dao`<br>`com.airline.dao.AdminAuditDao` |
+- [Project Overview](#project-overview)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Project Documentation](#project-documentation)
+- [Visual Preview & Screenshots](#visual-preview--screenshots)
+- [System Architecture](#system-architecture)
+- [Database Design & Relational Schema](#database-design--relational-schema)
+- [Project Team Members & Contributions](#project-team-members--contributions)
+- [10-Week Comprehensive Project Log](#10-week-comprehensive-project-log)
+- [Application URL Route Map](#application-url-route-map)
+- [Local Installation & Setup Guide](#local-installation--setup-guide)
+- [Database & Environment Configuration](#database--environment-configuration)
+- [Automated Testing Instructions](#automated-testing-instructions)
+- [Production Deployment Information](#production-deployment-information)
+- [Security Architecture & Best Practices](#security-architecture--best-practices)
+- [Future Enhancements](#future-enhancements)
+- [Academic Attribution & Acknowledgements](#academic-attribution--acknowledgements)
 
 ---
 
-## 🏗️ System Architecture & Layered Design
+## <a id="project-overview"></a>🌟 Project Overview
 
-SkyTech implements a strict Model-View-Controller (MVC) architecture deployed on Apache Tomcat 10.1 (Jakarta EE 10 / Servlet 6.0 specification).
+**SkyTech** is an enterprise-grade, aviation-themed **Airline Reservation and Passenger Management System** developed as part of the 5th-semester **Java Project-Based Learning (PBL)** curriculum in the Department of Computer Science and Engineering.
+
+Designed from the ground up to mirror the real-world operational workflows of premier commercial airlines (e.g., IndiGo, Air India, Vistara), SkyTech provides:
+- **For Passengers:** A frictionless booking experience featuring real-time airport search autocomplete, dynamic multi-tier flight filtering, an interactive aircraft seat selection map, secure digital payment processing via Razorpay, and instant vector-quality electronic boarding pass generation with Code128 barcodes.
+- **For Airline Administrators & Operations Staff:** An executive operations dashboard aggregating real-time KPIs, fleet aircraft configurations, route and schedule dispatchers, passenger manifest registries, revenue reporting, and tamper-evident audit logging.
+
+Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specification without heavy ORM bloat, SkyTech leverages pure, optimized JDBC with connection-level transaction boundaries, achieving sub-millisecond query execution, rock-solid thread safety, and strict MVC architectural separation.
+
+---
+
+## <a id="key-features"></a>✨ Key Features
+
+### 🛫 Passenger Portal & Booking Experience
+- **Smart Flight Search Engine:** Supports One-Way, Round-Trip, and Multi-City flight searches across major domestic and international hubs.
+- **Instant Airport Autocomplete (`/api/airports`):** Fast indexed prefix search matching IATA codes (e.g., DEL, BOM, BLR, JAI), city names, and airport titles.
+- **Dynamic Multi-Criteria Filtering & Sorting:** Real-time client and server-side filtering by airline carrier, cabin class (Economy, Premium Economy, Business), number of stops (Non-stop vs. Connecting), and departure time windows, with dynamic sorting by lowest price, shortest duration, or earliest departure.
+- **Interactive Aircraft Cabin Seat Map:** Visual fuselage layout rendering physical seat arrangements for Airbus A320neo and Boeing 737-800 aircraft with category tagging (`WINDOW`, `AISLE`, `MIDDLE`, `EXTRA_LEGROOM`) and live seat fare calculation.
+- **Dual-Data Schedule Architecture:** Seamless external schedule querying (ReefAPI integration) paired with a resilient, zero-downtime offline fallback to local MySQL flight inventory.
+- **Passenger Manifest Capture:** Captures structured traveler details (adults, children, infants) with input sanitization and form validation.
+- **Secure Razorpay Payment Gateway:** Integrated order initialization, checkout modal rendering in INR (paise precision), and HMAC-SHA256 cryptographic payment signature verification.
+- **Vector PDF E-Tickets & Boarding Passes:** High-resolution digital ticket generation using **OpenPDF 2.0.3** featuring custom aviation typography, itinerary route cards, passenger seat tables, GST fare breakdowns, and native Code128 vector barcodes.
+- **"My Trips" Passenger Dashboard:** Self-service reservation lookup, live booking status tracking (`PENDING_PAYMENT`, `CONFIRMED`, `CANCELLED`), and secure PDF ticket retrieval.
+
+### 🛡️ Administrative & Fleet Management
+- **Executive Operations Dashboard (`/admin/dashboard`):** Real-time aggregation of 8 primary KPIs: Total Bookings, Active Flights, Fleet Seat Capacity, Verified Revenue (INR), Active Passengers, Pending Bookings, Cancellations, and Seat Utilization Rate.
+- **Fleet & Aircraft Configuration (`/admin/aircraft`):** Fleet aircraft registry (Airbus A320neo, Boeing 737-800), cabin row structures, and physical seat capacity management.
+- **Flight & Route Scheduling (`/admin/flights`):** Comprehensive CRUD operations for airport registries, flight schedules, departure/arrival timings, and base fare tiers.
+- **Passenger Registry & Access Control (`/admin/passengers`):** Real-time passenger directory with administrative account status toggling (`ACTIVE` vs. `SUSPENDED`) and safeguard checks against admin self-suspension.
+- **Financial & Payment Audit (`/admin/payments`):** Real-time payment ledger linking Razorpay transaction IDs, order IDs, payment status, and timestamps.
+- **Security Audit Logging (`/admin/audit`):** Granular administrative action audit trail recording admin ID, action category, target entity, client IP address, and timestamp.
+
+---
+
+## <a id="technology-stack"></a>💻 Technology Stack
+
+| Layer | Technologies & Libraries | Purpose & Details |
+| :--- | :--- | :--- |
+| **Backend Core** | **Java 21 LTS** | Primary runtime utilizing modern switch expressions, records, and virtual threads |
+| **Web Tier** | **Jakarta EE 10 (Servlet 6.0, JSP 3.1, JSTL 3.0)** | High-performance request dispatching, filter pipelines, and dynamic server-side rendering |
+| **Servlet Container** | **Apache Tomcat 10.1+** | Enterprise Servlet 6.0 / Jakarta EE runtime container |
+| **Database & Persistence**| **MySQL 8.3+ / MariaDB** (Production) | Relational database schema with 3NF normalization, foreign keys, and indexes |
+| **Database Connectivity**| **JDBC (MySQL Connector/J 8.3.0)** | Pure, performant JDBC with parameterized `PreparedStatement` to eliminate ORM overhead |
+| **Frontend & UI** | **Bootstrap 5.3, Vanilla CSS3, JavaScript (ES6+)** | Responsive aviation UI featuring glassmorphism cards, custom badges, and interactive modals |
+| **PDF Generation** | **OpenPDF 2.0.3** | Clean vector boarding pass e-tickets with integrated `Barcode128` vector barcodes |
+| **Payment Gateway** | **Razorpay Orders API & Checkout JS** | Secure online card/UPI/net-banking payment processing with HMAC-SHA256 signature verification |
+| **Authentication & Security**| **PBKDF / Salted SHA-256 + Google Identity (GIS)** | 16-byte cryptographically secure salt hashing, session fixation protection, and Google OAuth 2.0 |
+| **Build & Tooling** | **Apache Maven 3.9+ (Maven Wrapper included)** | Standardized dependency management, multi-stage compilation, and automated test execution |
+| **Testing Framework** | **JUnit 5 (Jupiter 5.10.2) + Mockito 5.11.0** | Comprehensive unit, mock, and integration test coverage across services, DAOs, and filters |
+| **Containerization** | **Docker (Multi-Stage Build)** | Build stage (Maven + Temurin 21) and runtime stage (Tomcat 10.1 + MariaDB) |
+| **Cloud Hosting** | **Render (Web Service)** | Production continuous deployment running containerized Docker workloads |
+
+---
+
+## <a id="project-documentation"></a>📚 Project Documentation
+
+The repository includes complete, formal academic engineering documentation located in the [`docs/`](docs/) directory. Both documents are tracked in Git and can be accessed or downloaded directly on GitHub:
+
+- 📘 **Project Report:** [**SkyTech Airlines Project Report**](docs/SkyTech_Airlines_Project_Report.docx)  
+  *Detailed academic report covering domain background, system objectives, architectural diagrams, database normalization, module implementation summaries, security mechanisms, test matrices, and evaluation results.*  
+  *(Alternative Direct Link: [GitHub Raw File](https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_Project_Report.docx))*
+
+- 📄 **Software Requirements Specification (SRS):** [**SkyTech Airlines SRS**](docs/SkyTech_Airlines_SRS.docx)  
+  *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*  
+  *(Alternative Direct Link: [GitHub Raw File](https://github.com/nikhilranjanchoubey/airline-reservation-system/raw/main/docs/SkyTech_Airlines_SRS.docx))*
+
+> [!TIP]
+> When browsing this repository on GitHub, clicking either relative link above will navigate directly to the document in GitHub's repository viewer, where you can inspect the file or click **Download** to save it locally.
+
+---
+
+## <a id="visual-preview--screenshots"></a>📸 Visual Preview & Screenshots
+
+### 1. Flight Search & Discovery Homepage
+Modern glassmorphism interface featuring dynamic origin/destination selection with IATA autocomplete, trip type switching (One-Way / Round-Trip / Multi-City), departure calendar, passenger count, and cabin class selectors.
+
+![SkyTech Flight Search Homepage](docs/images/skytech-flight-search-home.png)
+
+---
+
+### 2. Live Flight Search Results & Dynamic Filtering
+Comprehensive flight results grid displaying carrier branding, flight numbers, departure/arrival schedules, duration calculations, stop tags, fare pricing, and real-time faceted filters.
+
+![SkyTech Flight Search Results](docs/images/skytech-flight-results.png)
+
+---
+
+### 3. Interactive Flight Search & Reservation Sequence Flow
+End-to-end user interaction flow from search initiation, autocomplete querying, schedule resolution, seat assignment, Razorpay payment processing, and PDF ticket dispatch.
+
+![SkyTech Flight Search Flow](docs/images/skytech-flight-search-flow.png)
+
+---
+
+## <a id="system-architecture"></a>🏛️ System Architecture
+
+SkyTech implements a strict, decoupling-oriented **Model-View-Controller (MVC)** layered architecture deployed on Apache Tomcat 10.1 (Jakarta EE 10 / Servlet 6.0 specification).
+
+![SkyTech System Architecture](docs/images/skytech-system-architecture.png)
+
+### Architectural Layering
 
 ```
 +-----------------------------------------------------------------------------------------+
@@ -69,7 +162,7 @@ SkyTech implements a strict Model-View-Controller (MVC) architecture deployed on
 |                              JAKARTA EE 10 SERVLET ENGINE                               |
 |                                                                                         |
 |  [Security & Encoding Filters]                                                          |
-|    - CharacterEncodingFilter (UTF-8 Enforced)                                           |
+|    - CharacterEncodingFilter (UTF-8 Enforced across all request/response streams)       |
 |    - AuthenticationFilter (/profile, /my-bookings, /user/*)                             |
 |    - AdminAuthorizationFilter (/admin/*, Role-Based Clearance)                          |
 |                                                                                         |
@@ -98,7 +191,7 @@ SkyTech implements a strict Model-View-Controller (MVC) architecture deployed on
 +--------------------------------------------+    +---------------------------------------+
 |             SERVICE & DAO TIER             |    |         EXTERNAL INTEGRATIONS         |
 |  - UserService, UserDao                    |    |  - ReefAPI Client (Live Schedules)    |
-|  - FlightSearchService, SeatDao            |    |  - Razorpay Gateway (Payments & Webhook)|
+|  - FlightSearchService, SeatDao            |    |  - Razorpay Gateway (Payments)        |
 |  - BookingService, BookingDao              |    |  - Google Identity OAuth2 Verifier    |
 |  - PaymentService, PaymentDao              |    |  - OpenPDF Engine (Vector Barcodes)   |
 |  - TicketService (Aviation Boarding Pass)  |    +---------------------------------------+
@@ -117,28 +210,53 @@ SkyTech implements a strict Model-View-Controller (MVC) architecture deployed on
 
 ---
 
-## 🗄️ Database Schema & Relational Structure
+## <a id="database-design--relational-schema"></a>🗄️ Database Design & Relational Schema
 
-The unified relational schema is defined in [database/schema.sql](database/schema.sql) with supplemental migrations [database/migration_profile_photo.sql](database/migration_profile_photo.sql) and [database/migration_admin_audit.sql](database/migration_admin_audit.sql).
+The relational database is normalized to **Third Normal Form (3NF)** to eliminate redundancy while preserving referential integrity through foreign keys, cascade constraints, and unique indices.
 
-### Key Database Entities
+![SkyTech Database ER Model](docs/images/skytech-database-er.png)
 
-1. **`users`**: Passenger and administrator identities, email, cryptographic `password_hash`, `salt`, `role` (`PASSENGER`, `ADMIN`), `status` (`ACTIVE`, `SUSPENDED`), profile photo paths, and optional `google_id`.
-2. **`airports`**: Master IATA records (IATA code, airport name, city, country, terminal layout) indexed for rapid autocomplete queries.
-3. **`airlines`**: Carrier codes, names, logo assets, and fleet configurations (IndiGo, Air India, Vistara, SpiceJet, Akasa Air).
-4. **`flights`**: Master flight routes, origin airport, destination airport, scheduled departure/arrival times, duration minutes, and stops.
-5. **`flight_schedules`**: Date-specific flight operations, dynamic seat availability counters, and cabin pricing across Economy, Premium Economy, and Business classes.
-6. **`aircraft` & `aircraft_seats`**: Fleet aircraft models (Airbus A320neo, Boeing 737-800) and physical seat grid mappings (row numbers, seat letters, class, extra legroom designations).
-7. **`flight_seat_inventory`**: Per-flight dynamic seat reservation states (`AVAILABLE`, `OCCUPIED`, `BLOCKED`).
-8. **`bookings`**: Master reservation records, unique booking reference, 6-character PNR, passenger contact details, total amount in INR, and status (`PENDING_PAYMENT`, `CONFIRMED`, `CANCELLED`).
-9. **`passengers`**: Passenger manifest details (first name, last name, type, assigned seat number, individual e-ticket number).
-10. **`payments`**: Payment gateway records, Razorpay order IDs, payment IDs, signature verification stamps, currency, and amount.
-11. **`tickets`**: Electronic boarding pass records linked to bookings and passengers.
-12. **`admin_audit_logs`**: Administrative action audit trail (action type, target entity, admin user ID, IP address, timestamp, details).
+### Core Relational Schema Reference
+
+1. **`users`**: Passenger and administrative accounts (`id`, `name`, `email`, `password_hash`, `salt`, `role`, `status`, `phone`, `profile_photo`, `google_id`, `created_at`).
+2. **`airports`**: Master IATA records (`id`, `iata_code`, `airport_name`, `city`, `country`, `active`). Indexed on `iata_code`, `city`, and `airport_name` for rapid prefix autocomplete.
+3. **`airlines`**: Carrier profiles (`id`, `carrier_code`, `airline_name`, `logo_path`, `active`). Seeded with major carriers: IndiGo (6E), Air India (AI), Vistara (UK), SpiceJet (SG), and Akasa Air (QP).
+4. **`flights`**: Master route catalog (`id`, `flight_number`, `airline_id`, `origin_airport_id`, `destination_airport_id`, `departure_time`, `arrival_time`, `duration_minutes`, `stops`).
+5. **`flight_schedules`**: Date-specific flight operations (`id`, `flight_id`, `flight_date`, `economy_price`, `premium_price`, `business_price`, `available_seats`, `status`).
+6. **`aircraft` & `aircraft_seats`**: Fleet configurations (Airbus A320neo, Boeing 737-800) and physical seat layouts (`row_number`, `seat_letter`, `cabin_class`, `is_extra_legroom`).
+7. **`flight_seat_inventory`**: Per-flight dynamic seat reservations (`schedule_id`, `seat_id`, `booking_id`, `status: AVAILABLE / BLOCKED / OCCUPIED`).
+8. **`bookings`**: Master reservations (`id`, `booking_reference`, `pnr`, `user_id`, `schedule_id`, `total_amount`, `contact_email`, `contact_phone`, `booking_status`, `booking_date`).
+9. **`passengers`**: Individual traveler manifest items (`id`, `booking_id`, `first_name`, `last_name`, `passenger_type`, `seat_id`, `ticket_number`).
+10. **`payments`**: Payment gateway transactions (`id`, `booking_id`, `razorpay_order_id`, `razorpay_payment_id`, `amount`, `currency`, `payment_status`, `payment_method`, `created_at`).
+11. **`tickets`**: Boarding pass records (`id`, `booking_id`, `passenger_id`, `e_ticket_number`, `issue_date`, `barcode_data`).
+12. **`admin_audit_logs`**: System administration audit trail (`id`, `admin_user_id`, `action_type`, `target_entity`, `ip_address`, `details`, `timestamp`).
+
+The complete, unified DDL schema is maintained in [database/schema.sql](database/schema.sql).
 
 ---
 
-## 📅 10-Week Comprehensive Project Log
+## <a id="project-team-members--contributions"></a>👥 Project Team Members & Contributions
+
+The engineering workload was structured across five specialized, high-impact modules. Each team member owned end-to-end design, implementation, and testing within their assigned module:
+
+| # | Team Member | Enrollment No. | Institutional Email | Module Responsibility & Scope | Assigned Branch |
+| :-: | :--- | :--- | :--- | :--- | :--- |
+| **1** | **Mohammed Sahil** | `24E1ARCSM30P095` | [mohammedsahil9549@gmail.com](mailto:mohammedsahil9549@gmail.com) | **Module 1: Authentication & User Management**<br>User registration, login, logout, password hashing (salted SHA-256), Google Sign-In (GIS OAuth), session lifecycle, avatar uploads, and role-based route security (`AuthenticationFilter`). | `feature/authentication`<br>*(also mapped to `feature/mohammedsahil-auth`)* |
+| **2** | **Mukesh Sah** | `24E1ARCSM30P097` | [mukeshsah6395@gmail.com](mailto:mukeshsah6395@gmail.com) | **Module 3: Booking & Passenger Management**<br>Booking lifecycle (`PENDING_PAYMENT` to `CONFIRMED`), unique PNR generation, passenger details capture, dynamic seat allocation, passenger booking history ("My Trips"), and reservation status retrieval. | `feature/booking`<br>*(also mapped to `feature/mukeshsah-booking`)* |
+| **3** | **Muskan Raj** | `24E1ARCSF40P098` | [muskanraj172024@gmail.com](mailto:muskanraj172024@gmail.com) | **Module 4: Payment & Ticketing**<br>Razorpay payment gateway integration, order creation, signature verification, payment transaction auditing, and high-quality vector PDF E-Ticket generation using OpenPDF with Code128 barcodes. | `feature/ticketing`<br>*(also mapped to `feature/muskanraj-ticketing`)* |
+| **4** | **Nikhil Ranjan Choubey**<br>*(Lead & Architecture)* | `24E1ARCSM40P103` | [ranjannikhil476@gmail.com](mailto:ranjannikhil476@gmail.com) | **Module 2: Flight Search & Availability**<br>Airport search and autocomplete API (`/api/airports`), one-way/round-trip/multi-city search engine, flight filtering (airlines, stops, cabin class), sorting, live ReefAPI integration with offline catalog fallback, and aircraft seat map selection. | `feature/flight-search`<br>*(also mapped to `feature/nikhilranjanchoubey-flightsearch`)* |
+| **5** | **Prashant Chaudhary** | `24E1ARCSM10P115` | [chaudharyprashant590@gmail.com](mailto:chaudharyprashant590@gmail.com) | **Module 5: Admin Dashboard & System Management**<br>Executive operations dashboard with 8 KPI cards, fleet aircraft and seat capacity management (`/admin/aircraft`), flight schedules CRUD, airport/airline registries, cancellations, revenue analytics, and audit logging. | `feature/admin`<br>*(also mapped to `feature/prashantchaudhary-admin`)* |
+
+### Academic Mentorship
+- **Faculty Mentor:** **Er. Ram Babu Buri**  
+- **Department:** Department of Computer Science & Engineering (CSE)  
+- **Academic Context:** 5th Semester — Java Project-Based Learning (PBL)  
+- **Project Duration:** 6 July 2026 – 6 October 2026 (10 Weeks)  
+- **Integration Workflow:** Feature branches integrated into `integration/skytech` and deployed to `main`.
+
+---
+
+## <a id="10-week-comprehensive-project-log"></a>📅 10-Week Comprehensive Project Log
 
 ### WEEK 1: Project Introduction and Requirements Analysis
 - **Objectives:** Establish the core project vision, analyze domain requirements for airline flight reservations, define technology stack boundaries (Java 21, Jakarta EE 10, Tomcat 10.1, MySQL), and formulate team member roles.
@@ -215,7 +333,7 @@ The unified relational schema is defined in [database/schema.sql](database/schem
   - **Dual-Data Architecture:** Implemented `ReefApiClient` for live flight queries with transparent offline failover to MySQL `flight_schedules`.
 - **Responsible Team Member:** **Nikhil Ranjan Choubey** (Lead Developer — Module 2).
 - **Challenges & Solutions:** *Challenge:* External API key expirations or network latency slowing down flight search results. *Solution:* Engineered a graceful fallback mechanism in `FlightSearchService` that queries the local verified database schedule whenever the external API is unreachable or returns an error.
-- **Testing & Validation:** Developed `FlightSearchServiceTest` (7 tests passing) and `ReefApiIntegrationTest` (3 tests passing). Verified autocomplete responsiveness (<50ms) and seat map rendering.
+- **Testing & Validation:** Developed `FlightSearchServiceTest` and `ReefApiIntegrationTest`. Verified autocomplete responsiveness (<50ms) and seat map rendering.
 - **Deliverables:** Complete flight search interface, REST API endpoints, seat selection engine, and service test suite.
 - **Outcome & Next Steps:** Flight discovery fully operational; proceeded to booking creation and payment processing.
 
@@ -231,7 +349,7 @@ The unified relational schema is defined in [database/schema.sql](database/schem
   - **Status Transitions:** Bookings transition from `PENDING_PAYMENT` to `CONFIRMED` upon signature verification, with automated rollback handling upon payment cancellation.
 - **Responsible Team Members:** Mukesh Sah (Booking & Passenger Management), Muskan Raj (Payment Gateway & Transactions).
 - **Challenges & Solutions:** *Challenge:* Preventing duplicate order creation upon browser reload on checkout. *Solution:* Implemented idempotent order checks in `PaymentService.initiateOrder()` that re-use existing active pending Razorpay orders.
-- **Testing & Validation:** Created `BookingServiceTest` (3 tests passing) and `PaymentServiceTest` (6 tests passing). Verified payment signature verification and failed-payment rollback logic.
+- **Testing & Validation:** Created `BookingServiceTest` and `PaymentServiceTest`. Verified payment signature verification and failed-payment rollback logic.
 - **Deliverables:** End-to-end checkout workflow, Razorpay integration, booking confirmation view, and "My Trips" dashboard.
 - **Outcome & Next Steps:** Reservation and payment processing completed; progressed to back-office administration and ticketing.
 
@@ -254,7 +372,7 @@ The unified relational schema is defined in [database/schema.sql](database/schem
 
 ---
 
-### WEEK 9: Integration, Testing, and Bug Fixes
+### WEEK 9: Integration, Testing, and System Hardening
 - **Objectives:** Integrate all five individual modules on the shared `integration/skytech` branch, eliminate routing and layout anomalies, resolve cross-module session bugs, and execute a comprehensive automated regression suite.
 - **Activities:** Conducted full system integration walkthroughs. Resolved dropdown clipping on the homepage, fixed admin profile 404 routing, updated admin sidebar identity formatting, and executed automated tests.
 - **Technical Implementation:**
@@ -264,7 +382,7 @@ The unified relational schema is defined in [database/schema.sql](database/schem
   - Enforced consistent UTF-8 character encoding and HTTP security headers across all views.
 - **Responsible Team Members:** All team members; integration lead by Nikhil Ranjan Choubey and Mohammed Sahil.
 - **Challenges & Solutions:** *Challenge:* Discrepancies between legacy servlet test constructors and refactored DAOs. *Solution:* Refactored `AdminDashboardServletTest` with Mockito to match current `AdminDashboardDao` contracts, achieving a 100% build pass rate.
-- **Testing & Validation:** Executed `mvn test`: **71 tests executed, 0 failures, 0 errors, 0 skipped**. Verified cross-module cookie session sharing and role separation.
+- **Testing & Validation:** Executed regression test suites across authentication, booking, search, and administrative modules. Verified cross-module cookie session sharing and role separation.
 - **Deliverables:** Fully integrated codebase on `integration/skytech`, resolved defect log, and automated test regression suite.
 - **Outcome & Next Steps:** Clean system integration verified; commenced final evaluation deliverables and high-quality e-ticketing.
 
@@ -276,20 +394,20 @@ The unified relational schema is defined in [database/schema.sql](database/schem
 - **Technical Implementation:**
   - **Premium PDF E-Ticket Engine (`TicketService`):** Generates clean, print-friendly electronic tickets featuring deep navy and aviation blue styling, flight itinerary route cards, passenger seat assignment tables, GST fare breakdowns, native OpenPDF `Barcode128` vector barcodes, and travel guidance notices.
   - **Ticket Download Security (`TicketController`):** Restricts ticket downloads (`/ticket/download`, `/ticket/view`) to confirmed bookings belonging strictly to the authenticated passenger (or administrators), returning HTTP 403 Forbidden on unauthorized attempts.
-  - **Branding Standardization:** Eliminated all inconsistent branding variations (*"SkyTech Airlines"*, *"SkyTech Airline"*), standardizing visible UI, titles, and dialogs strictly to **SkyTech**.
+  - **Branding Standardization:** Eliminated all inconsistent branding variations, standardizing visible UI, titles, and dialogs strictly to **SkyTech**.
   - **Final Cleanup:** Purged ephemeral scratch scripts while preserving all Java, JSP, SQL, configuration, and Git history assets.
 - **Responsible Team Members:** All team members (Mohammed Sahil, Mukesh Sah, Muskan Raj, Nikhil Ranjan Choubey, Prashant Chaudhary).
 - **Challenges & Solutions:** *Challenge:* Generating sharp barcodes without external web services or raster blur. *Solution:* Utilized OpenPDF's built-in `Barcode128` class to write vector-quality barcode paths directly into the `PdfContentByte` layer.
-- **Testing & Validation:** Verified with `TicketServiceTest` (4 unit tests), browser subagent live inspection of Tomcat web pages, and full `mvn test` execution.
+- **Testing & Validation:** Verified with `TicketServiceTest`, browser live inspection of web pages, and automated test suites.
 - **Deliverables:** Final deployable WAR artifact, master `README.md` with 10-week log, verified schema, and clean repository.
 - **Outcome & Next Steps:** System fully verified, tested, and ready for academic project presentation and evaluation.
 
 ---
 
-## 🌐 Application URL Route Map
+## <a id="application-url-route-map"></a>🌐 Application URL Route Map
 
 | URL Route | HTTP Method | Description | Access Clearance |
-|---|---|---|---|
+| :--- | :---: | :--- | :--- |
 | `/` or `/home` | GET | SkyTech Homepage & Flight Search Engine | Public |
 | `/search-flights` | GET | Flight search submission and query execution | Public |
 | `/flight-results` | GET | Flight search results with real-time filters and sorting | Public |
@@ -321,27 +439,70 @@ The unified relational schema is defined in [database/schema.sql](database/schem
 
 ---
 
-## ⚙️ Environment Setup & Run Guide
+## <a id="local-installation--setup-guide"></a>⚙️ Local Installation & Setup Guide
 
 ### 1. Prerequisites
-- **Java Development Kit (JDK):** Version 21 LTS (`java -version`)
-- **Build Tool:** Apache Maven 3.9+ (`mvn -v`)
-- **Database:** MySQL Server 8.0+ (`mysql --version`)
-- **Servlet Container:** Apache Tomcat 10.1+ (Jakarta EE 10 / Servlet 6.0 compatible)
+- **Java Development Kit (JDK):** Version 21 LTS or newer (`java -version`)
+- **Database:** MySQL Server 8.0+ or MariaDB (`mysql --version`)
+- **Servlet Container (for manual run):** Apache Tomcat 10.1+ (Jakarta EE 10 / Servlet 6.0 compatible)
+- **Build Tool:** Apache Maven 3.9+ or the included Maven Wrapper (`./mvnw` or `.\mvnw.cmd`)
 
-### 2. Database Initialization
-Log into MySQL and execute the unified schema script:
+---
+
+### 2. ⚡ One-Click Local Launch (Windows)
+The repository includes dedicated launch scripts for rapid local development:
+- **Start SkyTech:** Double-click [`START-SKYTECH.bat`](START-SKYTECH.bat) — automatically verifies Java and MySQL, packages the application WAR using `./mvnw.cmd package -DskipTests`, deploys to local Apache Tomcat 10.1, and opens your browser at:
+  ```
+  http://localhost:8080/airline-reservation-system/
+  ```
+- **Stop SkyTech:** Double-click [`STOP-SKYTECH.bat`](STOP-SKYTECH.bat) — gracefully halts Tomcat and frees port 8080.
+
+---
+
+### 3. Manual Build and Package
+To build the WAR archive manually using the Maven Wrapper:
 ```bash
-mysql -u root -p < database/schema.sql
+# Windows
+.\mvnw.cmd clean package -DskipTests
+
+# Linux / macOS
+./mvnw clean package -DskipTests
 ```
-*(Optional migrations for profile avatar photos and audit logging can be applied via `database/migration_profile_photo.sql` and `database/migration_admin_audit.sql`.)*
+The deployable web archive will be generated at:
+```
+target/airline-reservation-system.war
+```
 
-Default seeded accounts for demonstration:
-- **System Administrator:** `admin@airline.com` / `Admin@12345`
-- **Standard Passenger:** `passenger@airline.com` / `Passenger@12345`
+Deploy by copying `airline-reservation-system.war` to your Tomcat `%CATALINA_HOME%\webapps\` directory and launching Tomcat.
 
-### 3. Environment Configuration (`.env`)
-Create a `.env` file in the project root directory based on the provided [.env.example](.env.example):
+---
+
+## <a id="database--environment-configuration"></a>🗄️ Database & Environment Configuration
+
+### 1. Database Initialization
+1. Log into your local MySQL CLI or MySQL Workbench:
+   ```bash
+   mysql -u root -p
+   ```
+2. Execute the unified schema file:
+   ```sql
+   source database/schema.sql;
+   ```
+   *Or directly from terminal:*
+   ```bash
+   mysql -u root -p < database/schema.sql
+   ```
+
+#### 🔑 Default Seeded Demo Accounts
+| Role | Email Address | Password | Clearance Level |
+| :--- | :--- | :--- | :--- |
+| **System Administrator** | `admin@airline.com` | `Admin@12345` | Full administrative control (`/admin/*`) |
+| **Standard Passenger** | `passenger@airline.com` | `Passenger@12345` | Passenger portal, booking, and ticket history |
+
+---
+
+### 2. Environment Configuration (`.env`)
+Create a `.env` file in the project root by copying the provided template [.env.example](.env.example):
 
 ```properties
 # MySQL Database Connection
@@ -350,55 +511,88 @@ DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
 DB_DRIVER=com.mysql.cj.jdbc.Driver
 
-# External Flight Provider (Optional live schedules)
+# External Flight Schedule Provider (Optional live schedule query)
 REEF_API_KEY=your_reef_api_key_if_available
 REEF_API_URL=https://api.reefapi.com
 
-# Razorpay Payment Gateway
+# Razorpay Online Payment Gateway
 RAZORPAY_KEY_ID=your_razorpay_key_id
 RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 
-# Google Identity Services (GIS)
+# Google Identity Services (GIS OAuth2)
 GOOGLE_CLIENT_ID=your_google_oauth_client_id.apps.googleusercontent.com
 ```
 
-### 4. Running Automated Tests
-Execute the full automated test suite using Maven:
-```bash
-mvn clean test
-```
-*Expected Result: 71 tests executed, 0 failures, 0 errors, 0 skipped.*
-
-### 5. Building Deployable WAR
-Package the application into an enterprise WAR bundle:
-```bash
-mvn clean package
-```
-Generates deployable WAR artifact at: `target/airline-reservation-system.war`.
-
-### 6. Deployment to Apache Tomcat 10.1
-1. Copy `target/airline-reservation-system.war` into `%CATALINA_HOME%\webapps\` (Windows) or `$CATALINA_HOME/webapps/` (Linux/macOS).
-2. Start the Tomcat server (`bin/startup.bat` or `bin/startup.sh`).
-3. Open a browser and navigate to:
-   ```
-   http://localhost:8080/airline-reservation-system/
-   ```
+> [!NOTE]
+> Sensitive credentials, passwords, and API keys are strictly excluded from version control via `.gitignore`. The application automatically falls back to offline catalog schedules and simulated payment flows if external keys are omitted.
 
 ---
 
-## 🔒 Security Architecture & Best Practices
+## <a id="automated-testing-instructions"></a>🧪 Automated Testing Instructions
 
-- **Zero Plaintext Passwords:** Passwords are salted with 16 cryptographically random bytes and hashed using SHA-256 before persistence.
-- **SQL Injection Prevention:** All SQL queries across all DAOs use parameterized `PreparedStatement` interfaces.
-- **Role-Based Authorization:** `AuthenticationFilter` and `AdminAuthorizationFilter` guard passenger and administrator sectors, returning HTTP 403 or redirecting unauthenticated requests.
-- **Session Security:** Session IDs are regenerated upon successful authentication; session cookies are managed with `HttpOnly` flags to prevent cross-site scripting (XSS) interception.
-- **Download Guard:** Ticket download requests (`/ticket/download`) verify booking ownership against the session user ID, preventing unauthorized passenger access.
-- **Credential Protection:** All database passwords, Razorpay API secrets, and OAuth keys are kept out of source control using `.gitignore` and `.env` separation.
+The project incorporates an automated test suite across all architectural layers using **JUnit 5 (Jupiter)** and **Mockito**:
+
+```bash
+# Windows
+.\mvnw.cmd test
+
+# Linux / macOS
+./mvnw test
+```
+
+### Test Coverage Highlights
+- **Service Layer Tests:** `BookingServiceTest`, `PaymentServiceTest`, `TicketServiceTest`, `FlightSearchServiceTest`, `UserServiceTest` (covering registration, authentication, and Google GIS token flows).
+- **Utility & Cryptography Tests:** `PasswordUtilTest` (verifying 16-byte random salt generation and SHA-256 hash matching), `ValidationUtilTest` (validating email, phone, and name regex).
+- **Filter & Security Tests:** `AuthenticationFilterTest`, `AdminAuthorizationFilterTest`, `CorsFilterTest` (verifying role clearances and route protection).
+- **API & External Integration Tests:** `ReefApiIntegrationTest`, `AuthApiControllerTest`.
+- **Database Integrity:** `DatabaseIntegrityVerificationTest` (asserting referential integrity and table definitions).
 
 ---
 
-## 📄 License & Academic Attribution
+## <a id="production-deployment-information"></a>🚢 Production Deployment Information
 
-This project is submitted in partial fulfillment of the requirements for the **B.Tech Computer Science and Engineering — Java Project-Based Learning (PBL)** curriculum (5th Semester).
+SkyTech is continuously containerized and deployed to **Render** using a multi-stage Docker build:
 
-© 2026 **SkyTech Project Team**. Developed under the mentorship of **Er. Ram Babu Buri**, Department of Computer Science and Engineering.
+- 🚀 **Live URL:** [**https://skytech-0l59.onrender.com/**](https://skytech-0l59.onrender.com/)
+
+### Container Architecture ([Dockerfile](Dockerfile))
+1. **Stage 1 (Builder):** Uses `maven:3.9.9-eclipse-temurin-21` to compile and package the clean production WAR artifact.
+2. **Stage 2 (Runtime):** Uses official `tomcat:10.1-jdk21-temurin` bundled with a lightweight MariaDB server for self-contained zero-dependency execution.
+3. **Dynamic Port Entrypoint ([`docker-entrypoint.sh`](docker-entrypoint.sh)):** Automatically binds Tomcat's HTTP connector to the dynamically assigned `$PORT` environment variable required by cloud hosting providers.
+
+Deployment configuration is codified in [render.yaml](render.yaml).
+
+---
+
+## <a id="security-architecture--best-practices"></a>🔒 Security Architecture & Best Practices
+
+- **Zero Plaintext Passwords:** Passwords are cryptographically salted with 16 random bytes and hashed using SHA-256 before database storage.
+- **SQL Injection Immunization:** 100% of SQL queries across all DAOs utilize parameterized `PreparedStatement` interfaces.
+- **Strict Role-Based Access Control (RBAC):** `AuthenticationFilter` and `AdminAuthorizationFilter` guard passenger and administrator endpoints, blocking unauthorized access with HTTP 403 or login redirects.
+- **Session Fixation Prevention:** Session IDs are regenerated upon successful authentication; session cookies are issued with `HttpOnly` and `SameSite` flags.
+- **Privilege-Enforced Ticket Downloads:** Ticket download requests (`/ticket/download`, `/ticket/view`) verify reservation ownership against the authenticated session user ID, preventing IDOR (Insecure Direct Object Reference) vulnerabilities.
+- **Cryptographic Payment Verification:** Razorpay payment callbacks require valid HMAC-SHA256 signature verification matching order ID and payment ID.
+- **Credential Protection:** Secrets and database credentials are fully isolated in `.env` and kept outside source control.
+
+---
+
+## <a id="future-enhancements"></a>🔮 Future Enhancements
+
+- **Dynamic Seat Pricing:** Real-time demand-based surge pricing algorithms for high-occupancy flights.
+- **SMS & WhatsApp Dispatch:** Automated flight status updates and PDF boarding pass dispatch via Twilio / WhatsApp Business API.
+- **Frequent Flyer & Loyalty Program:** Miles accumulation, tier progression (Silver, Gold, Platinum), and point redemption.
+- **Multi-Currency Support:** Real-time forex conversion for international bookings.
+- **WebSockets Live Tracker:** Real-time push updates for flight gate changes, delays, and baggage belt allocations.
+
+---
+
+## <a id="academic-attribution--acknowledgements"></a>📄 Academic Attribution & Acknowledgements
+
+This project was conceived, designed, and implemented as part of the **Bachelor of Technology (B.Tech) in Computer Science and Engineering** curriculum (5th Semester — Java Project-Based Learning).
+
+- **Institution:** Department of Computer Science and Engineering (CSE)
+- **Academic Mentor:** **Er. Ram Babu Buri**
+- **Project Title:** SkyTech — Airline Reservation System
+- **Academic Period:** July 2026 – October 2026
+
+© 2026 **SkyTech Project Team** (Mohammed Sahil, Mukesh Sah, Muskan Raj, Nikhil Ranjan Choubey, Prashant Chaudhary). Developed for educational and portfolio demonstration.
