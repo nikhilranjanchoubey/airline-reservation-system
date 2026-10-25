@@ -18,8 +18,8 @@
 
 | Resource | View Online | Download Word Document |
 | :--- | :--- | :--- |
-| 📘 **Project Report** | [**View PDF**](docs/SkyTech_Airlines_Project_Report.pdf) | [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
-| 📄 **Software Requirements Specification (SRS)** | [**View PDF**](docs/SkyTech_Airlines_SRS.pdf) | [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx) |
+| 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
+| 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx) |
 
 ---
 
@@ -105,12 +105,12 @@ Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specificatio
 The repository includes complete, formal academic engineering documentation located in the [`docs/`](docs/) directory. Both documents are tracked in Git and can be accessed or downloaded directly on GitHub:
 
 - 📘 **Project Report:**
-  - 📄 **PDF (View Online):** [**SkyTech Airlines Project Report (PDF)**](docs/SkyTech_Airlines_Project_Report.pdf)
+  - 📄 **PDF (View Online):** <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines Project Report (PDF)</strong></a>
   - 📝 **Word Document:** [**Download DOCX**](docs/SkyTech_Airlines_Project_Report.docx)  
   *Detailed academic report covering domain background, system objectives, architectural diagrams, database normalization, module implementation summaries, security mechanisms, test matrices, and evaluation results.*
 
 - 📄 **Software Requirements Specification (SRS):**
-  - 📄 **PDF (View Online):** [**SkyTech Airlines SRS (PDF)**](docs/SkyTech_Airlines_SRS.pdf)
+  - 📄 **PDF (View Online):** <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer"><strong>SkyTech Airlines SRS (PDF)</strong></a>
   - 📝 **Word Document:** [**Download DOCX**](docs/SkyTech_Airlines_SRS.docx)  
   *Comprehensive IEEE-standard SRS document detailing functional and non-functional requirements, use cases, actor interactions, security constraints, performance benchmarks, and interface specifications for all five system modules.*
 
