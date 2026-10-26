@@ -16,7 +16,7 @@
 > ### 🚀 Live Demo: [https://skytech-0l59.onrender.com/](https://skytech-0l59.onrender.com/)
 > **SkyTech is deployed live on Render.** Explore real-time flight searches, airport autocomplete, dynamic seat selection on Airbus A320neo / Boeing 737-800 fuselage grids, checkout with Razorpay, and instant vector PDF boarding pass generation.
 
-| Resource | View Online | Download Word Document |
+| Resource | View Online | View Word Document |
 | :--- | :--- | :--- |
 | 📘 **Project Report** | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**View DOCX**](docs/SkyTech_Airlines_Project_Report.docx) |
 | 📄 **Software Requirements Specification (SRS)** | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer"><strong>View PDF</strong></a> | [**View DOCX**](docs/SkyTech_Airlines_SRS.docx) |
