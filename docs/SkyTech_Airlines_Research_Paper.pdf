@@ -1,0 +1,512 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<<
+/Producer (ReportLab PDF Library \055 \050opensource\051)
+/Author (Mohammed Sahil\054 Mukesh Sah\054 Muskan Raj\054 Nikhil Ranjan Choubey\054 Prashant Chaudhary)
+/CreationDate (D\07220261026161400\05300\04700\047)
+/Creator (\050unspecified\051)
+/Keywords ()
+/ModDate (D\07220261026161400\05300\04700\047)
+/Subject (\050unspecified\051)
+/Title (SkyTech Airlines\072 Airline Reservation and Passenger Management System)
+/Trapped (\057False)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Count 5
+/Kids [ 4 0 R 14 0 R 17 0 R 19 0 R 21 0 R ]
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<<
+/Contents 5 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 7 0 R
+/F2 8 0 R
+/F2-0 9 0 R
+/F3 10 0 R
+/F3-0 11 0 R
+/F4 12 0 R
+/F5 13 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+5 0 obj
+<<
+/Length 11719
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+BT /F2 8 Tf 9.6 TL ET
+BT 1 0 0 1 304 27.36 Tm (1) Tj T* ET
+Q
+q
+1 0 0 1 44.64 687.36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 43 Tm /F3 17 Tf 20 TL 7.108 0 Td (SkyTech Airlines: A Requirements-Driven Java Web Architecture for) Tj T* 17.6885 0 Td (Airline Reservation and Passenger Management with Role-Based) Tj T* 111.6475 0 Td (Access and Transactional Booking) Tj T* -136.444 0 Td ET
+Q
+Q
+q
+1 0 0 1 44.64 557.36 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 67 cm
+q
+BT 1 0 0 1 0 43.4 Tm 48.5088 0 Td 10.4 TL /F3 8.6 Tf 0 0 0 rg (Mohammed Sahil) Tj /F2 8.6 Tf  T* -17.5612 0 Td (RTU Roll No. 24EARCS095) Tj  T* 16.254 0 Td (Department of CSE) Tj  T* -27.5845 0 Td (Arya College of Engineering & I.T.) Tj  T* 20.898 0 Td (Jaipur, Rajasthan, India) Tj T* -40.5151 0 Td ET
+Q
+Q
+q
+1 0 0 1 180.24 67 cm
+q
+BT 1 0 0 1 0 43.4 Tm 58.2999 0 Td 10.4 TL /F3 8.6 Tf 0 0 0 rg (Mukesh Sah) Tj /F2 8.6 Tf  T* -27.3523 0 Td (RTU Roll No. 24EARCS097) Tj  T* 16.254 0 Td (Department of CSE) Tj  T* -27.5845 0 Td (Arya College of Engineering & I.T.) Tj  T* 20.898 0 Td (Jaipur, Rajasthan, India) Tj T* -40.5151 0 Td ET
+Q
+Q
+q
+1 0 0 1 354.48 67 cm
+q
+BT 1 0 0 1 0 43.4 Tm 58.3042 0 Td 10.4 TL /F3 8.6 Tf 0 0 0 rg (Muskan Raj) Tj /F2 8.6 Tf  T* -27.3566 0 Td (RTU Roll No. 24EARCS098) Tj  T* 16.254 0 Td (Department of CSE) Tj  T* -27.5845 0 Td (Arya College of Engineering & I.T.) Tj  T* 20.898 0 Td (Jaipur, Rajasthan, India) Tj T* -40.5151 0 Td ET
+Q
+Q
+q
+1 0 0 1 6 6 cm
+q
+BT 1 0 0 1 0 43.4 Tm 37.3933 0 Td 10.4 TL /F3 8.6 Tf 0 0 0 rg (Nikhil Ranjan Choubey) Tj /F2 8.6 Tf  T* -6.4457 0 Td (RTU Roll No. 24EARCS103) Tj  T* 16.254 0 Td (Department of CSE) Tj  T* -27.5845 0 Td (Arya College of Engineering & I.T.) Tj  T* 20.898 0 Td (Jaipur, Rajasthan, India) Tj T* -40.5151 0 Td ET
+Q
+Q
+q
+1 0 0 1 180.24 6 cm
+q
+BT 1 0 0 1 0 43.4 Tm 42.2953 0 Td 10.4 TL /F3 8.6 Tf 0 0 0 rg (Prashant Chaudhary) Tj /F2 8.6 Tf  T* -11.3477 0 Td (RTU Roll No. 24EARCS115) Tj  T* 16.254 0 Td (Department of CSE) Tj  T* -27.5845 0 Td (Arya College of Engineering & I.T.) Tj  T* 20.898 0 Td (Jaipur, Rajasthan, India) Tj T* -40.5151 0 Td ET
+Q
+Q
+BT 1 0 0 1 354.48 48 Tm  T* ET
+q
+Q
+Q
+Q
+q
+1 0 0 1 44.64 311.76 cm
+q
+BT 1 0 0 1 0 228.6 Tm 1.0386 Tw 10.8 TL /F4 9 Tf 0 0 0 rg (Abstract) Tj /F3 9 Tf (\227Airline reservation depends on several interdependent) Tj T* 0 Tw 2.241 Tw (activities: discovering flights, recording passenger information,) Tj T* 0 Tw 8.433 Tw (issuing booking references, producing tickets, handling) Tj T* 0 Tw .344571 Tw (cancellations and maintaining schedules. When these are handled) Tj T* 0 Tw 1.850143 Tw (manually or through poorly coordinated tools, records become) Tj T* 0 Tw 6.708857 Tw (inconsistent, booking references are hard to trace and) Tj T* 0 Tw 2.71125 Tw (administrators lack a reliable view of operations. This paper) Tj T* 0 Tw 1.161 Tw (presents the design of SkyTech Airlines, a centralized Java web) Tj T* 0 Tw 2.383714 Tw (application that addresses these problems within an academic) Tj T* 0 Tw 6.424714 Tw (scope. The system recognizes two roles \(Passenger and) Tj T* 0 Tw 5.955429 Tw (Administrator\) and divides the work into five modules:) Tj T* 0 Tw 6.948 Tw (authentication and user management, flight search and) Tj T* 0 Tw 1.902 Tw (availability, booking and passenger management, ticketing and) Tj T* 0 Tw 7.2378 Tw (cancellation, and administrative flight management. The) Tj T* 0 Tw .498 Tw (architecture combines JavaServer Pages, Jakarta Servlets, JDBC) Tj T* 0 Tw .466 Tw (and a MySQL database on Apache Tomcat 10.1, with server-side) Tj T* 0 Tw -0.09 Tw (role-based access control, salted password hashing, parameterized) Tj T* 0 Tw 3.342857 Tw (SQL and transactional booking and cancellation. The paper) Tj T* 0 Tw 10.3428 Tw (reports the requirements specification \(42 functional) Tj T* 0 Tw .995143 Tw (requirements\), architecture, data model and verification plan. It) Tj T* 0 Tw 2.311714 Tw (describes planned capabilities only; no implementation or test) Tj T* 0 Tw (result is claimed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 44.64 275.36 cm
+q
+BT 1 0 0 1 0 23.4 Tm 3.198 Tw 10.8 TL /F4 9 Tf 0 0 0 rg (Index Terms) Tj /F3 9 Tf (\227airline reservation, Java web application, JSP,) Tj T* 0 Tw .281571 Tw (Jakarta Servlets, JDBC, MySQL, role-based access control, PNR,) Tj T* 0 Tw (transactional booking.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 44.64 257.36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 1.6 Tm /F3 9.4 Tf 11 TL 17.962 0 Td (I. INTRODUCTION AND PROBLEM STATEMENT) Tj T* -17.962 0 Td ET
+Q
+Q
+q
+1 0 0 1 44.64 129.06 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 114.9 Tm /F2 9.4 Tf 11.3 TL 2.315222 Tw (Online reservation has become the normal way of booking air) Tj T* 0 Tw 1.853578 Tw (travel. A reservation system lets a passenger create an account,) Tj T* 0 Tw .661164 Tw (search for flights on a given date, choose a flight, enter passenger) Tj T* 0 Tw -0.05574 Tw (details and later retrieve or cancel the booking [1]. Early automated) Tj T* 0 Tw .80342 Tw (systems were built for the airlines themselves and later opened to) Tj T* 0 Tw 5.173629 Tw (travel agencies, and today global distribution systems and) Tj T* 0 Tw 1.429625 Tw (proprietary platforms handle the business [2]. These systems are) Tj T* 0 Tw 1.490073 Tw (complex and costly to operate, which puts them out of reach of) Tj T* 0 Tw .997343 Tw (small projects and teaching environments. Building a comparable) Tj T* 0 Tw 2.769125 Tw (system as a student project nevertheless raises three recurring) Tj T* 0 Tw (problems.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 44.64 45.96 cm
+q
+BT 1 0 0 1 0 69.7 Tm 2.080575 Tw 11.3 TL /F2 9.4 Tf 0 0 0 rg (First, ) Tj /F3 9.4 Tf (inconsistent records) Tj /F2 9.4 Tf (: where reservation work is done by) Tj T* 0 Tw 1.13705 Tw (hand, passenger records are duplicated or inconsistent, and ticket) Tj T* 0 Tw 3.604433 Tw (and cancellation records disagree. Second, ) Tj /F3 9.4 Tf (poor traceability) Tj /F2 9.4 Tf (:) Tj T* 0 Tw .354382 Tw (flights are slow to search and booking references are hard to trace.) Tj T* 0 Tw 2.512467 Tw (Third, ) Tj /F3 9.4 Tf (fragmented oversight) Tj /F2 9.4 Tf (: administrators cannot see flights) Tj T* 0 Tw .256109 Tw (and bookings in one place. A further difficulty is that a reservation) Tj T* 0 Tw 2.70288 Tw (application combines authentication, validation, concurrent seat) Tj T* 0 Tw ET
+Q
+Q
+q
+1 0 0 1 313.92 526.76 cm
+q
+BT 1 0 0 1 0 13.2 Tm .8288 Tw 11.3 TL /F2 9.4 Tf 0 0 0 rg (updates and relational design in a single problem, so security and) Tj T* 0 Tw (data-integrity rules must be written down before coding begins.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 387.16 cm
+q
+BT 1 0 0 1 0 126.2 Tm .22055 Tw 11.3 TL /F2 9.4 Tf 0 0 0 rg (SkyTech Airlines addresses these problems with a single relational) Tj T* 0 Tw .2558 Tw (database exposed through role-restricted web pages, a unique PNR) Tj T* 0 Tw 5.029943 Tw (\(booking reference\) for every booking, and validation and) Tj T* 0 Tw 1.5624 Tw (transactional rules governing every change to a reservation. The) Tj T* 0 Tw 3.125771 Tw (work was specified in a Software Requirements Specification) Tj T* 0 Tw 2.139756 Tw (\(SRS\) for the 2026\2262027 academic session at Arya College of) Tj T* 0 Tw 5.50805 Tw (Engineering & IT, Jaipur, and this paper condenses that) Tj T* 0 Tw 3.423886 Tw (specification. Section II states objectives, Section III reviews) Tj T* 0 Tw .092475 Tw (related work, Section IV defines requirements, Section V describes) Tj T* 0 Tw 2.766775 Tw (the architecture, Section VI the methodology, Section VII the) Tj T* 0 Tw 1.931971 Tw (verification plan, Section VIII expected outcomes, and Sections) Tj T* 0 Tw (IX\226XI limitations, future work and conclusions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 371.86 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 1.9 Tm /F2 9.4 Tf 11.3 TL (The contributions of this paper are:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 333.96 cm
+q
+BT 1 0 0 1 2 24.5 Tm /F1 10 Tf 12 TL 0 0 0 rg (1.) Tj ET
+0 0 0 rg
+BT 1 0 0 1 12 24.5 Tm /F2 9.4 Tf 11.3 TL 4.34 0 Td .195257 Tw (A requirements-driven design for an airline reservation system) Tj T* 0 Tw -4.34 0 Td 4.540343 Tw (with five modules and 42 uniquely identified functional) Tj T* 0 Tw (requirements.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 309.36 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (2.) Tj ET
+0 0 0 rg
+BT 1 0 0 1 12 13.2 Tm /F2 9.4 Tf 11.3 TL 4.34 0 Td -0.076867 Tw (A layered Java web architecture in which servlet filters enforce) Tj T* 0 Tw -4.34 0 Td (authentication and role on every protected request.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 284.76 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (3.) Tj ET
+0 0 0 rg
+BT 1 0 0 1 12 13.2 Tm /F2 9.4 Tf 11.3 TL 4.34 0 Td 2.133 Tw (Transactional booking and cancellation rules with a unique) Tj T* 0 Tw -4.34 0 Td (PNR, idempotent cancellation and database-enforced integrity.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 260.16 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (4.) Tj ET
+0 0 0 rg
+BT 1 0 0 1 12 13.2 Tm /F2 9.4 Tf 11.3 TL 4.34 0 Td 2.26 Tw (A written verification plan and acceptance matrix, with an) Tj T* 0 Tw -4.34 0 Td (explicit statement that no test has yet been executed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 242.16 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 1.6 Tm /F3 9.4 Tf 11 TL 67.829 0 Td (II. PROJECT OBJECTIVES) Tj T* -67.829 0 Td ET
+Q
+Q
+q
+1 0 0 1 313.92 226.86 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 1.9 Tm /F2 9.4 Tf 11.3 TL (The objectives of SkyTech Airlines are:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 200.26 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (1.) Tj ET
+BT 1 0 0 1 12 13.2 Tm 4.34 0 Td 2.137567 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (Centralized data:) Tj /F2 9.4 Tf ( hold users, flights, bookings, passengers) Tj T* 0 Tw -4.34 0 Td (and tickets in one MySQL database.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 175.66 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (2.) Tj ET
+BT 1 0 0 1 12 13.2 Tm 4.34 0 Td 1.942314 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (Modular scope:) Tj /F2 9.4 Tf ( divide the functionality into five modules,) Tj T* 0 Tw -4.34 0 Td (each owned by one team member.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 151.06 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (3.) Tj ET
+BT 1 0 0 1 12 13.2 Tm 4.34 0 Td .868029 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (Secure access:) Tj /F2 9.4 Tf ( enforce Passenger and Administrator roles on) Tj T* 0 Tw -4.34 0 Td (the server, never by hiding links.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 126.46 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (4.) Tj ET
+BT 1 0 0 1 12 13.2 Tm 4.34 0 Td 1.177825 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (Traceable bookings:) Tj /F2 9.4 Tf ( issue a unique PNR for every booking) Tj T* 0 Tw -4.34 0 Td (and keep ticket status consistent with booking status.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 101.86 cm
+q
+BT 1 0 0 1 2 13.2 Tm /F1 10 Tf 12 TL 0 0 0 rg (5.) Tj ET
+BT 1 0 0 1 12 13.2 Tm 4.34 0 Td 10.19224 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (Atomic changes:) Tj /F2 9.4 Tf ( make booking and cancellation) Tj T* 0 Tw -4.34 0 Td (all-or-nothing database transactions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 313.92 65.96 cm
+q
+BT 1 0 0 1 2 24.5 Tm /F1 10 Tf 12 TL 0 0 0 rg (6.) Tj ET
+BT 1 0 0 1 12 24.5 Tm 4.34 0 Td 5.17828 Tw 11.3 TL /F3 9.4 Tf 0 0 0 rg (End-to-end workflow:) Tj /F2 9.4 Tf ( cover registration, flight search,) Tj T* 0 Tw -4.34 0 Td 5.62516 Tw (booking, ticketing, cancellation and administrative flight) Tj T* 0 Tw (management.) Tj T* ET
+Q
+Q
+ 
+
+Q
+
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+BT
+/F2-0 8.6 Tf
+10.32 TL
+ET
+BT
+1 0 0 1 438.423 606 Tm
+(Er\056 Ram Babu Buri) Tj
+T*
+ET
+BT
+/F3-0 8.6 Tf
+10.32 TL
+ET
+BT
+1 0 0 1 448.5839 595 Tm
+(Project Mentor) Tj
+T*
+ET
+BT
+1 0 0 1 440.4655 585 Tm
+(Associate Professor) Tj
+T*
+ET
+BT
+1 0 0 1 412.9971 575 Tm
+(Arya College of Engineering \046 I\056T\056) Tj
+T*
+ET
+BT
+1 0 0 1 433.8951 564 Tm
+(Jaipur\054 Rajasthan\054 India) Tj
+T*
+ET
+Q
+
+
+endstream
+endobj
+6 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+7 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+8 0 obj
+<<
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+9 0 obj
+<<
+/BaseFont /Times-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+10 0 obj
+<<
+/BaseFont /Times-Bold
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+11 0 obj
+<<
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+12 0 obj
+<<
+/BaseFont /Times-BoldItalic
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+13 0 obj
+<<
+/BaseFont /Times-Italic
+/Encoding /WinAnsiEncoding
+/Name /F5
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+14 0 obj
+<<
+/Contents 15 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font 16 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+15 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 5240
+>>
+stream
+Gau0F=``?-Z@8EQJYssYPg&+#>X'[G1NDF,N\$gP.6A'E"A'S3Ur()7RU:QZ#!e<8[3V2f.lCg.+G&rMpXcIb9`26Xs2PMehN-;2+"V$WCc#^hCUe2&`@aWprV0*ifIWhPaRJlkpsmes32Xmc^i6Nb?p4B-)u[`Fs.Y:_iq<-sf/7rB"h&1L5#,&rf8DPn*5eZJ,n[""_PX)%q(JAF?=:jF]4Y?mS$(_[ph_ir[UHchk^@$.AN7'?+!2KLmaAPgL**a$'ICrA1<[j#Sc+W)T6SnIp/iK(4QiPK--p4u/D)f*(3lUQP-X:-SkdotiUNZ)fq^u2)G5<i<mIs-irt>Wb=!mL>)EX0E`V19I&bUM:0:c,3?EGY+uMFPgEJr4?V@WcV(E;WBD>)^CS!,9KO>a]BA/fYbKEP2%54jgUPj3em:Q-]%Be%1ki1shp#XlbMS1+%IK";4F+8UEdrWrdIg9tBAGn'!?C/1Y^gOX^R)J#?cI+m?a($PXM"p+$jA/qPN:.")j4fk3m60>7l-r0!RVO4SN6o"Mf;1Rq%A"mj8N7A0j,(U0.Xr$\`oB1<;lE&GI`BMC6jcNF6nIQJEm6m?,:p`T9W=,eWZ\J,ED^=mR3ugnTh^$EXR\)F5d1RE%H$>O&l890T3_[Sk9?85'_pJ:g$f'te0OW%*[gk7:?$<5*h;['46HqLc.>XReRZX*Z33e?o+fFe\]WagZKQ2oKV93,EcWt+MK-bDP`73?^&UG&0B6Na-+cijYO:bnrN9ts)TIudpg9[FjVnge,?o#dBG:F-$^0j=HX09IMM=DJktJ>5\==64Kg'<?+lof>10t7[i-dh#6p?QC^RjfAe+YO8;2G.(9>9jq0]N>K/+[L\<k12/Y\/;P\G'Aq14l&(l<?0jM`CY^iqcjSEga#],(ma!=CNiMZcj8!mr'k^:7e+YP7>dm]F30u/>Ya[Mml%Cp0^1OXsuu5-`b"%,P>C&A=P6E$*\uT,ab+@U8pS?@>1C!3)47iR6^T>po0Eh4P8<a93'2/r^5Q.0]mkkEL%C1"?JG8`.-gF6u;4)>*a(s3sZ%N<cJ2ojB3dG-@[0prD@QK)8&qHK96E=HbZnn%8d7/@*+u.p]T_AM:3<1SLq1"=D)-8NX6TaJbZnmaoL^:VSMmV-2DY"aU0%IE8H]S&85:YNDnWc<OTgp*IEM1ZR(W_UB"Q7Mf>u>BijhsP&1%)97`>4.D<T*@Wb#-:11=\pP872?$MZ\5Ws>F`L4P+_9U^mnH<Xcj(HKaSJYEg8c?sBE!FE)+MdYd$7,<Vi!+qD_`hl=Frb;4)NbG9)$!egL>%8Q,&N6$6kDJ/\\h]<dr+siP(2hHim0_?]4bbDAf/Tpj\q6/?k_[Hae4*Qd4Panbr8<I>1f;s!?2gf*Kt`6_?pUf2Jb$%UF8sQ@=YDt9;?;(RLo^Sd0Ij\30"[IGV"`(<MYAAcJP7&blJ80gj-0`'HB>XD$@+M<d.oS==C-m=B;:B_,MNNKtdoWT`rq^XpYG9k#p-?k2%pf'&YQcG4TQiGKXUp<q3bN:q9gY3,l>gQ0TF+5utpGOb\Pha)MN;ml?M)$F<`f!pEHgqnZHkPinsVbOXhJ">bc]b+MQ45SLG:pXe<4?k41?.)Ts`gjU%D21D\V1.74kcQn7'nN>'ZCpl)986Kdp<T&VG-?L$<#aUQu!8Ro08Du@M;8lFlj(W?6fp!U1UJS<3I2R_/9mAN^bMD:jg=GmW#93g:[(=<i#YKCE&/-kq;dLc'QheYX5Z_0jjt!#*Z&!^WR0$>^M!6:3OgKWg5-IH6T+.$k60K=:8HG,b)Df*TCJ'?E=e6tP9&h"Y5bS+OMK9YW1Un+>AK&H1$#gJq&2sm-Fc<N#1TaQ#SNQ.Q%Kg`V:O+^)2U0[6k0`lgKbR!.=D>1dZAj6P^Bf!)R#5"Ee3p<[@E>Zs7mu$Ka(ntm`07t_aefK+)J;<D-C3j:=B:^J<%6%$'GO([?B!i_%U#rEGm>m8=3fbI+,Ie<:-/B6Hi;:Hki)tJO0A;E_i$/af:tEqHJG(Igg7('NQum_W%uViV.rZ/nY*M,@I*Us8A^5o"cdr6`M&sV<po2RGI_2;<<upp_skUOaFs*"[Gc'Q4lf<$oqht66;)Ze7`hJN871n#gJ0Kd8V.JU$r9F!3##j+A"+]<aDuo=_@T=34U<mUG3(bn%0m/%ZCI"O1eLDJ1NH2&eY^DR.V[/pFW=8r"A^sa/;i4J$`,SDk'[Pa8kiGn!&\-!,]XWWQDOe3#^cqn2PMc+Lli&)*d],GM3j:l&8B:BED].nBEiXFa>@mUGs[828]!7*\r'GbasQh:DPT[02d<u2btenV`j9s$IZZW!GsP'3#EqNZ.-a=d`6CR&nH+-(93r;6M,+U,-m@),Z-;OPB>)('PkiLlgR8mD76JXYDO\Scj&Y2.S4\P/*Zk$jp(U-?>r7*8ktIh"$ma\/N1Q1DkZ`pdEX5%6^fal:f19I4LC5n#AaU-oaI8)@3].YAdGXuR"hU!H8XOHA,@%"eQ^dUDWsaV._i).]S*R]0pQnsJUW\S-26cj2M;!k<#XRbp##H3RDm@R%0`"b3*Z6lB4i]epIU_"*!nEqBWrig#'eNQf>M%0)'S>5U+D06PWbZQoS)/:r>NE58r4ZHbJ$ZOorWATRM\T7<QB^7J6:ED5Hufp*M%APBR:GUO1"JP)KTn`<;+"7sL@cNkZu8c,hglM'"T"\F,;uPtl@#'Pb2!k#;JQd!_2[-4VE4&P&JE1c;+:SB#NPFer#boC@P7d-KQ73$`B*_Z'a2ShF6uU#rk976^=sn"^bqirUi#Ra[dP*M;:>H:+QuSi*8'l[R^#/Zb-b=+c,m^KDKTL)<T\-=g".Y/.e31rLa*P;jmEj<OQ,HiAqM@AT88&%c;>d7YA8X&,Pfm8jqlOX3VF9NHb8OqqX!p%fU'QOo":AGYXXrk$V]T.U!-7=g[[nf[^0&fNd\_"FpQjY-Z%P?NT:n04d*c;.IK''B<>@c?<K4brh?LEWI8&k?:d]j6*fZgg$b02]#nj$,[Y3!Hu\A!"5=u+Dm.oq%HLU,H*T]HF3]^>;o\E#9?7H2G.SXVcjlH)0(E\<3ZHqJ'*;7@FK[4kWioBD"m\^q;FJ9RSko.M029=Qcei^(CFdV2e:EANR]nlaBJp61k=;lMi;/QVgK8(7>/HVP+[kVIXN5>QP4,j$P2GONf/CKX8Ud_,C^Z3(QfL*5A;-1/r+V@,R>N$]g\h%nH\JG:NHGrc6JuRa_"!Jf5.ro-2=g]Qbo$,iIM`sRhLcgZin9SP>.3b^;E#mgY-kb4nCY?ZViLDk[?*If(1A1-2#TZS@@$Lip'6IKPu\IUX9]Z))QIBNet,p`4fFC:!YDAKYUo6ZM:<gW,+U#4">;5n&[F?\HsIpj=tFn>s/cp!`@5#K*80OBVL(k)W\*>,T!$f@_/rgAjP=^QQFQCe-,)7e0X7^cL4dT;/)0PeA/fZ(p\O%KjMUrhg$&"hH>qE6B<7:+&*d?5Y_uUBFFH:,#RQ:c@CdWZ91O['B2nZMGIo:g3e$O`3UQDs?>s0AF=rkN[bA>T;=B60"uNofE4W.hE6@$<ohV&*Me_^Ym+YphnC07dmAk+l!l2%865jS]:s!W/s0dDfOKn4.S5OW(`3Y[kMcFc>m]S:YhI">j_qE(gZd8#pNY7e*07:W5h;]]<\rEtUh1N7L<4de-c$;W5*'W?)P3PhBW-QW!Em,,C#]RK$WM3(R8d.)/bKZ"k7T`\;'<*I*;\c0g:X8B_*rt!?U^X5IANG0JQfkGaq"J=]GKN+8jmj`mW(DX:I;]180W!MAUGpi\$=FPdmg0=Ef7Reh%_80-]1Yk)5XqE[OL<5O[?P/69<)qs>&r$AMn2S^W#Teekb?,J"fT]L/)Y^LX@fImb`R0E@qs(2)94m?GafM27U&0P69,cj.qJJQA:/2gG@)?4@Nj!kPH6PiYnY[q@OZe`B/7OmAamLrd<3Ye@FJ=('?ITLL2>2HZ70S8M/:?SrX\V(JS]GJLP9ek<qKOr<0iUh#18T"Je+FqP.L=3$GDg%+dA;MkfH8"PX%8Q-;W.RVT8m)X!Zd==_3ard'4ihGN8)\g!`bCnP:RYYo1e7k@qcufM]uN5SRBM,Ti03e3h"d8X!D;As/-(4l-CuW:2^%Vcp+;\tJtBRlkj@4YkZ(;A/fuB9Jk;K3OM1c8LI[4,K7#\m@c_dE5nIfCbm*Ff:L2lc$q^^F6kq5G_&f0:B_ML9]"QW/`Zd@!?YPqY%18HY3O%B!Tr[iuZ^I3>A&HDQms^Pa'TnV\kG0lQ1F0_7@jN>"Ls-,Fe#%A$9+Yl3qarZA^:1^[S&K:[,&e-bLn(.W7W_B2pqTp@F9jE@foO-;;?i0<oaRoPg!,_n+RMTVY>.igaS`BoSr`,#`]"I(u8=)Ph:SP9g]=#gV;4f2k)I`"Y2H#0XYW"/^$E%A-jM!n7?RW4VVC'r-9f-<5K!C(sHHZJr?*6N8HL*<s.BqI!R;V:o(PJOaQjfjAJOmSm8LW??5U"'(!0<&E^4)Li^N\'T?a<0K46BX<"3/Huca9))%3A,]5M;Cm'__#)SBGc%gPB6_oEP$,&+_e8dr/j/GXhRc_%LhBCO%jSdTaQp:3R]o^2[";IuBa.oQ,upB3HMHLEKt4'"7_2HqfEAVJ?D\c5l`Z(54#Lhj4J`s>+\)R+OkmOH^&o9`>9-DG*BQ<&*Z:>T7]+(&52D/%%#/C:01QgkU\eIU&C>]I-S:Y]&&sZEba9<`LM&X?EE3npmf)5t$Ga-;Fq?#_IQbL<B%eQ^%HH[Z\R&%IC4C(@-^-ZiTrhDdeC=rYE'4q)[t]$aVS'*lXUQOrU5\UO'+5f#dA.qA:+$=5MA&!/'I.$p:O2X@*BTNCdeMUSS1JAM#fWe>BgZmFX.sL*cq/9&?X=[$%6u+KQ9d";LAk5(ke`;CH_.:IV)Y63*W.3Xhl.H[?L*t`V5?6d^(M+b:IIK_lXTBN4>WAtpo]P"7UZ+R6C^hq[ji6rI574`4K1e9=eATjYIGd'?J?,k5%/75g'TE=:I!?/"1TNF;QBZ7Gdm"KSl3@:+_O@<%'&O.O5]tZA6F57X!L:gG&0quWi&n<$($712*a#q9K:ipTFIj,!^2!*&8n`D_9I9:jL0FB8^N9`*)tFOMfcN3bV#a#mF`E$asQt<K;hE1@bQ:0-(>:2V3%tT9MN"d"_HWR>VYtb7%mX:>gb.e0VKb#GqS&Oc;WXf2aNK&p:gqZ^2a~>
+endstream
+endobj
+16 0 obj
+<<
+/F1 6 0 R
+/F2 8 0 R
+/F3 10 0 R
+/F4 12 0 R
+/F5 13 0 R
+>>
+endobj
+17 0 obj
+<<
+/Contents 18 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font 16 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+18 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 5235
+>>
+stream
+Gb!;hh05AI(4Z'cTuWt";"T<hp70rK4&5+Cj.s-4IG!lg`Yo?s!u#)/FoV<O<tZYF31`m"mFeB$+@+B*]iXsgVb8K/i=FK=9p^MQ?'-5c:dQ&1RM./56*AMSajn4o"9!n8#Tq!V[.iN3[6nn?&/KR3*\GJArfUOb:9M=KQ[XYVm9;o%;NQE%Hnenf:CIO7^:q,P)=HBLj":3-rSV&_L3klQ=`rI36[_ZUl\X;6pX'CV%_S1h5@j[",BqVS&g,A*i2AJAKX'/C\6Mo\EqGo/Tq,I5Drr>;iXo=S+1TL.BoJH-GUs/\6VfD5H2/V_CK9/iMYo^LDjFOgeP2;cAMrK;IOLl'oN25_U/C839>[SCs&@V2W%.7O<IK0RReU$_8M;oZ>BZ!&P+5c<h$;0eS&Z++&9JBS3-!]oqa!5!('dka?6iZ%!YDP2@nGW\`'2pRb!JiOAa32IM?HTtBeSU@JXDq&ai]4*,nF`/q*pJ_8f86[n4pW700bOuEiWsGl,>;Wn'5P+q!rGphHoV"C>`DOC>nV4C-`k;6_bGT&,.Dc0Gm`G3qNJ&,JAuMo(tb%=f]-%;Tdc&@i<1ceDk`'93'g0WZc;d]MV['^*di_cUlY4`'1/u+iX18Nrn5qpLn28P'+)2D9l+^mk]!(FEfnmG=eC^kW?Ck*XK+(4E*m(C7ZM,RKngYo6e,&bmVLdMC1P1.46k=o^6BuB8*@$E`V%/l"'3,iaCK7@%_aIW^rSR-_!ZMK]i4E-"6!cfn]0W)+j7Z/5NFT4DQ!M,Ya.qjnZCL(l5:m1"b,?C)Cd4:;Pl"dk;U*9>,R,YmUs"#\(?K;m4dZfTO-/eJ^?6Bo=3t1`&QuSV"O=I,?Ci>.)sPa&?-Ha:BGMV2gS<.^_kuF[Kn_h.d6SXe$,\c\abT;9A)D[1&k_Bc1QqC)KFISX+9PCDi$8=r'aCq@^.Cr$hecMbr[%G%rpH3)"b_`=]!NgfUUgmiF*24X6n@f1E*A;)&?9!cZi*e$+lEpOZZ-jOro%"aj:8T<mOcSkW``6.8/.C!\;4QNY+b='>BFm&eO)7u8!p6"CY29bY?M0>R+Kgb(k/JDUc+KN.5k]QfXrHLN-S:mJ)e#$&uhF/-lBe=c@XWR=5dW3f][r6%+2r;:N1dKMYTWZ:tsf2DIf*S-DPLh&_rQ=O]#%Y.`VP<Fd[^GtciaGClaBEs^[VR8k5A^OIg52t1=@M/B@;S%-_!PYCA<];gN5FC15.?/"3Y3mmR(o\=5/J3eZ898,N0Eu*"W.J5V7Fj_<MNiG@)]/?J?J_"6VBsa4iAbZ!=J?SHcsUNp>VnA\3Or)=6T5FqC/V7=Ig7Ea#,W>m=#fn]:_Z8b"ZM(N]4I9+@3[M&,O*\$lqW]=\hLRO+9@a"dRA2IK<1"/JQtDJL486ZH)>mu>l<RHGGjU,fWRDXkg"hqX(#C9.;0>NnR^?aYUW@6U$d43U.9Z0WB::)_Rk`m#'M'hmJ>URf+W19SGnd]6Z56-9a4RK:!a(_%B.V#JmS/:KTctfO#eCqoA,DO$J],*5hI)I-3tQ-8ogmin&Trp'5n!meo<rBAl<Se>?sU/+cq?[%."i+'+2iod,P/Z8.RD;i)IYg"uob`X)5\Oks9[@4Q`+5`,q3:1T53,T\YjpBhP#agCp%tN#`Zi#$QhfjW6Y=kW&^3J8lDen04@fh82Y0i/QFQqUaE^qr0^h[c`#\8">pqAJ-#'?Ji!b[9_N&m5ZhO&a+l:%&t7!kKQpu:trH,G0c\VkVlt<:dgW@QO4a3la-?1DC-?H_u:[^RgY!-]&Br!hloe^?/(\/fhJ4R]-/6[#Ls9Mh<([_W9r=Q]6AESA/Wi%KAec/7$cRqk?a2nhf!(P*'-1e!eri3>s$u",G+3?QF"$#Bu-Gob@?E7F*ShKIS>1WE83R^P]],N9)!1*+>O%k9k%ParEH/eD(#ZJjVKU+AbE9?L516(E3O#;n@9O"SF%Eo6[n@0iG-ul2Z8Zn;N1Dl`;Peog>TMdAr,\uG(f9h_')hi+MS-d@MjQqTn>8qh_V/R(@*ph(2UqR^tJMa+*(Po%6qIb[`LU+o5MofcMA^W[DQ_MbRi7tlj2E/VaHLIlbHjE7__TRjAnud\7O!"7`UI"c@0DHaCsBfm-Hc:K-GZCm6=K_7s#u0FptfDjK]hHcWl4l'1n3eX^aUKe>fSk1&:-$lN,ICS<)7R?:+Q."WUYJ^C4"QM@g$%*HR>a?ij,XG"k"1M;<'XKf7Cd$N2mIHhkmGk8R^oB/38W6+<d3mrF?Zo]%Ro18Z;'jiMroV&3VZcL?&$:1f5,KX`;]HD\+apYAUA66!SYkE&Z%OG6!!'-&c-d:u,)B_;FIYaD,[NF&!"Vpc(dAfQ?Vg8AE4\S[,u?/'$]h=WXO?q5+BUmosuD96NSpG?fh.IQuS[^j)k0[OM"J6Kj8BWno5gs1X1F1hJc)WZ)(_5QsS1l6c5`NZFEQ+hEFh30?IO__DTdRaE\YB-1n_'TA'dufX9Nje9kLV*3ea/>_/p2bAta^fVa/bleKh&bWq7N`QcoUQQ7!,OV8+HXel+5`V4iq5ng?8l#->9upo(q]kr5J?EW7^rCraH4_lKc6#c2@bBoV7_9^JdV#VpoF!_Y\Hs!Mnj<^K8B3Q,'U91CJ2VdW:7kCgmOW?/?;@=?J,G2%Ug:VC7[(F.J:2&n2<e4U/nfs%2a>ldKC^_NV#*RkVn;Mc80\a-<d+d^aTK*1LP*2L=_e:Bp.RMj2PYaV^8loLKUeG#,VKs&]7"eo17-L8s*Y;>RD5NOWLo94&D$)b@T6i\!`.!V@/Z<7Qr,X9>(*3fVEftrJ'YM9LkC.o\o>jl#.q*Z:J_.PRY1>6QTb_Xor[CU0QS.@%mco19dpP"o))WBVmOAMuZ`rBGO[+,-)ZjWl_n'Q\3aZ'VJb6,.^nX_kKt^1e0_CL)\[S^mBSJ+:.'M5oJ)ZM_ofbY731GA63?6fAnta5ECI6MHGT;+k?qi".97*lUoDm?%OnMMrZ@u;og8:/BX-GJANTR3@$l+9t;7;ffk>ScnIK%=,WkV03+:6jMUcs$M%44W_-Gi_o?T$2N[50R.B;5l)u1)`qg8B@;,/mZn0SWA48:!pK=g&#28U/$h/'AMp6!MGiV6_J;88,"nKOod1C4Kf8XC?hIg59&2tnX>-?B(QnsNe)LQ)2r_h,=>E4]2hq,c%#u:+:PSdq0RSh9tlK0$!^:bQOnGjas56.V3T&#]4G+4&J]2<^7(&%P-c/jsu[`H%oqBXq2qBU6b:L^g0,i2bu$.u%&jU@iU$mUSO,N"V>3Yj7/8]2%/QH'Q"R,Fd*ZZQM55HK^HnDnq+_KRRjP+a+>3K>u+(V""9^a4%)*^k>g3#<584I.&+>Y9[?\5*Hj-<=FJlA]PoB2#\I-$U3D:O)e.n?926s7Y/%mM,Xs[WCO@LtN@uF)$1Q$hdVeJRHoZdY@[d1D@7+`FUD]T:V7IMo5-Zgfs6nVl@M+?:;'&d?gDo].dr$lBUFUM*[HaiO_\:VnL$V);[sCZ0^Qmb?isYgRGQ]1o7ED0+?cuLj$Z7fnO3O?"@<n$DY)0Wg*[YKd>a)Y-(`&4^^6^ik[gYgMp^rVpn?,>\YRU;Ch!r=p=dR[Go#U;N:mOT14']cq=-+r:8q.Wlm-3mqql2Khop&M"_7kPP9BW%XYFhG:TU"H7<X)]3@RlmhF:I:-kG@TV-08+Ud7]RgqJ&+2<="mduCLqA\dr@\-RmP:bbf!7PauHlatdXl%N$G):lW]K\J>3^!D^BKqOiVDd&sGD)=d#J!7@JXEt!*alUiMTI08KGnl9S[/!'P<78m3MD7QL7;LrjObndhGCu#Bg*W%j0-`E4]Tc3].ad/c]]I\7YJW1S&Qp88D(3*Cf0%6kWgur`/$s:^5Pkl5E%#"W5:^mOF!%kB"E//D=@hPZ>[)#L"E=B_H\!m0k]?;3C4K`aP)fcj2:KKPI%TZf1=[&%@P&0_R"9a&KJdu0_Q=rnj=Hg/[fV^@K4&F/R;Em63rnR\hlZF!Y_Z"`\8n>Tgu[b^hVFFj<B1lPStSZA[?p[H/rK*\Nm#mC9Ct6<7S<unMNUm)(5XF=1X3lRLMa*niJ:J>;+Y%9_(e%2\3#1/\I5]L>09(kJ6(@U>V_GqIC!Ad4hdeY#d*tk+DuQ<S(V04E>,7lFb%_``T@*SP#_.6^UE>F3/G.7"Rq4=(P6]Pt*-NTY`A`R'"1OKWR(ELC?Jf6V+@XG:J0/4H%0T4RMo.`*t"DNWl]un1j-7p?i@!#J1u("9G[_g>YI9S^dLiAYg;)HlV0`M2Jfg'4X*OanW8IkBjJ]4(#Rk,h[.,lDg^Q3$*_L`CQF`p<rfp$]&CNd,fEYraZH#1qkpB31^l439n0F,;VH'D=DFg;`sj)F6?qh7S^=E%Hg[96+hn,%O>(6^dB#*I^lei"+Me/@hjKp5Q-doQJ?u6CSS"Gi"/"5kC.6j3UPV)'E@rIJdkt8PE1bc[hl.E\g;55cA.s"5Cp0VY9-JN4^e^)NlBahLk5J[@>g=+R<W;3r>\(7mKXYcBr0ULU^M[$C1A9:Epa3b7/oUc,a&eT:'QnVEK@TrD<3A2AE&?q":[mM4($ZR:@3V$%>CC8[@(Sgqsa$nc-1#6[@-aId3k0_9-CAQ^b$TM#i#>BcS`cE5^=X9$@?D&Ln+b^4EKKWSZ=PZ]0CHN*e'eCaj/i"j&iW(FOJ$n;>[q-)\#Ru0oJ.3Z5>]g-\lls*.7K8pYLQo9d.npP,'l,_@XVN\?g:4OKi##`[:+<:?0D@,0bZk"`,bq$P1JNd+P3qJ'P@QaP&R!>l*H"!R/QTbj"i"ZtKhOLr_s!FIf,9b&J[]#[a3fFqgFP!`R4;$ZbI+W;>`noKBeR404*dT#\^N`K\c<eX-s)'g2TP:kkUNm/Ym[r:%f/D1pN,_%0?LbkCM0MW3rE6N(Rnk)Xud/>5kt2CBP#+%87u83RF9`6Y)7?i(6D[L7b;*Gj1WR+.3r//)="1<2'E)Z5$ps*#QRK>ELOkn!Vc:JZO#7"=Sr(1f]-C(O'Q^ppN1Bp&FiXHlGLr;i+t$s=(k<<E6qAYgng(?U69r<4=c1WUj#bn5-ZahZKJHoSdO4?<H;j8r&PrcGA5jD'coKs:TS1]&L$cT<)^/"HL,R_k/3Jn6GJm`B<&U^=B[bpQ`cK@?E`S*Nj'B:D-t6s,&n<3TIGfXded]tCd\0:I21KJS`I/;@m!_/#=&LpK@6<Ye%>`+fE8pb*oOlV%~>
+endstream
+endobj
+19 0 obj
+<<
+/Contents 20 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font 16 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+20 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 5457
+>>
+stream
+Gau0G=a/Rj(4OT5W,q+?h.(5"g,4/m2G$HP[DA9qe*3&pL&rmV6;,1UkL\%(X+ZQg#WIT9(6D/"pX\/eJhn'i\GC]F0QoQfs*D^'\(GB:\77L7FN40P2h/M<.i&M++Z-js547tKKP`condQO2#s3*T@A@aWoIE)s)dZl8jZ&"X0]05GmK"P59XU&0R]oIt]1,&9#\Q\=J/iIZKU*Q`BXo`74gK]/+`f!Y$-Q5gVK"H).h>c[B"9Hp<#0:"Elg_kDR8[n8nY5a'$6#i`M1;/[(<'^,^>&^Ks'Mfd,R3Mc2_I>Yr!u!M!9o2Lk%]1.\(^W?intK\L:Q<ALEf\mfqD,rDT$DD6VeQM5>`Kd^qL'T:PXN%G%SZ,!`Md/8#8[B6-oa'$0Z2i;rmK<g51t#P<B]NULH#^)RQ9_]+;qeaU?O@^JPm>R6?'e3`(F4fDn3r>t\TEUaY@^:j@&:Y_GHj@.MUV@nosdYJ?VT4.N\N=gE$n$pRI9ceU#T2'''"LuG]21('AAKKkt!!FWi4U,dEs/IuT&DPDbPj\C&j"r4=['3-n*7$=`^h8tp)P67C?+q3MYD6oi>]"Ni[S7,KZ,$ib045RiNM+.3onef3IuPeYK$ju8h[W#H1_$cX3F0Snf2O$dOPP:n1(dC]._'?En:JGe(<k[9E0IFhB)1L<N8X,cj]O.dE:9nWgem]_?YbS/8R"%%es`VGmr$hd%ig4S$HmGub>LEIG;a^G@C/a+2B[<hG;CGdE%T.jH\Q/b2+5'fm5hO32U=0GdLJ&i9TAG:`g16'T55_7?ce6*CrAO(c1HOR)idCXjj>VO%tUu6UK!ITQN$O43ee`l=bX9rBVZ=Ti8#J_!oc,(?OJ=*iimIol\ZR+NXqS<OP@JQ"V"!uq$T%.2\Bb+#gDe"YMdAZ`#%&iF<BYZFCW@XQ_+HumpF,!L!Ud^%=sU"4]rNYTW$#@bgZK4YTm?X9c*/<C8^d.p7mE0h/8/H5lr%DjZ\A]YP)dD<f6[Q<i@;d2XAciOmpo\+S%23[r(9/_VeF43:("bJ#ufYN2@]TZP<i5<9U_8#B\`24c2rCbus;ulbn5+E,5p=DA<D!p_C--*W9;=6[3!+2;hs_.P_p4I-PVZJNq.1*ft$>XYg:03UgejMYl254F=\d+SibIo];Fk5ouJL:%>3V-6!uH%S^nb`git\QG[/iI-GEk3iSiRo?DS#Y22XP^:grO>;C%;*nrX(^A'SrrW!/S2aSU.q\k)qr;-0_`ksie9^7P&o<7[RU=-PQ@%p8[J>:6q?\=8!E&HbSZ4VD99LifhpNMit]bE(TV4Xc6A5CFYIS;C/IF\(YDliW;B>)1M.\3NHB,Ut]CBSHi#1t=W3]f*eE$rmWO@r!O#hon+XEXfu(sNKO)XJs"k#iiT9VuB#4rr`?<r%)^(X:VY'!kggFaN,H$"@,BJm1*XD5oQ-`Q\DYD?ZaYX<r&"*JC?InQDIn"p9Q_iV#DZJ8`ru%k^?MpXb&Fn*Ko5X?U7oMg(N>-iHter&YjGkd/_Z+S:EeRW=lB*!`%!gW0YQMXjaUDh!Ah.D92b$t5H;PPC0B@uGs4o[gL:$fBfGYo,#/hCV/h9@7'<;*d4P?ED]5c(4XghJgdep!KKXfa8]PQq$ipf[^tcEh)5)(/;0%FcjElMQ8j37/j"9E76A)d4Al'nu:j*N>EH25,aLBAmd6h17.78;]PZY\[`RTG11qALUD?aP+1,t*e,c9**,99V<FY&?N_13,Be'JFp9!fR&6")-XG/N&_d,TqCH)$G7Pm(aR.oj'iZd@G$u<7B$JJUW/MdnC-i_T=dl0WWLO9;:N[]7ZBGgtP><`&f@g`?UlE\=AaOmjA_]r;:Z/%DU4iMgg=*do8%N29ourUg;53-nV.>WaGusaX2^Gs$h1;VRWW*4Z^@0bnhk?LnjE\Eq>8#1j_.`>"ap4@QLjX5"Og-J!jDEG&;!YMO-W5mHGC]uWOS0:d^,==G#AM.,>U7LCTe@jW8CaL.K%[_L[N;Llf`EM]aC=ElFgYKFBe319WN5-D7r>_]8R3p7>^*T+n&sIoh8H(kQ:i!3i_`d'anHM*pfPqV3OuChZ\lTFf.<`,_2cISdh6k+P:.aJG6T#/nKLKi@D.&9(R9#G0(SCAWA.;[dHSRdn1CCg_[T;B`]l??BbnabDrmO#QiH:ZYLmY'9`u/mrP?03Oc*3KG--pB2HFU])C7]0D)7hW</m/P7(\$c2"-ke0bJKgOf1>p$WO`oJkUV0aZPmUG+:eAb<pGqr94p6Y"cSpF6HYG\m@SD;X;LZ#4'6idr/mKRk*,RQZGHAS1ItnLu[,Y7^jK/SOMd%E"mSmd/rZeMk4G5$M*F[.["JhZ:-c\i0=@(k;\qBm5#?NE%p<7.uGQr>O6g/8(^Tu4)=qN1CN#8JQ%4AWS*mR`d]-3J?#lq<>pD&ATW#L]RC)Pmq&LHJHD_JfH0kAe3;>,@]'Af;'d[t=ZMT^'u`M>iEi#TQhGr>npk*VP)al?IOND8,pZs$O_\-OK&"[nLgr&N:8seDr(`)-nT0*(b$9m:EN&YlkJlF:;'=jbOkh',;UE,mGdm41;OMkl08[@Gk\'M+D%(:ufcl3+NO,u[+PJ\eUum-8`n*+\[quOf^#`EkVrsZW#!;:75$X[cSmB)1Sb4U1g#2enXFK*A)"g@Nb6rK9f"7leoB+6N..bZL;RUKA4bJ`Ugnkt-pV_g)n6H.JSQml9-+6NHDq/EOUdd%\0qUfCWi.+QHA!q:d"]NDO5`I@9sR"#57cH->r99*flTimj>i)OQuCE9]0i%0/T%@^3g"K?s56)6,#CYtB+0'/nV!\\;9E31j>9JYRZiGe57hTA?.3s;Xo$3aL:p9RRrL?AIa7PDC`9t(-=H!?1emE_(/J%6DW)hQ=IHRIg4gW$DFN\]VD<ptZ4E`%ZaVG0-#J@t:1BU9m1VI!0Ci#V8`pV?^8RXJ2&l3_a/c*9=Ye<$ja^=5+47S?h[uth5Z>Z_aqAZ`;?6\sjg\!C@:+^4HHl,NTl!qYjT"cBpnW(&k>,WIJRR")Ip!PFR+9bh/EkjjH1QkDJ:-2DH(Z%%/&q^9QT5^1HL944DN#?)99c_QA/W_tJBlbKMpe"pnga,!Cb`P;'fub-._u<KPdD"^MWWSYi4>/Y:uZ<_2KYJ)f.\_CPFgV`^f\k+F7DN`Et5g5s-bWaR,U?DCZ<%WDRHtflbTSJn9n99BCP_*EP($/g"\JPMtseO7oT+9oOEMRQ&Q,I7st^R;WaeRkH_bD2C32ljIYZU<[Vo@2#Jq[Dc>9B=]p2.QX^/\b4_1\?S#t:9quOOQm`mQ]r">lC&2(%?)/&@W"GVo9OB?o#5dEt?^sT1-G`N?Jb+Em$@J0+<gJeE[PcSm]YJMM"b4*SQR\ae$'e9G<g2r$R_l)eV.c+/g8JD'^<>?T?IMKA>"Z"6)!)TFh+C_b&','&Ad\HfS;DjM!ef:\o6j>;MecmI[),P_09<gtV_S9#+/mu=Z\3.9c.F&c$_K^HUiT!>PFn:JX9k`M4J?;@&ca@G0&06,e]2lSI(rUd4ic?O>[')_"S"=</<ItZ5/O'mGA\3T2rNV#(H0;m[\g7Tj(7)u=3bKZ4Pc5WbX>;pGnJ4@;shEO+X\]Ok\tR#kj[\A6rS@hBUisDk*h)c($O]#2-,(an>R*R$$OiK@`o,TE;>Sq5I:V2M5F?Whh12#e--gW<%k#DJTich_s@9"8!He66qArl/8lP9clUVU*OhcQRDd\h(u*B1GY9A`r&N9`1C),RXX'HU;gj`\OJkq=^maii%2*iaPO$m`"M?<fZ]X>DNFWLOg8I4U%5-M<9^Qp$HLPfkZ6<"Z]ss=[CK7:?aKZ`@Qp*87PM3!.<_JEf.,h08r#+'JD'Vn,o:R9Qe%S6?/>eX8eln*5mLa7J9iZ`T$]Yg4+dKJm:"KfR>[f1EoGC9(2n3rpV,,c`9Q2O2iWplGY!jhTUS`\<dS:>[2f]Nnp)(bg>Inbq\S?Ob$L:Zp.8`H(SeP!lJ%(fU\Sp0UX5*"YEN#X*UCfM;=1bBmOFgoOC=9I.g+,13iP)M2[h"que[mXMk+U'-=!G,GMu4njS6?e&6S/eh^6E1ZI5k2k/ld_olJe74R3jA?:48UkW@B'bS4JF0SQpAdPaWPZ@>'"!6GM6brP?VWFDt[MAX(6VVc5hIhNJW&RFP(L0_-PLXE*sY*=d4?Z@-f`W>+5='s83]SJt7c.#h'QLiTVKEU]@WpJZ+V]:!'/]]L_X\a,[O$adQa$IQR'Kt*+O]%Y@Bm:MqMWJuJ*`QV=iBliV/6lF#R?5dB5UuPO]81?p)pNn*AN])<>dtT7(+J\'-dGn4@g,VOu]G_rfXQOsk!N!STd6D3[rlL.g,Z4nY-bWs'4r&-l#j[/uk+*6lQKLU"0,kjNl9YI&fT8#kZB<AbI.&.]\W0(+Dl=r-XaidQ5N)Nb<)9"<lkS(-%mV6)RTkI%Iab7g$%@fUJ\UXZWqM(G%SE:e*jkhh]=C,k'$.d+lfeT\dbSSl;"hkI;s..$Eq,_!``Z?/>[YD(6`P!D)2Vn,&lN"*e.Pn!kZsq8G;%S=RkbGQ]*arjFC68;m#1!pnpiCJCHu][a^aK^GaggM^RZB&qrJ'/N,VaW-]ft*(M/q0p;T8<V'pJ1N698O2%A*KUDe;tMJ?L9^.;53otl>)CVZJn;=,>VDduj%<W10BMYG)qXOZ5K.=IPIp-q+X$.WR-2*7kD/^jMQHV@QY<g(eC/:<S-p)TF1SUl48+o,-0Q.j@,bXuN227qjaQ??EZ^3b-NPh?j?V^St`n5\JVR_5]EQON@&%rN6B\%lt3DpJ(TH6I6s'6eS!O7/Xjptf_8F0+Md"*M"m:9S^'6kqNfdaXu&KKbiK\Z9YtkN`'C<.C;\]4$sLDd%h;Fn]d3p7A[b[jC<]T!NdJd.pVk0_EVi$+RiD9rW&ha\2qL.a*%EWS?f:_t0#/C9SNAG'b\/)3'?-`V>If$:2.(;&LW/644T`'KMJWd;4rKF[T)5R#Y*>G,X.pB%5.%UaR"CZRf#>=UH##1nkm?cG\f2W]*qO5G[2dY4X>WZ&$TZV)J(cQVMSP)O-P%Qqi(^oCIJnPl:VgohS%*fIh)3-^X#pU$>XL%Yc>i_r9NoeYI#p]TkD$fltTg""dMm_N&17mZfja>0d'gq&)&69\4LS_3/&t^TGlK%OG(,(NK(33nU7>NY#MjmPGO?!X^6Odk!0,#:_h\i1X08[JEJdG^6H.oipc2V.'"r\HWM;UCl&I=rTX29Rd@EUsN*s"Z:JQHDQJMLQ%S5/3Q8#I]E>hT<$bLP\I81]+o8IO4Lph(8mUg;`Tl:\[#/BhT!"gWngAs$Gqld05(\i/q9ZlDlif*`q-nS*AhJj0A=HH<(>E0`>Vdml).+AQ"gNE+Q@Z(`Zn<kOFZ=1<N+I:o$qDI^_]sm%dM63'_0oPX,T?Ib*-s&YrD[fWT3='~>
+endstream
+endobj
+21 0 obj
+<<
+/Contents 22 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources <<
+/Font 16 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
+endobj
+22 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 4324
+>>
+stream
+Gau`VgNM=0(4GXQi)-%V_7YY9k/hW0erB(,QI='cklX>i&n?eu#h#m<lXq;i\kj_J23Y1GBcEBT!,(bAp:8O.Zgc#ds,EA(]q)CV9:OTERliCZiuX[pZ\uqL?bY!5*#?t^Ll^ie\8'Vg\<b1*J@i>!A-;jY2YkQDs.G-r`p9+l4HGOc(>(867bH*>Ci<,.Ghf4k7m(g.XRs_QS%H&\l(s;d4kec@Iu66*9F?n2&XQ(\.JAi>CmsOJ8N(3*S$?(+YtS(^GI]mI),RLk?tW7Z8]<MXPB+>sXJL.%:>i[/o0FOTnNt6V-VR*/16JGZX;BAJ,ajgLr]fb_A9fM)PpIa"+4tX@cqAXoj[#DLEE*].__VIC^]EMT(%P!D<N52t=^JC5MC6MH!\90CGN6?'.Ghl3-)./R`5=K$J[@e#3dbK6?8&%>U6&'6H%CUaY&Y[ER'o8)/P8THi0AO1ZFNqNQ8>g4Uq"m\I7)7'U#jn>#)t2%]Oh_aSB,aK?AmZ3Ef_Xgon6oI#m['D<0ji/T$&sY00hoK+!aC7J\cHAZ!T5kF"(_,C"Lo&g%j^oQOAla\DSX?JLjZ7<ChAUPFV;LlahJn@r2eNg3T6$_ZD`RP`WoI.g1T+D;Geh(;OB*P`fFWpuFDp@X#<UCb>_h&[0.D^t(iTdPV\g,(ldXB)-L;?;HU,'"fOjK^Am^),G]892qGDl3ICVE!sJ$Sc^7J<gM3-Iq+1L'+fe;c6eGNiJCLrlke;<gC*8+rVXIf.T$"kY0TJATsNM#@*]jt@0C$@[`MXF_`0++'#C]W3m=Bljr&cMR]Yh1&nm)H+dV9!K!6fFJauo\i+\Vbb=\%E2b?q+Q!+?s=Ne[);D'dha`<[3m;Of*BB7o0HN4OU622P'*;[)[7Ri)0OY$#8GhcX.MGuotjQo:,%u[Q#6,H)PHG\*8cneCOW)TmlCak(<2Wed>kbHr-h&Zp3Pe0Z4Tln2mGNfMl"Q7$S]=tkeR[d*T52;/W]+,cUFe-?_Ptbm1G<-[HH>A;EhSkq#m)-\WLU[#EGi:n/G<L""aE$4m^2^#o`aeQj?,(*:q)V@^:56C"&[/3,9;>aJh7P05,LNuj2W6e'''G`Lic@2eOO#a/[lI(pUdL7Ycnn"M4TP],l^Kp[mq$Lem8V(p]fIk[X&YUU,]5H"6u42B0bm=SJ`DG-O'9BYdHfGp^"@.%GQf";@jT^e#KSKB/<qEQLI4=!P*@^@^tMGaH\Q`I2"ISWq\m&ZDaLqXmEkMqJWWl.kk&@OTV4S3W?J/UYr9>1nrV'--`WYWpcid$KX@&EhC.mK#jUq[Yk[*($=)<nC09n>q+j]O\WYVS]YA/R-ql"KBt+-.HC!'1/l9<K3gE5CWX@9'jcNk_CddL=5r8?ad#>IV>,[fF1iEu6=rC;0Y@,JEEEXOW,!6L&+ZWPL90rl[fIYF@_FZ+33FZW"VW&mVf8?WFSYGV'7$3sL\iRj55+(+RfY[7se!n[c^tkeFA@KaCPE5GSm+2dBms!H%s.QS?";^aHNi>ft&:?WB0":f#\F.loEG67=DeY8Z+AlM.ZRV6[HVJh?`ogddWUj4FjIY8&c@<16!OkDIWe9t\2VX&[E/qBe=eHQri^T_]4%COInBURK\7mFmk2`5]:]1L0:0ZIl6omBKhTgd2pd&L)ejsuYmZNhAoVAX8"`1*L4C!aYI\:MimClp^_[<sIs5;-hKLS\mPX=\2m\jZA!\mEmAGCZb&mU8#Ssu"eh?6)CkV\e3VYPVRD3qkOFs=+7_>M!rSQ078,jM6NI]QS`0'7h1gSj7Q5Nd<`Aaga>rGAT!4Z:\nqG<G*NYOXf]BZlAs6;*6J+G>]6r$icZI`QFI[d]?Vl&E*+_a_ej;qjj<&"[;P?^bL1GrHSCr2'8?!Z\<9tm?ae)%/qf<`/h\D\3g^R1Yq(hO#B"Eh]:q1m_rl]5QJ?b6HKs%p`JU1i:rFIW@0=XU^V(l\1"n<I,'5_C7^[n26Ch1Gg#n`+p>irqM#NJ'Xe`-t&I^n0YpJM-[J[*#8Uf]s:EG]D2dR'Fq3#.@Hp]s9r5r6:L44#-o=JQg0?/+Ya^"!*5D%XY-0c)mT8m0sb+GO25$SA)7M^]PC5AqUT872Ee7Y_AIA&hRQNlr]Zp8BE_"E\@*7gPcM.&MK:[/r.)5:X_=YV-^WmB"X!YlfqE,@_Ho$h's/O%%u3qq'^?U^u%+m<DX9g'"9F_ZlYgSJVPRflH[])#unpnUrNlsik/q+lu4VVbJJZ@WDu>3'gn81E999ZE@$KMfWJma\L77^Tb`HVAr13m+;if)_XOaoT]mlhcPAhsD0E7!_"%7DHF#@V=ZZt*T6Mkr;(8LCQH$s8N0On!Bnq#O44m:9FtU?TXOq,3:f%T&YH%5NJN!G([L&jL3^OP6Q>M@SV2hkrn"jgn.-8S[$?bEtAm3NH'O0W9<I2%B*:@8W/#?>hq!B2!V'su<;oEUCP358c=J_=c9%)D$FR52JjJj7aktn_m/WBj^2i;d.EHuPREI3/>)^[E`k\?'N[UKXXBLc[!38DRu4NbW`R]M<,AtJ<2MSnR=pNQKFI=_K8r:M"A^WPVjh/i9BLUT%-J5s/M_b9ot<$r*%\2TXCN3d;4XQ?LcfUC)a+-#Io,C<@4De2\G(#3(NV8!GO]t:d<_&aXh;a"L]2\lhiMEL%F77:FD&gE`.E(3hP[\ct]S`&KV:FdGFaRJBgE`HtiE"A8N$+mdY\2[oWAORt_[GoEM!Cii%YAfVn,:m632Y1e0E7aZ5?<Wk">(.b5%.ImDF<Y!@`!`Ac"2#Vnq/RpBR(fh%!Bj5Seonq:NQ]KhR;+90\EsuU,;5tt]bC9+grCP"Rc1NKd&>%Jg<DN_]`r]-'UliRHbUADeCSQdJl_65cjIZsnD..7J)]f's%I($ZmY4+Zer\G@cT]=?W85;DPQ7j6=_rHNHhBl#)D'GMqQ/^IG700MkS!,G#m41-7E3)K(H[R(`];^?lu`9M;u.^3'4B64N.VVa[-Yda0O\$ZTNMcJsA]j8#N!Tk=8P2?+S'.LKg)#:Wo\Z1se^MKCn?[U!lYnf1O7KLm1I#B5tdPEq\I5+s(O!\q,VhP#[du;=b0+!',t[r4Qk?T_dKn:o$2!X$<]NYbDZ*/N'!^jod<PoN,QdI5''q63;d+E>FQW43\0tT\Sc-'IAe4Or,/CE=Q?L:Ib19*ptDr[G'a[XYCJU$[S62>FG:GB=@rNcc'N2_AT'Pd/cpi&4M`*F#=pb9BZpm)XFHo-eJ*Hi=8pAo3s?%n2sLqPBNX?/Dmp1'hS>[;1P?FdXc"PaS`!3LC+s%Ko=cs?V0Oq46W0p-lgdCS$aSARR5=YRDT>&^-%1,Zb70nPuubE#"E8eJU`#L6eJe?dT]k\nSg-sUK5s=E]97ePiBl@L\jL;`rsb#.fW2@0X("Flt$N*XO81"PfWnG`.amt>,s<A0LPT_A1"jZcr=?U0Idn9RHQ-DE]OUIR:_oFP!hH:QDaP+bruT>DC67`5CWJ.Q.0?*p*tXmaR[6oaKeKR\DtZ8rSRt3$bAs;Z'Z[tb`XNVZOPWm-S!11g&_&-;qBcP9aIG\B87,N9%1R0g(>A/&NeJ!8NI$W#1&.-a<LiXPDsC^eZ9ids*0=n+TuBgng^#8<slK*0:9*3Hq!mO7m:;26M)K@m6\\UdE]hM5Wpioa3fm/ZgQ*+4+QBeSO^'\4Op',P&+0m*a?BfQ\k_"U=_hqUP3,'.#]C?7]`/4H`;7\?9!:9WIs!RSSisBK^,X(jCC7VZE2I;A_o)_l&lYe)F+0c5@`N+jj<trK'PDpeQC>DfS;edZSQ.U.Ea9'X)15H2-RbEcsH\Vhu"s).c7VFq4]EAlHSQB(/[3G964YA;jj1SjuVleg[6V9%aB1E.+k6Nhj@QKG$i1%Z9f(OR9/'8gUb5Z;&#j7GCk98lI4[hn_L,3=^qe\!(o<c4/CL5Pg<rU0'-eW4a"?1c$I4r\dS-H4oq#>?0;K8gABGbFJpW[;2DuAbL+V`NJfRHoHQ0WC`?_,$fC[E@t8:^*7#a-:nD\+:d3?ilO]`crZkjfL0%mLBX]G`>$U9V&QJ@N34u1_mU&#4kBd+^GdKDN0BD/!rVIJ6r[a-n;,)X%HM@+QJb2YJ3E-fX(*uaDIH.]aKaGnods75&nCQjV2"&E.C&NIB<m3*9T]G<lXM)m4L[8V9rqZC08ZmI#bI.20C.PR>^W@mhNtbfZ>HW1/fXCN-7n1a_G`iq#XF73h/8:+B@&]]i%h(B*Nu(m_6q7."SDE$<I/*ANI.m[EEttU-DQ&77EKru`!f3WM6*I(#Wn5@b"cAcbrF"O](Rec1mf~>
+endstream
+endobj
+xref
+0 23
+0000000000 65535 f 
+0000000015 00000 n 
+0000000475 00000 n 
+0000000562 00000 n 
+0000000611 00000 n 
+0000000902 00000 n 
+0000012674 00000 n 
+0000012781 00000 n 
+0000012888 00000 n 
+0000012997 00000 n 
+0000013105 00000 n 
+0000013214 00000 n 
+0000013324 00000 n 
+0000013439 00000 n 
+0000013550 00000 n 
+0000013742 00000 n 
+0000019075 00000 n 
+0000019150 00000 n 
+0000019342 00000 n 
+0000024670 00000 n 
+0000024862 00000 n 
+0000030412 00000 n 
+0000030604 00000 n 
+trailer
+<<
+/Size 23
+/Root 3 0 R
+/Info 1 0 R
+>>
+startxref
+35021
+%%EOF
