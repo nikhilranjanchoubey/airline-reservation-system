@@ -18,6 +18,7 @@
 
 | Resource | View Online | Download |
 | :--- | :--- | :--- |
+| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | — |
 | Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
 | Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
 | Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
@@ -29,7 +30,6 @@
 - [Project Overview](#project-overview)
 - [Key Features](#key-features)
 - [Technology Stack](#technology-stack)
-- [Project Demo Video](#project-demo-video)
 - [Project Documentation](#project-documentation)
 - [Visual Preview & Screenshots](#visual-preview--screenshots)
 - [System Architecture](#system-architecture)
@@ -102,25 +102,19 @@ Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specificatio
 
 ---
 
-## <a id="project-demo-video"></a>🎥 Project Demo Video
-
-Watch the complete demonstration of SkyTech — Airline Reservation System, showcasing its user interface, flight search, seat selection, booking workflow, and other implemented features.
-
-▶️ **[Watch SkyTech Project Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk)**
-
----
-
 ## <a id="project-documentation"></a>📚 Project Documentation
 
-The repository includes complete, formal academic engineering documentation and presentation materials located in the [`docs/`](docs/) directory:
+The repository includes complete, formal academic engineering documentation, presentation materials, and video demonstration located in the [`docs/`](docs/) directory and project resources:
 
 | Resource | View Online | Download |
 | :--- | :--- | :--- |
+| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | — |
 | Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
 | Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
 | Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
 
 ### Document Overviews
+- **Project Demo Video:** Video walkthrough showcasing the complete SkyTech user experience, flight search engine, interactive seat selection, payment checkout, and operations dashboard.
 - **Project Report:** Comprehensive final academic report covering domain background, system architecture, database normalization, module implementations, test matrices, and evaluation results.
 - **Software Requirements Specification (SRS):** Formal IEEE-compliant SRS detailing functional and non-functional requirements, use cases, actor workflows, security policies, and interface models.
 - **Project Presentation:** Official project presentation slide deck covering system design, module breakdown, key features, technology stack, and evaluation demo.
