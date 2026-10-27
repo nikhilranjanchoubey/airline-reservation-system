@@ -16,11 +16,11 @@
 > ### 🚀 Live Demo: [https://skytech-0l59.onrender.com/](https://skytech-0l59.onrender.com/)
 > **SkyTech is deployed live on Render.** Explore real-time flight searches, airport autocomplete, dynamic seat selection on Airbus A320neo / Boeing 737-800 fuselage grids, checkout with Razorpay, and instant vector PDF boarding pass generation.
 
-| Document | View PDF | View Word Document |
+| Resource | View Online | Download |
 | :--- | :--- | :--- |
-| Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
-| Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
-| Research Paper | <a href="docs/SkyTech_Airlines_Research_Paper.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_Research_Paper.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
+| Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
+| Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
+| Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
 
 ---
 
@@ -103,18 +103,18 @@ Built using **Java 21 LTS** and the **Jakarta EE 10 / Servlet 6.0** specificatio
 
 ## <a id="project-documentation"></a>📚 Project Documentation
 
-The repository includes complete, formal academic engineering and research documentation located in the [`docs/`](docs/) directory:
+The repository includes complete, formal academic engineering documentation and presentation materials located in the [`docs/`](docs/) directory:
 
-| Document | View PDF | View Word Document |
+| Resource | View Online | Download |
 | :--- | :--- | :--- |
-| Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_Project_Report.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
-| Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_SRS.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
-| Research Paper | <a href="docs/SkyTech_Airlines_Research_Paper.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | <a href="docs/SkyTech_Airlines_Research_Paper.docx" target="_blank" rel="noopener noreferrer">View DOCX</a> |
+| Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
+| Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
+| Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
 
 ### Document Overviews
 - **Project Report:** Comprehensive final academic report covering domain background, system architecture, database normalization, module implementations, test matrices, and evaluation results.
 - **Software Requirements Specification (SRS):** Formal IEEE-compliant SRS detailing functional and non-functional requirements, use cases, actor workflows, security policies, and interface models.
-- **Research Paper:** Academic research manuscript documenting the design, multi-tier transactional integrity, concurrency management, and performance analysis of the SkyTech system.
+- **Project Presentation:** Official project presentation slide deck covering system design, module breakdown, key features, technology stack, and evaluation demo.
 
 ---
 
