@@ -18,7 +18,7 @@
 
 | Resource | View Online | Download |
 | :--- | :--- | :--- |
-| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | — |
+| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | [Download Video](https://drive.google.com/uc?export=download&id=1E9qWjutYVDPYQhhD-akQWKfAuMztszgS) |
 | Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
 | Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
 | Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
@@ -108,7 +108,7 @@ The repository includes complete, formal academic engineering documentation, pre
 
 | Resource | View Online | Download |
 | :--- | :--- | :--- |
-| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | — |
+| Project Demo Video | [Watch Demo](https://drive.google.com/file/d/1E9qWjutYVDPYQhhD-akQWKfAuMztszgS/view?usp=drivesdk) | [Download Video](https://drive.google.com/uc?export=download&id=1E9qWjutYVDPYQhhD-akQWKfAuMztszgS) |
 | Project Report | <a href="docs/SkyTech_Airlines_Project_Report.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_Project_Report.docx) |
 | Software Requirements Specification (SRS) | <a href="docs/SkyTech_Airlines_SRS.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download DOCX](docs/SkyTech_Airlines_SRS.docx) |
 | Project Presentation | <a href="docs/SkyTech_Airlines_ppt.pdf" target="_blank" rel="noopener noreferrer">View PDF</a> | [Download PPTX](docs/SkyTech_Airlines_ppt.pptx) |
